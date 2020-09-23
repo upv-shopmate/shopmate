@@ -1,13 +1,12 @@
-## React setup
-
-`npm install`
-
-Install required dependecies
+# ShopMate
 
 
-## Scripts
+## Frontend 
 
-`npm start`
+**React.js**
 
-Starts a server to preview the current app.
+[Frontend README](frontend/README.md)
 
+## Backend
+
+[Frontend README](backend/README.md)
