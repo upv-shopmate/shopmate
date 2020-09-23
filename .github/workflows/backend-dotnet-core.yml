@@ -2,16 +2,17 @@ name: Backend .NET Core
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, dev ]
   pull_request:
-    branches: [ master ]
+    branches: [ master, dev ]
 
 jobs:
   build:
 
     runs-on: ubuntu-latest
-    env:
-      working-directory: ./backend
+    defaults:
+      run:
+        working-directory: ./backend
 
     steps:
     - uses: actions/checkout@v2
