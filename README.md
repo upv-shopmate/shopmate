@@ -9,7 +9,7 @@
 
 ## Backend
 
-**ASP.NET Core**
+**ASP.NET Core**  
 with Entity Framework Core for persistence  
 and SignalR for real time tracking capabilities
 
