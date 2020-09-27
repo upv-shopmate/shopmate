@@ -1,0 +1,24 @@
+name: Fronted React js
+
+on:
+  push:
+    branches: [ master, dev ]
+  pull_request:
+    branches: [ master, dev ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Dependencies
+      run: npm install
+    - name: Build
+      run: npm build
+    - name: Test
+      run: npm test
