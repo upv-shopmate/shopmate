@@ -2,9 +2,9 @@
 
 In the project directory, you can run:
 
-### `npm install`
+### `yarn install`
 
-Install project dependecies
+Install project dependecies. It requires installing yarn dependency manager.
 
 ### `npm start`
 
@@ -29,3 +29,6 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
+### `npm run lint`
+
+Runs eslint linter to check the code style.
