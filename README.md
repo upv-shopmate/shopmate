@@ -1,6 +1,10 @@
 # ShopMate
 
 
+## Branches
+
+We'll develop on dev branch and when finishing the sprint dev branch should be merge onto master.
+
 ## Frontend 
 
 **React.js**
