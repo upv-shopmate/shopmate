@@ -1,6 +1,5 @@
 import '../assets/css/App.css';
-import React, { Component } from 'react';
-import electron from 'electron';
+import React from 'react';
 
 class App extends React.Component {
   render() {
