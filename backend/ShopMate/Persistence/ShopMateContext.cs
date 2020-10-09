@@ -1,17 +1,40 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ShopMate.Models;
 
 namespace ShopMate.Persistence
 {
     public class ShopMateContext : DbContext
     {
+#pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         public ShopMateContext(DbContextOptions<ShopMateContext> options) : base(options)
         { }
+#pragma warning restore CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
 
-        // public DbSet<MODEL> TABLE_NAME { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Brand> Brands { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Fluent API here
+            modelBuilder.Entity<Product>()
+                .Property(p => p.Barcode)
+                .HasColumnType("char(14)")
+                .HasConversion(
+                    v => v.Value,
+                    v => new Gtin14(v));
+
+            SetupPrimitiveCollectionTypes(modelBuilder);
+        }
+
+        protected void SetupPrimitiveCollectionTypes(ModelBuilder modelBuilder)
+        {
+            // TODO: optimize after deciding a concrete type for pictures
+            modelBuilder.Entity<Product>()
+                .Property(p => p.Pictures)
+                .HasJsonConversion();
+
+            modelBuilder.Entity<Brand>()
+                .Property(b => b.Aliases)
+                .HasJsonConversion();
         }
     }
 }
