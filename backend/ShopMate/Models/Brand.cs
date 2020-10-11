@@ -31,13 +31,20 @@ namespace ShopMate.Models
         /// </summary>
         public ICollection<Product> Products { get; internal set; } = new HashSet<Product>();
 
+        public Brand(string name, ICollection<string> aliases, string? logo)
+        {
+            Name = name;
+            Aliases = aliases;
+            Logo = logo;
+        }
+
         public override bool Equals(object? other) => other is Brand && this.Equals(other);
 
-        public bool Equals(Brand? other) => this.Id == other?.Id;
+        public bool Equals(Brand? other) => this.Name == other?.Name;
 
         public static bool operator ==(Brand lhs, Brand rhs) => lhs.Equals(rhs);
         public static bool operator !=(Brand lhs, Brand rhs) => !lhs.Equals(rhs);
 
-        public override int GetHashCode() => Id.GetHashCode();
+        public override int GetHashCode() => Name.GetHashCode();
     }
 }

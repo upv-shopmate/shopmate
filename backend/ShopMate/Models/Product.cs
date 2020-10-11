@@ -87,6 +87,11 @@ namespace ShopMate.Models
         public ICollection<PriceModifier> PriceModifiers { get; internal set; } = new List<PriceModifier>();
 
         /// <summary>
+        /// The positions where this item is present.
+        /// </summary>
+        public ICollection<Position> Positions { get; internal set; } = new HashSet<Position>();
+
+        /// <summary>
         /// Obtains the price of this product with all the price modifiers applied.
         /// </summary>
         public decimal ModifiedPrice
@@ -103,6 +108,21 @@ namespace ShopMate.Models
         public decimal PriceWithVat
         {
             get => PriceModifiers.Where(m => m.Code == PriceModifierCode.Vat).Aggregate(Price, (price, modifier) => modifier.Apply(price));
+        }
+
+        public Product(Gtin14 barcode, string name, double? weight, double? volume, ushort? units, string? originCountry, bool edible, decimal price, ICollection<string> pictures, uint? availableStock, uint timesSold)
+        {
+            Barcode = barcode;
+            Name = name;
+            Weight = weight;
+            Volume = volume;
+            Units = units;
+            OriginCountry = originCountry;
+            Edible = edible;
+            Price = price;
+            Pictures = pictures;
+            AvailableStock = availableStock;
+            TimesSold = timesSold;
         }
 
         public override bool Equals(object? other) => other is Product && this.Equals(other);
