@@ -13,6 +13,7 @@ namespace ShopMate.Models
 
         public string? Description { get; internal set; }
 
+        [Column(TypeName = "money")]
         public decimal Value { get; internal set; }
 
         public PriceModifierKind Kind { get; internal set; }
