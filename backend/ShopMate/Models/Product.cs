@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace ShopMate.Models
 {
@@ -68,12 +69,41 @@ namespace ShopMate.Models
         /// <summary>
         /// The brands that are selling this product.
         /// </summary>
-        public ICollection<Brand> Brands { get; internal set; } = new List<Brand>();
+        public ICollection<Brand> Brands { get; internal set; } = new HashSet<Brand>();
 
         /// <summary>
         /// A set of descriptive tags used to enhance the product search and recommendation features.
         /// </summary>
-        public ICollection<Category> Categories { get; internal set; } = new List<Category>();
+        public ICollection<Category> Categories { get; internal set; } = new HashSet<Category>();
+
+        /// <summary>
+        /// A set of awards, seals, certifications and regulatory labels that apply to this product (e.g. "Gluten Free").
+        /// </summary>
+        public ICollection<Label> Labels { get; internal set; } = new HashSet<Label>();
+
+        /// <summary>
+        /// The fixed modifiers that apply to the price of this product.
+        /// </summary>
+        public ICollection<PriceModifier> PriceModifiers { get; internal set; } = new List<PriceModifier>();
+
+        /// <summary>
+        /// Obtains the price of this product with all the price modifiers applied.
+        /// </summary>
+        public decimal ModifiedPrice
+        {
+            get => PriceModifiers.Aggregate(Price, (price, modifier) => modifier.Apply(price));
+        }
+
+        /// <summary>
+        /// Obtains the price of this product with all the VAT modifiers applied.
+        /// </summary>
+        /// <remarks>
+        /// This will display taxes included in product prices if is it required by law in the country it's used in.
+        /// </remarks>
+        public decimal PriceWithVat
+        {
+            get => PriceModifiers.Where(m => m.Code == PriceModifierCode.Vat).Aggregate(Price, (price, modifier) => modifier.Apply(price));
+        }
 
         public override bool Equals(object? other) => other is Product && this.Equals(other);
 

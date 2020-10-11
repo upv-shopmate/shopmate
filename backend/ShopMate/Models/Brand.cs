@@ -29,7 +29,7 @@ namespace ShopMate.Models
         /// <summary>
         /// The products this brand is selling.
         /// </summary>
-        public ICollection<Product> Products { get; internal set; } = new List<Product>();
+        public ICollection<Product> Products { get; internal set; } = new HashSet<Product>();
 
         public override bool Equals(object? other) => other is Brand && this.Equals(other);
 

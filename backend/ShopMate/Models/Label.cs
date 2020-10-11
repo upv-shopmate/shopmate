@@ -5,18 +5,18 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ShopMate.Models
 {
-    public class Category
+    public class Label
     {
         public int Id { get; private set; }
 
         /// <summary>
-        /// The name of this category.
+        /// The name of this award, certification, seal or regulatory label.
         /// </summary>
         [Column(TypeName = "nvarchar(50)")]
         public string Name { get; internal set; }
 
         /// <summary>
-        /// The products tagged with this category.
+        /// The products tagged with this award, certification, seal or regulatory label.
         /// </summary>
         public ICollection<Product> Products { get; internal set; } = new HashSet<Product>();
     }
