@@ -1,35 +1,45 @@
 {
-  "name": "frontend",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.5.0",
-    "@testing-library/user-event": "^7.2.1",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-scripts": "3.4.3"
+  "name": "basic-electron-react-boilerplate",
+  "version": "0.7.0",
+  "description": "Minimal and modern react+electron+webpack boilerplate",
+  "author": "Phillip Barbiero",
+  "homepage": "https://github.com/pbarbiero/basic-electron-react-boilerplate",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pbarbiero/basic-electron-react-boilerplate.git"
   },
+  "license": "MIT",
+  "main": "main.js",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --passWithNoTests",
-    "eject": "react-scripts eject",
+    "prod": "webpack --config webpack.build.config.js && electron --noDevServer .",
+    "dev": "webpack-dev-server --hot --host 0.0.0.0 --config=./webpack.dev.config.js",
+    "build": "webpack --config webpack.build.config.js",
+    "package": "webpack --config webpack.build.config.js",
+    "postpackage": "electron-packager ./ --out=./builds",
     "lint": "eslint src/**/*.js"
   },
-  "eslintConfig": {
-    "extends": "react-app"
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-preset-react": "^6.24.1",
+    "babili-webpack-plugin": "^0.1.2",
+    "css-loader": "^3.2.0",
+    "electron": "^7.1.2",
+    "electron-packager": "^14.1.1",
+    "eslint": "^7.10.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-react": "^7.21.3",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "file-loader": "^5.0.2",
+    "html-webpack-plugin": "^3.2.0",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "style-loader": "^1.0.1",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.9.0"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "dependencies": {
+    "node-ipc": "^9.1.1"
   }
 }
