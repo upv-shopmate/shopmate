@@ -11,4 +11,8 @@
     <None Remove="scrapOpenFoodFacts\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="scrapOpenFoodFacts\scrapOpenFoodFacts.pyproj" />
+  </ItemGroup>
+
 </Project>

@@ -35,7 +35,7 @@ namespace ShopMate.Models
         public ushort? Units { get; internal set; }
 
         /// <summary>
-        /// Country code (e.g. "ES") of the country where this product was manufactured or grown.
+        /// The ISO 3166-1 Alpha-2 country code (e.g. "ES") of the country where this product was manufactured or grown.
         /// </summary>
         [Column(TypeName = "char(2)")]
         public string? OriginCountry { get; internal set; }
@@ -90,6 +90,11 @@ namespace ShopMate.Models
         /// The positions where this item is present.
         /// </summary>
         public ICollection<Position> Positions { get; internal set; } = new HashSet<Position>();
+
+        /// <summary>
+        /// The stores that sell this product.
+        /// </summary>
+        public ICollection<Store> Vendors { get; internal set; } = new HashSet<Store>();
 
         /// <summary>
         /// Obtains the price of this product with all the price modifiers applied.
