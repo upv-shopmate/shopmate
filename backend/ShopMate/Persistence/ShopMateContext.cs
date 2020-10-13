@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ShopMate.Models;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("PopulateDb")]
 namespace ShopMate.Persistence
 {
-    public class ShopMateContext : DbContext
+    internal class ShopMateContext : DbContext
     {
 #pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         public ShopMateContext(DbContextOptions<ShopMateContext> options) : base(options)
@@ -12,6 +14,9 @@ namespace ShopMate.Persistence
 
         public DbSet<Product> Products { get; set; }
         public DbSet<Brand> Brands { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Label> Labels { get; set; }
+        public DbSet<Store> Stores { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
