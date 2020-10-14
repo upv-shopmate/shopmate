@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ShopMate\ShopMate.csproj" />
-    <ProjectReference Include="scrapOpenFoodFacts\scrapOpenFoodFacts.pyproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,4 @@
-﻿using System;
+﻿using ShopMate.Models;
 
 namespace PopulateDb
 {
@@ -6,7 +6,10 @@ namespace PopulateDb
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            using var db = new ShopMateContext();
+
+            db.Set<Store>().Add(new Store("Test", "EUR"));
+            db.SaveChanges();
         }
     }
 }
