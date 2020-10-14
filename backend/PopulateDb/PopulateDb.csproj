@@ -7,12 +7,16 @@
 
   <ItemGroup>
     <Compile Remove="scrapOpenFoodFacts\**" />
-    <EmbeddedResource Remove="scrapOpenFoodFacts\**" />
+    <EmbeddedResource Include="scrapOpenFoodFacts\**" />
     <None Remove="scrapOpenFoodFacts\**" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\ShopMate\ShopMate.csproj" />
   </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="xcopy &quot;$(ProjectDir)scrapOpenFoodFacts&quot; &quot;$(OutDir)scrapOpenFoodFacts&quot; /Y /I /S" />
+  </Target>
 
 </Project>
