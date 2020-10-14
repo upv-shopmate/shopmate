@@ -99,10 +99,7 @@ namespace ShopMate.Models
         /// <summary>
         /// Obtains the price of this product with all the price modifiers applied.
         /// </summary>
-        public decimal ModifiedPrice
-        {
-            get => PriceModifiers.Aggregate(Price, (price, modifier) => modifier.Apply(price));
-        }
+        public decimal ModifiedPrice => PriceModifiers.Aggregate(Price, (price, modifier) => modifier.Apply(price));
 
         /// <summary>
         /// Obtains the price of this product with all the VAT modifiers applied.
@@ -110,10 +107,7 @@ namespace ShopMate.Models
         /// <remarks>
         /// This will display taxes included in product prices if is it required by law in the country it's used in.
         /// </remarks>
-        public decimal PriceWithVat
-        {
-            get => PriceModifiers.Where(m => m.Code == PriceModifierCode.Vat).Aggregate(Price, (price, modifier) => modifier.Apply(price));
-        }
+        public decimal PriceWithVat => PriceModifiers.Where(m => m.Code == PriceModifierCode.Vat).Aggregate(Price, (price, modifier) => modifier.Apply(price));
 
         public Product(Gtin14 barcode, string name, double? weight, double? volume, ushort? units, string? originCountry, bool edible, decimal price, ICollection<string> pictures, uint? availableStock, uint timesSold)
         {
@@ -130,9 +124,9 @@ namespace ShopMate.Models
             TimesSold = timesSold;
         }
 
-        public override bool Equals(object? other) => other is Product && this.Equals(other);
+        public override bool Equals(object? other) => other is Product && Equals(other);
 
-        public bool Equals(Product? other) => this.Barcode == other?.Barcode;
+        public bool Equals(Product? other) => Barcode == other?.Barcode;
 
         public static bool operator ==(Product lhs, Product rhs) => lhs.Equals(rhs);
         public static bool operator !=(Product lhs, Product rhs) => !lhs.Equals(rhs);

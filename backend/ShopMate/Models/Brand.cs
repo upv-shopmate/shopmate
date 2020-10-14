@@ -38,9 +38,9 @@ namespace ShopMate.Models
             Logo = logo;
         }
 
-        public override bool Equals(object? other) => other is Brand && this.Equals(other);
+        public override bool Equals(object? other) => other is Brand && Equals(other);
 
-        public bool Equals(Brand? other) => this.Name == other?.Name;
+        public bool Equals(Brand? other) => Name == other?.Name;
 
         public static bool operator ==(Brand lhs, Brand rhs) => lhs.Equals(rhs);
         public static bool operator !=(Brand lhs, Brand rhs) => !lhs.Equals(rhs);

@@ -26,9 +26,9 @@ namespace ShopMate.Models
             Currency = currency;
         }
 
-        public override bool Equals(object? other) => other is Store && this.Equals(other);
+        public override bool Equals(object? other) => other is Store && Equals(other);
 
-        public bool Equals(Store? other) => this.Name == other?.Name;
+        public bool Equals(Store? other) => Name == other?.Name;
 
         public static bool operator ==(Store lhs, Store rhs) => lhs.Equals(rhs);
         public static bool operator !=(Store lhs, Store rhs) => !lhs.Equals(rhs);

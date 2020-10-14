@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 
 namespace ShopMate.Models
 {
@@ -45,9 +44,9 @@ namespace ShopMate.Models
             return new Gtin14(code);
         }
 
-        public override bool Equals(object? other) => other is Gtin14 && this.Equals(other);
+        public override bool Equals(object? other) => other is Gtin14 && Equals(other);
 
-        public bool Equals(Gtin14 other) => this.Value == other.Value;
+        public bool Equals(Gtin14 other) => Value == other.Value;
 
         public static bool operator ==(Gtin14 lhs, Gtin14 rhs) => lhs.Equals(rhs);
         public static bool operator !=(Gtin14 lhs, Gtin14 rhs) => !lhs.Equals(rhs);

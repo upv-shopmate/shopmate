@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Diagnostics;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using ShopMate.Models;
 using System;
 using System.Collections.Generic;
@@ -9,14 +8,13 @@ using System.Threading.Tasks;
 
 namespace PopulateDb
 {
-    class Program
+    internal class Program
     {
-        const string DEFAULT_INTERPRETER = "python";
-        const uint DEFAULT_LIMIT = 216;
+        private const string DEFAULT_INTERPRETER = "python";
+        private const uint DEFAULT_LIMIT = 216;
+        private const string BASE_DIR = "scrapOpenFoodFacts/";
 
-        const string BASE_DIR = "scrapOpenFoodFacts/";
-
-        static async Task Main(string[] args)
+        private static async Task Main(string[] args)
         {
             var interpreter = args.ElementAtOrDefault(0) ?? DEFAULT_INTERPRETER;
             var limit = args.ElementAtOrDefault(1) is null ? DEFAULT_LIMIT : uint.Parse(args[1]);
@@ -35,7 +33,7 @@ namespace PopulateDb
             Console.WriteLine(">> Done.");
         }
 
-        static void RunScript(string interpreter, uint limit)
+        private static void RunScript(string interpreter, uint limit)
         {
             using var process = new CommandLineProcess(interpreter, $"{Path.Combine(BASE_DIR, "scrap.py")} {limit}");
             process.Start();
@@ -47,14 +45,14 @@ namespace PopulateDb
             process.WaitForExit();
         }
 
-        static async Task<IDictionary<string, ProductJsonDAO>> ReadData()
+        private static async Task<IDictionary<string, ProductJsonDAO>> ReadData()
         {
             var reader = new StreamReader(Path.Combine(BASE_DIR, "products.json"));
             var json = await reader.ReadToEndAsync();
             return JsonConvert.DeserializeObject<Dictionary<string, ProductJsonDAO>>(json);
         }
 
-        static uint SeedDatabase(string shopName, string currency, IDictionary<string, ProductJsonDAO> data)
+        private static uint SeedDatabase(string shopName, string currency, IDictionary<string, ProductJsonDAO> data)
         {
             uint count = 0;
 
@@ -74,7 +72,7 @@ namespace PopulateDb
             return count;
         }
 
-        static void InsertProduct(ShopMateContext db, Store vendor, KeyValuePair<string, ProductJsonDAO> entry)
+        private static void InsertProduct(ShopMateContext db, Store vendor, KeyValuePair<string, ProductJsonDAO> entry)
         {
             var barcode = Gtin14.FromStandardBarcode(entry.Key);
             var dao = entry.Value;

@@ -15,10 +15,10 @@ namespace ShopMate.Models
             Y = y;
         }
 
-        public override bool Equals(object? other) => other is Position && this.Equals(other);
+        public override bool Equals(object? other) => other is Position && Equals(other);
 
-        public bool Equals(Position? other) 
-            => this.X == other?.X && this.Y == other?.Y;
+        public bool Equals(Position? other)
+            => X == other?.X && Y == other?.Y;
 
         public static bool operator ==(Position lhs, Position rhs) => lhs.Equals(rhs);
         public static bool operator !=(Position lhs, Position rhs) => !lhs.Equals(rhs);

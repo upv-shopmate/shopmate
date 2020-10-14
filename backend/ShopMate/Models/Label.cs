@@ -26,9 +26,9 @@ namespace ShopMate.Models
             Name = name;
         }
 
-        public override bool Equals(object? other) => other is Label && this.Equals(other);
+        public override bool Equals(object? other) => other is Label && Equals(other);
 
-        public bool Equals(Label? other) => this.Name == other?.Name;
+        public bool Equals(Label? other) => Name == other?.Name;
 
         public static bool operator ==(Label lhs, Label rhs) => lhs.Equals(rhs);
         public static bool operator !=(Label lhs, Label rhs) => !lhs.Equals(rhs);
