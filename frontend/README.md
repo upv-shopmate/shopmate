@@ -5,6 +5,8 @@
 #### Development
 * Run `npm run dev` to start webpack-dev-server. Electron will launch automatically after compilation.
 
+* Install project's linter with : `npm install -g eslint` and check the code with `npm run lint` before pushing new changes. Keep in mind that you can fix automatically with `eslint --fix file.js`
+
 #### Production
 _You have two options, an automatic build or two manual steps_
 
