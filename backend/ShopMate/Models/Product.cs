@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace ShopMate.Models
 {
@@ -34,7 +35,7 @@ namespace ShopMate.Models
         public ushort? Units { get; internal set; }
 
         /// <summary>
-        /// Country code (e.g. "ES") of the country where this product was manufactured or grown.
+        /// The ISO 3166-1 Alpha-2 country code (e.g. "ES") of the country where this product was manufactured or grown.
         /// </summary>
         [Column(TypeName = "char(2)")]
         public string? OriginCountry { get; internal set; }
@@ -68,16 +69,64 @@ namespace ShopMate.Models
         /// <summary>
         /// The brands that are selling this product.
         /// </summary>
-        public ICollection<Brand> Brands { get; internal set; } = new List<Brand>();
+        public ICollection<Brand> Brands { get; internal set; } = new HashSet<Brand>();
 
         /// <summary>
         /// A set of descriptive tags used to enhance the product search and recommendation features.
         /// </summary>
-        public ICollection<Category> Categories { get; internal set; } = new List<Category>();
+        public ICollection<Category> Categories { get; internal set; } = new HashSet<Category>();
 
-        public override bool Equals(object? other) => other is Product && this.Equals(other);
+        /// <summary>
+        /// A set of awards, seals, certifications and regulatory labels that apply to this product (e.g. "Gluten Free").
+        /// </summary>
+        public ICollection<Label> Labels { get; internal set; } = new HashSet<Label>();
 
-        public bool Equals(Product? other) => this.Barcode == other?.Barcode;
+        /// <summary>
+        /// The fixed modifiers that apply to the price of this product.
+        /// </summary>
+        public ICollection<PriceModifier> PriceModifiers { get; internal set; } = new List<PriceModifier>();
+
+        /// <summary>
+        /// The positions where this item is present.
+        /// </summary>
+        public ICollection<Position> Positions { get; internal set; } = new HashSet<Position>();
+
+        /// <summary>
+        /// The stores that sell this product.
+        /// </summary>
+        public ICollection<Store> Vendors { get; internal set; } = new HashSet<Store>();
+
+        /// <summary>
+        /// Obtains the price of this product with all the price modifiers applied.
+        /// </summary>
+        public decimal ModifiedPrice => PriceModifiers.Aggregate(Price, (price, modifier) => modifier.Apply(price));
+
+        /// <summary>
+        /// Obtains the price of this product with all the VAT modifiers applied.
+        /// </summary>
+        /// <remarks>
+        /// This will display taxes included in product prices if is it required by law in the country it's used in.
+        /// </remarks>
+        public decimal PriceWithVat => PriceModifiers.Where(m => m.Code == PriceModifierCode.Vat).Aggregate(Price, (price, modifier) => modifier.Apply(price));
+
+        public Product(Gtin14 barcode, string name, double? weight, double? volume, ushort? units, string? originCountry, bool edible, decimal price, ICollection<string> pictures, uint? availableStock, uint timesSold)
+        {
+            Barcode = barcode;
+            Name = name;
+            Weight = weight;
+            Volume = volume;
+            Units = units;
+            OriginCountry = originCountry;
+            Edible = edible;
+            Price = price;
+            Pictures = pictures;
+            AvailableStock = availableStock;
+            TimesSold = timesSold;
+        }
+
+        public override bool Equals(object? other) => other is Product && Equals(other);
+
+        public bool Equals(Product? other) => Barcode == other?.Barcode;
 
         public static bool operator ==(Product lhs, Product rhs) => lhs.Equals(rhs);
         public static bool operator !=(Product lhs, Product rhs) => !lhs.Equals(rhs);

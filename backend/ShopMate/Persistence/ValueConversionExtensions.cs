@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace ShopMate.Persistence
 {
-    public static class ValueConversionExtensions
+    internal static class ValueConversionExtensions
     {
         public static PropertyBuilder<T> HasJsonConversion<T>(this PropertyBuilder<T> property)
         {

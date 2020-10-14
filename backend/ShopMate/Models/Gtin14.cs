@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 
 namespace ShopMate.Models
 {
@@ -42,51 +41,12 @@ namespace ShopMate.Models
                     }
             }
 
-            if (!IsValid(code)) 
-            {
-                throw new ArgumentException("The code supplied resulted in a unvalid GTIN: failed to verify checksum.", nameof(code));
-            }
             return new Gtin14(code);
         }
 
-        public static bool IsValid(string gtin14)
-        {
-            int oddSum = 0;
-            int evenSum = 0;
+        public override bool Equals(object? other) => other is Gtin14 && Equals(other);
 
-            for (var i = 0; i < 12; i++)
-            {
-                if (int.TryParse(gtin14[i].ToString(), out int currentDigit))
-                {
-                    if (i % 2 == 0)
-                    {
-                        evenSum += currentDigit;
-                    }
-                    else
-                    {
-                        oddSum += currentDigit;
-                    }
-                }
-                else
-                {
-                    return false;
-                }
-            }
-
-            var sum = oddSum + 3 * evenSum;
-            if (int.TryParse(gtin14[13].ToString(), out int checksum))
-            {
-                return ((10 - (sum % 10)) % 10) == checksum;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public override bool Equals(object? other) => other is Gtin14 && this.Equals(other);
-
-        public bool Equals(Gtin14 other) => this.Value == other.Value;
+        public bool Equals(Gtin14 other) => Value == other.Value;
 
         public static bool operator ==(Gtin14 lhs, Gtin14 rhs) => lhs.Equals(rhs);
         public static bool operator !=(Gtin14 lhs, Gtin14 rhs) => !lhs.Equals(rhs);

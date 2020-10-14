@@ -1,22 +1,19 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ShopMate.Models;
-using System.Runtime.CompilerServices;
+using ShopMate.Persistence;
 
-[assembly: InternalsVisibleTo("PopulateDb")]
-namespace ShopMate.Persistence
+namespace PopulateDb
 {
     internal class ShopMateContext : DbContext
     {
-#pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
-        public ShopMateContext(DbContextOptions<ShopMateContext> options) : base(options)
-        { }
-#pragma warning restore CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
-
         public DbSet<Product> Products { get; set; }
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Label> Labels { get; set; }
         public DbSet<Store> Stores { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder options)
+            => options.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=ShopMateContext;Trusted_Connection=True;MultipleActiveResultSets=true");
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
