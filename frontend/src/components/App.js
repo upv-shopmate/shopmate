@@ -6,15 +6,26 @@ import RightPanel from './RightPanel';
 import Nav from './Nav';
 
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      "selectedPanel": "cart"
+    }
+  }
+  changeRightPanel(panel) {
+    this.setState({
+      "selectedPanel": panel
+    })
+  }
   render() {
     return (
       <div class="app">
         <TopBar/>
         <div class="panels">
           <LeftPanel/>
-          <RightPanel/>
+          <RightPanel panel={this.state.selectedPanel}/>
         </div>
-        <Nav/>
+        <Nav onChangeRightPanel={this.changeRightPanel.bind(this)}/>
       </div>
     );
   }
