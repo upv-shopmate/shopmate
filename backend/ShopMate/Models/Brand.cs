@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ShopMate.Models
@@ -13,7 +14,7 @@ namespace ShopMate.Models
         /// <summary>
         /// The canonical name of this brand.
         /// </summary>
-        [Column(TypeName = "nvarchar(50)")]
+        [MaxLength(50)]
         public string Name { get; internal set; }
 
         /// <summary>

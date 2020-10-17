@@ -1,9 +1,11 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ShopMate.Models
 {
     public struct Gtin14 : IEquatable<Gtin14>
     {
+        [Column(TypeName = "char(14)")]
         public string Value { get; }
 
         internal Gtin14(string code)
