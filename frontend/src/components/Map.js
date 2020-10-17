@@ -4,7 +4,7 @@ import React from 'react';
 class Map extends React.Component {
   render() {
     return (
-      <div class="map">
+      <div className="map">
           map
       </div>
     );

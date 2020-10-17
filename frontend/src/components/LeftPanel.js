@@ -4,8 +4,8 @@ import React from 'react';
 class LeftPanel extends React.Component {
   render() {
     return (
-        <div class="left-panel">
-        </div>
+      <div className="left-panel">
+      </div>
     );
   }
 }
