@@ -7,7 +7,7 @@ namespace ShopMate.Persistence.Relational
     internal class RelationalRepository<T> : IAsyncRepository<T>
         where T : class
     {
-        readonly DbSet<T> set;
+        private readonly DbSet<T> set;
 
         public RelationalRepository(DbSet<T> set)
         {

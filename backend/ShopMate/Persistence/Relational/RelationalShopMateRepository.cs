@@ -5,7 +5,7 @@ namespace ShopMate.Persistence.Relational
 {
     internal class RelationalShopMateRepository : IShopMateRepository
     {
-        readonly ShopMateContext context;
+        private readonly ShopMateContext context;
 
         public RelationalShopMateRepository(ShopMateContext context)
         {
