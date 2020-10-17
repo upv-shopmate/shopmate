@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ShopMate.Models;
-using ShopMate.Persistence;
+using ShopMate.Persistence.Relational;
 
 namespace PopulateDb
 {
