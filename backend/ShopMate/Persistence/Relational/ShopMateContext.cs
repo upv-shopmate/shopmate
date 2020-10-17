@@ -3,7 +3,7 @@ using ShopMate.Models;
 using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("PopulateDb")]
-namespace ShopMate.Persistence
+namespace ShopMate.Persistence.Relational
 {
     internal class ShopMateContext : DbContext
     {

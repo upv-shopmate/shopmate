@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using ShopMate.Persistence;
+using ShopMate.Persistence.Relational;
 using System;
 
 namespace ShopMate
