@@ -54,5 +54,7 @@ namespace ShopMate.Models
         public static bool operator !=(Gtin14 lhs, Gtin14 rhs) => !lhs.Equals(rhs);
 
         public override int GetHashCode() => Value.GetHashCode();
+
+        public override string ToString() => Value;
     }
 }

@@ -16,7 +16,7 @@ namespace ShopMate.Models
         [Key]
         public Gtin14 Barcode { get; internal set; }
 
-        [MaxLength(60)]
+        [MaxLength(120)]
         public string Name { get; internal set; }
 
         /// <summary>
