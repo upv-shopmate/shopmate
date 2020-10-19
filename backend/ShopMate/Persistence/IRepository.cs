@@ -9,6 +9,8 @@ namespace ShopMate.Persistence
 
         public T? GetById(params object[] id);
 
+        public IEnumerable<T> GetPage(int page, int itemsPerPage);
+
         public void Add(T entity);
 
         public void AddMany(IEnumerable<T> entities);

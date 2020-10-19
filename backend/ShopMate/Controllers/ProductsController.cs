@@ -2,6 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using ShopMate.Dto;
 using ShopMate.Persistence;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ShopMate.Controllers
 {
@@ -9,6 +12,8 @@ namespace ShopMate.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
+        const int DEFAULT_ITEMS_PER_PAGE = 10;
+
         readonly IShopMateRepository repository;
         readonly IMapper mapper;
 
@@ -29,6 +34,19 @@ namespace ShopMate.Controllers
             }
 
             return Ok(mapper.Map<ProductReadDto>(product));
+        }
+
+        [HttpGet]
+        public ActionResult<ICollection<ProductReadDto>> GetProductsPage([FromQuery] int page, [FromQuery] int itemsPerPage = DEFAULT_ITEMS_PER_PAGE)
+        {
+            var products = repository.Products.GetPage(page, itemsPerPage).ToList();
+
+            if (!products.Any())
+            {
+                return NoContent();
+            }
+
+            return Ok(mapper.Map<List<ProductReadDto>>(products));
         }
     }
 }
