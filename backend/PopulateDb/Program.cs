@@ -11,13 +11,12 @@ namespace PopulateDb
     internal class Program
     {
         private const string DEFAULT_INTERPRETER = "python";
-        private const uint DEFAULT_LIMIT = 216;
         private const string BASE_DIR = "scrapOpenFoodFacts/";
 
         private static async Task Main(string[] args)
         {
             var interpreter = args.ElementAtOrDefault(0) ?? DEFAULT_INTERPRETER;
-            var limit = args.ElementAtOrDefault(1) is null ? DEFAULT_LIMIT : uint.Parse(args[1]);
+            var limit = args.ElementAtOrDefault(1) is null ? "" : args[1];
             Console.WriteLine($"{interpreter} {limit}");
 
             Console.WriteLine(">> Running scraping process...");
@@ -33,7 +32,7 @@ namespace PopulateDb
             Console.WriteLine(">> Done.");
         }
 
-        private static void RunScript(string interpreter, uint limit)
+        private static void RunScript(string interpreter, string limit)
         {
             using var process = new CommandLineProcess(interpreter, $"{Path.Combine(BASE_DIR, "scrap.py")} {limit}");
             process.Start();
@@ -45,14 +44,14 @@ namespace PopulateDb
             process.WaitForExit();
         }
 
-        private static async Task<IDictionary<string, ProductJsonDAO>> ReadData()
+        private static async Task<IDictionary<string, ProductJsonDto>> ReadData()
         {
-            var reader = new StreamReader(Path.Combine(BASE_DIR, "products.json"));
+            var reader = new StreamReader("products.json");
             var json = await reader.ReadToEndAsync();
-            return JsonConvert.DeserializeObject<Dictionary<string, ProductJsonDAO>>(json);
+            return JsonConvert.DeserializeObject<Dictionary<string, ProductJsonDto>>(json);
         }
 
-        private static uint SeedDatabase(string shopName, string currency, IDictionary<string, ProductJsonDAO> data)
+        private static uint SeedDatabase(string shopName, string currency, IDictionary<string, ProductJsonDto> data)
         {
             uint count = 0;
 
@@ -72,10 +71,20 @@ namespace PopulateDb
             return count;
         }
 
-        private static void InsertProduct(ShopMateContext db, Store vendor, KeyValuePair<string, ProductJsonDAO> entry)
+        private static void InsertProduct(ShopMateContext db, Store vendor, KeyValuePair<string, ProductJsonDto> entry)
         {
-            var barcode = Gtin14.FromStandardBarcode(entry.Key);
-            var dao = entry.Value;
+            Gtin14 barcode;
+            try
+            {
+                barcode = Gtin14.FromStandardBarcode(entry.Key);
+            } 
+            catch (ArgumentException)
+            {
+                Console.WriteLine($"-- Skipping product with invalid barcode: {entry.Key}");
+                return;
+            }
+
+            var dto = entry.Value;
 
             if (!(db.Set<Product>().Find(barcode) is null))
             {
@@ -84,17 +93,44 @@ namespace PopulateDb
 
             var product = new Product(
                 barcode,
-                dao.Name.LimitLength(50),
-                dao.Weight,
-                dao.Volume,
-                dao.Units,
-                dao.OriginCountry?.LimitLength(2),
-                dao.Edible,
-                dao.Price,
-                dao.Pictures,
-                dao.AvailableStock,
-                dao.TimesSold);
+                dto.Name.LimitLength(120),
+                dto.Weight,
+                dto.Volume,
+                dto.Units,
+                dto.OriginCountry?.LimitLength(2),
+                dto.Edible,
+                dto.Price,
+                dto.Pictures,
+                dto.AvailableStock,
+                dto.TimesSold);
+
             product.Vendors.Add(vendor);
+
+            if (dto.Brands != null)
+            {
+                foreach (var name in dto.Brands)
+                {
+                    product.Brands.Add(new Brand(name.LimitLength(50), new List<string>(), null));
+                }
+            }
+
+            if (dto.Categories != null)
+            {
+                foreach (var name in dto.Categories)
+                {
+                    product.Categories.Add(new Category(name.LimitLength(50)));
+                }
+            }
+
+            if (dto.Labels != null)
+            {
+                foreach (var name in dto.Labels)
+                {
+                    product.Labels.Add(new Label(name.LimitLength(50)));
+                }
+            }
+
+            product.PriceModifiers.Add(new PriceModifier(PriceModifierCode.Vat, "", 0.21M, PriceModifierKind.Multiplicative));
 
             db.Set<Product>().Add(product);
         }
