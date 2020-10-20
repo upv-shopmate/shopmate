@@ -39,7 +39,7 @@ namespace ShopMate.Models
             }
         }
 
-        public override bool Equals(object? other) => other is PriceModifier && Equals(other);
+        public override bool Equals(object? other) => other is PriceModifier modifier && Equals(modifier);
 
         public bool Equals(PriceModifier? other) => Id == other?.Id;
 
