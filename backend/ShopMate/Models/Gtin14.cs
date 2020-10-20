@@ -46,7 +46,7 @@ namespace ShopMate.Models
             return new Gtin14(code);
         }
 
-        public override bool Equals(object? other) => other is Gtin14 && Equals(other);
+        public override bool Equals(object? other) => other is Gtin14 gtin && Equals(gtin);
 
         public bool Equals(Gtin14 other) => Value == other.Value;
 

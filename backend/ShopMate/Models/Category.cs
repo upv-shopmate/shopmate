@@ -26,7 +26,7 @@ namespace ShopMate.Models
             Name = name;
         }
 
-        public override bool Equals(object? other) => other is Category && Equals(other);
+        public override bool Equals(object? other) => other is Category category && Equals(category);
 
         public bool Equals(Category? other) => Name == other?.Name;
 

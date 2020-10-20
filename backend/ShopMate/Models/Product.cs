@@ -124,7 +124,7 @@ namespace ShopMate.Models
             TimesSold = timesSold;
         }
 
-        public override bool Equals(object? other) => other is Product && Equals(other);
+        public override bool Equals(object? other) => other is Product product && Equals(product);
 
         public bool Equals(Product? other) => Barcode == other?.Barcode;
 
