@@ -37,16 +37,18 @@ namespace ShopMate.Controllers
         }
 
         [HttpGet]
-        public ActionResult<ICollection<ProductReadDto>> GetProductsPage([FromQuery] int page, [FromQuery] int itemsPerPage = DEFAULT_ITEMS_PER_PAGE)
+        public ActionResult<PageReadDto<ProductReadDto>> GetProductsPage([FromQuery] int page, [FromQuery] int itemsPerPage = DEFAULT_ITEMS_PER_PAGE)
         {
-            var products = repository.Products.GetPage(page, itemsPerPage).ToList();
+            var products = repository.Products.GetPage(page, itemsPerPage, out bool hasNextPage).ToList();
 
             if (!products.Any())
             {
                 return NoContent();
             }
 
-            return Ok(mapper.Map<List<ProductReadDto>>(products));
+            return Ok(new PageReadDto<ProductReadDto>(
+                mapper.Map<List<ProductReadDto>>(products),
+                nextPage: hasNextPage ? (int?)page + 1 : null));
         }
     }
 }
