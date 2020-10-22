@@ -37,7 +37,8 @@ namespace ShopMate.Persistence.Relational
         public void UpdateMany(IEnumerable<T> entities) => Set.UpdateRange(entities);
 
         public IEnumerable<T> GetPage(int page, int itemsPerPage)
-            => Set.Skip(page * itemsPerPage)
+            => Set.OrderBy(row => row) // order by key
+                  .Skip(page * itemsPerPage)
                   .Take(itemsPerPage);
 
         /// <remarks>
@@ -46,7 +47,8 @@ namespace ShopMate.Persistence.Relational
         /// </remarks>
         public IEnumerable<T> GetPage(int page, int itemsPerPage, out bool hasNext)
         {
-            var items = Set.Skip(page * itemsPerPage)
+            var items = Set.OrderBy(row => row) // order by key
+                            .Skip(page * itemsPerPage)
                             .Take(itemsPerPage + 1)
                             .ToList();
 
