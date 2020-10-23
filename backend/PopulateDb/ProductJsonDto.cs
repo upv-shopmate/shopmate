@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace PopulateDb
 {
-    internal class ProductJsonDAO
+    internal class ProductJsonDto
     {
         [JsonProperty("name")]
         public string Name { get; internal set; }

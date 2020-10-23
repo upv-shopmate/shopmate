@@ -16,7 +16,7 @@ namespace ShopMate.Models
         [Key]
         public Gtin14 Barcode { get; internal set; }
 
-        [Column(TypeName = "nvarchar(50)")]
+        [MaxLength(120)]
         public string Name { get; internal set; }
 
         /// <summary>
@@ -124,7 +124,7 @@ namespace ShopMate.Models
             TimesSold = timesSold;
         }
 
-        public override bool Equals(object? other) => other is Product && Equals(other);
+        public override bool Equals(object? other) => other is Product product && Equals(product);
 
         public bool Equals(Product? other) => Barcode == other?.Barcode;
 

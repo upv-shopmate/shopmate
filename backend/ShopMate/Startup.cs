@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -5,6 +6,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ShopMate.Persistence;
+using ShopMate.Persistence.Relational;
+using System;
 
 namespace ShopMate
 {
@@ -21,6 +24,14 @@ namespace ShopMate
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            services.AddOpenApiDocument(config => {
+                config.Title = "ShopMate";
+                config.DocumentName = "Dev";
+                config.Version = "0.0.0";
+            });
 
             ConfigurePersistence(services);
         }
@@ -43,12 +54,17 @@ namespace ShopMate
             {
                 endpoints.MapControllers();
             });
+
+            app.UseOpenApi();
+            app.UseSwaggerUi3();
         }
 
         private void ConfigurePersistence(IServiceCollection services)
         {
             services.AddDbContext<ShopMateContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("ShopMateContext")));
+
+            services.AddScoped<IShopMateRepository, RelationalShopMateRepository>();
         }
     }
 }

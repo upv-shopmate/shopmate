@@ -1,4 +1,15 @@
-h1 {
-  font-family: helvetica;
-  font-weight: 200;
+html, body {
+    margin: 0;
+    padding: 0;
+}
+.app {
+    width: 1024px;
+    height: 768px;
+    background-color: black;
+}
+
+.panels {
+    height: calc(678px - 75px); 
+    width: 100%;
+    display: flex;
 }

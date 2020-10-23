@@ -15,7 +15,7 @@ namespace ShopMate.Models
             Y = y;
         }
 
-        public override bool Equals(object? other) => other is Position && Equals(other);
+        public override bool Equals(object? other) => other is Position position && Equals(position);
 
         public bool Equals(Position? other)
             => X == other?.X && Y == other?.Y;

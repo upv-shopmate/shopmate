@@ -1,9 +1,11 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ShopMate.Models
 {
     public struct Gtin14 : IEquatable<Gtin14>
     {
+        [Column(TypeName = "char(14)")]
         public string Value { get; }
 
         internal Gtin14(string code)
@@ -44,7 +46,7 @@ namespace ShopMate.Models
             return new Gtin14(code);
         }
 
-        public override bool Equals(object? other) => other is Gtin14 && Equals(other);
+        public override bool Equals(object? other) => other is Gtin14 gtin && Equals(gtin);
 
         public bool Equals(Gtin14 other) => Value == other.Value;
 
@@ -52,5 +54,7 @@ namespace ShopMate.Models
         public static bool operator !=(Gtin14 lhs, Gtin14 rhs) => !lhs.Equals(rhs);
 
         public override int GetHashCode() => Value.GetHashCode();
+
+        public override string ToString() => Value;
     }
 }
