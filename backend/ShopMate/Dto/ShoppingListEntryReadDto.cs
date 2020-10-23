@@ -8,6 +8,6 @@ namespace ShopMate.Dto
     {
         public int Quantity { get; private set; }
 
-        public Product Product { get; private set; }
+        public ProductReadDto Product { get; private set; }
     }
 }

@@ -13,6 +13,6 @@ namespace ShopMate.Dto
 
         public decimal Price { get; private set; }
 
-        public IReadOnlyCollection<ShoppingListEntry> Entries { get; }
+        public IReadOnlyCollection<ShoppingListEntryReadDto> Entries { get; }
     }
 }
