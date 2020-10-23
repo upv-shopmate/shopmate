@@ -14,6 +14,8 @@ namespace ShopMate.Persistence
 
         public IStoreRepository Stores { get; }
 
+        public IShoppingListRepository ShoppingLists { get; }
+
         public bool SaveChanges();
     }
 
@@ -32,5 +34,8 @@ namespace ShopMate.Persistence
     { }
 
     public interface IStoreRepository : IAsyncRepository<Store>
+    { }
+
+    public interface IShoppingListRepository : IAsyncRepository<ShoppingList> 
     { }
 }

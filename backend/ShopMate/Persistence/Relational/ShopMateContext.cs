@@ -17,6 +17,7 @@ namespace ShopMate.Persistence.Relational
         public DbSet<Category> Categories { get; set; }
         public DbSet<Label> Labels { get; set; }
         public DbSet<Store> Stores { get; set; }
+        public DbSet<ShoppingList> ShoppingLists { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -16,6 +16,7 @@ namespace ShopMate.Persistence.Relational
             Categories = new RelationalCategoryRepository(context.Categories);
             Labels = new RelationalLabelRepository(context.Labels);
             Stores = new RelationalStoreRepository(context.Stores);
+            ShoppingLists = new RelationalShoppingListRepository(context.ShoppingLists);
         }
 
         public IProductRepository Products { get; }
@@ -27,6 +28,8 @@ namespace ShopMate.Persistence.Relational
         public ILabelRepository Labels { get; }
 
         public IStoreRepository Stores { get; }
+
+        public IShoppingListRepository ShoppingLists { get; }
 
         public bool SaveChanges() => context.SaveChanges() >= 0;
     }
@@ -58,6 +61,12 @@ namespace ShopMate.Persistence.Relational
     internal class RelationalStoreRepository : RelationalRepository<Store>, IStoreRepository
     {
         public RelationalStoreRepository(DbSet<Store> set) : base(set)
+        { }
+    }
+
+    internal class RelationalShoppingListRepository : RelationalRepository<ShoppingList>, IShoppingListRepository
+    {
+        public RelationalShoppingListRepository(DbSet<ShoppingList> set) : base(set)
         { }
     }
 }
