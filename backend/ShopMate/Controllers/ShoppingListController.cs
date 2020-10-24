@@ -3,13 +3,9 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using ShopMate.Dto;
-using ShopMate.Models;
 using ShopMate.Persistence;
-using System.Collections.Generic;
 
 namespace ShopMate.Controllers
-
-
 {
     [ApiController]
     [Route("/api/[controller]")]

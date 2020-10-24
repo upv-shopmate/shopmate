@@ -81,6 +81,6 @@ namespace ShopMate.Models
         public static bool operator ==(ShoppingList lhs, ShoppingList rhs) => lhs.Equals(rhs);
         public static bool operator !=(ShoppingList lhs, ShoppingList rhs) => !lhs.Equals(rhs);
 
-        public override int GetHashCode() => Name.GetHashCode();
+        public override int GetHashCode() => Id.GetHashCode();
     }
 }
