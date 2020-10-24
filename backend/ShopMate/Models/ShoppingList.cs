@@ -1,21 +1,23 @@
-﻿using System;
+﻿using ShopMate.Models.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace ShopMate.Models
 {
-    public class ShoppingList : IEquatable<ShoppingList>
+    public class ShoppingList : IEquatable<ShoppingList>, IBuyableList<Product>
     {
         public int Id { get; private set; }
 
         [MaxLength(50)]
         public string Name { get; internal set; }
 
-        public decimal Price { get; internal set; }
+        public IReadOnlyCollection<IBuyableListEntry<Product>> Entries { get => entries; }
+        readonly HashSet<IBuyableListEntry<Product>> entries = new HashSet<IBuyableListEntry<Product>>();
 
-        public IReadOnlyCollection<ShoppingListEntry> Entries { get => entries; }
-
-        readonly HashSet<ShoppingListEntry> entries = new HashSet<ShoppingListEntry>();
+        public decimal SubtotalPrice { get; private set; }
+        public decimal TotalPrice { get; private set; }
 
         /// <summary>
         /// Constructor de la lista de la compra.
@@ -35,18 +37,19 @@ namespace ShopMate.Models
         /// Si ese producto ya estaba en la lista se le suma la cantidad indicada en el parametro de entrada entry.
         /// Se actualiza la variable Price.
         /// </summary>
-        public void AddProduct(ShoppingListEntry entry)
+        public void AddEntry(IBuyableListEntry<Product> entry)
         {
-            if (entries.TryGetValue(entry, out ShoppingListEntry? currentEntry))
+            if (entries.TryGetValue(entry, out IBuyableListEntry<Product>? currentEntry))
             {
                 currentEntry.Quantity += entry.Quantity;
-                Price += entry.Quantity * entry.Product.Price;
             } 
             else
             {
                 entries.Add(entry);
-                Price += entry.Quantity * entry.Product.Price;
             }
+
+            SubtotalPrice += entry.Quantity * entry.Item.Price;
+            TotalPrice += entry.Quantity * entry.Item.ModifiedPrice;
         }
 
         /// <summary>
@@ -55,22 +58,37 @@ namespace ShopMate.Models
         /// Devuelve true si existía el elemento en la lista antes de invocar al método, en caso contrario devuelve false.
         /// Se actualiza la variable Price.
         /// </summary>
-        public bool DeleteProduct(ShoppingListEntry entry)
+        public bool RemoveEntry(IBuyableListEntry<Product> entry)
         {
-            if (entries.TryGetValue(entry, out ShoppingListEntry? currentEntry))
+            if (entries.TryGetValue(entry, out IBuyableListEntry<Product>? currentEntry))
             {
                 if (currentEntry.Quantity <= entry.Quantity)
                 {
                     entries.Remove(currentEntry);
-                    Price -= currentEntry.Quantity * entry.Product.Price;
                 }
                 else
                 {
                     currentEntry.Quantity -= entry.Quantity;
-                    Price -= entry.Quantity * entry.Product.Price;
                 }
+
+                SubtotalPrice -= entry.Quantity * entry.Item.Price;
+                TotalPrice -= entry.Quantity * entry.Item.Price;
+
                 return true;
             }
+            return false;
+        }
+
+        public bool RemoveEntry(Product item)
+        {
+            var entry = entries.Where(e => e.Item == item).FirstOrDefault();
+
+            if (entry is null)
+            {
+                return false;
+            }
+
+            entries.Remove(entry);
             return false;
         }
 

@@ -1,5 +1,6 @@
 ﻿#pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
 
+using ShopMate.Models.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -8,7 +9,7 @@ using System.Linq;
 
 namespace ShopMate.Models
 {
-    public class Product : IEquatable<Product>
+    public class Product : IEquatable<Product>, IBuyable
     {
         /// <summary>
         /// The unique barcode of this product in GTIN-14 format.

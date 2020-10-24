@@ -5,7 +5,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ShopMate.Models
 {
-
     public class PriceModifier : IEquatable<PriceModifier>
     {
         public int Id { get; private set; }
