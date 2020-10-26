@@ -2,7 +2,10 @@
 
 using Microsoft.EntityFrameworkCore;
 using ShopMate.Models.Interfaces;
+using ShopMate.Models.Transient;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ShopMate.Models
 {
@@ -13,6 +16,20 @@ namespace ShopMate.Models
         int IBuyableListEntry<Product>.Quantity { get => Quantity; set => Quantity = value; }
 
         public Product Item { get; internal set; }
+
+        public decimal Price => Quantity * Item.Price;
+
+        public decimal ModifiedPrice => Quantity * Item.ModifiedPrice;
+
+        public IReadOnlyCollection<PriceModifierBreakdown> ModifierBreakdowns
+        {
+            get => Item.PriceModifiers.Select(modifier =>
+                    new PriceModifierBreakdown(
+                        modifier, 
+                        applicableBase: Quantity * Item.Price, 
+                        totalDelta: Quantity * modifier.DeltaFor(Item.Price)))
+                    .ToList();
+        }
 
         public ShoppingListEntry()
         { }

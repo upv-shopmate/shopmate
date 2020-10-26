@@ -1,4 +1,5 @@
 ﻿using ShopMate.Models.Interfaces;
+using ShopMate.Models.Transient;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -18,6 +19,9 @@ namespace ShopMate.Models
 
         public decimal SubtotalPrice { get; private set; }
         public decimal TotalPrice { get; private set; }
+
+        public IReadOnlyCollection<PriceModifierBreakdown> ModifierBreakdowns { get => breakdowns; }
+        readonly HashSet<PriceModifierBreakdown> breakdowns = new HashSet<PriceModifierBreakdown>();
 
         /// <summary>
         /// Constructor de la lista de la compra.
@@ -50,6 +54,18 @@ namespace ShopMate.Models
 
             SubtotalPrice += entry.Quantity * entry.Item.Price;
             TotalPrice += entry.Quantity * entry.Item.ModifiedPrice;
+
+            foreach (var newBreakdown in entry.ModifierBreakdowns)
+            {
+                if (breakdowns.TryGetValue(newBreakdown, out PriceModifierBreakdown? currentBreakdown))
+                {
+                    currentBreakdown += newBreakdown;
+                }
+                else
+                {
+                    breakdowns.Add(newBreakdown);
+                }
+            }
         }
 
         /// <summary>
@@ -73,6 +89,19 @@ namespace ShopMate.Models
 
                 SubtotalPrice -= entry.Quantity * entry.Item.Price;
                 TotalPrice -= entry.Quantity * entry.Item.Price;
+
+                foreach (var newBreakdown in entry.ModifierBreakdowns)
+                {
+                    if (breakdowns.TryGetValue(newBreakdown, out PriceModifierBreakdown? currentBreakdown))
+                    {
+                        currentBreakdown -= newBreakdown;
+
+                        if (newBreakdown.ApplicableBase <= 0)
+                        {
+                            breakdowns.Remove(newBreakdown);
+                        }
+                    }
+                }
 
                 return true;
             }
