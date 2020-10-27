@@ -1,6 +1,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +14,8 @@ namespace ShopMate
 {
     public class Startup
     {
+        const string ConnectionStringName = "ShopMateContext";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -61,8 +64,13 @@ namespace ShopMate
 
         private void ConfigurePersistence(IServiceCollection services)
         {
+            var builder = new SqlConnectionStringBuilder(Configuration.GetConnectionString(ConnectionStringName))
+            {
+                Password = Configuration[$"Database:{ConnectionStringName}:Password"]
+            };
+
             services.AddDbContext<ShopMateContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("ShopMateContext")));
+                options.UseSqlServer(builder.ConnectionString));
 
             services.AddScoped<IShopMateRepository, RelationalShopMateRepository>();
         }
