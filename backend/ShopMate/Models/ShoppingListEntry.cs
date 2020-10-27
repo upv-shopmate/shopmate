@@ -2,9 +2,9 @@
 
 using Microsoft.EntityFrameworkCore;
 using ShopMate.Models.Interfaces;
-using ShopMate.Models.Transient;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
 namespace ShopMate.Models
@@ -12,13 +12,15 @@ namespace ShopMate.Models
     [Owned]
     public class ShoppingListEntry : IEquatable<ShoppingListEntry>, IBuyableListEntry<Product>
     {
-        public int Quantity { get; internal set; }
+        public int Quantity { get; set; }
         int IBuyableListEntry<Product>.Quantity { get => Quantity; set => Quantity = value; }
 
-        public Product Item { get; internal set; }
+        public Product Item { get; set; }
 
+        [Column(TypeName = "money")]
         public decimal Price => Quantity * Item.Price;
 
+        [Column(TypeName = "money")]
         public decimal ModifiedPrice => Quantity * Item.ModifiedPrice;
 
         public IReadOnlyCollection<PriceModifierBreakdown> ModifierBreakdowns
@@ -31,8 +33,7 @@ namespace ShopMate.Models
                     .ToList();
         }
 
-        public ShoppingListEntry()
-        { }
+        ShoppingListEntry() { }
 
         public ShoppingListEntry(int quantity, Product product)
         {

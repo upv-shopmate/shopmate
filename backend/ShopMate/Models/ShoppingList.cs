@@ -1,8 +1,8 @@
 ﻿using ShopMate.Models.Interfaces;
-using ShopMate.Models.Transient;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
 namespace ShopMate.Models
@@ -17,30 +17,30 @@ namespace ShopMate.Models
         public IReadOnlyCollection<IBuyableListEntry<Product>> Entries { get => entries; }
         readonly HashSet<IBuyableListEntry<Product>> entries = new HashSet<IBuyableListEntry<Product>>();
 
+        [Column(TypeName = "money")]
         public decimal SubtotalPrice { get; private set; }
+        [Column(TypeName = "money")]
         public decimal TotalPrice { get; private set; }
 
         public IReadOnlyCollection<PriceModifierBreakdown> ModifierBreakdowns { get => breakdowns; }
         readonly HashSet<PriceModifierBreakdown> breakdowns = new HashSet<PriceModifierBreakdown>();
 
-        /// <summary>
-        /// Constructor de la lista de la compra.
-        /// </summary>
         public ShoppingList(string name)
         {
             Name = name;
         }
 
         /// <summary>
-        /// Cambia el nombre de la lista de la compra.
+        /// Change the name of this shopping list.
         /// </summary>
         public void ChangeName(string newName) => Name = newName;
 
         /// <summary>
-        /// Añade un producto con su cantidad a la lista de Entries.
-        /// Si ese producto ya estaba en la lista se le suma la cantidad indicada en el parametro de entrada entry.
-        /// Se actualiza la variable Price.
+        /// Add or update a product with its quantity to the list of entries.
         /// </summary>
+        /// <remarks>
+        /// If a corresponding entry is already present it will be updated to reflect the new quantity the addition.
+        /// </remarks>
         public void AddEntry(IBuyableListEntry<Product> entry)
         {
             if (entries.TryGetValue(entry, out IBuyableListEntry<Product>? currentEntry))
@@ -69,11 +69,11 @@ namespace ShopMate.Models
         }
 
         /// <summary>
-        /// Quita de la lista la cantidad de productos indicada en el parametro de entrada entry.
-        /// Si entry.Quantity >= ShoppingListEntry.Quantity de la lista Entries se eliminará la entrada de la lista.
-        /// Devuelve true si existía el elemento en la lista antes de invocar al método, en caso contrario devuelve false.
-        /// Se actualiza la variable Price.
+        /// Remove the given quantity of product of the list of entries.
         /// </summary>
+        /// <remarks>
+        /// The corresponding entry already present will be updated or removed to reflect the new quantity after the subtraction.
+        /// </remarks>
         public bool RemoveEntry(IBuyableListEntry<Product> entry)
         {
             if (entries.TryGetValue(entry, out IBuyableListEntry<Product>? currentEntry))

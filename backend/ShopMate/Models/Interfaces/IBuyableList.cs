@@ -1,5 +1,4 @@
-﻿using ShopMate.Models.Transient;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace ShopMate.Models.Interfaces
 {
@@ -9,7 +8,7 @@ namespace ShopMate.Models.Interfaces
         public decimal SubtotalPrice { get; }
         public decimal TotalPrice { get; }
 
-        public ICollection<PriceModifierBreakdown> ModifierBreakdowns { get; }
+        public IReadOnlyCollection<PriceModifierBreakdown> ModifierBreakdowns { get; }
 
         public void AddEntry(IBuyableListEntry<T> entry);
 

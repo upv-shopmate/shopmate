@@ -1,15 +1,21 @@
-﻿using System;
+﻿#pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
+
+using System;
 using System.Diagnostics;
 
-namespace ShopMate.Models.Transient
+namespace ShopMate.Models
 {
     public class PriceModifierBreakdown : IEquatable<PriceModifierBreakdown>
     {
+        public int Id { get; private set; }
+
         public PriceModifier Modifier { get; }
 
-        public decimal ApplicableBase { get; set; }
+        public decimal ApplicableBase { get; }
 
-        public decimal TotalDelta { get; set; }
+        public decimal TotalDelta { get; }
+
+        PriceModifierBreakdown() { }
 
         public PriceModifierBreakdown(PriceModifier modifier, decimal applicableBase, decimal totalDelta)
         {

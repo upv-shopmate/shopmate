@@ -3,6 +3,7 @@
 using ShopMate.Models.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -86,6 +87,7 @@ namespace ShopMate.Models
         /// The fixed modifiers that apply to the price of this product.
         /// </summary>
         public ICollection<PriceModifier> PriceModifiers { get; internal set; } = new List<PriceModifier>();
+        IReadOnlyCollection<PriceModifier> IBuyable.PriceModifiers { get => (IReadOnlyCollection<PriceModifier>)PriceModifiers; }
 
         /// <summary>
         /// The positions where this item is present.
