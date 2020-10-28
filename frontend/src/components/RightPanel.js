@@ -6,6 +6,7 @@ import Catalog from './Catalog';
 import Cart from './Cart';
 import Map from './Map';
 
+//minimum width is 70
 const WIDTHS = {
   CART: '70%',
   CATALOG: '150%',
