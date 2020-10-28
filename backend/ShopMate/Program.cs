@@ -41,6 +41,7 @@ namespace ShopMate
             {
                 var logger = services.GetRequiredService<ILogger<Program>>();
                 logger.LogError(e, "An error ocurred creating the database.");
+                Environment.Exit(-1);
             }
         }
     }
