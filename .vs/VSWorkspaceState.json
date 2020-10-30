@@ -1,0 +1,13 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\backend",
+    "\\backend\\PopulateDb",
+    "\\backend\\PopulateDb\\scrapOpenFoodFacts",
+    "\\backend\\ShopMate",
+    "\\backend\\ShopMate\\Persistence",
+    "\\backend\\ShopMate\\Persistence\\Relational"
+  ],
+  "SelectedNode": "\\backend\\ShopMate\\ShopMate.csproj",
+  "PreviewInSolutionExplorer": false
+}

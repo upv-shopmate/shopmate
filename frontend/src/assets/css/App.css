@@ -1,15 +1,16 @@
-html, body {
-    margin: 0;
-    padding: 0;
+html,
+body {
+  margin: 0;
+  padding: 0;
 }
 .app {
-    width: 1024px;
-    height: 768px;
-    background-color: black;
+  width: 1024px;
+  height: 768px;
+  background-color: black;
 }
 
 .panels {
-    height: calc(678px - 75px); 
-    width: 100%;
-    display: flex;
+  height: calc(678px - 75px);
+  width: 100%;
+  display: flex;
 }
