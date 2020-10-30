@@ -9,7 +9,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      'selectedPanel': 'cart',
+      'selectedPanel': 'cart'
     };
   }
   changeRightPanel(panel) {
