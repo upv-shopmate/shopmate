@@ -11,7 +11,10 @@
 }
 
 .search-field > input {
-  width: 90%;
+  width: 85%;
+  height: 65%;
+  border: 0.45px;
+  border-radius: 40px;
 }
 
 .search-icon:hover {
