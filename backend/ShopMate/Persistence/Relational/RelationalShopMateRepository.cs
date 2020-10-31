@@ -17,6 +17,7 @@ namespace ShopMate.Persistence.Relational
             Labels = new RelationalLabelRepository(context.Labels);
             Stores = new RelationalStoreRepository(context.Stores);
             ShoppingLists = new RelationalShoppingListRepository(context.ShoppingLists);
+            Carts = new RelationalCartRepository(context.Carts);
         }
 
         public IProductRepository Products { get; }
@@ -31,9 +32,10 @@ namespace ShopMate.Persistence.Relational
 
         public IShoppingListRepository ShoppingLists { get; }
 
-        public bool SaveChanges() => context.SaveChanges() >= 0;
-    }
+        public ICartRepository Carts { get; }
 
+        public bool SaveChanges() => context.SaveChanges() > 0; //Antes era >= 0
+    }
     internal class RelationalProductRepository : RelationalRepository<Product>, IProductRepository
     {
         public RelationalProductRepository(DbSet<Product> set) : base(set)
@@ -67,6 +69,12 @@ namespace ShopMate.Persistence.Relational
     internal class RelationalShoppingListRepository : RelationalRepository<ShoppingList>, IShoppingListRepository
     {
         public RelationalShoppingListRepository(DbSet<ShoppingList> set) : base(set)
+        { }
+    }
+
+    internal class RelationalCartRepository : RelationalRepository<Cart>, ICartRepository
+    {
+        public RelationalCartRepository(DbSet<Cart> set) : base(set) 
         { }
     }
 }

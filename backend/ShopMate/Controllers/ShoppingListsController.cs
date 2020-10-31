@@ -3,7 +3,11 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using ShopMate.Dto;
+using ShopMate.Models;
+using ShopMate.Models.Interfaces;
 using ShopMate.Persistence;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ShopMate.Controllers
 {
