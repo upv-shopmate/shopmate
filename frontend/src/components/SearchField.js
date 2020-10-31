@@ -7,9 +7,9 @@ import Input from './Input';
 class SearchField extends React.Component {
   render() {
     return (
-      <div>
-        <img src={searchIcon} className="search-icon"></img>
-        <Input placeholder={"Buscar productos"}/>
+      <div className="search-field">
+        <img src={searchIcon} className="search-icon shadow"></img>
+        <Input placeholder={"Buscar productos"} />
       </div>
     );
   }

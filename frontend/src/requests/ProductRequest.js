@@ -1,4 +1,4 @@
-var request = require('request-promise')
+var request = require('axios')
 
 export async function requestDataBase() {
     let products = 0;

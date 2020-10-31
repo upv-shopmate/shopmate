@@ -10,10 +10,22 @@
   overflow: hidden;
 }
 
+.search-field > input {
+  width: 90%;
+}
+
+.search-icon:hover {
+  background-color: lightgray;
+  transition: 0.5s;
+}
+
 .search-icon {
+  border-radius: 10px;
   height: 25px;
   width: 25px;
   margin-left: 10px;
+  margin-right: 3px;
+  cursor: pointer;
 }
 .search-input {
   margin-left: 5px;
