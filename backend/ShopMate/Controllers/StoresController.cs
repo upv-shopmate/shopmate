@@ -30,5 +30,20 @@ namespace ShopMate.Controllers
 
             return Ok(mapper.Map<StoreReadDto>(store));
         }
+
+        [HttpGet("{id}/map")]
+        public ActionResult<int[][]> GetStoreMap(int id)
+        {
+            var store = repository.Stores.GetById(id);
+
+            if (store is null) 
+            {
+                return NotFound();
+            }
+
+            var map = store.Map;
+
+            return Ok(map);
+        }
     }
 }
