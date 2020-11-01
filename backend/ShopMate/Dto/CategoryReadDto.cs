@@ -4,9 +4,9 @@ namespace ShopMate.Dto
 {
     public class CategoryReadDto
     {
-        public int Id { get; private set; }
+        public int Id { get; internal set; }
 
-        public string Name { get; private set; }
+        public string Name { get; internal set; }
     }
 }
 

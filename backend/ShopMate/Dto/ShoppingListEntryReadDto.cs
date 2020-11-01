@@ -4,8 +4,8 @@ namespace ShopMate.Dto
 {
     public class ShoppingListEntryReadDto
     {
-        public int Quantity { get; private set; }
+        public int Quantity { get; internal set; }
 
-        public ProductReadDto Product { get; private set; }
+        public ProductReadDto Item { get; internal set; }
     }
 }
