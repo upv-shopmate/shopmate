@@ -23,7 +23,17 @@ namespace ShopMate.Persistence
 
     public interface IProductRepository : IAsyncRepository<Product>
     {
-        public Product? GetByBarcode(string barcode) => GetById(Gtin14.FromStandardBarcode(barcode));
+        public Product? GetByBarcode(string barcode)
+        {
+            if (Gtin14.TryFromStandardBarcode(barcode, out Gtin14? gtin14))
+            {
+                return GetById(gtin14!);
+            } 
+            else
+            {
+                return null;
+            }
+        }
     }
 
     public interface IBrandRepository : IAsyncRepository<Brand>
