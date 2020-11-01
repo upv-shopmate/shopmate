@@ -3,7 +3,9 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using ShopMate.Dto;
+using ShopMate.Models;
 using ShopMate.Persistence;
+using System.Linq;
 
 namespace ShopMate.Controllers
 {
@@ -24,14 +26,14 @@ namespace ShopMate.Controllers
         [HttpGet("{id}")]
         public ActionResult<ShoppingListReadDto> GetShoppingListById(int id)
         {
-            var category = repository.ShoppingLists.GetById(id);
+            var list = repository.ShoppingLists.GetById(id);
 
-            if (category is null)
+            if (list is null)
             {
                 return NotFound();
             }
 
-            return Ok(mapper.Map<ShoppingListReadDto>(category));
+            return Ok(mapper.Map<ShoppingListReadDto>(list));
         }
     }
 }

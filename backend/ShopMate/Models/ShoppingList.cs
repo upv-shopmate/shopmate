@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
 
 namespace ShopMate.Models
 {
@@ -14,16 +13,16 @@ namespace ShopMate.Models
         [MaxLength(50)]
         public string Name { get; internal set; }
 
-        public IReadOnlyCollection<IBuyableListEntry<Product>> Entries { get => entries; }
-        readonly HashSet<IBuyableListEntry<Product>> entries = new HashSet<IBuyableListEntry<Product>>();
+        public IReadOnlyCollection<IBuyableListEntry<Product>> Entries { get => (IReadOnlyCollection<IBuyableListEntry<Product>>)entries.Values; }
+        readonly IDictionary<Product, IBuyableListEntry<Product>> entries = new Dictionary<Product, IBuyableListEntry<Product>>();
 
         [Column(TypeName = "money")]
-        public decimal SubtotalPrice { get; private set; }
+        public decimal SubtotalPrice { get; internal set; }
         [Column(TypeName = "money")]
-        public decimal TotalPrice { get; private set; }
+        public decimal TotalPrice { get; internal set; }
 
-        public IReadOnlyCollection<PriceModifierBreakdown> ModifierBreakdowns { get => breakdowns; }
-        readonly HashSet<PriceModifierBreakdown> breakdowns = new HashSet<PriceModifierBreakdown>();
+        public IReadOnlyCollection<PriceModifierBreakdown> ModifierBreakdowns { get => (IReadOnlyCollection<PriceModifierBreakdown>)breakdowns.Values; }
+        readonly IDictionary<PriceModifier, PriceModifierBreakdown> breakdowns = new Dictionary<PriceModifier, PriceModifierBreakdown>();
 
         public ShoppingList(string name)
         {
@@ -43,13 +42,13 @@ namespace ShopMate.Models
         /// </remarks>
         public void AddEntry(IBuyableListEntry<Product> entry)
         {
-            if (entries.TryGetValue(entry, out IBuyableListEntry<Product>? currentEntry))
+            if (entries.TryGetValue(entry.Item, out IBuyableListEntry<Product>? currentEntry))
             {
                 currentEntry.Quantity += entry.Quantity;
             } 
             else
             {
-                entries.Add(entry);
+                entries.Add(entry.Item, entry);
             }
 
             SubtotalPrice += entry.Quantity * entry.Item.Price;
@@ -57,13 +56,13 @@ namespace ShopMate.Models
 
             foreach (var newBreakdown in entry.ModifierBreakdowns)
             {
-                if (breakdowns.TryGetValue(newBreakdown, out PriceModifierBreakdown? currentBreakdown))
+                if (breakdowns.TryGetValue(newBreakdown.Modifier, out PriceModifierBreakdown? currentBreakdown))
                 {
-                    currentBreakdown += newBreakdown;
+                    breakdowns[newBreakdown.Modifier] = currentBreakdown + newBreakdown;
                 }
                 else
                 {
-                    breakdowns.Add(newBreakdown);
+                    breakdowns.Add(newBreakdown.Modifier, newBreakdown);
                 }
             }
         }
@@ -76,11 +75,11 @@ namespace ShopMate.Models
         /// </remarks>
         public bool RemoveEntry(IBuyableListEntry<Product> entry)
         {
-            if (entries.TryGetValue(entry, out IBuyableListEntry<Product>? currentEntry))
+            if (entries.TryGetValue(entry.Item, out IBuyableListEntry<Product>? currentEntry))
             {
                 if (currentEntry.Quantity <= entry.Quantity)
                 {
-                    entries.Remove(currentEntry);
+                    entries.Remove(entry.Item);
                 }
                 else
                 {
@@ -88,17 +87,17 @@ namespace ShopMate.Models
                 }
 
                 SubtotalPrice -= entry.Quantity * entry.Item.Price;
-                TotalPrice -= entry.Quantity * entry.Item.Price;
+                TotalPrice -= entry.Quantity * entry.Item.ModifiedPrice;
 
                 foreach (var newBreakdown in entry.ModifierBreakdowns)
                 {
-                    if (breakdowns.TryGetValue(newBreakdown, out PriceModifierBreakdown? currentBreakdown))
+                    if (breakdowns.TryGetValue(newBreakdown.Modifier, out PriceModifierBreakdown? currentBreakdown))
                     {
-                        currentBreakdown -= newBreakdown;
+                        breakdowns[newBreakdown.Modifier] = currentBreakdown - newBreakdown;
 
                         if (newBreakdown.ApplicableBase <= 0)
                         {
-                            breakdowns.Remove(newBreakdown);
+                            breakdowns.Remove(newBreakdown.Modifier);
                         }
                     }
                 }
@@ -108,18 +107,7 @@ namespace ShopMate.Models
             return false;
         }
 
-        public bool RemoveEntry(Product item)
-        {
-            var entry = entries.Where(e => e.Item == item).FirstOrDefault();
-
-            if (entry is null)
-            {
-                return false;
-            }
-
-            entries.Remove(entry);
-            return false;
-        }
+        public bool RemoveEntry(Product item) => entries.Remove(item);
 
         public override bool Equals(object? other) => other is ShoppingList list && Equals(list);
 
