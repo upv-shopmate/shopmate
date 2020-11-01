@@ -11,18 +11,14 @@ namespace ShopMate.Models
     {
         public int Id { get; private set; }
 
-        [NotMapped]
         public bool Active { get; internal set; }
 
-        [NotMapped]
         public decimal PlannedPrice { get => TrackedLists.Sum(list => list.TotalPrice); }
 
         public Store Owner { get; internal set; }
 
-        [NotMapped]
         public ShoppingList Contents { get; internal set; } = new ShoppingList("");
 
-        [NotMapped]
         public ICollection<ShoppingList> TrackedLists { get; internal set; } = new HashSet<ShoppingList>();
 
         public Cart() { }
