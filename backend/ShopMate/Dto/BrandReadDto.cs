@@ -6,12 +6,12 @@ namespace ShopMate.Dto
 {
     public class BrandReadDto
     {
-        public int Id { get; private set; }
+        public int Id { get; internal set; }
 
-        public string Name { get; private set; }
+        public string Name { get; internal set; }
 
-        public ICollection<string> Aliases { get; private set; }
+        public ICollection<string> Aliases { get; internal set; }
 
-        public string? Logo { get; private set; }
+        public string? Logo { get; internal set; }
     }
 }
