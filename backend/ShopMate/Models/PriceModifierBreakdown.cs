@@ -5,7 +5,7 @@ using System.Diagnostics;
 
 namespace ShopMate.Models
 {
-    public class PriceModifierBreakdown : IEquatable<PriceModifierBreakdown>
+    public class PriceModifierBreakdown
     {
         public int Id { get; private set; }
 
@@ -41,14 +41,5 @@ namespace ShopMate.Models
                 lhs.ApplicableBase - rhs.ApplicableBase,
                 lhs.TotalDelta - rhs.TotalDelta);
         }
-
-        public override bool Equals(object? other) => other is PriceModifierBreakdown breakdown && Equals(breakdown);
-
-        public bool Equals(PriceModifierBreakdown? other) => Modifier == other?.Modifier;
-
-        public static bool operator ==(PriceModifierBreakdown lhs, PriceModifierBreakdown rhs) => lhs.Equals(rhs);
-        public static bool operator !=(PriceModifierBreakdown lhs, PriceModifierBreakdown rhs) => !lhs.Equals(rhs);
-
-        public override int GetHashCode() => Modifier.GetHashCode();
     }
 }

@@ -10,7 +10,7 @@ using System.Linq;
 namespace ShopMate.Models
 {
     [Owned]
-    public class ShoppingListEntry : IEquatable<ShoppingListEntry>, IBuyableListEntry<Product>
+    public class ShoppingListEntry : IBuyableListEntry<Product>
     {
         public int Quantity { get; set; }
         int IBuyableListEntry<Product>.Quantity { get => Quantity; set => Quantity = value; }
@@ -40,14 +40,5 @@ namespace ShopMate.Models
             Quantity = quantity;
             Item = product;
         }
-
-        public override bool Equals(object? other) => other is ShoppingListEntry entry && Equals(entry);
-
-        public bool Equals(ShoppingListEntry? other) => Item == other?.Item!;
-
-        public static bool operator ==(ShoppingListEntry lhs, ShoppingListEntry rhs) => lhs.Equals(rhs);
-        public static bool operator !=(ShoppingListEntry lhs, ShoppingListEntry rhs) => !lhs.Equals(rhs);
-
-        public override int GetHashCode() => Item.GetHashCode();
     }
 }
