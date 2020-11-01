@@ -59,7 +59,7 @@ class RightPanel extends React.Component {
 
     //izq
     squares = this.drawRectangle(squares, 5, 0, 40, 3, 4);
-    squares = this.drawRectangle(squares, 0, 3, 5, 15, 4);
+    squares = this.drawRectangle(squares, 0, 0, 5, 15, 4);
     squares = this.drawRectangle(squares, 0, 15, 5, 30, 6);
     squares = this.drawRectangle(squares, 10, 10, 40, 15, 4);
     squares = this.drawRectangle(squares, 10, 20, 40, 25, 6);
@@ -76,7 +76,6 @@ class RightPanel extends React.Component {
     for(let i = x_ini; i < x_fi; i++) {
       for(let j = y_ini; j < y_fi; j++) {
         squares[i][j] = color;
-        console.log(i + "," + j);
       } 
     }
     return squares;
@@ -84,7 +83,14 @@ class RightPanel extends React.Component {
   drawMap(map) {
     for(let x = 0; x < map.length; x++) {
       for(let y = 0; y < map[x].length; y++) {
-        map[x][y] = <Square color={map[x][y]} x={x} y={y}/>;
+        let right = map[x][y + 1];
+        let down;
+        if(x + 1 < map.length) {
+          down = map[x + 1][y];
+        }
+        let needs_shadow = false;
+        if(right == 0 || down == 0) needs_shadow = true; 
+        map[x][y] = <Square shadow={needs_shadow} color={map[x][y]} x={x} y={y}/>;
       }
     }
     this.setState({
