@@ -5,12 +5,14 @@ import React from 'react';
 import Catalog from './Catalog';
 import Cart from './Cart';
 import Map from './Map';
+import Searcher from './SearchPanel';
 
 //minimum width is 70
 const WIDTHS = {
   CART: '70%',
   CATALOG: '150%',
   MAP: '150%',
+  SEARCHER: '150%',
 };
 class RightPanel extends React.Component {
   constructor(props) {
@@ -31,13 +33,16 @@ class RightPanel extends React.Component {
     const panel = props.panel;
     if (panel === 'cart') {
       this.changePanelWidth(WIDTHS.CART);
-      return <Cart/>;
+      return <Cart />;
     } else if (panel === 'catalog') {
       this.changePanelWidth(WIDTHS.CATALOG);
-      return <Catalog/>;
+      return <Catalog />;
     } else if (panel === 'map') {
       this.changePanelWidth(WIDTHS.MAP);
-      return <Map/>;
+      return <Map />;
+    } else if (panel === 'searcher') {
+      this.changePanelWidth(WIDTHS.SEARCHER);
+      return <Searcher />;
     }
   }
 
@@ -51,7 +56,7 @@ class RightPanel extends React.Component {
   render() {
     return (
       <div className="right-panel">
-        <this.currentPanel panel={this.props.panel}/>
+        <this.currentPanel panel={this.props.panel} />
       </div>
     );
   }

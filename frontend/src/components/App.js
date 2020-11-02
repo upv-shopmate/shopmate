@@ -20,12 +20,12 @@ class App extends React.Component {
   render() {
     return (
       <div className="app">
-        <TopBar/>
+        <TopBar onChangeRightPanel={this.changeRightPanel.bind(this)} />
         <div className="panels">
-          <LeftPanel/>
-          <RightPanel panel={this.state.selectedPanel}/>
+          <LeftPanel />
+          <RightPanel panel={this.state.selectedPanel} />
         </div>
-        <Nav onChangeRightPanel={this.changeRightPanel.bind(this)}/>
+        <Nav onChangeRightPanel={this.changeRightPanel.bind(this)} />
       </div>
     );
   }

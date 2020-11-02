@@ -7,6 +7,12 @@ import SearchField from './SearchField';
 
 // TODO: extract user field to a new component, DO NOT implement user here
 class TopBar extends React.Component {
+
+  constructor(props) {
+    super(props);
+  }
+
+
   render() {
     return (
       <div className="top-bar">
@@ -14,7 +20,7 @@ class TopBar extends React.Component {
           <img src={logo}></img>
           <div className="logo-name">ShopMate</div>
         </div>
-        <SearchField/>
+        <SearchField onChangeRightPanel={this.props.onChangeRightPanel} />
         <div className="right-side">
           <div className="user-field shadow">
             <div className="first-letter">Y</div>

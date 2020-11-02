@@ -1,0 +1,43 @@
+.searcher {
+  display: flex;
+  flex-flow: column;
+  overflow-y: scroll;
+  height: 100%;
+  justify-content: space-between;
+}
+
+.searcher-title {
+  margin-left: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-size: 20px;
+}
+
+.searcher-results {
+  height: 100%;
+}
+
+.searcher-buttons {
+  display: flex;
+  align-self: flex-end;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+}
+
+.return-button {
+  display: flex;
+  align-items: center;
+  background-color: rgb(252, 184, 59);
+  cursor: pointer;
+}
+
+.return-button-image {
+  width: 25px;
+  height: auto;
+}
+
+.return-button-text {
+  margin-left: 5px;
+  font-weight: bold;
+}
