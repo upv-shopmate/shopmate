@@ -5,6 +5,8 @@ import LeftPanel from './LeftPanel';
 import RightPanel from './RightPanel';
 import Nav from './Nav';
 
+export const dataBaseURL = "https://localhost:5001";
+
 class App extends React.Component {
   constructor(props) {
     super(props);
