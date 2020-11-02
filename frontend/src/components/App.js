@@ -11,23 +11,47 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      'selectedPanel': 'cart'
+      'selectedPanel': 'cart',
+      results: [],
+      lastPanel: ''
     };
+    this.changeProductResults = this.changeProductResults.bind(this);
+    this.goToLastState = this.goToLastState.bind(this);
   }
-  changeRightPanel(panel) {
+
+  changeLastPanel(panel) {
     this.setState({
-      'selectedPanel': panel,
+      lastPanel: panel
     });
   }
+
+  goToLastState() {
+    this.setState({
+      'selectedPanel': this.state.lastPanel
+    })
+  }
+
+  changeRightPanel(panel) {
+    this.setState({
+      'selectedPanel': panel
+    });
+  }
+
+  changeProductResults(input) {
+    this.setState({
+      results: input
+    });
+  }
+
   render() {
     return (
       <div className="app">
-        <TopBar onChangeRightPanel={this.changeRightPanel.bind(this)} />
+        <TopBar onChangeRightPanel={this.changeRightPanel.bind(this)} changeResults={this.changeProductResults} />
         <div className="panels">
           <LeftPanel />
-          <RightPanel panel={this.state.selectedPanel} />
+          <RightPanel panel={this.state.selectedPanel} goToLastState={this.goToLastState} results={this.state.results} />
         </div>
-        <Nav onChangeRightPanel={this.changeRightPanel.bind(this)} />
+        <Nav changeLastPanel={this.changeLastPanel.bind(this)} onChangeRightPanel={this.changeRightPanel.bind(this)} />
       </div>
     );
   }

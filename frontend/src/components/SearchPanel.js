@@ -5,16 +5,29 @@ import Result from "./SearchResult"
 import SearchResult from "./SearchResult";
 
 class SearchPanel extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+  }
+
+  renderResults() {
+    return this.props.results.map(result => <Result key={result.barcode} productData={result} />);
+  }
+
+  getResultsNumber() {
+    return "Resultados de la búsqueda (" + this.props.results.length + ")";
+  }
+
   render() {
     return (
       <div className="searcher">
-        <div className="searcher-title">Resultados de la búsqueda (1)</div>
+        <div className="searcher-title">{this.getResultsNumber()}</div>
         <div className="searcher-results">
-          <Result />
-          <Result />
+          {this.renderResults()}
         </div>
         <div className="searcher-buttons">
-          <button className="return-button">
+          <button className="return-button" onClick={this.props.goToLastState}>
             <img className="return-button-image" src={leftArrow}></img>
             <div className="return-button-text">VOLVER</div>
           </button>

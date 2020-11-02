@@ -8,14 +8,20 @@ class Input extends React.Component {
     this.state = {
       'value': ''
     };
-    this.doThings = this.doThings.bind(this);
+    this.changeFieldValue = this.changeFieldValue.bind(this);
   }
 
   onChange(key) {
     console.log(key)
   }
 
-  doThings(value) {
+  clearFieldValue() {
+    this.setState({
+      value: ''
+    });
+  }
+
+  changeFieldValue(value) {
     this.props.onChangeParent(value);
     this.setState({ value });
   }
@@ -32,7 +38,7 @@ class Input extends React.Component {
         enabled
         required
         onChange={(value) => {
-          this.doThings(value);
+          this.changeFieldValue(value);
         }}
         value={this.state.value}
         placeholder={this.props.placeholder}

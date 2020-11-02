@@ -4,10 +4,9 @@ import { dataBaseURL } from '../components/App.js';
 export async function requestDataBase() {
     let products = 0;
     await request({ url: dataBaseURL + '/api/Products?itemsPerPage=4000', "rejectUnauthorized": false })
-        .then(function (body) {
+        .then(function (response) {
             {
-                products = JSON.parse(body)
-
+                products = response.data.items;
             }
         })
     return products;

@@ -35,6 +35,7 @@ class Nav extends React.Component {
 
   changePanel(panel) {
     this.props.onChangeRightPanel(panel);
+    this.props.changeLastPanel(panel);
     this.changeSelectedButton(panel);
   }
 

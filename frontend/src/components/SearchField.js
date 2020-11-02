@@ -8,38 +8,31 @@ import { requestSearchDataBase } from "../requests/SearchRequests.js"
 
 const UNSELECTED_BUTTON_COLOR = 'grey';
 
-
 class SearchField extends React.Component {
   constructor(props) {
     super(props);
     this.state = ({
-      value: '',
+      value: ''
     });
     this.changePanel = this.changePanel.bind(this);
     this.search = this.search.bind(this);
     this.updateSearchText = this.updateSearchText.bind(this);
+    this.clearSearchField = this.clearSearchField.bind(this);
+    this.inputRef = React.createRef();
   }
 
   changePanel() {
     this.props.onChangeRightPanel('searcher');
-    this.unselectEveryButton();
   }
 
-  unselectEveryButton() {
-    const buttons = document.querySelectorAll('.nav-button');
-    buttons.forEach((element) => {
-      element.style.backgroundColor = UNSELECTED_BUTTON_COLOR;
-    });
-  }
-
-  search() {
-    var products = this.requestDataBase(this.state.searchInput);
-    console.log(products);
-  }
-
-  async requestDataBase() {
-    var products = await requestSearchDataBase(this.state.searchInput);
-    return products
+  async search() {
+    if (this.state.searchInput.length > 0) {
+      var products = await requestSearchDataBase(this.state.searchInput);
+      if (products.length > 0) {
+        this.props.changeResults(products);
+        this.changePanel();
+      }
+    }
   }
 
   updateSearchText(input) {
@@ -48,12 +41,17 @@ class SearchField extends React.Component {
     });
   }
 
+
+  clearSearchField() {
+    this.inputRef.current.clearFieldValue();
+  }
+
   render() {
     return (
       <div className="search-field">
         <img onClick={this.search} src={searchIcon} className="search-icon shadow"></img>
-        <Input onChangeParent={this.updateSearchText} placeholder={"Buscar productos"} />
-        <img className="clear-button" src={clearButton}></img>
+        <Input ref={this.inputRef} onChangeParent={this.updateSearchText} placeholder={"Buscar productos"} />
+        <img className="clear-button" onClick={this.clearSearchField} src={clearButton}></img>
       </div>
     );
   }

@@ -18,7 +18,7 @@ class RightPanel extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      'componentDidMount': false,
+      'componentDidMount': false
     };
     this.currentPanel = this.currentPanel.bind(this);
   }
@@ -29,8 +29,12 @@ class RightPanel extends React.Component {
     });
   }
 
-  currentPanel(props) {
-    const panel = props.panel;
+  currentPanel() {
+    return this.changePanel(this.props.panel);
+  }
+
+  changePanel(input) {
+    const panel = input;
     if (panel === 'cart') {
       this.changePanelWidth(WIDTHS.CART);
       return <Cart />;
@@ -42,9 +46,11 @@ class RightPanel extends React.Component {
       return <Map />;
     } else if (panel === 'searcher') {
       this.changePanelWidth(WIDTHS.SEARCHER);
-      return <Searcher />;
+      return <Searcher goToLastState={this.props.goToLastState} results={this.props.results} />;
     }
   }
+
+
 
   changePanelWidth(width) {
     if (this.state.componentDidMount) {

@@ -5,8 +5,8 @@
   flex-flow: row;
   justify-content: space-between;
   align-items: center;
-  margin-left: 5px;
-  margin-right: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
   margin-top: 8px;
   box-shadow: 0px 0px 2px 2.5px rgba(0.15, 0.15, 0.15, 0.15);
   cursor: pointer;
@@ -59,7 +59,8 @@
 }
 
 .result-image {
-  width: 40px;
+  max-height: 55px;
+  width: 50px;
   height: auto;
   margin-left: 15px;
 }

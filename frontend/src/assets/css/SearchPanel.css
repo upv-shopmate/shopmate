@@ -1,7 +1,6 @@
 .searcher {
   display: flex;
   flex-flow: column;
-  overflow-y: scroll;
   height: 100%;
   justify-content: space-between;
 }
@@ -15,6 +14,7 @@
 
 .searcher-results {
   height: 100%;
+  overflow-y: scroll;
 }
 
 .searcher-buttons {
