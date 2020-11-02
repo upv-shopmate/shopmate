@@ -50,5 +50,16 @@ namespace ShopMate.Controllers
                 mapper.Map<List<ProductReadDto>>(products),
                 nextPage: hasNextPage ? (int?)page + 1 : null));
         }
+
+        [HttpGet("search")]
+        public ActionResult<PageReadDto<ProductReadDto>> SearchProducts([FromQuery] string query, [FromQuery] int page, [FromQuery] int itemsPerPage = DEFAULT_ITEMS_PER_PAGE)
+        {
+            
+            var products = repository.Products.SearchByQuery(query, page, itemsPerPage, out bool hasNextPage);
+
+            return Ok(new PageReadDto<ProductReadDto>(
+                mapper.Map<List<ProductReadDto>>(products),
+                nextPage: hasNextPage ? (int?) page + 1 : null));
+        }
     }
 }

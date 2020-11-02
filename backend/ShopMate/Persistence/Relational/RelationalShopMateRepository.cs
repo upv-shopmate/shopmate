@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ShopMate.Models;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ShopMate.Persistence.Relational
 {
@@ -35,6 +37,28 @@ namespace ShopMate.Persistence.Relational
     {
         public RelationalProductRepository(DbSet<Product> set) : base(set)
         { }
+
+        public IEnumerable<Product> SearchByQuery(string query, int page, int itemsPerPage, out bool hasNext)
+        {
+            var tokens = query.Trim().ToLower().Split(' ');
+
+            var products = GetAll()
+                            .Where(p =>
+                                tokens.Contains(p.Barcode.Value)
+                                || tokens.Intersect(p.Name.ToLower().Split(' ')).Any()
+                                || tokens.Intersect(p.Brands.SelectMany(b => b.Aliases.Select(a => a.ToLower()).Append(b.Name.ToLower()))).Any()
+                                || tokens.Intersect(p.Categories.Select(c => c.Name)).Any()
+                                || tokens.Intersect(p.Labels.Select(l => l.Name)).Any()
+                                || tokens.Contains(p.Weight + "g")
+                            )
+                            .Skip(page * itemsPerPage)
+                            .Take(itemsPerPage + 1)
+                            .ToList();
+
+            hasNext = products.Count > itemsPerPage;
+
+            return products.SkipLast(1);
+        }
     }
 
     internal class RelationalBrandRepository : RelationalRepository<Brand>, IBrandRepository

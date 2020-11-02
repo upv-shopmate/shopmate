@@ -1,4 +1,6 @@
 ﻿using ShopMate.Models;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace ShopMate.Persistence
 {
@@ -20,6 +22,7 @@ namespace ShopMate.Persistence
     public interface IProductRepository : IAsyncRepository<Product>
     {
         public Product? GetByBarcode(string barcode) => GetById(Gtin14.FromStandardBarcode(barcode));
+        public IEnumerable<Product> SearchByQuery(string query, int page, int itemsPerPage, out bool hasNext);
     }
 
     public interface IBrandRepository : IAsyncRepository<Brand>
