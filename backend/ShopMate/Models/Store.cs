@@ -22,7 +22,7 @@ namespace ShopMate.Models
         [Column(TypeName = "char(3)")]
         public string Currency { get; internal set; }
 
-        public ICollection<Product> Products { get; internal set; } = new HashSet<Product>();
+        public virtual ICollection<Product> Products { get; internal set; } = new HashSet<Product>();
 
         public Store(string name, string currency)
         {

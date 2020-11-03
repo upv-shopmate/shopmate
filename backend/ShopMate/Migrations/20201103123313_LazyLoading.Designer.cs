@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShopMate.Persistence.Relational;
 
 namespace ShopMate.Migrations
 {
     [DbContext(typeof(ShopMateContext))]
-    partial class ShopMateContextModelSnapshot : ModelSnapshot
+    [Migration("20201103123313_LazyLoading")]
+    partial class LazyLoading
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -62,21 +64,6 @@ namespace ShopMate.Migrations
                     b.HasIndex("ProductsBarcode");
 
                     b.ToTable("LabelProduct");
-                });
-
-            modelBuilder.Entity("PriceModifierProduct", b =>
-                {
-                    b.Property<int>("PriceModifiersId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ProductsBarcode")
-                        .HasColumnType("char(14)");
-
-                    b.HasKey("PriceModifiersId", "ProductsBarcode");
-
-                    b.HasIndex("ProductsBarcode");
-
-                    b.ToTable("PriceModifierProduct");
                 });
 
             modelBuilder.Entity("ProductStore", b =>
@@ -216,10 +203,15 @@ namespace ShopMate.Migrations
                     b.Property<int>("Kind")
                         .HasColumnType("int");
 
+                    b.Property<string>("ProductBarcode")
+                        .HasColumnType("char(14)");
+
                     b.Property<decimal>("Value")
                         .HasColumnType("money");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProductBarcode");
 
                     b.ToTable("PriceModifier");
                 });
@@ -306,10 +298,6 @@ namespace ShopMate.Migrations
                         .IsRequired()
                         .HasColumnType("char(3)");
 
-                    b.Property<string>("Map")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(60)
@@ -365,21 +353,6 @@ namespace ShopMate.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PriceModifierProduct", b =>
-                {
-                    b.HasOne("ShopMate.Models.PriceModifier", null)
-                        .WithMany()
-                        .HasForeignKey("PriceModifiersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ShopMate.Models.Product", null)
-                        .WithMany()
-                        .HasForeignKey("ProductsBarcode")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("ProductStore", b =>
                 {
                     b.HasOne("ShopMate.Models.Product", null)
@@ -414,6 +387,13 @@ namespace ShopMate.Migrations
                 {
                     b.HasOne("ShopMate.Models.Product", null)
                         .WithMany("Positions")
+                        .HasForeignKey("ProductBarcode");
+                });
+
+            modelBuilder.Entity("ShopMate.Models.PriceModifier", b =>
+                {
+                    b.HasOne("ShopMate.Models.Product", null)
+                        .WithMany("PriceModifiers")
                         .HasForeignKey("ProductBarcode");
                 });
 
@@ -469,6 +449,8 @@ namespace ShopMate.Migrations
             modelBuilder.Entity("ShopMate.Models.Product", b =>
                 {
                     b.Navigation("Positions");
+
+                    b.Navigation("PriceModifiers");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,5 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using ShopMate.Models;
+using ShopMate.Persistence.Relational;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -55,15 +57,25 @@ namespace PopulateDb
         {
             uint count = 0;
 
-            using var db = new ShopMateContext();
+            var optionsBuilder = new DbContextOptionsBuilder<ShopMateContext>()
+                .UseSqlServer("Server=playground.fukurokuju.dev;Database=ShopMateContext;User Id=dev;MultipleActiveResultSets=true;Integrated Security=false;Password=P7bEyU39zKhSXYVA");
+            using var db = new ShopMateContext(optionsBuilder.Options);
 
             var store = new Store(shopName, currency);
             db.Set<Store>().Add(store);
 
+            var cart = new Cart();
+            db.Set<Cart>().Add(cart);
+            cart.Owner = store;
+
+            var vat21 = new PriceModifier(PriceModifierCode.Vat, "", 0.21M, PriceModifierKind.Multiplicative);
+
             foreach (var entry in data)
             {
-                InsertProduct(db, store, entry);
-                count++;
+                if (InsertProduct(db, store, vat21, entry))
+                {
+                    count++;
+                }
             }
 
             db.SaveChanges();
@@ -71,28 +83,25 @@ namespace PopulateDb
             return count;
         }
 
-        private static void InsertProduct(ShopMateContext db, Store vendor, KeyValuePair<string, ProductJsonDto> entry)
+        private static bool InsertProduct(ShopMateContext db, Store vendor, PriceModifier modifier, KeyValuePair<string, ProductJsonDto> entry)
         {
-            Gtin14 barcode;
-            try
-            {
-                barcode = Gtin14.FromStandardBarcode(entry.Key);
-            } 
-            catch (ArgumentException)
+            Gtin14? barcode;
+            if (!Gtin14.TryFromStandardBarcode(entry.Key, out barcode))
             {
                 Console.WriteLine($"-- Skipping product with invalid barcode: {entry.Key}");
-                return;
+                return false;
             }
 
             var dto = entry.Value;
 
             if (!(db.Set<Product>().Find(barcode) is null))
             {
-                return;
+                Console.WriteLine($"-- Not modifying product already present: {entry.Key}");
+                return false;
             }
 
             var product = new Product(
-                barcode,
+                barcode.Value,
                 dto.Name.LimitLength(120),
                 dto.Weight,
                 dto.Volume,
@@ -130,9 +139,11 @@ namespace PopulateDb
                 }
             }
 
-            product.PriceModifiers.Add(new PriceModifier(PriceModifierCode.Vat, "", 0.21M, PriceModifierKind.Multiplicative));
+            product.PriceModifiers.Add(modifier);
+            modifier.Products.Add(product);
 
             db.Set<Product>().Add(product);
+            return true;
         }
     }
 

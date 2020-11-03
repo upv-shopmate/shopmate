@@ -17,6 +17,13 @@ namespace ShopMate.Persistence.Relational
         public DbSet<Category> Categories { get; set; }
         public DbSet<Label> Labels { get; set; }
         public DbSet<Store> Stores { get; set; }
+        public DbSet<ShoppingList> ShoppingLists { get; set; }
+        public DbSet<Cart> Carts { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseLazyLoadingProxies();
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -44,6 +51,13 @@ namespace ShopMate.Persistence.Relational
             modelBuilder.Entity<Store>()
                 .Property(s => s.Map)
                 .HasJsonConversion();
+        }
+
+        protected void SetupManyToManyRelationships(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Product>()
+                .HasMany(p => p.Categories)
+                .WithMany(c => c.Products);
         }
     }
 }
