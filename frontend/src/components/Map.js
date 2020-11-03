@@ -1,3 +1,4 @@
+/* eslint react/prop-types: 0 */
 import '../assets/css/Map.css';
 import React from 'react';
 
@@ -8,7 +9,7 @@ class Map extends React.Component {
     super(props);
     this.state = {
       'map': props.map,
-    }
+    };
   }
   render() {
     return (

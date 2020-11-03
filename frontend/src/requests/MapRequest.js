@@ -6,11 +6,11 @@ export async function requestMap() {
   await request({
     'url': dataBaseURL + '/api/Stores/1/map',
     'rejectUnauthorized': false,
-    'accept': 'application/json'
+    'accept': 'application/json',
   })
       .then(function(response) {
         {
-          map = response.data
+          map = response.data;
         }
       });
   return map;

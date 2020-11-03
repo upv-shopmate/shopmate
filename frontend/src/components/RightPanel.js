@@ -6,8 +6,8 @@ import Catalog from './Catalog';
 import Cart from './Cart';
 import Map from './Map';
 import Searcher from './SearchPanel';
-import Square from './Square'
-import { requestMap } from '../requests/MapRequest';
+import Square from './Square';
+import {requestMap} from '../requests/MapRequest';
 
 // minimum width is 70
 const WIDTHS = {
@@ -35,24 +35,24 @@ class RightPanel extends React.Component {
 
   async initializeMap() {
     const map = await requestMap();
-    this.drawMap(map)
+    this.drawMap(map);
   }
   drawMap(map) {
-    for(let x = 0; x < map.length; x++) {
-      for(let y = 0; y < map[x].length; y++) {
-        let right = map[x][y + 1];
+    for (let x = 0; x < map.length; x++) {
+      for (let y = 0; y < map[x].length; y++) {
+        const right = map[x][y + 1];
         let down;
-        if(x + 1 < map.length) {
+        if (x + 1 < map.length) {
           down = map[x + 1][y];
         }
-        let needs_shadow = false;
-        if(right == 0 || down == 0) needs_shadow = true; 
+        let needsShadow = false;
+        if (right == 0 ||down == 0) needsShadow = true;
         map[x][y] = (
           <Square
             key={(x, y)}
-            shadow={needs_shadow}
+            shadow={needsShadow}
             color={map[x][y]} x={x} y={y}
-        />);
+          />);
       }
     }
     this.setState({
