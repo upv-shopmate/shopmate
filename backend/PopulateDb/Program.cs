@@ -137,6 +137,7 @@ namespace PopulateDb
             }
 
             product.PriceModifiers.Add(modifier);
+            modifier.Products.Add(product);
 
             db.Set<Product>().Add(product);
         }
