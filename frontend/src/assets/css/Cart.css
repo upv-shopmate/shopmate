@@ -15,8 +15,10 @@
 
 .cart-products{
     margin-top: 10px;
+    padding-right: 40px;
     height: 100%;
     display: flex;
+    flex-flow: column;
     overflow-y: scroll;
 }
 
