@@ -112,7 +112,7 @@ class RightPanel extends React.Component {
       return <Catalog />;
     } else if (panel === 'map') {
       this.changePanelWidth(WIDTHS.MAP);
-      return <Map />;
+      return <Map map={this.state.map}/>;
     } else if (panel === 'searcher') {
       this.changePanelWidth(WIDTHS.SEARCHER);
       return (
