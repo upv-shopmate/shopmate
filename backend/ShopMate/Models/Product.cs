@@ -1,14 +1,16 @@
 ﻿#pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
 
+using ShopMate.Models.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
 namespace ShopMate.Models
 {
-    public class Product : IEquatable<Product>
+    public class Product : IEquatable<Product>, IBuyable
     {
         /// <summary>
         /// The unique barcode of this product in GTIN-14 format.
@@ -85,6 +87,7 @@ namespace ShopMate.Models
         /// The fixed modifiers that apply to the price of this product.
         /// </summary>
         public ICollection<PriceModifier> PriceModifiers { get; internal set; } = new List<PriceModifier>();
+        IReadOnlyCollection<PriceModifier> IBuyable.PriceModifiers { get => (IReadOnlyCollection<PriceModifier>)PriceModifiers; }
 
         /// <summary>
         /// The positions where this item is present.

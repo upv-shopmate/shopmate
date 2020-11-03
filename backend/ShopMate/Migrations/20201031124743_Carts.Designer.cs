@@ -3,21 +3,23 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShopMate.Persistence.Relational;
 
 namespace ShopMate.Migrations
 {
     [DbContext(typeof(ShopMateContext))]
-    partial class ShopMateContextModelSnapshot : ModelSnapshot
+    [Migration("20201031124743_Carts")]
+    partial class Carts
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.0-rc.2.20475.6");
+                .HasAnnotation("ProductVersion", "5.0.0-rc.1.20451.13");
 
             modelBuilder.Entity("BrandProduct", b =>
                 {
@@ -113,15 +115,10 @@ namespace ShopMate.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("ContentsId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("OwnerId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ContentsId");
 
                     b.HasIndex("OwnerId");
 
@@ -385,15 +382,9 @@ namespace ShopMate.Migrations
 
             modelBuilder.Entity("ShopMate.Models.Cart", b =>
                 {
-                    b.HasOne("ShopMate.Models.ShoppingList", "Contents")
-                        .WithMany()
-                        .HasForeignKey("ContentsId");
-
                     b.HasOne("ShopMate.Models.Store", "Owner")
                         .WithMany()
                         .HasForeignKey("OwnerId");
-
-                    b.Navigation("Contents");
 
                     b.Navigation("Owner");
                 });

@@ -2,11 +2,9 @@
 
 namespace ShopMate.Dto
 {
-    public class CategoryReadDto
+    public class ShoppingListEntryModifyDto
     {
-        public int Id { get; internal set; }
-
-        public string Name { get; internal set; }
+        public int Quantity { get; set; }
+        public string ItemId { get; set; }
     }
 }
-

@@ -4,14 +4,12 @@ namespace ShopMate.Dto
 {
     public class PriceModifierReadDto
     {
-        public int Id { get; private set; }
+        public string Code { get; internal set; }
 
-        public string Code { get; private set; }
+        public string? Description { get; internal set; }
 
-        public string? Description { get; private set; }
+        public decimal Value { get; internal set; }
 
-        public decimal Value { get; private set; }
-
-        public string Kind { get; private set; }
+        public string Kind { get; internal set; }
     }
 }

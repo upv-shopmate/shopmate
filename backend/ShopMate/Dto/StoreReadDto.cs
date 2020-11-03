@@ -4,10 +4,10 @@ namespace ShopMate.Dto
 {
     public class StoreReadDto
     {
-        public int Id { get; private set; }
+        public int Id { get; internal set; }
 
-        public string Name { get; private set; }
+        public string Name { get; internal set; }
 
-        public string Currency { get; private set; }
+        public string Currency { get; internal set; }
     }
 }

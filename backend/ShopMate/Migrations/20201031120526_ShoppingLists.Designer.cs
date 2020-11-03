@@ -3,21 +3,23 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShopMate.Persistence.Relational;
 
 namespace ShopMate.Migrations
 {
     [DbContext(typeof(ShopMateContext))]
-    partial class ShopMateContextModelSnapshot : ModelSnapshot
+    [Migration("20201031120526_ShoppingLists")]
+    partial class ShoppingLists
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.0-rc.2.20475.6");
+                .HasAnnotation("ProductVersion", "5.0.0-rc.1.20451.13");
 
             modelBuilder.Entity("BrandProduct", b =>
                 {
@@ -101,31 +103,6 @@ namespace ShopMate.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Brands");
-                });
-
-            modelBuilder.Entity("ShopMate.Models.Cart", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("ContentsId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("OwnerId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ContentsId");
-
-                    b.HasIndex("OwnerId");
-
-                    b.ToTable("Carts");
                 });
 
             modelBuilder.Entity("ShopMate.Models.Category", b =>
@@ -281,9 +258,6 @@ namespace ShopMate.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<int?>("CartId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -296,8 +270,6 @@ namespace ShopMate.Migrations
                         .HasColumnType("money");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CartId");
 
                     b.ToTable("ShoppingLists");
                 });
@@ -383,21 +355,6 @@ namespace ShopMate.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ShopMate.Models.Cart", b =>
-                {
-                    b.HasOne("ShopMate.Models.ShoppingList", "Contents")
-                        .WithMany()
-                        .HasForeignKey("ContentsId");
-
-                    b.HasOne("ShopMate.Models.Store", "Owner")
-                        .WithMany()
-                        .HasForeignKey("OwnerId");
-
-                    b.Navigation("Contents");
-
-                    b.Navigation("Owner");
-                });
-
             modelBuilder.Entity("ShopMate.Models.Position", b =>
                 {
                     b.HasOne("ShopMate.Models.Product", null)
@@ -417,18 +374,6 @@ namespace ShopMate.Migrations
                     b.HasOne("ShopMate.Models.ShoppingList", null)
                         .WithMany("ModifierBreakdowns")
                         .HasForeignKey("ShoppingListId");
-                });
-
-            modelBuilder.Entity("ShopMate.Models.ShoppingList", b =>
-                {
-                    b.HasOne("ShopMate.Models.Cart", null)
-                        .WithMany("TrackedLists")
-                        .HasForeignKey("CartId");
-                });
-
-            modelBuilder.Entity("ShopMate.Models.Cart", b =>
-                {
-                    b.Navigation("TrackedLists");
                 });
 
             modelBuilder.Entity("ShopMate.Models.Product", b =>

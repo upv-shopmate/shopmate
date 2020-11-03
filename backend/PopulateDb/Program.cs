@@ -60,9 +60,11 @@ namespace PopulateDb
             var store = new Store(shopName, currency);
             db.Set<Store>().Add(store);
 
+            var vat21 = new PriceModifier(PriceModifierCode.Vat, "", 0.21M, PriceModifierKind.Multiplicative);
+
             foreach (var entry in data)
             {
-                InsertProduct(db, store, entry);
+                InsertProduct(db, store, vat21, entry);
                 count++;
             }
 
@@ -71,7 +73,7 @@ namespace PopulateDb
             return count;
         }
 
-        private static void InsertProduct(ShopMateContext db, Store vendor, KeyValuePair<string, ProductJsonDto> entry)
+        private static void InsertProduct(ShopMateContext db, Store vendor, PriceModifier modifier, KeyValuePair<string, ProductJsonDto> entry)
         {
             Gtin14 barcode;
             try
@@ -130,7 +132,7 @@ namespace PopulateDb
                 }
             }
 
-            product.PriceModifiers.Add(new PriceModifier(PriceModifierCode.Vat, "", 0.21M, PriceModifierKind.Multiplicative));
+            product.PriceModifiers.Add(modifier);
 
             db.Set<Product>().Add(product);
         }

@@ -5,7 +5,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ShopMate.Models
 {
-
     public class PriceModifier : IEquatable<PriceModifier>
     {
         public int Id { get; private set; }
@@ -27,6 +26,18 @@ namespace ShopMate.Models
             Kind = kind;
         }
 
+        public decimal DeltaFor(decimal basePrice)
+        {
+            if (Kind == PriceModifierKind.Additive)
+            {
+                return Value;
+            }
+            else
+            {
+                return basePrice * Value;
+            }
+        }
+
         public decimal Apply(decimal basePrice)
         {
             if (Kind == PriceModifierKind.Additive)
@@ -43,8 +54,8 @@ namespace ShopMate.Models
 
         public bool Equals(PriceModifier? other) => Id == other?.Id;
 
-        public static bool operator ==(PriceModifier lhs, PriceModifier rhs) => lhs.Equals(rhs);
-        public static bool operator !=(PriceModifier lhs, PriceModifier rhs) => !lhs.Equals(rhs);
+        public static bool operator ==(PriceModifier lhs, PriceModifier? rhs) => lhs.Equals(rhs);
+        public static bool operator !=(PriceModifier lhs, PriceModifier? rhs) => !lhs.Equals(rhs);
 
         public override int GetHashCode() => Id;
     }
