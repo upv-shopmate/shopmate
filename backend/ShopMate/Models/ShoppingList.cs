@@ -1,28 +1,49 @@
-﻿using ShopMate.Models.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace ShopMate.Models
 {
-    public class ShoppingList : IEquatable<ShoppingList>, IBuyableList<Product>
+    public class ShoppingList : IEquatable<ShoppingList>
     {
         public int Id { get; private set; }
 
         [MaxLength(50)]
         public string Name { get; internal set; }
 
-        public IReadOnlyCollection<IBuyableListEntry<Product>> Entries { get => (IReadOnlyCollection<IBuyableListEntry<Product>>)entries.Values; }
-        readonly IDictionary<Product, IBuyableListEntry<Product>> entries = new Dictionary<Product, IBuyableListEntry<Product>>();
+        public virtual ICollection<ShoppingListEntry> Entries { get; private set; } = new List<ShoppingListEntry>();
 
         [Column(TypeName = "money")]
         public decimal SubtotalPrice { get; internal set; }
         [Column(TypeName = "money")]
         public decimal TotalPrice { get; internal set; }
 
-        public IReadOnlyCollection<PriceModifierBreakdown> ModifierBreakdowns { get => (IReadOnlyCollection<PriceModifierBreakdown>)breakdowns.Values; }
-        readonly IDictionary<PriceModifier, PriceModifierBreakdown> breakdowns = new Dictionary<PriceModifier, PriceModifierBreakdown>();
+        [NotMapped]
+        public IReadOnlyCollection<PriceModifierBreakdown> ModifierBreakdowns { 
+            get
+            {
+                var dictionary = new Dictionary<PriceModifier, PriceModifierBreakdown>();
+                foreach (var entry in Entries)
+                {
+                    foreach (var breakdown in entry.ModifierBreakdowns)
+                    {
+                        if (dictionary.TryGetValue(breakdown.Modifier, out _))
+                        {
+                            dictionary[breakdown.Modifier] += breakdown;
+                        }
+                        else
+                        {
+                            dictionary.Add(breakdown.Modifier, breakdown);
+                        }
+                    }
+                }
+
+                return dictionary.Values;
+            }
+        }
 
         public ShoppingList(string name)
         {
@@ -40,31 +61,16 @@ namespace ShopMate.Models
         /// <remarks>
         /// If a corresponding entry is already present it will be updated to reflect the new quantity the addition.
         /// </remarks>
-        public void AddEntry(IBuyableListEntry<Product> entry)
+        public void AddEntry(ShoppingListEntry entry)
         {
-            if (entries.TryGetValue(entry.Item, out IBuyableListEntry<Product>? currentEntry))
+            var oldEntry = Entries.Where(e => e.Item == entry.Item);
+            if (oldEntry.Any())
             {
-                currentEntry.Quantity += entry.Quantity;
-            } 
-            else
-            {
-                entries.Add(entry.Item, entry);
+                oldEntry.First().Quantity += entry.Quantity;
             }
 
             SubtotalPrice += entry.Quantity * entry.Item.Price;
             TotalPrice += entry.Quantity * entry.Item.ModifiedPrice;
-
-            foreach (var newBreakdown in entry.ModifierBreakdowns)
-            {
-                if (breakdowns.TryGetValue(newBreakdown.Modifier, out PriceModifierBreakdown? currentBreakdown))
-                {
-                    breakdowns[newBreakdown.Modifier] = currentBreakdown + newBreakdown;
-                }
-                else
-                {
-                    breakdowns.Add(newBreakdown.Modifier, newBreakdown);
-                }
-            }
         }
 
         /// <summary>
@@ -73,41 +79,29 @@ namespace ShopMate.Models
         /// <remarks>
         /// The corresponding entry already present will be updated or removed to reflect the new quantity after the subtraction.
         /// </remarks>
-        public bool RemoveEntry(IBuyableListEntry<Product> entry)
+        public bool RemoveEntry(ShoppingListEntry entry)
         {
-            if (entries.TryGetValue(entry.Item, out IBuyableListEntry<Product>? currentEntry))
+            var oldEntry = Entries.Where(e => e.Item == entry.Item);
+            if (oldEntry.Any())
             {
-                if (currentEntry.Quantity <= entry.Quantity)
+                var newQuantity = Math.Max(oldEntry.First().Quantity - entry.Quantity, 0);
+
+                if (oldEntry.First().Quantity <= 0)
                 {
-                    entries.Remove(entry.Item);
-                }
-                else
+                    Entries.Remove(oldEntry.First());
+                } else
                 {
-                    currentEntry.Quantity -= entry.Quantity;
+                    oldEntry.First().Quantity = newQuantity;
                 }
 
-                SubtotalPrice -= entry.Quantity * entry.Item.Price;
-                TotalPrice -= entry.Quantity * entry.Item.ModifiedPrice;
-
-                foreach (var newBreakdown in entry.ModifierBreakdowns)
-                {
-                    if (breakdowns.TryGetValue(newBreakdown.Modifier, out PriceModifierBreakdown? currentBreakdown))
-                    {
-                        breakdowns[newBreakdown.Modifier] = currentBreakdown - newBreakdown;
-
-                        if (newBreakdown.ApplicableBase <= 0)
-                        {
-                            breakdowns.Remove(newBreakdown.Modifier);
-                        }
-                    }
-                }
+                SubtotalPrice -= newQuantity * entry.Item.Price;
+                TotalPrice -= newQuantity * entry.Item.ModifiedPrice;
 
                 return true;
             }
+                
             return false;
         }
-
-        public bool RemoveEntry(Product item) => entries.Remove(item);
 
         public override bool Equals(object? other) => other is ShoppingList list && Equals(list);
 

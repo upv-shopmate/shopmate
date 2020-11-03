@@ -1,7 +1,6 @@
 ﻿#pragma warning disable CS8618 // El campo que acepta valores NULL está sin inicializar. Considere la posibilidad de declararlo como que acepta valores NULL.
 
 using Microsoft.EntityFrameworkCore;
-using ShopMate.Models.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -10,12 +9,11 @@ using System.Linq;
 namespace ShopMate.Models
 {
     [Owned]
-    public class ShoppingListEntry : IBuyableListEntry<Product>
+    public class ShoppingListEntry
     {
         public int Quantity { get; set; }
-        int IBuyableListEntry<Product>.Quantity { get => Quantity; set => Quantity = value; }
 
-        public Product Item { get; set; }
+        public virtual Product Item { get; set; }
 
         [Column(TypeName = "money")]
         public decimal Price => Quantity * Item.Price;
@@ -23,7 +21,7 @@ namespace ShopMate.Models
         [Column(TypeName = "money")]
         public decimal ModifiedPrice => Quantity * Item.ModifiedPrice;
 
-        public IReadOnlyCollection<PriceModifierBreakdown> ModifierBreakdowns
+        public virtual IReadOnlyCollection<PriceModifierBreakdown> ModifierBreakdowns
         {
             get => Item.PriceModifiers.Select(modifier =>
                     new PriceModifierBreakdown(

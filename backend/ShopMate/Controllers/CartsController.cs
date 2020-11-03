@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using ShopMate.Dto;
 using ShopMate.Models;
-using ShopMate.Models.Interfaces;
 using ShopMate.Persistence;
 using System;
 using System.Collections.Generic;
