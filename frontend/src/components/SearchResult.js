@@ -49,7 +49,7 @@ class SearchResult extends Component {
     getProductCategories() {
         let categories = this.props.productData.categories;
         if (categories.length > 0) {
-            categories = categories.map(categorie => categorie.name + ", ");
+            categories = categories.map(category => category.name + ", ");
             return categories.slice(0, categories.length - 2);
         } else {
             return "Sin categorías"
