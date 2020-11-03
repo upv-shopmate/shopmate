@@ -1,11 +1,13 @@
 ﻿#pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
 
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ShopMate.Models
 {
-
     public class PriceModifier : IEquatable<PriceModifier>
     {
         public int Id { get; private set; }
@@ -19,12 +21,26 @@ namespace ShopMate.Models
 
         public PriceModifierKind Kind { get; internal set; }
 
+        public virtual ICollection<Product> Products { get; internal set; } = new HashSet<Product>();
+
         public PriceModifier(PriceModifierCode code, string? description, decimal value, PriceModifierKind kind)
         {
             Code = code;
             Description = description;
             Value = value;
             Kind = kind;
+        }
+
+        public decimal DeltaFor(decimal basePrice)
+        {
+            if (Kind == PriceModifierKind.Additive)
+            {
+                return Value;
+            }
+            else
+            {
+                return basePrice * Value;
+            }
         }
 
         public decimal Apply(decimal basePrice)
@@ -43,8 +59,8 @@ namespace ShopMate.Models
 
         public bool Equals(PriceModifier? other) => Id == other?.Id;
 
-        public static bool operator ==(PriceModifier lhs, PriceModifier rhs) => lhs.Equals(rhs);
-        public static bool operator !=(PriceModifier lhs, PriceModifier rhs) => !lhs.Equals(rhs);
+        public static bool operator ==(PriceModifier lhs, PriceModifier? rhs) => lhs.Equals(rhs);
+        public static bool operator !=(PriceModifier lhs, PriceModifier? rhs) => !lhs.Equals(rhs);
 
         public override int GetHashCode() => Id;
     }

@@ -6,43 +6,43 @@ namespace ShopMate.Dto
 {
     public class ProductReadDto
     {
-        public string Barcode { get; private set; }
+        public string Barcode { get; internal set; }
 
-        public string Name { get; private set; }
+        public string Name { get; internal set; }
 
-        public double? Weight { get; private set; }
+        public double? Weight { get; internal set; }
 
-        public double? Volume { get; private set; }
+        public double? Volume { get; internal set; }
 
-        public ushort? Units { get; private set; }
+        public ushort? Units { get; internal set; }
 
-        public string? OriginCountry { get; private set; }
+        public string? OriginCountry { get; internal set; }
 
-        public bool Edible { get; private set; }
+        public bool Edible { get; internal set; }
 
-        public decimal Price { get; private set; }
+        public decimal Price { get; internal set; }
 
-        public ICollection<string> Pictures { get; private set; }
+        public ICollection<string> Pictures { get; internal set; }
 
-        public uint? AvailableStock { get; private set; }
+        public uint? AvailableStock { get; internal set; }
 
-        public uint TimesSold { get; private set; }
+        public uint TimesSold { get; internal set; }
 
-        public ICollection<BrandReadDto> Brands { get; private set; }
+        public ICollection<BrandReadDto> Brands { get; internal set; }
 
-        public ICollection<CategoryReadDto> Categories { get; private set; }
+        public ICollection<CategoryReadDto> Categories { get; internal set; }
 
-        public ICollection<LabelReadDto> Labels { get; private set; }
+        public ICollection<LabelReadDto> Labels { get; internal set; }
 
-        public ICollection<PriceModifierReadDto> PriceModifiers { get; private set; }
+        public ICollection<PriceModifierReadDto> PriceModifiers { get; internal set; }
 
         // TODO
-        //public ICollection<Position> Positions { get; private set; }
+        //public ICollection<Position> Positions { get; internal set; }
 
-        public ICollection<StoreReadDto> Vendors { get; private set; }
+        public ICollection<StoreReadDto> Vendors { get; internal set; }
 
-        public decimal ModifiedPrice { get; private set; }
+        public decimal ModifiedPrice { get; internal set; }
 
-        public decimal PriceWithVat { get; private set; }
+        public decimal PriceWithVat { get; internal set; }
     }
 }

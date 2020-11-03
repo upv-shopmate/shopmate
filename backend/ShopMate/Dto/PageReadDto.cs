@@ -6,9 +6,9 @@ namespace ShopMate.Dto
 {
     public class PageReadDto<T>
     {
-        public ICollection<T> Items { get; private set; }
+        public ICollection<T> Items { get; }
 
-        public int? NextPage { get; private set; }
+        public int? NextPage { get; }
 
         public PageReadDto(ICollection<T> items, int? nextPage)
         {
