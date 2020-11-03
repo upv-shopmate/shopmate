@@ -40,6 +40,10 @@ namespace ShopMate.Persistence.Relational
             modelBuilder.Entity<Brand>()
                 .Property(b => b.Aliases)
                 .HasJsonConversion();
+           
+            modelBuilder.Entity<Store>()
+                .Property(s => s.Map)
+                .HasJsonConversion();
         }
     }
 }

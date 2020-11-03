@@ -14,6 +14,8 @@ namespace ShopMate.Models
         [MaxLength(60)]
         public string Name { get; internal set; }
 
+        public int[][] Map { get; internal set; }
+
         /// <summary>
         /// The ISO-4217 currency code (e.g "EUR") of the currency used by this store.
         /// </summary>
