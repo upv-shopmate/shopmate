@@ -29,6 +29,10 @@ namespace ShopMate.Controllers
             var cart = repository.Carts.GetById(1);
             var contents = cart.Contents;
 
+            // FIXME
+            contents.AddEntry(new ShoppingListEntry(3, repository.Products.GetByBarcode("08410100025155")));
+            contents.AddEntry(new ShoppingListEntry(1, repository.Products.GetByBarcode("08426967022510")));
+
             return Ok(mapper.Map<ShoppingListReadDto>(contents));
         }
 
