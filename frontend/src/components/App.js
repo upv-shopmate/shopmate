@@ -5,15 +5,15 @@ import LeftPanel from './LeftPanel';
 import RightPanel from './RightPanel';
 import Nav from './Nav';
 
-export const dataBaseURL = "https://localhost:5001";
+export const dataBaseURL = 'https://localhost:5001';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       'selectedPanel': 'cart',
-      results: [],
-      lastPanel: ''
+      'results': [],
+      'lastPanel': '',
     };
     this.changeProductResults = this.changeProductResults.bind(this);
     this.goToLastState = this.goToLastState.bind(this);
@@ -21,25 +21,25 @@ class App extends React.Component {
 
   changeLastPanel(panel) {
     this.setState({
-      lastPanel: panel
+      lastPanel: panel,
     });
   }
 
   goToLastState() {
     this.setState({
-      'selectedPanel': this.state.lastPanel
-    })
+      'selectedPanel': this.state.lastPanel,
+    });
   }
 
   changeRightPanel(panel) {
     this.setState({
-      'selectedPanel': panel
+      'selectedPanel': panel,
     });
   }
 
   changeProductResults(input) {
     this.setState({
-      results: input
+      results: input,
     });
   }
 

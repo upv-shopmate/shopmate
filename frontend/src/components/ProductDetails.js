@@ -1,8 +1,9 @@
-import "../assets/css/ProductDetails.css";
-import closeButton from "../assets/images/close_button.png";
-import mapButton from "../assets/images/map_button.png"
-import imageNotFound from "../assets/images/image_not_found.jpg"
-import React, { Component } from "react";
+/* eslint react/prop-types: 0 */
+import '../assets/css/ProductDetails.css';
+import closeButton from '../assets/images/close_button.png';
+import mapButton from '../assets/images/map_button.png';
+import imageNotFound from '../assets/images/image_not_found.jpg';
+import React, {Component} from 'react';
 
 class ProductDetails extends Component {
   constructor(props) {
@@ -16,7 +17,7 @@ class ProductDetails extends Component {
   }
 
   getProductImage() {
-    let image = this.props.product.pictures[0];
+    const image = this.props.product.pictures[0];
     if (image !== undefined) {
       return image;
     } else {
@@ -25,15 +26,15 @@ class ProductDetails extends Component {
   }
 
   getProductBrand() {
-    let aux = this.props.product.brands;
+    const aux = this.props.product.brands;
     if (aux !== [] && aux[0] !== undefined) {
-      return "de " + aux[0].name;
+      return 'de ' + aux[0].name;
     }
-    return "";
+    return '';
   }
 
   getProductPrice() {
-    return this.props.product.price.toFixed(2) + "€";
+    return this.props.product.price.toFixed(2) + '€';
   }
 
   closeDetailsPanel() {
@@ -41,46 +42,46 @@ class ProductDetails extends Component {
   }
 
   getProductWeight() {
-    let aux = this.props.product.weight;
+    const aux = this.props.product.weight;
     if (aux !== null) {
-      return aux + "g";
+      return aux + 'g';
     } else {
-      return "N/A";
+      return 'N/A';
     }
   }
 
   getProductOriginCountry() {
-    let aux = this.props.product.originCountry;
+    const aux = this.props.product.originCountry;
     if (aux !== null) {
       return aux;
     } else {
-      return "N/A";
+      return 'N/A';
     }
   }
 
   getProductVolume() {
-    let aux = this.props.product.volume;
+    const aux = this.props.product.volume;
     if (aux !== null) {
       return aux;
     } else {
-      return "N/A";
+      return 'N/A';
     }
   }
 
   isProductStocked() {
-    let aux = this.props.product.availableStock;
+    const aux = this.props.product.availableStock;
     if (aux > 0) {
-      return "Si (" + aux + ")";
+      return 'Si (' + aux + ')';
     } else {
-      return "No";
+      return 'No';
     }
   }
 
   isProductEdible() {
     if (this.props.product.edible) {
-      return "Si";
+      return 'Si';
     } else {
-      return "No";
+      return 'No';
     }
   }
 

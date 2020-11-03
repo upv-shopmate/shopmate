@@ -7,7 +7,7 @@ import Cart from './Cart';
 import Map from './Map';
 import Searcher from './SearchPanel';
 
-//minimum width is 70
+// minimum width is 70
 const WIDTHS = {
   CART: '70%',
   CATALOG: '150%',
@@ -18,7 +18,7 @@ class RightPanel extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      'componentDidMount': false
+      'componentDidMount': false,
     };
     this.currentPanel = this.currentPanel.bind(this);
   }
@@ -49,7 +49,6 @@ class RightPanel extends React.Component {
       return <Searcher goToLastState={this.props.goToLastState} results={this.props.results} />;
     }
   }
-
 
 
   changePanelWidth(width) {

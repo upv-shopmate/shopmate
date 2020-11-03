@@ -1,14 +1,15 @@
-import "../assets/css/Product.css";
-import "../assets/css/fonts.css";
-import imageNotFound from "../assets/images/image_not_found.jpg"
-import React, { Component } from "react";
+/* eslint react/prop-types: 0 */
+import '../assets/css/Product.css';
+import '../assets/css/fonts.css';
+import imageNotFound from '../assets/images/image_not_found.jpg';
+import React, {Component} from 'react';
 
 class Product extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      product: this.props.productData
-    }
+      product: this.props.productData,
+    };
     this.setProduct = this.setProduct.bind(this);
   }
 
@@ -17,11 +18,11 @@ class Product extends Component {
   }
 
   getBrand() {
-    let aux = this.state.product.brands;
+    const aux = this.state.product.brands;
     if (aux !== [] && aux[0] !== undefined) {
       return aux[0].name;
     }
-    return "";
+    return '';
   }
 
   getName() {
@@ -33,7 +34,7 @@ class Product extends Component {
   }
 
   getImage() {
-    let image = this.state.product.pictures[0];
+    const image = this.state.product.pictures[0];
     if (image !== undefined) {
       return image;
     } else {

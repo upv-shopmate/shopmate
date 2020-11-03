@@ -1,3 +1,4 @@
+/* eslint react/prop-types: 0 */
 import '../assets/css/TopBar.css';
 import React from 'react';
 import logo from '../assets/images/logo.png';
@@ -7,7 +8,6 @@ import SearchField from './SearchField';
 
 // TODO: extract user field to a new component, DO NOT implement user here
 class TopBar extends React.Component {
-
   constructor(props) {
     super(props);
   }

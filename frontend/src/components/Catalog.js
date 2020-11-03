@@ -1,13 +1,13 @@
-import "../assets/css/Catalog.css";
-import React from "react";
-import "./Product";
-import { requestDataBase } from '../requests/ProductRequest.js'
-import Product from "./Product";
-import ProductDetails from "./ProductDetails";
+import '../assets/css/Catalog.css';
+import React from 'react';
+import './Product';
+import {requestDataBase} from '../requests/ProductRequest.js';
+import Product from './Product';
+import ProductDetails from './ProductDetails';
 
 const HEIGHTS = {
   OPENED: '60%',
-  CLOSED: '100%'
+  CLOSED: '100%',
 };
 
 class Catalog extends React.Component {
@@ -27,16 +27,16 @@ class Catalog extends React.Component {
   }
 
   async getProductsFromDataBase() {
-    let data = await requestDataBase();
+    const data = await requestDataBase();
     this.setState({
       products: data,
-      selectedProduct: this.state.selectedProduct
-    })
+      selectedProduct: this.state.selectedProduct,
+    });
     this.renderProducts(data);
   }
 
   changePanelHeight(newHeight) {
-    const productsPanel = document.querySelector(".products");
+    const productsPanel = document.querySelector('.products');
     if (productsPanel !== null) {
       productsPanel.style.height = newHeight;
     }
@@ -46,7 +46,7 @@ class Catalog extends React.Component {
     if (product !== null) {
       this.setState({
         products: this.state.products,
-        selectedProduct: product
+        selectedProduct: product,
       });
       this.changePanelHeight(HEIGHTS.OPENED);
     }
@@ -61,7 +61,7 @@ class Catalog extends React.Component {
   }
 
   renderProducts() {
-    return this.state.products.map(product => <Product key={product.barcode} productData={product} showProductDetails={this.showProductDetails} />);
+    return this.state.products.map((product) => <Product key={product.barcode} productData={product} showProductDetails={this.showProductDetails} />);
   }
 
   render() {

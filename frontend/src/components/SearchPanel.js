@@ -1,22 +1,20 @@
-import "../assets/css/SearchPanel.css";
-import leftArrow from "../assets/images/left_arrow.png"
-import React from "react";
-import Result from "./SearchResult"
-import SearchResult from "./SearchResult";
+/* eslint react/prop-types: 0 */
+import '../assets/css/SearchPanel.css';
+import leftArrow from '../assets/images/left_arrow.png';
+import React from 'react';
+import Result from './SearchResult';
 
 class SearchPanel extends React.Component {
-
   constructor(props) {
     super(props);
-
   }
 
   renderResults() {
-    return this.props.results.map(result => <Result key={result.barcode} productData={result} />);
+    return this.props.results.map((result) => <Result key={result.barcode} productData={result} />);
   }
 
   getResultsNumber() {
-    return "Resultados de la búsqueda (" + this.props.results.length + ")";
+    return 'Resultados de la búsqueda (' + this.props.results.length + ')';
   }
 
   render() {

@@ -1,18 +1,17 @@
+/* eslint react/prop-types: 0 */
 import '../assets/css/SearchField.css';
 import React from 'react';
 import searchIcon from '../assets/images/search_icon.png';
 import clearButton from '../assets/images/clear_button.png';
 import Input from './Input';
 import '../assets/css/Nav.css';
-import { requestSearchDataBase } from "../requests/SearchRequests.js"
-
-const UNSELECTED_BUTTON_COLOR = 'grey';
+import {requestSearchDataBase} from '../requests/SearchRequests.js';
 
 class SearchField extends React.Component {
   constructor(props) {
     super(props);
     this.state = ({
-      value: ''
+      value: '',
     });
     this.changePanel = this.changePanel.bind(this);
     this.search = this.search.bind(this);
@@ -27,7 +26,7 @@ class SearchField extends React.Component {
 
   async search() {
     if (this.state.searchInput.length > 0) {
-      var products = await requestSearchDataBase(this.state.searchInput);
+      const products = await requestSearchDataBase(this.state.searchInput);
       if (products.length > 0) {
         this.props.changeResults(products);
         this.changePanel();
@@ -37,7 +36,7 @@ class SearchField extends React.Component {
 
   updateSearchText(input) {
     this.setState({
-      searchInput: input
+      searchInput: input,
     });
   }
 
@@ -50,7 +49,7 @@ class SearchField extends React.Component {
     return (
       <div className="search-field">
         <img onClick={this.search} src={searchIcon} className="search-icon shadow"></img>
-        <Input ref={this.inputRef} onChangeParent={this.updateSearchText} placeholder={"Buscar productos"} />
+        <Input ref={this.inputRef} onChangeParent={this.updateSearchText} placeholder={'Buscar productos'} />
         <img className="clear-button" onClick={this.clearSearchField} src={clearButton}></img>
       </div>
     );
