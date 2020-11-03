@@ -10,7 +10,9 @@ class SearchPanel extends React.Component {
   }
 
   renderResults() {
-    return this.props.results.map((result) => <Result key={result.barcode} productData={result} />);
+    return this.props.results.map((result) =>
+      <Result key={result.barcode} productData={result} />,
+    );
   }
 
   getResultsNumber() {

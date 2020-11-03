@@ -3,6 +3,7 @@ import '../assets/css/Product.css';
 import '../assets/css/fonts.css';
 import imageNotFound from '../assets/images/image_not_found.jpg';
 import React, {Component} from 'react';
+import {capitalize} from '../utils/Utils';
 
 class Product extends Component {
   constructor(props) {
@@ -26,10 +27,11 @@ class Product extends Component {
   }
 
   getName() {
-    return this.state.product.name.charAt(0).toUpperCase() + this.state.product.name.slice(1);
+    const name = this.state.product.name;
+    return capitalize(name);
   }
 
-  getPrice(price) {
+  getPrice() {
     return this.state.product.price.toFixed(2);
   }
 
@@ -50,7 +52,7 @@ class Product extends Component {
             <div className="product-text">
               <div className="product-name">{this.getName()}</div>
               <div className="product-brand">{this.getBrand()}</div>
-              <div className="product-price">{this.getPrice(this.state.price)}€</div>
+              <div className="product-price">{this.getPrice()}€</div>
             </div>
             <img className="product-image" src={this.getImage()}></img>
           </div>

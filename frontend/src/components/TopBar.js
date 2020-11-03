@@ -20,7 +20,10 @@ class TopBar extends React.Component {
           <img src={logo}></img>
           <div className="logo-name">ShopMate</div>
         </div>
-        <SearchField onChangeRightPanel={this.props.onChangeRightPanel} changeResults={this.props.changeResults} />
+        <SearchField
+          onChangeRightPanel={this.props.onChangeRightPanel}
+          changeResults={this.props.changeResults}
+        />
         <div className="right-side">
           <div className="user-field shadow">
             <div className="first-letter">Y</div>

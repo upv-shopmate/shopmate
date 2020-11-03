@@ -46,7 +46,12 @@ class RightPanel extends React.Component {
       return <Map />;
     } else if (panel === 'searcher') {
       this.changePanelWidth(WIDTHS.SEARCHER);
-      return <Searcher goToLastState={this.props.goToLastState} results={this.props.results} />;
+      return (
+        <Searcher
+          goToLastState={this.props.goToLastState}
+          results={this.props.results}
+        />
+      );
     }
   }
 

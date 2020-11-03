@@ -48,9 +48,21 @@ class SearchField extends React.Component {
   render() {
     return (
       <div className="search-field">
-        <img onClick={this.search} src={searchIcon} className="search-icon shadow"></img>
-        <Input ref={this.inputRef} onChangeParent={this.updateSearchText} placeholder={'Buscar productos'} />
-        <img className="clear-button" onClick={this.clearSearchField} src={clearButton}></img>
+        <img
+          onClick={this.search}
+          src={searchIcon}
+          className="search-icon shadow">
+        </img>
+        <Input
+          ref={this.inputRef}
+          onChangeParent={this.updateSearchText}
+          placeholder={'Buscar productos'}
+        />
+        <img
+          className="clear-button"
+          onClick={this.clearSearchField}
+          src={clearButton}>
+        </img>
       </div>
     );
   }

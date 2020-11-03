@@ -61,7 +61,13 @@ class Catalog extends React.Component {
   }
 
   renderProducts() {
-    return this.state.products.map((product) => <Product key={product.barcode} productData={product} showProductDetails={this.showProductDetails} />);
+    return this.state.products.map((product) =>
+      <Product
+        key={product.barcode}
+        productData={product}
+        showProductDetails={this.showProductDetails}
+      />,
+    );
   }
 
   render() {
@@ -69,7 +75,10 @@ class Catalog extends React.Component {
       <div className="catalog">
         <div className="products">{this.renderProducts()}</div>
         <div className="product-details">
-          <ProductDetails closePanel={this.closeProductDetails} product={this.state.selectedProduct} />
+          <ProductDetails
+            closePanel={this.closeProductDetails}
+            product={this.state.selectedProduct}
+          />
         </div>
       </div>
     );

@@ -46,12 +46,22 @@ class App extends React.Component {
   render() {
     return (
       <div className="app">
-        <TopBar onChangeRightPanel={this.changeRightPanel.bind(this)} changeResults={this.changeProductResults} />
+        <TopBar
+          onChangeRightPanel={this.changeRightPanel.bind(this)}
+          changeResults={this.changeProductResults}
+        />
         <div className="panels">
           <LeftPanel />
-          <RightPanel panel={this.state.selectedPanel} goToLastState={this.goToLastState} results={this.state.results} />
+          <RightPanel
+            panel={this.state.selectedPanel}
+            goToLastState={this.goToLastState}
+            results={this.state.results}
+          />
         </div>
-        <Nav changeLastPanel={this.changeLastPanel.bind(this)} onChangeRightPanel={this.changeRightPanel.bind(this)} />
+        <Nav
+          changeLastPanel={this.changeLastPanel.bind(this)}
+          onChangeRightPanel={this.changeRightPanel.bind(this)}
+        />
       </div>
     );
   }

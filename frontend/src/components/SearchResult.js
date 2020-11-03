@@ -3,6 +3,7 @@ import '../assets/css/SearchResult.css';
 import tagIcon from '../assets/images/tag_icon.png';
 import imageNotFound from '../assets/images/image_not_found.jpg';
 import React, {Component} from 'react';
+import {capitalize} from '../utils/Utils';
 
 class SearchResult extends Component {
   constructor(props) {
@@ -10,7 +11,8 @@ class SearchResult extends Component {
   }
 
   getProductName() {
-    return this.props.productData.name.charAt(0).toUpperCase() + this.props.productData.name.slice(1);
+    const name = this.props.productData.name;
+    return capitalize(name);
   }
 
   getProductImage() {
@@ -50,7 +52,7 @@ class SearchResult extends Component {
   getProductCategories() {
     let categories = this.props.productData.categories;
     if (categories.length > 0) {
-      categories = categories.map((categorie) => categorie.name + ', ');
+      categories = categories.map((category) => category.name + ', ');
       return categories.slice(0, categories.length - 2);
     } else {
       return 'Sin categorías';
@@ -67,13 +69,17 @@ class SearchResult extends Component {
             <div className="result-separator">·</div>
             <div className="result-brand">{this.getProductBrand()}</div>
             <div className="result-separator">·</div>
-            <div className="result-weight">{this.getProductWeightOrVolume()}</div>
+            <div className="result-weight">
+              {this.getProductWeightOrVolume()}
+            </div>
           </div>
           <div className="result-bottomline">
             <div className="result-cart">En el carro: N/A</div>
             <div className="result-categories">
               <img className="result-categories-image" src={tagIcon}></img>
-              <div className="result-categories-namelist">{this.getProductCategories()}</div>
+              <div className="result-categories-namelist">
+                {this.getProductCategories()}
+              </div>
             </div>
           </div>
         </div>

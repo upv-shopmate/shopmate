@@ -16,7 +16,7 @@
     "build": "webpack --config webpack.build.config.js",
     "package": "webpack --config webpack.build.config.js",
     "postpackage": "electron-packager ./ --out=./builds",
-    "lint": "eslint src/**/*.js"
+    "lint": "eslint src/**/*.js --fix"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",

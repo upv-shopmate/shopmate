@@ -4,6 +4,7 @@ import closeButton from '../assets/images/close_button.png';
 import mapButton from '../assets/images/map_button.png';
 import imageNotFound from '../assets/images/image_not_found.jpg';
 import React, {Component} from 'react';
+import {capitalize} from '../utils/Utils';
 
 class ProductDetails extends Component {
   constructor(props) {
@@ -13,7 +14,8 @@ class ProductDetails extends Component {
   }
 
   getProductName() {
-    return this.props.product.name.charAt(0).toUpperCase() + this.props.product.name.slice(1);
+    const name = this.props.product.name;
+    return capitalize(name);
   }
 
   getProductImage() {
@@ -119,9 +121,18 @@ class ProductDetails extends Component {
             <div className="details-price">{this.getProductPrice()}</div>
           </div>
           <div className="details-box">
-            <div className="details-close-button"><img className="details-close-button-image" src={closeButton} onClick={this.closeDetailsPanel} ></img></div>
+            <div className="details-close-button">
+              <img className="details-close-button-image"
+                src={closeButton}
+                onClick={this.closeDetailsPanel}
+              >
+              </img>
+            </div>
             <div className="details-info">{this.getMoreInfo()}</div>
-            <div className="details-map-button"><img className="details-map-button-image" src={mapButton}></img></div>
+            <div className="details-map-button">
+              <img className="details-map-button-image" src={mapButton}>
+              </img>
+            </div>
           </div>
         </div>
       );
