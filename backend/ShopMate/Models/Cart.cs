@@ -15,11 +15,11 @@ namespace ShopMate.Models
 
         public decimal PlannedPrice { get => TrackedLists.Sum(list => list.TotalPrice); }
 
-        public Store Owner { get; internal set; }
+        public virtual Store Owner { get; internal set; }
 
-        public ShoppingList Contents { get; internal set; } = new ShoppingList("");
+        public virtual ShoppingList Contents { get; internal set; } = new ShoppingList("");
 
-        public ICollection<ShoppingList> TrackedLists { get; internal set; } = new HashSet<ShoppingList>();
+        public virtual ICollection<ShoppingList> TrackedLists { get; internal set; } = new HashSet<ShoppingList>();
 
         public Cart() { }
 

@@ -19,7 +19,7 @@ namespace ShopMate.Models
         /// <summary>
         /// The products tagged with this category.
         /// </summary>
-        public ICollection<Product> Products { get; internal set; } = new HashSet<Product>();
+        public virtual ICollection<Product> Products { get; internal set; } = new HashSet<Product>();
 
         public Category(string name)
         {

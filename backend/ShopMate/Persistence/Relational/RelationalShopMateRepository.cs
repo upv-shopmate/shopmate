@@ -36,7 +36,7 @@ namespace ShopMate.Persistence.Relational
 
         public ICartRepository Carts { get; }
 
-        public bool SaveChanges() => context.SaveChanges() > 0; //Antes era >= 0
+        public bool SaveChanges() => context.SaveChanges() > 0;
     }
     internal class RelationalProductRepository : RelationalRepository<Product>, IProductRepository
     {

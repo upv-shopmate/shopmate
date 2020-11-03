@@ -1,14 +1,15 @@
 ﻿#pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
 
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 
 namespace ShopMate.Models
 {
+    [NotMapped]
     public class PriceModifierBreakdown
     {
-        public int Id { get; private set; }
-
         public PriceModifier Modifier { get; }
 
         public decimal ApplicableBase { get; }

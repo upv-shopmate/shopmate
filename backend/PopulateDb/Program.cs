@@ -1,5 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using ShopMate.Models;
+using ShopMate.Persistence.Relational;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -19,8 +21,8 @@ namespace PopulateDb
             var limit = args.ElementAtOrDefault(1) is null ? "" : args[1];
             Console.WriteLine($"{interpreter} {limit}");
 
-            Console.WriteLine(">> Running scraping process...");
-            RunScript(interpreter, limit);
+            //Console.WriteLine(">> Running scraping process...");
+            //RunScript(interpreter, limit);
 
             Console.WriteLine(">> Reading data...");
             var data = await ReadData();
@@ -55,10 +57,16 @@ namespace PopulateDb
         {
             uint count = 0;
 
-            using var db = new ShopMateContext();
+            var optionsBuilder = new DbContextOptionsBuilder<ShopMateContext>()
+                .UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=ShopMateContext;Trusted_Connection=True;MultipleActiveResultSets=true");
+            using var db = new ShopMateContext(optionsBuilder.Options);
 
             var store = new Store(shopName, currency);
             db.Set<Store>().Add(store);
+
+            var cart = new Cart();
+            db.Set<Cart>().Add(cart);
+            cart.Owner = store;
 
             var vat21 = new PriceModifier(PriceModifierCode.Vat, "", 0.21M, PriceModifierKind.Multiplicative);
 
@@ -75,12 +83,8 @@ namespace PopulateDb
 
         private static void InsertProduct(ShopMateContext db, Store vendor, PriceModifier modifier, KeyValuePair<string, ProductJsonDto> entry)
         {
-            Gtin14 barcode;
-            try
-            {
-                barcode = Gtin14.FromStandardBarcode(entry.Key);
-            } 
-            catch (ArgumentException)
+            Gtin14? barcode;
+            if (!Gtin14.TryFromStandardBarcode(entry.Key, out barcode))
             {
                 Console.WriteLine($"-- Skipping product with invalid barcode: {entry.Key}");
                 return;
@@ -94,7 +98,7 @@ namespace PopulateDb
             }
 
             var product = new Product(
-                barcode,
+                barcode.Value,
                 dto.Name.LimitLength(120),
                 dto.Weight,
                 dto.Volume,
