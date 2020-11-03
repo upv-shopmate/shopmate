@@ -25,6 +25,7 @@
 
 .result-name {
   font-weight: bold;
+  overflow: hidden;
   font-size: 18px;
 }
 
@@ -54,6 +55,7 @@
 
 .result-categories {
   display: flex;
+  overflow: hidden;
   justify-content: space-between;
   margin-right: 130px;
 }
