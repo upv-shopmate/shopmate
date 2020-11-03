@@ -68,6 +68,10 @@ namespace ShopMate.Models
             {
                 oldEntry.First().Quantity += entry.Quantity;
             }
+            else
+            {
+                Entries.Add(entry);
+            }
 
             SubtotalPrice += entry.Quantity * entry.Item.Price;
             TotalPrice += entry.Quantity * entry.Item.ModifiedPrice;
