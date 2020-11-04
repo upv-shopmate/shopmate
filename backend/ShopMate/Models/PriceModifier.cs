@@ -21,7 +21,7 @@ namespace ShopMate.Models
 
         public PriceModifierKind Kind { get; internal set; }
 
-        public virtual ICollection<Product> Products { get; internal set; } = new HashSet<Product>();
+        public ICollection<Product> Products { get; internal set; } = new HashSet<Product>();
 
         public PriceModifier(PriceModifierCode code, string? description, decimal value, PriceModifierKind kind)
         {

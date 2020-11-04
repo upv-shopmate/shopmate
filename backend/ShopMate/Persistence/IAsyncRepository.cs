@@ -6,8 +6,6 @@ namespace ShopMate.Persistence
     public interface IAsyncRepository<T> : IRepository<T>
         where T : class
     {
-        public Task<T?> GetByIdAsync(params object[] id);
-
         public Task AddAsync(T entity);
 
         public Task AddManyAsync(IEnumerable<T> entities);

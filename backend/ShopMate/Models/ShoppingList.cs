@@ -14,7 +14,7 @@ namespace ShopMate.Models
         [MaxLength(50)]
         public string Name { get; internal set; }
 
-        public virtual ICollection<ShoppingListEntry> Entries { get; private set; } = new List<ShoppingListEntry>();
+        public ICollection<ShoppingListEntry> Entries { get; private set; } = new List<ShoppingListEntry>();
 
         [Column(TypeName = "money")]
         public decimal SubtotalPrice { get; internal set; }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ShopMate.Dto;
 using ShopMate.Persistence;
+using System.Linq;
 
 namespace ShopMate.Controllers
 {
@@ -21,7 +22,7 @@ namespace ShopMate.Controllers
         [HttpGet("{id}")]
         public ActionResult<LabelReadDto> GetLabelById(int id)
         {
-            var label = repository.Labels.GetById(id);
+            var label = repository.Labels.GetAll().FirstOrDefault(l => l.Id == id);
 
             if (label is null)
             {

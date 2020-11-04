@@ -1,6 +1,7 @@
 ﻿using ShopMate.Models;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ShopMate.Persistence
 {
@@ -29,7 +30,7 @@ namespace ShopMate.Persistence
         {
             if (Gtin14.TryFromStandardBarcode(barcode, out Gtin14? gtin14))
             {
-                return GetById(gtin14!);
+                return GetAll().FirstOrDefault(p => p.Barcode == gtin14!);
             } 
             else
             {

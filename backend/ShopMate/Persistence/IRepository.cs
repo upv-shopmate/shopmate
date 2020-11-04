@@ -1,13 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace ShopMate.Persistence
 {
     public interface IRepository<T>
         where T : class
     {
-        public IEnumerable<T> GetAll();
-
-        public T? GetById(params object[] id);
+        public IQueryable<T> GetAll();
 
         public IEnumerable<T> GetPage(int page, int itemsPerPage);
         public IEnumerable<T> GetPage(int page, int itemsPerPage, out bool hasNext);

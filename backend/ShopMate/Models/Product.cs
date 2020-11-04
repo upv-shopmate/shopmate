@@ -70,32 +70,32 @@ namespace ShopMate.Models
         /// <summary>
         /// The brands that are selling this product.
         /// </summary>
-        public virtual ICollection<Brand> Brands { get; internal set; } = new HashSet<Brand>();
+        public ICollection<Brand> Brands { get; internal set; } = new HashSet<Brand>();
 
         /// <summary>
         /// A set of descriptive tags used to enhance the product search and recommendation features.
         /// </summary>
-        public virtual ICollection<Category> Categories { get; internal set; } = new HashSet<Category>();
+        public ICollection<Category> Categories { get; internal set; } = new HashSet<Category>();
 
         /// <summary>
         /// A set of awards, seals, certifications and regulatory labels that apply to this product (e.g. "Gluten Free").
         /// </summary>
-        public virtual ICollection<Label> Labels { get; internal set; } = new HashSet<Label>();
+        public ICollection<Label> Labels { get; internal set; } = new HashSet<Label>();
 
         /// <summary>
         /// The fixed modifiers that apply to the price of this product.
         /// </summary>
-        public virtual ICollection<PriceModifier> PriceModifiers { get; internal set; } = new List<PriceModifier>();
+        public ICollection<PriceModifier> PriceModifiers { get; internal set; } = new List<PriceModifier>();
 
         /// <summary>
         /// The positions where this item is present.
         /// </summary>
-        public virtual ICollection<Position> Positions { get; internal set; } = new HashSet<Position>();
+        public ICollection<Position> Positions { get; internal set; } = new HashSet<Position>();
 
         /// <summary>
         /// The stores that sell this product.
         /// </summary>
-        public virtual ICollection<Store> Vendors { get; internal set; } = new HashSet<Store>();
+        public ICollection<Store> Vendors { get; internal set; } = new HashSet<Store>();
 
         /// <summary>
         /// Obtains the price of this product with all the price modifiers applied.

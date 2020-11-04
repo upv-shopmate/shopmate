@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ShopMate.Dto;
 using ShopMate.Persistence;
+using System.Linq;
 
 namespace ShopMate.Controllers
 {
@@ -21,7 +22,7 @@ namespace ShopMate.Controllers
         [HttpGet("{id}")]
         public ActionResult<StoreReadDto> GetStoreById(int id)
         {
-            var store = repository.Stores.GetById(id);
+            var store = repository.Stores.GetAll().FirstOrDefault(s => s.Id == id);
 
             if (store is null)
             {
@@ -34,7 +35,7 @@ namespace ShopMate.Controllers
         [HttpGet("{id}/map")]
         public ActionResult<int[][]> GetStoreMap(int id)
         {
-            var store = repository.Stores.GetById(id);
+            var store = repository.Stores.GetAll().FirstOrDefault(s => s.Id == id);
 
             if (store is null) 
             {

@@ -13,7 +13,7 @@ namespace ShopMate.Models
     {
         public int Quantity { get; set; }
 
-        public virtual Product Item { get; set; }
+        public Product Item { get; set; }
 
         [Column(TypeName = "money")]
         public decimal Price => Quantity * Item.Price;
@@ -21,7 +21,7 @@ namespace ShopMate.Models
         [Column(TypeName = "money")]
         public decimal ModifiedPrice => Quantity * Item.ModifiedPrice;
 
-        public virtual IReadOnlyCollection<PriceModifierBreakdown> ModifierBreakdowns
+        public IReadOnlyCollection<PriceModifierBreakdown> ModifierBreakdowns
         {
             get => Item.PriceModifiers.Select(modifier =>
                     new PriceModifierBreakdown(

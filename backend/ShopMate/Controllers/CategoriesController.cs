@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ShopMate.Dto;
 using ShopMate.Persistence;
+using System.Linq;
 
 namespace ShopMate.Controllers
 {
@@ -21,7 +22,7 @@ namespace ShopMate.Controllers
         [HttpGet("{id}")]
         public ActionResult<CategoryReadDto> GetCategoryById(int id)
         {
-            var category = repository.Categories.GetById(id);
+            var category = repository.Categories.GetAll().FirstOrDefault(c => c.Id == id);
 
             if (category is null)
             {

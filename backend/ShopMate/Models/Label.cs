@@ -19,7 +19,7 @@ namespace ShopMate.Models
         /// <summary>
         /// The products tagged with this award, certification, seal or regulatory label.
         /// </summary>
-        public virtual ICollection<Product> Products { get; internal set; } = new HashSet<Product>();
+        public ICollection<Product> Products { get; internal set; } = new HashSet<Product>();
 
         public Label(string name)
         {

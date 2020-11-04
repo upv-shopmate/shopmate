@@ -19,7 +19,7 @@ namespace ShopMate.Models
         /// <summary>
         /// Other names this brand is also known as.
         /// </summary>
-        public virtual ICollection<string> Aliases { get; internal set; }
+        public ICollection<string> Aliases { get; internal set; }
 
         /// <summary>
         /// A identifier or path to the canonical logotype of this brand.
@@ -29,7 +29,7 @@ namespace ShopMate.Models
         /// <summary>
         /// The products this brand is selling.
         /// </summary>
-        public virtual ICollection<Product> Products { get; internal set; } = new HashSet<Product>();
+        public ICollection<Product> Products { get; internal set; } = new HashSet<Product>();
 
         public Brand(string name, ICollection<string> aliases, string? logo)
         {

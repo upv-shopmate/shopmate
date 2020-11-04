@@ -25,7 +25,7 @@ namespace ShopMate.Controllers
         [HttpGet("list")]
         public ActionResult<ShoppingListReadDto> GetCartContents()
         {
-            var cart = repository.Carts.GetById(1);
+            var cart = repository.Carts.GetAll().FirstOrDefault(c => c.Id == 1);
             var contents = cart.Contents;
 
             // FIXME
@@ -45,7 +45,7 @@ namespace ShopMate.Controllers
             }
             var entry = new ShoppingListEntry(dto.Quantity, barcode);
 
-            var cart = repository.Carts.GetById(1); //Temporal hasta que haya loggin;
+            var cart = repository.Carts.GetAll().FirstOrDefault(c => c.Id == 1); //Temporal hasta que haya loggin;
             cart.Contents.AddEntry(entry);
             repository.SaveChanges();
 
@@ -62,7 +62,7 @@ namespace ShopMate.Controllers
             }
             var entry = new ShoppingListEntry(dto.Quantity, barcode);
 
-            var cart = repository.Carts.GetById(1); //Temporal hasta que haya loggin;
+            var cart = repository.Carts.GetAll().FirstOrDefault(c => c.Id == 1); //Temporal hasta que haya loggin;
             cart.Contents.RemoveEntry(entry);
 
             return NoContent();
@@ -71,7 +71,7 @@ namespace ShopMate.Controllers
         [HttpGet("tracking")]
         public ActionResult<ICollection<ShoppingListReadDto>> GetCurrentTrackingLists()
         {
-            var cart = repository.Carts.GetById(1); //Temporal hasta que haya loggin
+            var cart = repository.Carts.GetAll().FirstOrDefault(b => b.Id == 1); //Temporal hasta que haya loggin
             ICollection<ShoppingList> shoppingLists = cart.TrackedLists;
             
             return Ok(shoppingLists);
@@ -83,12 +83,12 @@ namespace ShopMate.Controllers
             ICollection<ShoppingList> shoppingLists = new List<ShoppingList>();
             foreach (var id in ids)
             {
-                var shoppingList = repository.ShoppingLists.GetById(id);
+                var shoppingList = repository.ShoppingLists.GetAll().FirstOrDefault(l => l.Id == id);
                 if (shoppingList is null) { return BadRequest("Unknown list ID."); }
                 shoppingLists.Add(shoppingList);
             }
 
-            var cart = repository.Carts.GetById(1); //Temporal hasta que haya loggin
+            var cart = repository.Carts.GetAll().FirstOrDefault(c => c.Id == 1); //Temporal hasta que haya loggin
             foreach (var shoppingList in shoppingLists)
             {
                 if (!cart.TrackedLists.Contains(shoppingList))
@@ -106,12 +106,12 @@ namespace ShopMate.Controllers
             ICollection<ShoppingList> shoppingLists = new List<ShoppingList>();
             foreach (var id in ids)
             {
-                var shoppingList = repository.ShoppingLists.GetById(id);
+                var shoppingList = repository.ShoppingLists.GetAll().FirstOrDefault(l => l.Id == 1);
                 if (shoppingList is null) { return BadRequest("Unknown list ID."); }
                 shoppingLists.Add(shoppingList);
             }
 
-            var cart = repository.Carts.GetById(1); //Temporal hasta que haya loggin
+            var cart = repository.Carts.GetAll().FirstOrDefault(c => c.Id == 1); //Temporal hasta que haya loggin
             foreach (var shoppingList in shoppingLists)
             {
                 cart.TrackedLists.Remove(shoppingList);
