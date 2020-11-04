@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ShopMate.Models
@@ -10,7 +11,10 @@ namespace ShopMate.Models
     {
         public int Id { get; private set; }
 
+        [MaxLength(60)]
         public string Name { get; internal set; }
+
+        public int[][] Map { get; internal set; }
 
         /// <summary>
         /// The ISO-4217 currency code (e.g "EUR") of the currency used by this store.
@@ -26,7 +30,7 @@ namespace ShopMate.Models
             Currency = currency;
         }
 
-        public override bool Equals(object? other) => other is Store && Equals(other);
+        public override bool Equals(object? other) => other is Store store && Equals(store);
 
         public bool Equals(Store? other) => Name == other?.Name;
 

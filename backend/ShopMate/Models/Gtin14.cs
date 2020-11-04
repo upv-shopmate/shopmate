@@ -1,9 +1,11 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ShopMate.Models
 {
     public struct Gtin14 : IEquatable<Gtin14>
     {
+        [Column(TypeName = "char(14)")]
         public string Value { get; }
 
         internal Gtin14(string code)
@@ -17,7 +19,7 @@ namespace ShopMate.Models
         /// <param name="code">A barcode in some standard format.</param>
         /// <exception cref="ArgumentException">Throw when the code supplied is not valid in any known standard format.</exception>
         /// <returns>A valid GTIN-14.</returns>
-        public static Gtin14 FromStandardBarcode(string code)
+        public static bool TryFromStandardBarcode(string code, out Gtin14? gtin14)
         {
             switch (code.Length)
             {
@@ -37,14 +39,16 @@ namespace ShopMate.Models
                     break;
                 default:
                     {
-                        throw new ArgumentException("The code supplied does not follow any recognized standard format.", nameof(code));
+                        gtin14 = null;
+                        return false;
                     }
             }
 
-            return new Gtin14(code);
+            gtin14 = new Gtin14(code);
+            return true;
         }
 
-        public override bool Equals(object? other) => other is Gtin14 && Equals(other);
+        public override bool Equals(object? other) => other is Gtin14 gtin && Equals(gtin);
 
         public bool Equals(Gtin14 other) => Value == other.Value;
 
@@ -52,5 +56,7 @@ namespace ShopMate.Models
         public static bool operator !=(Gtin14 lhs, Gtin14 rhs) => !lhs.Equals(rhs);
 
         public override int GetHashCode() => Value.GetHashCode();
+
+        public override string ToString() => Value;
     }
 }

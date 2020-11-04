@@ -1,0 +1,112 @@
+.details {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  border-top-left-radius: 1%;
+  border-top-right-radius: 1%;
+  justify-content: space-between;
+  align-items: stretch;
+}
+
+.details-image {
+  align-self: center;
+  justify-self: end;
+  border: 2px solid;
+  border-color: white;
+  border-style: outset;
+  width: auto;
+  max-width: 180px;
+  height: auto;
+  max-height: 180px;
+  box-shadow: 0px 0px 5px 4px rgba(0, 0, 0, 0.25);
+  margin-top: -20px;
+  margin-left: 5%;
+}
+
+.details-text-line {
+  width: 100%;
+}
+
+.details-text-header {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.details-text {
+  font-size: 18px;
+  color: white;
+}
+
+.details-close-button {
+  justify-self: flex-end;
+  align-self: flex-end;
+  margin-right: 3px;
+  margin-top: 3px;
+}
+
+.details-close-button-image {
+  width: 30px;
+  height: 30px;
+}
+
+.details-map-button {
+  justify-self: flex-end;
+  align-self: flex-end;
+  margin-right: 3px;
+}
+
+.details-map-button-image {
+  width: 30px;
+  height: 30px;
+}
+
+.details-info {
+  width: 100%;
+  height: 100%;
+  font-size: 20px;
+  margin-left: 15%;
+  margin-bottom: 10px;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-around;
+}
+.details-title {
+  align-self: center;
+  margin-bottom: 5px;
+  max-width: 250px;
+  color: white;
+}
+
+.details-name {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  color: black;
+}
+
+.details-brand {
+  font-size: 20px;
+  text-align: center;
+  color: black;
+}
+
+.details-price {
+  font-size: 40px;
+  font-weight: bold;
+  margin-top: 5%;
+  color: whitesmoke;
+  text-align: center;
+  -webkit-text-stroke: 1.7px black;
+}
+
+.details-box {
+  width: 40%;
+  display: flex;
+  justify-content: space-around;
+  height: auto;
+  align-items: center;
+  flex-direction: column;
+  overflow: hidden;
+  color: black;
+}

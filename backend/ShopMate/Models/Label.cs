@@ -2,7 +2,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
 namespace ShopMate.Models
 {
@@ -13,7 +13,7 @@ namespace ShopMate.Models
         /// <summary>
         /// The name of this award, certification, seal or regulatory label.
         /// </summary>
-        [Column(TypeName = "nvarchar(50)")]
+        [MaxLength(50)]
         public string Name { get; internal set; }
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace ShopMate.Models
             Name = name;
         }
 
-        public override bool Equals(object? other) => other is Label && Equals(other);
+        public override bool Equals(object? other) => other is Label label && Equals(label);
 
         public bool Equals(Label? other) => Name == other?.Name;
 

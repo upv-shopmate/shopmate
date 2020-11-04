@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Newtonsoft.Json;
 
-namespace ShopMate.Persistence
+namespace ShopMate.Persistence.Relational
 {
     internal static class ValueConversionExtensions
     {

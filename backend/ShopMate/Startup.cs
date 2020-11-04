@@ -1,15 +1,21 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ShopMate.Persistence;
+using ShopMate.Persistence.Relational;
+using System;
 
 namespace ShopMate
 {
     public class Startup
     {
+        private const string ConnectionStringName = "ShopMateContext";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -21,6 +27,15 @@ namespace ShopMate
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            services.AddOpenApiDocument(config =>
+            {
+                config.Title = "ShopMate";
+                config.DocumentName = "Dev";
+                config.Version = "0.0.0";
+            });
 
             ConfigurePersistence(services);
         }
@@ -43,12 +58,22 @@ namespace ShopMate
             {
                 endpoints.MapControllers();
             });
+
+            app.UseOpenApi();
+            app.UseSwaggerUi3();
         }
 
         private void ConfigurePersistence(IServiceCollection services)
         {
+            var builder = new SqlConnectionStringBuilder(Configuration.GetConnectionString(ConnectionStringName))
+            {
+                Password = Configuration[$"Database:{ConnectionStringName}:Password"]
+            };
+
             services.AddDbContext<ShopMateContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("ShopMateContext")));
+                options.UseSqlServer(builder.ConnectionString));
+
+            services.AddScoped<IShopMateRepository, RelationalShopMateRepository>();
         }
     }
 }

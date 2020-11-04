@@ -1,19 +1,31 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ShopMate.Models;
-using ShopMate.Persistence;
+using System.Runtime.CompilerServices;
 
-namespace PopulateDb
+[assembly: InternalsVisibleTo("PopulateDb")]
+namespace ShopMate.Persistence.Relational
 {
     internal class ShopMateContext : DbContext
     {
+#pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
+        public ShopMateContext(DbContextOptions<ShopMateContext> options) : base(options)
+        { }
+#pragma warning restore CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
+
         public DbSet<Product> Products { get; set; }
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Label> Labels { get; set; }
         public DbSet<Store> Stores { get; set; }
+        public DbSet<ShoppingList> ShoppingLists { get; set; }
+        public DbSet<Cart> Carts { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder options)
-            => options.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=ShopMateContext;Trusted_Connection=True;MultipleActiveResultSets=true");
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer(o =>
+                o.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)
+                 .EnableRetryOnFailure());
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -36,6 +48,10 @@ namespace PopulateDb
 
             modelBuilder.Entity<Brand>()
                 .Property(b => b.Aliases)
+                .HasJsonConversion();
+
+            modelBuilder.Entity<Store>()
+                .Property(s => s.Map)
                 .HasJsonConversion();
         }
     }

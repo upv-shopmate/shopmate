@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using ShopMate.Persistence;
+using ShopMate.Persistence.Relational;
 using System;
 
 namespace ShopMate
@@ -41,6 +41,7 @@ namespace ShopMate
             {
                 var logger = services.GetRequiredService<ILogger<Program>>();
                 logger.LogError(e, "An error ocurred creating the database.");
+                Environment.Exit(-1);
             }
         }
     }

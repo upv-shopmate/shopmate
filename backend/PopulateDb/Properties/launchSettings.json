@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "PopulateDb": {
+      "commandName": "Project"
+    }
+  }
+}
