@@ -85,8 +85,7 @@ namespace PopulateDb
 
         private static bool InsertProduct(ShopMateContext db, Store vendor, PriceModifier modifier, KeyValuePair<string, ProductJsonDto> entry)
         {
-            Gtin14? barcode;
-            if (!Gtin14.TryFromStandardBarcode(entry.Key, out barcode))
+            if (!Gtin14.TryFromStandardBarcode(entry.Key, out var barcode))
             {
                 Console.WriteLine($"-- Skipping product with invalid barcode: {entry.Key}");
                 return false;

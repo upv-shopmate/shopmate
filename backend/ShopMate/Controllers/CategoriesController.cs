@@ -10,8 +10,8 @@ namespace ShopMate.Controllers
     [ApiController]
     public class CategoriesController : ControllerBase
     {
-        readonly IShopMateRepository repository;
-        readonly IMapper mapper;
+        private readonly IShopMateRepository repository;
+        private readonly IMapper mapper;
 
         public CategoriesController(IShopMateRepository repository, IMapper mapper)
         {

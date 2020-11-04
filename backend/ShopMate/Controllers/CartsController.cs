@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using ShopMate.Dto;
 using ShopMate.Models;
 using ShopMate.Persistence;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -13,8 +12,8 @@ namespace ShopMate.Controllers
     [Route("/api/[controller]")]
     public class CartController : ControllerBase
     {
-        readonly IShopMateRepository repository;
-        readonly IMapper mapper;
+        private readonly IShopMateRepository repository;
+        private readonly IMapper mapper;
 
         public CartController(IShopMateRepository repository, IMapper mapper)
         {
@@ -72,8 +71,8 @@ namespace ShopMate.Controllers
         public ActionResult<ICollection<ShoppingListReadDto>> GetCurrentTrackingLists()
         {
             var cart = repository.Carts.GetAll().FirstOrDefault(b => b.Id == 1); //Temporal hasta que haya loggin
-            ICollection<ShoppingList> shoppingLists = cart.TrackedLists;
-            
+            var shoppingLists = cart.TrackedLists;
+
             return Ok(shoppingLists);
         }
 

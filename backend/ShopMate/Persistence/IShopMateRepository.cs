@@ -1,5 +1,4 @@
 ﻿using ShopMate.Models;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -28,10 +27,10 @@ namespace ShopMate.Persistence
     {
         public Product? GetByBarcode(string barcode)
         {
-            if (Gtin14.TryFromStandardBarcode(barcode, out Gtin14? gtin14))
+            if (Gtin14.TryFromStandardBarcode(barcode, out var gtin14))
             {
                 return GetAll().FirstOrDefault(p => p.Barcode == gtin14!);
-            } 
+            }
             else
             {
                 return null;
@@ -53,9 +52,9 @@ namespace ShopMate.Persistence
     public interface IStoreRepository : IAsyncRepository<Store>
     { }
 
-    public interface IShoppingListRepository : IAsyncRepository<ShoppingList> 
+    public interface IShoppingListRepository : IAsyncRepository<ShoppingList>
     { }
 
-    public interface ICartRepository : IAsyncRepository<Cart> 
+    public interface ICartRepository : IAsyncRepository<Cart>
     { }
 }

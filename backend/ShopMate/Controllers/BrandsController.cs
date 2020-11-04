@@ -10,8 +10,8 @@ namespace ShopMate.Controllers
     [Route("/api/[controller]")]
     public class BrandsController : ControllerBase
     {
-        readonly IShopMateRepository repository;
-        readonly IMapper mapper;
+        private readonly IShopMateRepository repository;
+        private readonly IMapper mapper;
 
         public BrandsController(IShopMateRepository repository, IMapper mapper)
         {

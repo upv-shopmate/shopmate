@@ -10,8 +10,8 @@ namespace ShopMate.Controllers
     [ApiController]
     public class StoresController : ControllerBase
     {
-        readonly IShopMateRepository repository;
-        readonly IMapper mapper;
+        private readonly IShopMateRepository repository;
+        private readonly IMapper mapper;
 
         public StoresController(IShopMateRepository repository, IMapper mapper)
         {
@@ -37,7 +37,7 @@ namespace ShopMate.Controllers
         {
             var store = repository.Stores.GetAll().FirstOrDefault(s => s.Id == id);
 
-            if (store is null) 
+            if (store is null)
             {
                 return NotFound();
             }

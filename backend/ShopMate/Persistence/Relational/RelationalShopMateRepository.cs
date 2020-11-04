@@ -84,7 +84,7 @@ namespace ShopMate.Persistence.Relational
         public RelationalBrandRepository(DbSet<Brand> set) : base(set)
         { }
 
-        public override IQueryable<Brand> GetAll() 
+        public override IQueryable<Brand> GetAll()
             => Set
                 .Include(p => p.Products);
     }
@@ -94,7 +94,7 @@ namespace ShopMate.Persistence.Relational
         public RelationalCategoryRepository(DbSet<Category> set) : base(set)
         { }
 
-        public override IQueryable<Category> GetAll() 
+        public override IQueryable<Category> GetAll()
             => Set
                 .Include(c => c.Products);
     }
@@ -104,7 +104,7 @@ namespace ShopMate.Persistence.Relational
         public RelationalLabelRepository(DbSet<Label> set) : base(set)
         { }
 
-        public override IQueryable<Label> GetAll() 
+        public override IQueryable<Label> GetAll()
             => Set
                 .Include(c => c.Products);
     }
@@ -131,7 +131,7 @@ namespace ShopMate.Persistence.Relational
 
     internal class RelationalCartRepository : RelationalRepository<Cart>, ICartRepository
     {
-        public RelationalCartRepository(DbSet<Cart> set) : base(set) 
+        public RelationalCartRepository(DbSet<Cart> set) : base(set)
         { }
 
         public override IQueryable<Cart> GetAll()

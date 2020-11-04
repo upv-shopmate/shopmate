@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using ShopMate.Models;
-using System;
 
 namespace ShopMate.Dto.Profiles
 {

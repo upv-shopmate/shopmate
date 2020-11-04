@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using ShopMate.Dto;
 using ShopMate.Persistence;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,10 +11,9 @@ namespace ShopMate.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        const int DEFAULT_ITEMS_PER_PAGE = 10;
-
-        readonly IShopMateRepository repository;
-        readonly IMapper mapper;
+        private const int DEFAULT_ITEMS_PER_PAGE = 10;
+        private readonly IShopMateRepository repository;
+        private readonly IMapper mapper;
 
         public ProductsController(IShopMateRepository repository, IMapper mapper)
         {
@@ -39,7 +37,7 @@ namespace ShopMate.Controllers
         [HttpGet]
         public ActionResult<PageReadDto<ProductReadDto>> GetProductsPage([FromQuery] int page, [FromQuery] int itemsPerPage = DEFAULT_ITEMS_PER_PAGE)
         {
-            var products = repository.Products.GetPage(page, itemsPerPage, out bool hasNextPage).ToList();
+            var products = repository.Products.GetPage(page, itemsPerPage, out var hasNextPage).ToList();
 
             if (!products.Any())
             {
@@ -54,12 +52,12 @@ namespace ShopMate.Controllers
         [HttpGet("search")]
         public ActionResult<PageReadDto<ProductReadDto>> SearchProducts([FromQuery] string query, [FromQuery] int page, [FromQuery] int itemsPerPage = DEFAULT_ITEMS_PER_PAGE)
         {
-            
-            var products = repository.Products.SearchByQuery(query, page, itemsPerPage, out bool hasNextPage);
+
+            var products = repository.Products.SearchByQuery(query, page, itemsPerPage, out var hasNextPage);
 
             return Ok(new PageReadDto<ProductReadDto>(
                 mapper.Map<List<ProductReadDto>>(products),
-                nextPage: hasNextPage ? (int?) page + 1 : null));
+                nextPage: hasNextPage ? (int?)page + 1 : null));
         }
     }
 }

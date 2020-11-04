@@ -14,7 +14,7 @@ namespace ShopMate
 {
     public class Startup
     {
-        const string ConnectionStringName = "ShopMateContext";
+        private const string ConnectionStringName = "ShopMateContext";
 
         public Startup(IConfiguration configuration)
         {
@@ -30,7 +30,8 @@ namespace ShopMate
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-            services.AddOpenApiDocument(config => {
+            services.AddOpenApiDocument(config =>
+            {
                 config.Title = "ShopMate";
                 config.DocumentName = "Dev";
                 config.Version = "0.0.0";

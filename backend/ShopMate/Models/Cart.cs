@@ -1,9 +1,8 @@
 ﻿#pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
 
 using System;
-using System.Linq;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace ShopMate.Models
 {
@@ -13,7 +12,7 @@ namespace ShopMate.Models
 
         public bool Active { get; internal set; }
 
-        public decimal PlannedPrice { get => TrackedLists.Sum(list => list.TotalPrice); }
+        public decimal PlannedPrice => TrackedLists.Sum(list => list.TotalPrice);
 
         public Store Owner { get; internal set; }
 

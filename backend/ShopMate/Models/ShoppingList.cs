@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -22,7 +21,8 @@ namespace ShopMate.Models
         public decimal TotalPrice { get; internal set; }
 
         [NotMapped]
-        public IReadOnlyCollection<PriceModifierBreakdown> ModifierBreakdowns { 
+        public IReadOnlyCollection<PriceModifierBreakdown> ModifierBreakdowns
+        {
             get
             {
                 var dictionary = new Dictionary<PriceModifier, PriceModifierBreakdown>();
@@ -93,7 +93,8 @@ namespace ShopMate.Models
                 if (oldEntry.First().Quantity <= 0)
                 {
                     Entries.Remove(oldEntry.First());
-                } else
+                }
+                else
                 {
                     oldEntry.First().Quantity = newQuantity;
                 }
@@ -103,7 +104,7 @@ namespace ShopMate.Models
 
                 return true;
             }
-                
+
             return false;
         }
 

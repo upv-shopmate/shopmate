@@ -22,7 +22,7 @@ namespace ShopMate.Persistence.Relational
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(o => 
+            optionsBuilder.UseSqlServer(o =>
                 o.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)
                  .EnableRetryOnFailure());
         }
@@ -49,7 +49,7 @@ namespace ShopMate.Persistence.Relational
             modelBuilder.Entity<Brand>()
                 .Property(b => b.Aliases)
                 .HasJsonConversion();
-           
+
             modelBuilder.Entity<Store>()
                 .Property(s => s.Map)
                 .HasJsonConversion();

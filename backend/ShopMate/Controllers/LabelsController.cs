@@ -10,8 +10,8 @@ namespace ShopMate.Controllers
     [ApiController]
     public class LabelsController : ControllerBase
     {
-        readonly IShopMateRepository repository;
-        readonly IMapper mapper;
+        private readonly IShopMateRepository repository;
+        private readonly IMapper mapper;
 
         public LabelsController(IShopMateRepository repository, IMapper mapper)
         {
