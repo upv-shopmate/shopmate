@@ -49,6 +49,7 @@ class App extends React.Component {
         <TopBar
           onChangeRightPanel={this.changeRightPanel.bind(this)}
           changeResults={this.changeProductResults}
+          goToLastState={this.goToLastState}
         />
         <div className="panels">
           <LeftPanel />

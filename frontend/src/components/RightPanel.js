@@ -8,6 +8,7 @@ import Map from './Map';
 import Searcher from './SearchPanel';
 import Square from './Square';
 import {requestMap} from '../requests/MapRequest';
+import {requestCatalog} from '../requests/ProductRequest.js';
 
 // minimum width is 70
 const WIDTHS = {
@@ -22,8 +23,10 @@ class RightPanel extends React.Component {
     this.state = {
       'componentDidMount': false,
       'map': [],
+      'catalog': [],
     };
     this.currentPanel = this.currentPanel.bind(this);
+    this.catalogRef = React.createRef();
   }
 
   componentDidMount() {
@@ -31,6 +34,17 @@ class RightPanel extends React.Component {
       'componentDidMount': true,
     });
     this.initializeMap();
+    this.initializeCatalog();
+  }
+
+  async initializeCatalog() {
+    const catalog = await requestCatalog();
+    this.setState({
+      'catalog': catalog,
+    });
+    if (this.catalogRef.current !== null) {
+      this.catalogRef.current.updateCatalog(catalog);
+    }
   }
 
   async initializeMap() {
@@ -46,7 +60,7 @@ class RightPanel extends React.Component {
           down = map[x + 1][y];
         }
         let needsShadow = false;
-        if (right == 0 ||down == 0) needsShadow = true;
+        if (right == 0 || down == 0) needsShadow = true;
         map[x][y] = (
           <Square
             key={(x, y)}
@@ -71,10 +85,10 @@ class RightPanel extends React.Component {
       return <Cart />;
     } else if (panel === 'catalog') {
       this.changePanelWidth(WIDTHS.CATALOG);
-      return <Catalog />;
+      return <Catalog catalog={this.state.catalog} ref={this.catalogRef} />;
     } else if (panel === 'map') {
       this.changePanelWidth(WIDTHS.MAP);
-      return <Map map={this.state.map}/>;
+      return <Map map={this.state.map} />;
     } else if (panel === 'searcher') {
       this.changePanelWidth(WIDTHS.SEARCHER);
       return (

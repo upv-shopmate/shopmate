@@ -36,7 +36,7 @@ class ProductDetails extends Component {
   }
 
   getProductPrice() {
-    return this.props.product.price.toFixed(2) + '€';
+    return this.props.product.priceWithVat.toFixed(2) + '€';
   }
 
   closeDetailsPanel() {

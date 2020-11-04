@@ -17,10 +17,13 @@
   flex-flow: column;
   justify-content: space-around;
   min-width: 60%;
+  flex-grow: 1;
 }
 
 .result-topline {
   display: flex;
+  justify-content: flex-start;
+  
 }
 
 .result-name {
@@ -50,32 +53,39 @@
 
 .result-bottomline {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start; 
+}
+
+.result-cart {
+  min-width: 110px;
 }
 
 .result-categories {
+  max-height: 20px;
   display: flex;
   overflow: hidden;
   justify-content: space-between;
-  margin-right: 130px;
+  margin-left: 50px;
 }
 
 .result-image {
   max-height: 55px;
   width: 50px;
+  min-width: 50px;
   height: auto;
   margin-left: 15px;
+  margin-right: 10px;
 }
 
 .result-categories-image {
   width: 20px;
   height: auto;
-  margin-right: 10px;
+  margin-right: 5px;
 }
 
 .result-price {
   font-weight: bold;
   font-size: 30px;
   margin-right: 15px;
-  margin-left: 150px;
+  margin-left: 10px;
 }

@@ -20,9 +20,10 @@
 .searcher-buttons {
   display: flex;
   align-self: flex-end;
-  margin-top: 5px;
+  margin-top: 1px;
   margin-bottom: 10px;
   margin-right: 10px;
+  background-color: blue;
 }
 
 .return-button {
@@ -33,11 +34,12 @@
 }
 
 .return-button-image {
-  width: 25px;
+  width: 35px;
   height: auto;
 }
 
 .return-button-text {
   margin-left: 5px;
   font-weight: bold;
+  font-size: 17px;
 }

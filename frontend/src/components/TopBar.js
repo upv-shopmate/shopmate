@@ -21,6 +21,7 @@ class TopBar extends React.Component {
           <div className="logo-name">ShopMate</div>
         </div>
         <SearchField
+          goToLastState={this.props.goToLastState}
           onChangeRightPanel={this.props.onChangeRightPanel}
           changeResults={this.props.changeResults}
         />

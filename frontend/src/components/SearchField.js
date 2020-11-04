@@ -27,11 +27,15 @@ class SearchField extends React.Component {
   async search() {
     if (this.state.searchInput.length > 0) {
       const products = await requestSearchDataBase(this.state.searchInput);
-      if (products.length > 0) {
-        this.props.changeResults(products);
-        this.changePanel();
-      }
+      this.props.changeResults(products);
+      this.changePanel();
+    } else {
+      this.closeSearchPanel();
     }
+  }
+
+  closeSearchPanel() {
+    this.props.goToLastState();
   }
 
   updateSearchText(input) {
@@ -43,6 +47,7 @@ class SearchField extends React.Component {
 
   clearSearchField() {
     this.inputRef.current.clearFieldValue();
+    this.closeSearchPanel();
   }
 
   render() {
@@ -56,7 +61,8 @@ class SearchField extends React.Component {
         <Input
           ref={this.inputRef}
           onChangeParent={this.updateSearchText}
-          placeholder={'Buscar productos'}
+          placeholder={'Buscar productos, marcas, categorías...'}
+          search={this.search}
         />
         <img
           className="clear-button"

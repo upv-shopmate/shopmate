@@ -1,7 +1,8 @@
+/* eslint react/prop-types: 0 */
+
 import '../assets/css/Catalog.css';
 import React from 'react';
 import './Product';
-import {requestDataBase} from '../requests/ProductRequest.js';
 import Product from './Product';
 import ProductDetails from './ProductDetails';
 
@@ -19,20 +20,24 @@ class Catalog extends React.Component {
     };
     this.showProductDetails = this.showProductDetails.bind(this);
     this.closeProductDetails = this.closeProductDetails.bind(this);
-    this.getProductsFromDataBase = this.getProductsFromDataBase.bind(this);
   }
 
   componentDidMount() {
-    this.getProductsFromDataBase();
+    this.startCatalog();
   }
 
-  async getProductsFromDataBase() {
-    const data = await requestDataBase();
+  startCatalog() {
+    if (this.props.catalog !== []) {
+      this.setState({
+        'products': this.props.catalog,
+      });
+    }
+  }
+
+  updateCatalog(catalog) {
     this.setState({
-      products: data,
-      selectedProduct: this.state.selectedProduct,
+      'products': catalog,
     });
-    this.renderProducts(data);
   }
 
   changePanelHeight(newHeight) {
@@ -61,13 +66,15 @@ class Catalog extends React.Component {
   }
 
   renderProducts() {
-    return this.state.products.map((product) =>
-      <Product
-        key={product.barcode}
-        productData={product}
-        showProductDetails={this.showProductDetails}
-      />,
-    );
+    if (this.state.products !== []) {
+      return this.state.products.map((product) =>
+        <Product
+          key={product.barcode}
+          productData={product}
+          showProductDetails={this.showProductDetails}
+        />,
+      );
+    }
   }
 
   render() {

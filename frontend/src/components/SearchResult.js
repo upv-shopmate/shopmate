@@ -27,13 +27,13 @@ class SearchResult extends Component {
   getProductBrand() {
     const aux = this.props.productData.brands;
     if (aux !== [] && aux[0] !== undefined) {
-      return 'de ' + aux[0].name;
+      return aux[0].name;
     }
     return 'N/A';
   }
 
   getProductPrice() {
-    return this.props.productData.price.toFixed(2) + '€';
+    return this.props.productData.priceWithVat.toFixed(2) + '€';
   }
 
   getProductWeightOrVolume() {
@@ -53,7 +53,9 @@ class SearchResult extends Component {
     let categories = this.props.productData.categories;
     if (categories.length > 0) {
       categories = categories.map((category) => category.name + ', ');
-      return categories.slice(0, categories.length - 2);
+      const pos = categories.length - 1;
+      categories[pos] = categories[pos].slice(0, categories[pos].length - 2);
+      return categories;
     } else {
       return 'Sin categorías';
     }

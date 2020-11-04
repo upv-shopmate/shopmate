@@ -16,7 +16,11 @@ class SearchPanel extends React.Component {
   }
 
   getResultsNumber() {
-    return 'Resultados de la búsqueda (' + this.props.results.length + ')';
+    const results = this.props.results.length;
+    if (results > 0) {
+      return 'Resultados de la búsqueda (' + results + ')';
+    }
+    return 'No se han encontrado resultados. Inténtelo de nuevo.';
   }
 
   render() {

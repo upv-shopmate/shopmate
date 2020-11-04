@@ -9,7 +9,7 @@ export async function requestCartContentDataBase() {
   })
       .then(function(response) {
         {
-         contents = response.data;
+          contents = response.data;
         }
       });
   return contents;

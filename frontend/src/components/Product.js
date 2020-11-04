@@ -32,7 +32,7 @@ class Product extends Component {
   }
 
   getPrice() {
-    return this.state.product.price.toFixed(2);
+    return this.state.product.priceWithVat.toFixed(2);
   }
 
   getImage() {
