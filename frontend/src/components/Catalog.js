@@ -65,6 +65,14 @@ class Catalog extends React.Component {
     this.changePanelHeight(HEIGHTS.CLOSED);
   }
 
+  handleScroll(element) {
+    const bottomPosition = element.target.scrollHeight - element.target.offsetHeight;
+    const currentPosition = element.target.scrollTop;
+    if(currentPosition === bottomPosition) {
+      this.props.onBottomPage();
+    }
+  }
+
   renderProducts() {
     if (this.state.products !== []) {
       return this.state.products.map((product) =>
@@ -80,7 +88,7 @@ class Catalog extends React.Component {
   render() {
     return (
       <div className="catalog">
-        <div className="products">{this.renderProducts()}</div>
+        <div className="products" onScroll={(e) => this.handleScroll(e)}>{this.renderProducts()}</div>
         <div className="product-details">
           <ProductDetails
             closePanel={this.closeProductDetails}

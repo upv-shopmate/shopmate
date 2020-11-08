@@ -9,6 +9,7 @@ import Searcher from './SearchPanel';
 import Square from './Square';
 import {requestMap} from '../requests/MapRequest';
 import {requestCatalog} from '../requests/ProductRequest.js';
+import loadingGif from '../assets/images/loading.gif';
 
 // minimum width is 70
 const WIDTHS = {
@@ -24,27 +25,33 @@ class RightPanel extends React.Component {
       'componentDidMount': false,
       'map': [],
       'catalog': [],
+      'catalogPage': 0
     };
     this.currentPanel = this.currentPanel.bind(this);
     this.catalogRef = React.createRef();
+    this.loadingRef = React.createRef();
   }
 
   componentDidMount() {
     this.setState({
       'componentDidMount': true,
     });
+    this.hideLoading();
     this.initializeMap();
     this.initializeCatalog();
   }
 
   async initializeCatalog() {
-    const catalog = await requestCatalog();
+    this.showLoading();
+    const catalog = await requestCatalog(this.state.catalogPage);
     this.setState({
       'catalog': catalog,
+      'catalogPage': this.state.catalogPage + 1
     });
     if (this.catalogRef.current !== null) {
-      this.catalogRef.current.updateCatalog(catalog);
+      this.catalogRef.current.updateCatalog(catalog.concat(this.state.catalog))
     }
+    this.hideLoading();
   }
 
   async initializeMap() {
@@ -78,6 +85,7 @@ class RightPanel extends React.Component {
     return this.changePanel(this.props.panel);
   }
 
+
   changePanel(input) {
     const panel = input;
     if (panel === 'cart') {
@@ -85,7 +93,11 @@ class RightPanel extends React.Component {
       return <Cart />;
     } else if (panel === 'catalog') {
       this.changePanelWidth(WIDTHS.CATALOG);
-      return <Catalog catalog={this.state.catalog} ref={this.catalogRef} />;
+      return <Catalog 
+        catalog={this.state.catalog} 
+        ref={this.catalogRef} 
+        onBottomPage={() => this.initializeCatalog()}
+      />;
     } else if (panel === 'map') {
       this.changePanelWidth(WIDTHS.MAP);
       return <Map map={this.state.map} />;
@@ -108,10 +120,18 @@ class RightPanel extends React.Component {
     }
   }
 
+  showLoading() {
+    this.loadingRef.current.style.display = "inherit"
+  }
+  hideLoading() {
+    this.loadingRef.current.style.display = "none"
+  }
+
   render() {
     return (
       <div className="right-panel">
         <this.currentPanel panel={this.props.panel} />
+        <img src={loadingGif} className="loading-gif" ref={this.loadingRef}></img>
       </div>
     );
   }
