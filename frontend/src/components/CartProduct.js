@@ -2,8 +2,8 @@
 
 import '../assets/css/CartProduct.css';
 import imageNotFound from '../assets/images/image_not_found.jpg';
-import React, { Component } from 'react';
-import { capitalize } from '../utils/Utils';
+import React, {Component} from 'react';
+import {capitalize} from '../utils/Utils';
 
 class CartProduct extends Component {
   constructor(props) {
@@ -30,8 +30,10 @@ class CartProduct extends Component {
 
   getEntrieUnitPrice() {
     const product = this.props.entry.item;
-    if (this.props.entry.quantity > 1) return product.priceWithVat.toFixed(2) + '€/unidad';
-    return "";
+    if (this.props.entry.quantity > 1) {
+      return product.priceWithVat.toFixed(2) + '€/unidad';
+    }
+    return '';
   }
 
   getEntrieTotalPrice() {
