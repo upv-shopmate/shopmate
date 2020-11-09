@@ -18,6 +18,9 @@
     flex-flow: column;
     justify-content: space-around;
     min-width: 60%;
+    flex-grow: 1;
+    margin-left: 10px;
+    margin-right: 15px;
   }
   
   .entrie-topline {
@@ -32,6 +35,26 @@
   .entrie-bottomline {
     display: flex;
     justify-content: space-between;
+    flex-grow: 1;
+    align-items: center;
+  }
+
+  .entrie-price-box {
+    display: flex;
+    flex-flow: column;
+    margin-right: 15px;
+  }
+
+  .entrie-unit-text {
+    font-size: 15px;
+  }
+
+  .entrie-unit-price {
+    margin-left: 5px;
+    font-size: 13.3px;
+    align-self: flex-end;
+    font-weight: bold;
+    color: gray;
   }
   
   .entrie-image {
@@ -42,10 +65,10 @@
   }
 
   .entrie-price {
+    display: flex;
     font-weight: bold;
     font-size: 30px;
-    margin-right: 15px;
-    margin-left: 90px;
     width: auto;
+    align-self: center;
   }
   

@@ -2,8 +2,8 @@
 
 import '../assets/css/CartProduct.css';
 import imageNotFound from '../assets/images/image_not_found.jpg';
-import React, {Component} from 'react';
-import {capitalize} from '../utils/Utils';
+import React, { Component } from 'react';
+import { capitalize } from '../utils/Utils';
 
 class CartProduct extends Component {
   constructor(props) {
@@ -28,9 +28,14 @@ class CartProduct extends Component {
     return 'Cantidad: ' + this.props.entry.quantity;
   }
 
-  getEntriePrice() {
+  getEntrieUnitPrice() {
     const product = this.props.entry.item;
-    return product.priceWithVat.toFixed(2) + ' €';
+    return product.priceWithVat.toFixed(2) + '€/unidad';
+  }
+
+  getEntrieTotalPrice() {
+    const product = this.props.entry;
+    return product.totalPrice.toFixed(2) + ' €';
   }
 
 
@@ -48,7 +53,14 @@ class CartProduct extends Component {
             </div>
           </div>
         </div>
-        <div className="entrie-price">{this.getEntriePrice()}</div>
+        <div className="entrie-price-box">
+          <div className="entrie-price">
+            {this.getEntrieTotalPrice()}
+          </div>
+          <div className="entrie-unit-price">
+            {this.getEntrieUnitPrice()}
+          </div>
+        </div>
       </div>
     );
   }
