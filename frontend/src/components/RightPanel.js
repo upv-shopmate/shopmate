@@ -7,8 +7,8 @@ import Cart from './Cart';
 import Map from './Map';
 import Searcher from './SearchPanel';
 import Square from './Square';
-import {requestMap} from '../requests/MapRequest';
-import {requestCatalog} from '../requests/ProductRequest.js';
+import { requestMap } from '../requests/MapRequest';
+import { requestCatalog } from '../requests/ProductRequest.js';
 import loadingGif from '../assets/images/loading.gif';
 
 // minimum width is 70
@@ -25,12 +25,14 @@ class RightPanel extends React.Component {
       'componentDidMount': false,
       'map': [],
       'catalog': [],
-      'catalogPage': 0
+      'catalogPage': 0,
     };
     this.currentPanel = this.currentPanel.bind(this);
     this.catalogRef = React.createRef();
     this.loadingRef = React.createRef();
+    this.searchPanelRef = React.createRef();
   }
+
 
   componentDidMount() {
     this.setState({
@@ -85,6 +87,14 @@ class RightPanel extends React.Component {
     return this.changePanel(this.props.panel);
   }
 
+  updateSearchPanel(input) {
+    this.searchPanelRef.current.updateResults(input);
+  }
+
+  searchMoreResults() {
+    this.props.moreResults();
+  }
+
 
   changePanel(input) {
     const panel = input;
@@ -93,9 +103,9 @@ class RightPanel extends React.Component {
       return <Cart />;
     } else if (panel === 'catalog') {
       this.changePanelWidth(WIDTHS.CATALOG);
-      return <Catalog 
-        catalog={this.state.catalog} 
-        ref={this.catalogRef} 
+      return <Catalog
+        catalog={this.state.catalog}
+        ref={this.catalogRef}
         onBottomPage={() => this.initializeCatalog()}
       />;
     } else if (panel === 'map') {
@@ -105,8 +115,9 @@ class RightPanel extends React.Component {
       this.changePanelWidth(WIDTHS.SEARCHER);
       return (
         <Searcher
+          ref={this.searchPanelRef}
           goToLastState={this.props.goToLastState}
-          results={this.props.results}
+          onResultsBottomPage={() => this.searchMoreResults()}
         />
       );
     }

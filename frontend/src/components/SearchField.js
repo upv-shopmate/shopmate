@@ -5,7 +5,6 @@ import searchIcon from '../assets/images/search_icon.png';
 import clearButton from '../assets/images/clear_button.png';
 import Input from './Input';
 import '../assets/css/Nav.css';
-import {requestSearchDataBase} from '../requests/SearchRequests.js';
 
 class SearchField extends React.Component {
   constructor(props) {
@@ -24,10 +23,9 @@ class SearchField extends React.Component {
     this.props.onChangeRightPanel('searcher');
   }
 
-  async search() {
+  search() {
     if (this.state.searchInput.length > 0) {
-      const products = await requestSearchDataBase(this.state.searchInput);
-      this.props.changeResults(products);
+      this.props.changeResults(this.state.searchInput);
       this.changePanel();
     } else {
       this.closeSearchPanel();

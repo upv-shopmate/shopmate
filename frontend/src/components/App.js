@@ -4,6 +4,7 @@ import TopBar from './TopBar';
 import LeftPanel from './LeftPanel';
 import RightPanel from './RightPanel';
 import Nav from './Nav';
+import { requestSearchDataBase } from '../requests/SearchRequests.js';
 
 export const dataBaseURL = 'https://localhost:5001';
 
@@ -14,9 +15,28 @@ class App extends React.Component {
       'selectedPanel': 'cart',
       'results': [],
       'lastPanel': '',
+      'resultsPage': 0,
+      'lastSearchInput': "",
     };
     this.changeProductResults = this.changeProductResults.bind(this);
     this.goToLastState = this.goToLastState.bind(this);
+    this.rightPanelRef = React.createRef();
+  }
+
+  getAndChangeResultsPage() {
+    const page = this.state.resultsPage;
+    this.setState({
+      'resultsPage': page + 1,
+    })
+    return page;
+  }
+
+  resetResults() {
+    this.setState({
+      'resultsPage': 0,
+      'results': [],
+    })
+    console.log(this.state.resultsPage);
   }
 
   changeLastPanel(panel) {
@@ -29,6 +49,7 @@ class App extends React.Component {
     this.setState({
       'selectedPanel': this.state.lastPanel,
     });
+    this.resetResults();
   }
 
   changeRightPanel(panel) {
@@ -37,10 +58,22 @@ class App extends React.Component {
     });
   }
 
-  changeProductResults(input) {
+  async changeProductResults(searchInput) {
+    if (this.state.lastSearchInput !== searchInput) this.resetResults()
     this.setState({
-      results: input,
+      lastSearchInput: searchInput,
+    })
+    this.rightPanelRef.current.showLoading();
+    const resultsPage = this.getAndChangeResultsPage();
+    const products = await requestSearchDataBase(searchInput, resultsPage);
+    console.log(products);
+    const results = products.concat(this.state.results);
+    this.setState({
+      'results': results,
     });
+    console.log(this.state.results);
+    this.rightPanelRef.current.updateSearchPanel(this.state.results);
+    this.rightPanelRef.current.hideLoading();
   }
 
   render() {
@@ -54,6 +87,8 @@ class App extends React.Component {
         <div className="panels">
           <LeftPanel />
           <RightPanel
+            moreResults={this.changeProductResults}
+            ref={this.rightPanelRef}
             panel={this.state.selectedPanel}
             goToLastState={this.goToLastState}
             results={this.state.results}

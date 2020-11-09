@@ -7,16 +7,34 @@ import Result from './SearchResult';
 class SearchPanel extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      'results': [],
+    }
+  }
+
+
+  handleScroll(element) {
+    const bottomPosition = element.target.scrollHeight - element.target.offsetHeight;
+    const currentPosition = element.target.scrollTop;
+    if (currentPosition === bottomPosition) {
+      this.props.onResultsBottomPage();
+    }
   }
 
   renderResults() {
-    return this.props.results.map((result) =>
+    return this.state.results.map((result) =>
       <Result key={result.barcode} productData={result} />,
     );
   }
 
+  updateResults(input) {
+    this.setState({
+      'results': input
+    })
+  }
+
   getResultsNumber() {
-    const results = this.props.results.length;
+    const results = this.state.results.length;
     if (results > 0) {
       return 'Resultados de la búsqueda (' + results + ')';
     }
@@ -27,7 +45,7 @@ class SearchPanel extends React.Component {
     return (
       <div className="searcher">
         <div className="searcher-title">{this.getResultsNumber()}</div>
-        <div className="searcher-results">
+        <div className="searcher-results" onScroll={(e) => this.handleScroll(e)}>
           {this.renderResults()}
         </div>
         <div className="searcher-buttons">
