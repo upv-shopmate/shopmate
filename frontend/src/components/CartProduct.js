@@ -30,7 +30,8 @@ class CartProduct extends Component {
 
   getEntrieUnitPrice() {
     const product = this.props.entry.item;
-    return product.priceWithVat.toFixed(2) + '€/unidad';
+    if (this.props.entry.quantity > 1) return product.priceWithVat.toFixed(2) + '€/unidad';
+    return "";
   }
 
   getEntrieTotalPrice() {
