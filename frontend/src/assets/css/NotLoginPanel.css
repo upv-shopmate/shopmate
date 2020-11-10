@@ -1,0 +1,37 @@
+.not-logged-user-block{
+    padding-top: 100px;
+    display: column;
+}
+
+.account-image{
+    display: block;
+    margin: auto;
+    height: 80px;
+    width: 80px;
+}
+
+.question{
+    margin-top: 5px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.login-text{
+    word-break: keep-all;
+    text-align: center;
+    margin: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+    color: rgb(78, 78, 78);
+}
+
+.login-button{
+    background-color: rgb(65, 64, 64);
+    color: white;
+    height: 30px;
+    width: 130px;
+    border: 0px;
+    flex-flow: row;
+    margin-top: 15px;
+    margin-left: 85px;  
+}

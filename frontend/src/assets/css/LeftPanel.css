@@ -3,3 +3,28 @@
     width: 30%;
     background-color: rgb(211, 211, 211);
 }
+
+.left-panel-title {
+    margin-top: 10px;
+    margin-left: 20px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.bottom-buttons{
+    display: flex;
+    position: absolute;
+    bottom: 0;
+    margin-bottom: 90px;
+}
+
+.button{
+    background-color: rgb(65, 64, 64);
+    color: white;
+    height: 40px;
+    width: 130px;
+    border: 0px;
+    flex-flow: row;
+    margin-left: 10px;
+    margin-right: 10px;
+}
