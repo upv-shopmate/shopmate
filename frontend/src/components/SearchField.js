@@ -10,7 +10,7 @@ class SearchField extends React.Component {
   constructor(props) {
     super(props);
     this.state = ({
-      value: '',
+      searchInput: '',
     });
     this.changePanel = this.changePanel.bind(this);
     this.search = this.search.bind(this);
@@ -33,6 +33,7 @@ class SearchField extends React.Component {
   }
 
   closeSearchPanel() {
+    this.resetSearchInput();
     this.props.goToLastState();
   }
 
@@ -45,7 +46,14 @@ class SearchField extends React.Component {
 
   clearSearchField() {
     this.inputRef.current.clearFieldValue();
+    this.resetSearchInput();
     this.closeSearchPanel();
+  }
+
+  resetSearchInput() {
+    this.setState({
+      searchInput: '',
+    })
   }
 
   render() {

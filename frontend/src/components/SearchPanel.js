@@ -27,6 +27,11 @@ class SearchPanel extends React.Component {
     );
   }
 
+  scrollToTop() {
+    var searchResults = document.querySelector('.searcher-results');
+    searchResults.scrollTo(0, 0);
+  }
+
   updateResults(input) {
     this.setState({
       'results': input

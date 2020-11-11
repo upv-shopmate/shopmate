@@ -91,6 +91,10 @@ class RightPanel extends React.Component {
     this.searchPanelRef.current.updateResults(input);
   }
 
+  scrollToTopResultsPanel() {
+    this.searchPanelRef.current.scrollToTop();
+  }
+
   searchMoreResults() {
     this.props.moreResults();
   }

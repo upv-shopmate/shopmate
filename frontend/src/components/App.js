@@ -17,6 +17,7 @@ class App extends React.Component {
       'lastPanel': '',
       'resultsPage': 0,
       'lastSearchInput': "",
+      'noMoreResults': false,
     };
     this.changeProductResults = this.changeProductResults.bind(this);
     this.goToLastState = this.goToLastState.bind(this);
@@ -28,7 +29,7 @@ class App extends React.Component {
     this.setState({
       'resultsPage': page + 1,
     })
-    return page;
+    return page + 1;
   }
 
   resetResults() {
@@ -36,7 +37,6 @@ class App extends React.Component {
       'resultsPage': 0,
       'results': [],
     })
-    console.log(this.state.resultsPage);
   }
 
   changeLastPanel(panel) {
@@ -58,22 +58,49 @@ class App extends React.Component {
     });
   }
 
-  async changeProductResults(searchInput) {
-    if (this.state.lastSearchInput !== searchInput) this.resetResults()
-    this.setState({
-      lastSearchInput: searchInput,
-    })
-    this.rightPanelRef.current.showLoading();
-    const resultsPage = this.getAndChangeResultsPage();
-    const products = await requestSearchDataBase(searchInput, resultsPage);
-    console.log(products);
-    const results = products.concat(this.state.results);
-    this.setState({
-      'results': results,
-    });
-    console.log(this.state.results);
-    this.rightPanelRef.current.updateSearchPanel(this.state.results);
-    this.rightPanelRef.current.hideLoading();
+  changeProductResults(searchInput) {
+    let page = 0;
+    let lastSearchInput = this.state.lastSearchInput;
+    let noMoreResults = this.state.noMoreResults;
+
+
+    if (searchInput === undefined || searchInput === lastSearchInput) {
+      page = this.getAndChangeResultsPage();
+      searchInput = lastSearchInput;
+    } else if (lastSearchInput !== searchInput) {
+      this.resetResults();
+      this.setState({
+        'lastSearchInput': searchInput,
+        'noMoreResults': false,
+      })
+      noMoreResults = false;
+    } else {
+      return 0;
+    }
+    if (!noMoreResults) {
+      this.requestAndUpdateResults(searchInput, lastSearchInput, page);
+    }
+  }
+
+  async requestAndUpdateResults(searchInput, lastSearchInput, page) {
+    let rightPanelRef = this.rightPanelRef.current;
+    rightPanelRef.showLoading();
+    const products = await requestSearchDataBase(searchInput, page);
+    if (searchInput !== lastSearchInput) rightPanelRef.scrollToTopResultsPanel();
+    if (products.length == 0) {
+      rightPanelRef.hideLoading();
+      this.setState({
+        'noMoreResults': true
+      })
+    } else {
+      const results = this.state.results.concat(products);
+      this.setState({
+        'results': results,
+      });
+      rightPanelRef.updateSearchPanel(this.state.results);
+
+      rightPanelRef.hideLoading();
+    }
   }
 
   render() {
