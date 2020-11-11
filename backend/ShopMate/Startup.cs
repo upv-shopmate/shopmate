@@ -94,7 +94,6 @@ namespace ShopMate
             }).AddJwtBearer(o =>
             {
                 o.RequireHttpsMetadata = !Configuration.GetValue<bool>("Jwt:UnsafeMode");
-                o.SaveToken = true;
                 o.TokenValidationParameters = new TokenValidationParameters()
                 {
                     ValidIssuers = Configuration.GetSection("Jwt:Issuers").Get<List<string>>(),
