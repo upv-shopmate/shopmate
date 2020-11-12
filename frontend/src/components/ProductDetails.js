@@ -13,6 +13,11 @@ class ProductDetails extends Component {
     this.closeDetailsPanel = this.closeDetailsPanel.bind(this);
   }
 
+  roundUp(num, precision) {
+    precision = Math.pow(10, precision);
+    return (Math.ceil(num * precision) / precision).toFixed(2);
+  }
+
   getProductName() {
     const name = this.props.product.name;
     return capitalize(name);
@@ -36,7 +41,7 @@ class ProductDetails extends Component {
   }
 
   getProductPrice() {
-    return this.props.product.priceWithVat.toFixed(2) + '€';
+    return this.roundUp(this.props.product.priceWithVat, 2) + '€';
   }
 
   closeDetailsPanel() {

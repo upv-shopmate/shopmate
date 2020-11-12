@@ -10,6 +10,11 @@ class SearchResult extends Component {
     super(props);
   }
 
+  roundUp(num, precision) {
+    precision = Math.pow(10, precision);
+    return (Math.ceil(num * precision) / precision).toFixed(2);
+  }
+
   getProductName() {
     const name = this.props.productData.name;
     return capitalize(name);
@@ -33,7 +38,7 @@ class SearchResult extends Component {
   }
 
   getProductPrice() {
-    return this.props.productData.priceWithVat.toFixed(2) + '€';
+    return this.roundUp(this.props.productData.priceWithVat, 2) + '€';
   }
 
   getProductWeightOrVolume() {
