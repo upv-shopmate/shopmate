@@ -33,7 +33,8 @@ namespace ShopMate.Models
         /// </summary>
         public Store Store { get; internal set; }
 
-        public Coupon(Store store) => Store = store;
+        public Coupon()
+        { }
 
         public override bool Equals(object? other) => other is Coupon Coupon && Equals(Coupon);
 
