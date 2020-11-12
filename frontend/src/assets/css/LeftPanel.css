@@ -11,6 +11,10 @@
     font-weight: bold;
 }
 
+.current-panel{
+    margin-bottom: 190px;
+}
+
 .bottom-buttons{
     display: flex;
 }
