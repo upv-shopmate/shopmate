@@ -24,8 +24,9 @@ class SearchField extends React.Component {
   }
 
   search() {
-    if (this.state.searchInput.length > 0) {
-      this.props.changeResults(this.state.searchInput);
+    const searchInput = this.state.searchInput;
+    if (searchInput.length > 0 && searchInput.trim().length > 0) {
+      this.props.changeResults(searchInput);
       this.changePanel();
     } else {
       this.closeSearchPanel();
@@ -53,7 +54,7 @@ class SearchField extends React.Component {
   resetSearchInput() {
     this.setState({
       searchInput: '',
-    })
+    });
   }
 
   render() {

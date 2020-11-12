@@ -4,7 +4,7 @@ import TopBar from './TopBar';
 import LeftPanel from './LeftPanel';
 import RightPanel from './RightPanel';
 import Nav from './Nav';
-import { requestSearchDataBase } from '../requests/SearchRequests.js';
+import {requestSearchDataBase} from '../requests/SearchRequests.js';
 
 export const dataBaseURL = 'https://localhost:5001';
 
@@ -16,7 +16,7 @@ class App extends React.Component {
       'results': [],
       'lastPanel': '',
       'resultsPage': 0,
-      'lastSearchInput': "",
+      'lastSearchInput': '',
       'noMoreResults': false,
     };
     this.changeProductResults = this.changeProductResults.bind(this);
@@ -28,15 +28,21 @@ class App extends React.Component {
     const page = this.state.resultsPage;
     this.setState({
       'resultsPage': page + 1,
-    })
+    });
     return page + 1;
+  }
+
+  resetCatalog() {
+    if (this.rightPanelRef !== undefined) {
+      this.rightPanelRef.current.resetCatalog();
+    }
   }
 
   resetResults() {
     this.setState({
       'resultsPage': 0,
       'results': [],
-    })
+    });
   }
 
   changeLastPanel(panel) {
@@ -60,9 +66,8 @@ class App extends React.Component {
 
   changeProductResults(searchInput) {
     let page = 0;
-    let lastSearchInput = this.state.lastSearchInput;
+    const lastSearchInput = this.state.lastSearchInput;
     let noMoreResults = this.state.noMoreResults;
-
 
     if (searchInput === undefined || searchInput === lastSearchInput) {
       page = this.getAndChangeResultsPage();
@@ -72,35 +77,38 @@ class App extends React.Component {
       this.setState({
         'lastSearchInput': searchInput,
         'noMoreResults': false,
-      })
+      });
       noMoreResults = false;
-    } else {
-      return 0;
     }
+
     if (!noMoreResults) {
       this.requestAndUpdateResults(searchInput, lastSearchInput, page);
     }
   }
 
   async requestAndUpdateResults(searchInput, lastSearchInput, page) {
-    let rightPanelRef = this.rightPanelRef.current;
+    const rightPanelRef = this.rightPanelRef.current;
     rightPanelRef.showLoading();
-    const products = await requestSearchDataBase(searchInput, page);
-    if (searchInput !== lastSearchInput) rightPanelRef.scrollToTopResultsPanel();
-    if (products.length == 0) {
-      rightPanelRef.hideLoading();
-      this.setState({
-        'noMoreResults': true
-      })
-    } else {
-      const results = this.state.results.concat(products);
-      this.setState({
-        'results': results,
-      });
-      rightPanelRef.updateSearchPanel(this.state.results);
-
-      rightPanelRef.hideLoading();
+    if (searchInput !== lastSearchInput) {
+      rightPanelRef.changeCompletedSearchResultsPanel(false);
+      rightPanelRef.scrollToTopResultsPanel();
+      rightPanelRef.updateSearchPanel([]);
     }
+    const result = await requestSearchDataBase(searchInput, page);
+    rightPanelRef.changeCompletedSearchResultsPanel(true);
+    if (result.nextPage == null) {
+      this.setState({
+        'noMoreResults': true,
+      });
+    }
+
+    const results = this.state.results.concat(result.items);
+    this.setState({
+      'results': results,
+    });
+    rightPanelRef.updateSearchPanel(this.state.results);
+
+    rightPanelRef.hideLoading();
   }
 
   render() {
@@ -122,6 +130,7 @@ class App extends React.Component {
           />
         </div>
         <Nav
+          resetCatalog={this.resetCatalog.bind(this)}
           changeLastPanel={this.changeLastPanel.bind(this)}
           onChangeRightPanel={this.changeRightPanel.bind(this)}
         />

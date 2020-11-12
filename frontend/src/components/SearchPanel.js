@@ -9,12 +9,14 @@ class SearchPanel extends React.Component {
     super(props);
     this.state = {
       'results': [],
-    }
+      'completedSearch': false,
+    };
   }
 
 
   handleScroll(element) {
-    const bottomPosition = element.target.scrollHeight - element.target.offsetHeight;
+    const bottomPosition = (element.target.scrollHeight -
+      element.target.offsetHeight);
     const currentPosition = element.target.scrollTop;
     if (currentPosition === bottomPosition) {
       this.props.onResultsBottomPage();
@@ -28,29 +30,41 @@ class SearchPanel extends React.Component {
   }
 
   scrollToTop() {
-    var searchResults = document.querySelector('.searcher-results');
+    const searchResults = document.querySelector('.searcher-results');
     searchResults.scrollTo(0, 0);
   }
 
   updateResults(input) {
     this.setState({
-      'results': input
-    })
+      'results': input,
+    });
+  }
+
+  changeCompletedSearch(input) {
+    this.setState({
+      'completedSearch': input,
+    });
   }
 
   getResultsNumber() {
-    const results = this.state.results.length;
-    if (results > 0) {
-      return 'Resultados de la búsqueda (' + results + ')';
+    if (this.state.completedSearch) {
+      const results = this.state.results.length;
+      if (results > 0) {
+        return 'Resultados de la búsqueda (' + results + ')';
+      }
+      return 'No se han encontrado resultados. Inténtelo de nuevo.';
+    } else {
+      return 'Buscando...';
     }
-    return 'No se han encontrado resultados. Inténtelo de nuevo.';
   }
+
 
   render() {
     return (
       <div className="searcher">
         <div className="searcher-title">{this.getResultsNumber()}</div>
-        <div className="searcher-results" onScroll={(e) => this.handleScroll(e)}>
+        <div className="searcher-results"
+          onScroll={(e) => this.handleScroll(e)}>
           {this.renderResults()}
         </div>
         <div className="searcher-buttons">

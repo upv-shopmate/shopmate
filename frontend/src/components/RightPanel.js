@@ -7,8 +7,8 @@ import Cart from './Cart';
 import Map from './Map';
 import Searcher from './SearchPanel';
 import Square from './Square';
-import { requestMap } from '../requests/MapRequest';
-import { requestCatalog } from '../requests/ProductRequest.js';
+import {requestMap} from '../requests/MapRequest';
+import {requestCatalog} from '../requests/ProductRequest.js';
 import loadingGif from '../assets/images/loading.gif';
 
 // minimum width is 70
@@ -26,6 +26,7 @@ class RightPanel extends React.Component {
       'map': [],
       'catalog': [],
       'catalogPage': 0,
+      'initialCatalog': [],
     };
     this.currentPanel = this.currentPanel.bind(this);
     this.catalogRef = React.createRef();
@@ -43,17 +44,41 @@ class RightPanel extends React.Component {
     this.initializeCatalog();
   }
 
+
   async initializeCatalog() {
-    this.showLoading();
-    const catalog = await requestCatalog(this.state.catalogPage);
+    const catalog = await requestCatalog(0);
     this.setState({
+      'initialCatalog': catalog,
       'catalog': catalog,
-      'catalogPage': this.state.catalogPage + 1
+      'catalogPage': 1,
     });
     if (this.catalogRef.current !== null) {
-      this.catalogRef.current.updateCatalog(catalog.concat(this.state.catalog))
+      this.catalogRef.current.updateCatalog(catalog);
+    }
+  }
+
+  async updateCatalog() {
+    this.showLoading();
+    let catalog = await requestCatalog(this.state.catalogPage);
+    catalog = this.state.catalog.concat(catalog);
+    this.setState({
+      'catalog': catalog,
+      'catalogPage': this.state.catalogPage + 1,
+    });
+    if (this.catalogRef.current !== null) {
+      this.catalogRef.current.updateCatalog(catalog);
     }
     this.hideLoading();
+  }
+
+  resetCatalog() {
+    this.setState({
+      'catalog': this.state.initialCatalog,
+      'catalogPage': 1,
+    });
+    if (this.catalogRef.current !== null) {
+      this.catalogRef.current.updateCatalog(this.state.initialCatalog);
+    }
   }
 
   async initializeMap() {
@@ -88,11 +113,21 @@ class RightPanel extends React.Component {
   }
 
   updateSearchPanel(input) {
-    this.searchPanelRef.current.updateResults(input);
+    if (this.searchPanelRef.current !== null) {
+      this.searchPanelRef.current.updateResults(input);
+    }
+  }
+
+  changeCompletedSearchResultsPanel(input) {
+    if (this.searchPanelRef.current !== null) {
+      this.searchPanelRef.current.changeCompletedSearch(input);
+    }
   }
 
   scrollToTopResultsPanel() {
-    this.searchPanelRef.current.scrollToTop();
+    if (this.searchPanelRef.current !== null) {
+      this.searchPanelRef.current.scrollToTop();
+    }
   }
 
   searchMoreResults() {
@@ -110,7 +145,7 @@ class RightPanel extends React.Component {
       return <Catalog
         catalog={this.state.catalog}
         ref={this.catalogRef}
-        onBottomPage={() => this.initializeCatalog()}
+        onBottomPage={() => this.updateCatalog()}
       />;
     } else if (panel === 'map') {
       this.changePanelWidth(WIDTHS.MAP);
@@ -136,17 +171,20 @@ class RightPanel extends React.Component {
   }
 
   showLoading() {
-    this.loadingRef.current.style.display = "inherit"
+    this.loadingRef.current.style.display = 'inherit';
   }
   hideLoading() {
-    this.loadingRef.current.style.display = "none"
+    this.loadingRef.current.style.display = 'none';
   }
 
   render() {
     return (
       <div className="right-panel">
         <this.currentPanel panel={this.props.panel} />
-        <img src={loadingGif} className="loading-gif" ref={this.loadingRef}></img>
+        <img
+          src={loadingGif}
+          className="loading-gif"
+          ref={this.loadingRef}></img>
       </div>
     );
   }
