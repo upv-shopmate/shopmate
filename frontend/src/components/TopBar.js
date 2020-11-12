@@ -5,6 +5,7 @@ import logo from '../assets/images/logo.png';
 import exitIcon from '../assets/images/leave_icon.png';
 import translateIcon from '../assets/images/translate.png';
 import SearchField from './SearchField';
+import Languages from './Languages';
 
 // TODO: extract user field to a new component, DO NOT implement user here
 class TopBar extends React.Component {
@@ -32,6 +33,7 @@ class TopBar extends React.Component {
           </div>
           <div className="translate-button top-button shadow">
             <img src={translateIcon}></img>
+            <Languages className="languages"> </Languages>
           </div>
           <div className="exit-button top-button shadow">
             <img src={exitIcon}></img>

@@ -1,0 +1,61 @@
+.languagesPanel {
+    display: flex;
+    width: 200px;
+    height: 300px;
+    background-color: aliceblue;
+    border-top-left-radius: 1%;
+    border-top-right-radius: 1%;
+    justify-content: space-between;
+    align-items: stretch;
+    flex-flow: column;
+  }
+
+  .languages{
+    display: flex;  
+    align-items: flex-start;
+    flex-flow: column;
+  }
+
+  .flag-icon{
+    width: 75px;
+    height: auto;
+    margin-right: 20px;
+    margin-top: 5px;
+    margin-left: 10px;
+ }
+  
+ .languageButtonLine{
+    display: flex;
+    width: 100%;
+    height: 300%;
+    align-items: center;
+ }
+
+  .changeLanguageButton{
+    width: 50%;
+    height: 60%;
+    background-color: rgb(221, 173, 13);
+    color: white;
+    font-size: 17px;
+    align-items: center;
+    margin-left: 27%;
+  }
+
+.spanish{
+    display: flex;
+    align-items: flex-start;
+    flex-flow: row;
+    align-items: center;
+}
+.english{
+    display: flex;
+    align-items: flex-start;
+    flex-flow: row;
+    align-items: center;
+}
+.valencian{
+    display: flex;
+    align-items: flex-start;
+    flex-flow: row;
+    align-items: center;
+}
