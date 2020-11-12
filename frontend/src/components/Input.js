@@ -41,6 +41,7 @@ class Input extends React.Component {
         onChange={(value) => {
           this.changeFieldValue(value);
         }}
+        type={this.props.type}
         value={this.state.value}
         placeholder={this.props.placeholder}
         defaultKeyboard={CustomMapping}

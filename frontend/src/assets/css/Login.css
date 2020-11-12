@@ -1,0 +1,51 @@
+.loginUser{
+    background-color: white;
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column;
+}
+
+.login-block{
+    width: 600px;
+    height: 275px;
+    background-color: lightgray;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.login-title{
+    size: 30px;
+    margin-left: 20px;
+    font-weight: bold
+}
+
+.brand-text{
+    color:#FDA332;
+}
+
+.user-inputs{
+    display: flex;
+    flex-flow: column;
+    flex-grow: 1;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.login-field{
+    background-color:white;
+    display: flex;
+    width: 500px;
+    height: 40px;
+}
+
+.username-field{
+    flex-grow: 1;
+}
+
+.password-field{
+    flex-grow: 1;
+}

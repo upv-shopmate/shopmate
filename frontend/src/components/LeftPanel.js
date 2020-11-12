@@ -3,6 +3,10 @@ import React from 'react';
 import NotLoginPanel from './NotLoginPanel';
 
 class LeftPanel extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
   render() {
     return (
       <div className="left-panel">

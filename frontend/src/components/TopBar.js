@@ -26,14 +26,18 @@ class TopBar extends React.Component {
           changeResults={this.props.changeResults}
         />
         <div className="right-side">
-          <button className="user-field shadow">
+          <button className="user-field shadow"
+            onClick={this.props.enableLogin}
+          >
             <div className="first-letter"></div>
             <div className="name">Iniciar sesión</div>
           </button>
           <button className="translate-button top-button shadow">
             <img src={translateIcon}></img>
           </button>
-          <button className="exit-button top-button shadow">
+          <button className="exit-button top-button shadow"
+            onClick={this.props.disableLogin}
+          >
             <img src={exitIcon}></img>
           </button>
         </div>

@@ -32,4 +32,7 @@
     flex-flow: row;
     margin-left: 10px;
     margin-right: 10px;
+    opacity: 0.4;
+    cursor: not-allowed;
 }
+
