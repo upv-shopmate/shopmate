@@ -29,7 +29,26 @@
     height: 100%;
     margin-right: 10px;
 }
+
 .user-field {
+    display: flex;
+    align-items: center;
+    height: 42%;
+    width: 100px;
+    background-color:#FDA332;
+    border-radius: 40px;
+    margin-right: 10px;
+    color: white;
+    font-size: 14px;
+}
+
+.name {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/*.user-field {
     display: flex;
     align-items: center;
     height: 40%;
@@ -48,6 +67,7 @@
     justify-content: center;
     align-items: center;
 }
+
 .name {
     display: flex;
     justify-content: center;
@@ -55,9 +75,10 @@
     height: 100%;
     width: 60%;
 }
+*/
 .top-button {
-    height: 30%;
-    width: 15%;
+    height: 42%;
+    width: 22%;
     border-radius: 100%;
     padding: 5px;
 }
