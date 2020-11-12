@@ -25,9 +25,9 @@ namespace ShopMate.Models
         public string Phone { get; internal set; }
 
         /// <summary>
-        /// Money that spent this client.
+        /// Money that this client has spent.
         /// </summary>
-        public Decimal MoneySpent { get; internal set; }
+        public decimal MoneySpent { get; internal set; }
 
         public ICollection<Coupon> OwnedCoupons { get; set; } = new HashSet<Coupon>();
 
@@ -37,6 +37,7 @@ namespace ShopMate.Models
             Email = email;
             MoneySpent = 0;
         }
+
         public override bool Equals(object? other) => other is User User && Equals(User);
 
         public bool Equals(User? other) => Id == other?.Id;

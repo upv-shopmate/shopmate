@@ -153,10 +153,6 @@ namespace ShopMate.Persistence.Relational
 
         public override IQueryable<User> GetAll()
             => Set
-                .Include(u => u.Name)
-                .Include(u => u.Email)
-                .Include(u => u.Phone)
-                .Include(u => u.MoneySpent)
                 .Include(u => u.OwnedCoupons);
     }
 
@@ -167,8 +163,6 @@ namespace ShopMate.Persistence.Relational
 
         public override IQueryable<Coupon> GetAll()
             => Set
-                .Include(c => c.Name)
-                .Include(c => c.Code)
                 .Include(c => c.Effects)
                 .Include(c => c.ApplicableProducts)
                 .Include(c => c.Store);

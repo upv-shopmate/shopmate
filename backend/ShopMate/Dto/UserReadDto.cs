@@ -13,7 +13,7 @@ namespace ShopMate.Dto
 
         public string Phone { get; internal set; }
 
-        public Decimal MoneySpent { get; internal set; }
+        public decimal MoneySpent { get; internal set; }
 
         public ICollection<CouponReadDto> OwnedCoupons { get; set; }
     }
