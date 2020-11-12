@@ -19,9 +19,13 @@
   .flag-icon{
     width: 75px;
     height: auto;
-    margin-right: 20px;
+    margin-right: 15px;
     margin-top: 5px;
     margin-left: 10px;
+ }
+
+ .language-name{
+    font-size: 20px;
  }
   
  .languageButtonLine{
@@ -32,30 +36,39 @@
  }
 
   .changeLanguageButton{
-    width: 50%;
-    height: 60%;
+    width: 60%;
+    height: 70%;
     background-color: rgb(221, 173, 13);
     color: white;
     font-size: 17px;
     align-items: center;
-    margin-left: 27%;
+    margin-left: 22%;
   }
 
 .spanish{
     display: flex;
+    background-color: aliceblue;
     align-items: flex-start;
     flex-flow: row;
     align-items: center;
+    width: 100%;
+    height: auto;
 }
 .english{
     display: flex;
+    background-color: aliceblue;
     align-items: flex-start;
     flex-flow: row;
     align-items: center;
+    width: 100%;
+    height: auto;
 }
 .valencian{
     display: flex;
+    background-color: aliceblue;
     align-items: flex-start;
     flex-flow: row;
     align-items: center;
+    width: 100%;
+    height: auto;
 }

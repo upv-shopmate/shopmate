@@ -10,36 +10,42 @@ import valenciaFlag from '../assets/images/Languages/valencia_flag.png';
 class Languages extends Component {
   constructor(props) {
     super(props);
-    
+    this.closeLanguagePanel = this.closeLanguagePanel(this);
   }
 
-  closeDetailsPanel() {
-    this.props.closePanel();
+  closeLanguagePanel() {
+    //this.props.closePanel();
   }
-
 
   render() {
     return (
     <div className="languagesPanel">
         <div className="languages">
-            <div className="spanish">
+            <button className="spanish" onClick={() => {
+              
+            }} id= "es"> 
                 <img src={spainFlag} className="flag-icon"></img>
-                <div className="langauge-name">Español</div>
-            </div>   
-            <div className="english">
+                <div className="language-name">Español</div>
+            </button>   
+            <button className="english" onClick={() => {
+              
+            }} id="en"> 
                 <img src={uk_usFlag} className="flag-icon"></img>
-                <div className="langauge-name">English</div>
-            </div>    
-            <div className="valencian">
+                <div className="language-name">English</div>
+            </button>    
+            <button className="valencian" onClick={() => {
+              
+            }} id="val"> 
                 <img src={valenciaFlag} className="flag-icon"></img>
-                <div className="langauge-name">Valencià</div>
-            </div>
+                <div className="language-name">Valencià</div>
+            </button>
         </div>
         <div className="languageButtonLine">
-            <button className="changeLanguageButton" onClick={() => {
-          
-            }}>
-                Aceptar
+            <button className="changeLanguageButton" 
+              onClick={() => {
+                //cambio de idioma
+              this.closeLanguagePanel();
+              }}> Aceptar
         </button>
         </div>
     </div>

@@ -11,7 +11,22 @@ import Languages from './Languages';
 class TopBar extends React.Component {
   constructor(props) {
     super(props);
+    this.setState = {
+        langPanel: "",
+        langSelected: ""
+    }
+    this.showLanguagePanel = this.showLanguagePanel.bind(this);
+    this.closeLangaugePanel = this.closeLangaugePanel.bind(this);
   }
+
+  showLanguagePanel(){
+
+  }
+
+  closeLangaugePanel() {
+    
+  }
+
 
 
   render() {
@@ -33,7 +48,9 @@ class TopBar extends React.Component {
           </div>
           <div className="translate-button top-button shadow">
             <img src={translateIcon}></img>
-            <Languages className="languages"> </Languages>
+            <Languages className= "languages"
+              //closePanel={} 
+            />
           </div>
           <div className="exit-button top-button shadow">
             <img src={exitIcon}></img>
