@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
+﻿using System.Linq;
 using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json;
+using ShopMate.Models;
 using ShopMate.Persistence;
+using ShopMate.Services;
 
 namespace ShopMate.Controllers
 {
@@ -22,42 +15,24 @@ namespace ShopMate.Controllers
     {
         private readonly IShopMateRepository repository;
         private readonly IMapper mapper;
-        private readonly IConfiguration config;
+        private readonly IShopMateAuthService auth;
 
-        public UserController(IShopMateRepository repository, IMapper mapper, IConfiguration config)
+        public UserController(IShopMateRepository repository, IMapper mapper, IShopMateAuthService auth)
         {
             this.repository = repository;
             this.mapper = mapper;
-            this.config = config;
+            this.auth = auth;
         }
 
-        // TODO accept user credentials
         [HttpGet("authorize")]
-        public ActionResult<string> Authorize() //crear userAuthorizationDTO.cs para pasar como dato de entrada de Autorize
+        public ActionResult<string> Authorize([FromQuery] string username, [FromQuery] string password) // FIXME
         {
-            var secret = Encoding.ASCII.GetBytes(config["Jwt:Secret"]);
-
-            //Hay que buscar el usuario que coincida con el usuario y contraseña que coincida y guardar el id del cliente para el claims
-            //repository.Users.
-
-            var claims = new[]
+            if (!auth.FindUserByCredentials(username, password, out User user))
             {
-                new Claim(ClaimTypes.NameIdentifier, "1"), //Cambiar el 1 por la id del que se acaba de loggear y hacer string
-                new Claim(ClaimTypes.Role, "customer")
-            };
+                return Unauthorized();
+            }
 
-            var tokenDescriptor = new SecurityTokenDescriptor()
-            {
-                Subject = new ClaimsIdentity(claims),
-                Issuer = config.GetSection("Jwt:Issuers").Get<List<string>>().First(),
-                Audience = "user-login",
-                Expires = DateTime.UtcNow.AddDays(1),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(secret), SecurityAlgorithms.HmacSha256Signature)
-            };
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var createdToken = tokenHandler.CreateToken(tokenDescriptor);
-
-            return Ok(tokenHandler.WriteToken(createdToken));
+            return auth.LogIn(user);
         }
 
         // FIXME this is a test, remove it later

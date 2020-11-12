@@ -10,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using ShopMate.Persistence;
 using ShopMate.Persistence.Relational;
+using ShopMate.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -105,6 +106,8 @@ namespace ShopMate
                     ValidateIssuerSigningKey = true,
                 };
             });
+
+            services.AddScoped<IShopMateAuthService, JwtSessionAuthService>();
         }
     }
 }

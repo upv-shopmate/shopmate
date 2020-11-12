@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ShopMate.Models
 {
@@ -27,7 +28,10 @@ namespace ShopMate.Models
         /// <summary>
         /// Money that this client has spent.
         /// </summary>
+        [Column(TypeName = "money")]
         public decimal MoneySpent { get; internal set; }
+
+        internal string Password { get; set; }
 
         public ICollection<Coupon> OwnedCoupons { get; set; } = new HashSet<Coupon>();
 

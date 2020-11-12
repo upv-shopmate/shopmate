@@ -19,10 +19,10 @@ namespace ShopMate.Controllers
             this.mapper = mapper;
         }
 
-        [HttpGet("{id}")]
-        public ActionResult<StoreReadDto> GetCouponById(int id)
+        [HttpGet("{code}")]
+        public ActionResult<StoreReadDto> GetCouponById(string code)
         {
-            var coupon = repository.Coupons.GetAll().FirstOrDefault(c => c.Id == id);
+            var coupon = repository.Coupons.GetAll().FirstOrDefault(c => c.Code == code);
 
             if (coupon is null)
             {

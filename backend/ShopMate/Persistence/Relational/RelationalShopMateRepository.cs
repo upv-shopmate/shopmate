@@ -66,6 +66,7 @@ namespace ShopMate.Persistence.Relational
                                 || tokens.Intersect(p.Labels.Select(l => l.Name)).Any()
                                 || tokens.Contains(p.Weight + "g")
                             )
+                            .OrderBy(row => row)
                             .Skip(page * itemsPerPage)
                             .Take(itemsPerPage + 1)
                             .ToList();

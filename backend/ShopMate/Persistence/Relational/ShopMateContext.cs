@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Namotion.Reflection;
 using ShopMate.Models;
 using System.Runtime.CompilerServices;
 
