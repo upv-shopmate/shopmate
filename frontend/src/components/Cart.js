@@ -15,6 +15,11 @@ class Cart extends React.Component {
     this.getProductsFromDataBase();
   }
 
+  roundUp(num, precision) {
+    precision = Math.pow(10, precision);
+    return (Math.ceil(num * precision) / precision).toFixed(2);
+  }
+
   async getProductsFromDataBase() {
     const data = await requestCartContentDataBase();
     this.setState({
@@ -25,19 +30,19 @@ class Cart extends React.Component {
   getProductSubtotal() {
     const cartContent = this.state.cartContent;
     return (cartContent ?
-      cartContent.subtotalPrice.toFixed(2) : 0);
+      this.roundUp(cartContent.subtotalPrice, 2) : 0);
   }
 
   getProductTotalPrice() {
     const cartContent = this.state.cartContent;
     return (cartContent ?
-      cartContent.totalPrice.toFixed(2) : 0);
+      this.roundUp(cartContent.totalPrice, 2) : 0);
   }
 
   getProductPriceBase() {
     const cartContent = this.state.cartContent;
     return ' Base: ' + (cartContent ?
-      cartContent.modifierBreakdowns[0].applicableBase.toFixed(2) : 0);
+      this.roundUp(cartContent.modifierBreakdowns[0].applicableBase, 2) : 0);
   }
 
   getProductIVA() {
@@ -49,7 +54,7 @@ class Cart extends React.Component {
   getProductPriceImport() {
     const cartContent = this.state.cartContent;
     return ' Importe: ' + (cartContent ?
-      cartContent.modifierBreakdowns[0].totalDelta.toFixed(2) : 0);
+      this.roundUp(cartContent.modifierBreakdowns[0].totalDelta, 2) : 0);
   }
 
   getProductsListNumber() {

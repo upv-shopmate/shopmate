@@ -14,6 +14,11 @@ class Product extends Component {
     this.setProduct = this.setProduct.bind(this);
   }
 
+  roundUp(num, precision) {
+    precision = Math.pow(10, precision);
+    return (Math.ceil(num * precision) / precision).toFixed(2);
+  }
+
   setProduct() {
     this.props.showProductDetails(this.state.product);
   }
@@ -32,7 +37,7 @@ class Product extends Component {
   }
 
   getPrice() {
-    return this.state.product.priceWithVat.toFixed(2);
+    return this.roundUp(this.state.product.priceWithVat, 2);
   }
 
   getImage() {
