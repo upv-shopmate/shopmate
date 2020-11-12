@@ -2,6 +2,8 @@
     height: 100%;
     width: 30%;
     background-color: rgb(211, 211, 211);
+    display: flex;
+    flex-flow: column;
 }
 
 .left-panel-title {
@@ -12,11 +14,13 @@
 }
 
 .current-panel{
-    margin-bottom: 190px;
+    display: flex;
+    flex-grow: 1;
 }
 
 .bottom-buttons{
     display: flex;
+    margin-bottom: 35px;
 }
 
 .button{
