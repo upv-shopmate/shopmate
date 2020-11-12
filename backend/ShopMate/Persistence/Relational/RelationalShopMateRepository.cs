@@ -20,6 +20,8 @@ namespace ShopMate.Persistence.Relational
             Stores = new RelationalStoreRepository(context.Stores);
             ShoppingLists = new RelationalShoppingListRepository(context.ShoppingLists);
             Carts = new RelationalCartRepository(context.Carts);
+            Users = new RelationalUserRepository(context.Users);
+            Coupons = new RelationalCouponRepository(context.Coupons);
         }
 
         public IProductRepository Products { get; }
@@ -35,6 +37,10 @@ namespace ShopMate.Persistence.Relational
         public IShoppingListRepository ShoppingLists { get; }
 
         public ICartRepository Carts { get; }
+
+        public IUserRepository Users { get; }
+
+        public ICouponRepository Coupons { get; }
 
         public bool SaveChanges() => context.SaveChanges() > 0;
     }
@@ -138,5 +144,33 @@ namespace ShopMate.Persistence.Relational
             => Set
                 .Include(c => c.Contents)
                 .ThenInclude(l => l.Entries);
+    }
+
+    internal class RelationalUserRepository : RelationalRepository<User>, IUserRepository
+    {
+        public RelationalUserRepository(DbSet<User> set) : base(set)
+        { }
+
+        public override IQueryable<User> GetAll()
+            => Set
+                .Include(u => u.Name)
+                .Include(u => u.Email)
+                .Include(u => u.Phone)
+                .Include(u => u.MoneySpent)
+                .Include(u => u.OwnedCoupons);
+    }
+
+    internal class RelationalCouponRepository : RelationalRepository<Coupon>, ICouponRepository
+    {
+        public RelationalCouponRepository(DbSet<Coupon> set) : base(set)
+        { }
+
+        public override IQueryable<Coupon> GetAll()
+            => Set
+                .Include(c => c.Name)
+                .Include(c => c.Code)
+                .Include(c => c.Effects)
+                .Include(c => c.ApplicableProducts)
+                .Include(c => c.Store);
     }
 }

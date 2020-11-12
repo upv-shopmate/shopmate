@@ -19,6 +19,8 @@ namespace ShopMate.Persistence.Relational
         public DbSet<Store> Stores { get; set; }
         public DbSet<ShoppingList> ShoppingLists { get; set; }
         public DbSet<Cart> Carts { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Coupon> Coupons { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

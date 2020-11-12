@@ -33,13 +33,16 @@ namespace ShopMate.Controllers
 
         // TODO accept user credentials
         [HttpGet("authorize")]
-        public ActionResult<string> Authorize()
+        public ActionResult<string> Authorize() //crear userAuthorizationDTO.cs para pasar como dato de entrada de Autorize
         {
             var secret = Encoding.ASCII.GetBytes(config["Jwt:Secret"]);
 
+            //Hay que buscar el usuario que coincida con el usuario y contraseña que coincida y guardar el id del cliente para el claims
+            //repository.Users.
+
             var claims = new[]
             {
-                new Claim(ClaimTypes.NameIdentifier, "1"),
+                new Claim(ClaimTypes.NameIdentifier, "1"), //Cambiar el 1 por la id del que se acaba de loggear y hacer string
                 new Claim(ClaimTypes.Role, "customer")
             };
 
@@ -65,5 +68,7 @@ namespace ShopMate.Controllers
             var clientId = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
             return Ok(clientId);
         }
+
+        //Crear un get usuario actual con un Autorize
     }
 }
