@@ -34,7 +34,7 @@ namespace ShopMate.Controllers
             return Ok(mapper.Map<ShoppingListReadDto>(contents));
         }
 
-        [HttpPost("list")]
+        [HttpPost("list")] //Mirar si hay que poner Put en vez de Post
         public ActionResult<ShoppingListReadDto> AddContentsToCart([FromBody] ShoppingListEntryModifyDto dto)
         {
             var barcode = repository.Products.GetByBarcode(dto.ItemId);
