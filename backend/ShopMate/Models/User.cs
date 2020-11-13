@@ -31,7 +31,7 @@ namespace ShopMate.Models
         [Column(TypeName = "money")]
         public decimal MoneySpent { get; internal set; }
 
-        internal string Password { get; set; }
+        public string Password { get; internal set; }   // FIXME use salted hashes like a decent human being
 
         public ICollection<Coupon> OwnedCoupons { get; set; } = new HashSet<Coupon>();
 

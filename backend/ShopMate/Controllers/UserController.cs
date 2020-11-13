@@ -24,15 +24,15 @@ namespace ShopMate.Controllers
             this.auth = auth;
         }
 
-        [HttpGet("authorize")]
-        public ActionResult<string> Authorize([FromQuery] string username, [FromQuery] string password) // FIXME
+        [HttpPost("authorize")]
+        public ActionResult<object> Authorize([FromBody] UsernamePasswordPairAuthenticationDto credentials) // FIXME research standard way of doing this
         {
-            if (!auth.FindUserByCredentials(username, password, out User user))
+            if (!auth.FindUserByCredentials(credentials.Username, credentials.Password, out User user))
             {
                 return Unauthorized();
             }
 
-            return auth.LogIn(user);
+            return Ok(new { AccessToken = auth.LogIn(user) });
         }
 
         [HttpGet]
