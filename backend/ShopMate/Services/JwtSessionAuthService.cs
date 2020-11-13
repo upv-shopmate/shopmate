@@ -33,6 +33,25 @@ namespace ShopMate.Services
             return true;
         }
 
+        public bool GetUserFromClaims(IEnumerable<Claim> claims, out User? user)
+        {
+            user = null;
+            var claim = claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+
+            if (claim is null)
+            {
+                return false;
+            }
+
+            if (!int.TryParse(claim.Value, out int userId))
+            {
+                return false;
+            }
+
+            user = repository.Users.GetAll().FirstOrDefault(u => u.Id == userId);
+            return !(user is null);
+        }
+
         public string LogIn(string audience, TimeSpan duration, params Claim[] claims)
         {
             var secret = Encoding.ASCII.GetBytes(config["Jwt:Secret"]);

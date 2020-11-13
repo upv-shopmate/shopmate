@@ -1,5 +1,6 @@
 ﻿using ShopMate.Models;
 using System;
+using System.Collections.Generic;
 using System.Security.Claims;
 
 namespace ShopMate.Services
@@ -13,6 +14,8 @@ namespace ShopMate.Services
         public string LogIn(User user)
             => LogIn("user-login", TimeSpan.FromHours(4),
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Role, "customer"));
+                new Claim(ClaimTypes.Role, "user"));
+
+        public bool GetUserFromClaims(IEnumerable<Claim> claims, out User? user);
     }
 }

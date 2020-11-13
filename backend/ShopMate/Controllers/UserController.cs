@@ -1,8 +1,8 @@
-﻿using System.Linq;
-using System.Security.Claims;
+﻿using System.Collections.Generic;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ShopMate.Dto;
 using ShopMate.Models;
 using ShopMate.Persistence;
 using ShopMate.Services;
@@ -35,15 +35,29 @@ namespace ShopMate.Controllers
             return auth.LogIn(user);
         }
 
-        // FIXME this is a test, remove it later
-        [HttpGet("test")]
-        [Authorize]
-        public ActionResult<int> Test()
+        [HttpGet]
+        [Authorize(Roles = "user")]
+        public ActionResult<UserReadDto> GetCurrentUser()
         {
-            var clientId = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
-            return Ok(clientId);
+            if (!auth.GetUserFromClaims(User.Claims, out User? user))
+            {
+                return Unauthorized();
+            }
+
+            return Ok(mapper.Map<UserReadDto>(user!));
         }
 
-        //Crear un get usuario actual con un Autorize
+        [HttpGet("coupons")]
+        [Authorize(Roles = "user")]
+        public ActionResult<ICollection<CouponReadDto>> GetCurrentUserCoupons()
+        {
+            if (!auth.GetUserFromClaims(User.Claims, out User? user))
+            {
+                return Unauthorized();
+            }
+
+            var coupons = user!.OwnedCoupons;
+            return Ok(mapper.Map<List<CouponReadDto>>(coupons));
+        }
     }
 }
