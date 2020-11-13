@@ -1,11 +1,12 @@
 ﻿#pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
 
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace ShopMate.Models
 {
-    public class Coupon
+    public class Coupon : IEquatable<Coupon>
     {
         /// <summary>
         /// The name of this coupon.
@@ -27,6 +28,11 @@ namespace ShopMate.Models
         /// List of the applicable products for this coupon.
         /// </summary>
         public ICollection<Product> ApplicableProducts { get; internal set; } = new HashSet<Product>();
+
+        /// <summary>
+        /// List of owners of this coupon.
+        /// </summary>
+        public ICollection<User> OwnersOfCupon { get; internal set; } = new HashSet<User>();
 
         /// <summary>
         /// Store where this coupon is valid.
