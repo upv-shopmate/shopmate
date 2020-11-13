@@ -5,6 +5,8 @@ import React from 'react';
 import './Product';
 import Product from './Product';
 import ProductDetails from './ProductDetails';
+import pageLeftImage from '../assets/images/page-left.png';
+import pageRightImage from '../assets/images/page-right.png';
 
 const HEIGHTS = {
   OPENED: '60%',
@@ -65,13 +67,15 @@ class Catalog extends React.Component {
     this.changePanelHeight(HEIGHTS.CLOSED);
   }
 
-  handleScroll(element) {
-    const bottomPosition = (element.target.scrollHeight -
-      element.target.offsetHeight);
-    const currentPosition = element.target.scrollTop;
-    if (currentPosition === bottomPosition) {
-      this.props.onBottomPage();
+  handleClickLeft() {
+    const newPage = this.props.page - 1;
+    if (newPage > 0) {
+      this.props.onGoToPage(newPage);
     }
+  }
+  handleClickRight() {
+    const newPage = this.props.page + 1;
+    this.props.onGoToPage(newPage);
   }
 
   renderProducts() {
@@ -89,8 +93,13 @@ class Catalog extends React.Component {
   render() {
     return (
       <div className="catalog">
-        <div className="products"
-          onScroll={(e) => this.handleScroll(e)}>{this.renderProducts()}
+        <div className="products">
+          {this.renderProducts()}
+        </div>
+        <div className="catalog-nav">
+          <img src={pageLeftImage} onClick={() => this.handleClickLeft()}/>
+          <div className="page-number">{this.props.page}</div>
+          <img src={pageRightImage} onClick={() => this.handleClickRight()}/>
         </div>
         <div className="product-details">
           <ProductDetails

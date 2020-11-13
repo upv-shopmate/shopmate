@@ -57,13 +57,12 @@ class RightPanel extends React.Component {
     }
   }
 
-  async updateCatalog() {
+  async updateCatalog(page) {
     this.showLoading();
-    let catalog = await requestCatalog(this.state.catalogPage);
-    catalog = this.state.catalog.concat(catalog);
+    const catalog = await requestCatalog(this.state.catalogPage);
     this.setState({
       'catalog': catalog,
-      'catalogPage': this.state.catalogPage + 1,
+      'catalogPage': page,
     });
     if (this.catalogRef.current !== null) {
       this.catalogRef.current.updateCatalog(catalog);
@@ -145,7 +144,8 @@ class RightPanel extends React.Component {
       return <Catalog
         catalog={this.state.catalog}
         ref={this.catalogRef}
-        onBottomPage={() => this.updateCatalog()}
+        onGoToPage={(page) => this.updateCatalog(page)}
+        page={this.state.catalogPage}
       />;
     } else if (panel === 'map') {
       this.changePanelWidth(WIDTHS.MAP);
