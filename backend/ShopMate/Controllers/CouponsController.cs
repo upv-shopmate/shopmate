@@ -20,7 +20,7 @@ namespace ShopMate.Controllers
         }
 
         [HttpGet("{code}")]
-        public ActionResult<StoreReadDto> GetCouponById(string code)
+        public ActionResult<CouponReadDto> GetCouponById(string code)
         {
             var coupon = repository.Coupons.GetAll().FirstOrDefault(c => c.Code == code);
 
@@ -29,7 +29,7 @@ namespace ShopMate.Controllers
                 return NotFound();
             }
 
-            return Ok(mapper.Map<StoreReadDto>(coupon));
+            return Ok(mapper.Map<CouponReadDto>(coupon));
         }
     }
 }
