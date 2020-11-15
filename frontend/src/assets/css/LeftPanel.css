@@ -34,5 +34,27 @@
     margin-right: 10px;
     opacity: 0.4;
     cursor: not-allowed;
+    display: flex;
+    align-items: center;
+}
+
+.tag-button-image {
+    width: 20px;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.tag-button-text {
+    
+}
+
+.list-button-image {
+    width: 20px;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.list-button-text {
+    
 }
 

@@ -27,7 +27,7 @@ class TopBar extends React.Component {
         />
         <div className="right-side">
           <button className="user-field shadow"
-            onClick={this.props.enableLogin}
+            onClick={this.props.openLogin}
           >
             <div className="first-letter"></div>
             <div className="name">Iniciar sesión</div>

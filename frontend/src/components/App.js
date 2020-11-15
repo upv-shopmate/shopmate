@@ -45,17 +45,21 @@ class App extends React.Component {
     });
   }
 
-  renderPanel() {
+  renderLeftPanel() {
     if (this.state.login) {
-      return(
+      return (
         <React.Fragment>
-          <Login/>
+          <Login
+            closeLogin={this.closeLoginPanel.bind(this)}
+          />
         </React.Fragment>
       )
     } else {
       return (
         <React.Fragment>
-          <LeftPanel />
+          <LeftPanel
+            openLogin={this.openLoginPanel.bind(this)}
+          />
           <RightPanel
             panel={this.state.selectedPanel}
             goToLastState={this.goToLastState}
@@ -66,15 +70,16 @@ class App extends React.Component {
     }
   }
 
-  enableLogin(){
+  openLoginPanel() {
     this.setState({
-      login : true
+      login: true
     });
   }
 
-  disableLogin(){
+  closeLoginPanel() {
+    console.log("Hey");
     this.setState({
-      login : false
+      login: false
     });
   }
 
@@ -85,11 +90,10 @@ class App extends React.Component {
           onChangeRightPanel={this.changeRightPanel.bind(this)}
           changeResults={this.changeProductResults}
           goToLastState={this.goToLastState}
-          enableLogin={this.enableLogin.bind(this)}
-          disableLogin={this.disableLogin.bind(this)}
+          openLogin={this.openLoginPanel.bind(this)}
         />
         <div className="panels">
-          {this.renderPanel()}
+          {this.renderLeftPanel()}
         </div>
         <Nav
           changeLastPanel={this.changeLastPanel.bind(this)}
