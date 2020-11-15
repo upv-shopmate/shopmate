@@ -69,12 +69,12 @@ namespace ShopMate.Migrations
                     b.Property<string>("OwnedCouponsCode")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("OwnersOfCuponId")
+                    b.Property<int>("OwnersId")
                         .HasColumnType("int");
 
-                    b.HasKey("OwnedCouponsCode", "OwnersOfCuponId");
+                    b.HasKey("OwnedCouponsCode", "OwnersId");
 
-                    b.HasIndex("OwnersOfCuponId");
+                    b.HasIndex("OwnersId");
 
                     b.ToTable("CouponUser");
                 });
@@ -460,7 +460,7 @@ namespace ShopMate.Migrations
 
                     b.HasOne("ShopMate.Models.User", null)
                         .WithMany()
-                        .HasForeignKey("OwnersOfCuponId")
+                        .HasForeignKey("OwnersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

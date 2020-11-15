@@ -32,7 +32,7 @@ namespace ShopMate.Models
         /// <summary>
         /// List of owners of this coupon.
         /// </summary>
-        public ICollection<User> OwnersOfCupon { get; internal set; } = new HashSet<User>();
+        public ICollection<User> Owners { get; internal set; } = new HashSet<User>();
 
         /// <summary>
         /// Store where this coupon is valid.
