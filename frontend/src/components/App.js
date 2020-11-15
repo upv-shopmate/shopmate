@@ -5,6 +5,7 @@ import LeftPanel from './LeftPanel';
 import RightPanel from './RightPanel';
 import Nav from './Nav';
 import Login from './Login';
+import UserDetails from './UserDetails';
 
 export const dataBaseURL = 'https://localhost:5001';
 

@@ -144,14 +144,23 @@
     max-width: 400px;
 }
 
+.login-return-button-wrapper {
+    margin-bottom: -25px;
+    display:flex;
+    flex-flow: column;
+    align-items: flex-end;
+    justify-content: flex-end;
+    flex-grow: 0.25;
+    width: 100%;
+}   
+
 .login-return-button {
     display:flex;
     align-items: center;
-    justify-self: end;
-    align-self: flex-end;
     background-color: rgb(250, 157, 43);
     border-color: transparent;
-    height: 35px;
+    height: 40px;
+    width: 100px;
     margin-right: 20px;
     border-radius: 2.5px;
 }

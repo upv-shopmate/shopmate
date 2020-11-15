@@ -96,13 +96,15 @@ class Login extends React.Component {
         </div>
         <div className="problem-question">¿Tiene problemas para iniciar sesión?</div>
         <div className="solution">Pregunte a un empleado o acuda al servicio de atención al cliente más cercano.</div>
-        <button
-          className="login-return-button shadow"
-          onClick={this.closeLoginPanel}
-        >
-          <img className="login-return-button-image" src={leftArrow}></img>
-          <div className="login-return-button-text">VOLVER</div>
-        </button>
+        <div className="login-return-button-wrapper">
+          <button
+            className="login-return-button shadow"
+            onClick={this.closeLoginPanel}
+          >
+            <img className="login-return-button-image" src={leftArrow}></img>
+            <div className="login-return-button-text">VOLVER</div>
+          </button>
+        </div>
       </div>
     );
   }
