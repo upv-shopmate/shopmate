@@ -14,7 +14,5 @@ namespace ShopMate.Dto
         public string Phone { get; internal set; }
 
         public decimal MoneySpent { get; internal set; }
-
-        public ICollection<CouponReadDto> OwnedCoupons { get; internal set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -56,7 +57,7 @@ namespace ShopMate.Controllers
                 return Unauthorized();
             }
 
-            var coupons = user!.OwnedCoupons;
+            var coupons = repository.Coupons.GetAll().Where(c => c.Owners.Contains(user));
             return Ok(mapper.Map<List<CouponReadDto>>(coupons));
         }
     }

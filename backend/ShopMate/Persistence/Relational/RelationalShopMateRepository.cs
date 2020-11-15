@@ -153,8 +153,7 @@ namespace ShopMate.Persistence.Relational
         { }
 
         public override IQueryable<User> GetAll()
-            => Set
-                .Include(u => u.OwnedCoupons);
+            => Set;
     }
 
     internal class RelationalCouponRepository : RelationalRepository<Coupon>, ICouponRepository
