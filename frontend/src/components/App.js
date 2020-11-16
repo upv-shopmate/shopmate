@@ -4,8 +4,9 @@ import TopBar from './TopBar';
 import LeftPanel from './LeftPanel';
 import RightPanel from './RightPanel';
 import Nav from './Nav';
-import {requestSearchDataBase} from '../requests/SearchRequests.js';
+import { requestSearchDataBase } from '../requests/SearchRequests.js';
 import Login from './Login';
+import { userInfoRequest } from "../requests/UserRequests.js"
 import UserDetails from './UserDetails';
 
 export const dataBaseURL = 'https://localhost:5001';
@@ -20,11 +21,21 @@ class App extends React.Component {
       'resultsPage': 0,
       'lastSearchInput': '',
       'noMoreResults': false,
-      'login': false
+      'login': false,
+      'user': undefined,
+      'accessToken': undefined,
     };
     this.changeProductResults = this.changeProductResults.bind(this);
     this.goToLastState = this.goToLastState.bind(this);
     this.rightPanelRef = React.createRef();
+  }
+
+  async getUserInfo(accessToken) {
+    this.setState({
+      accessToken: accessToken
+    })
+    let response = await userInfoRequest(accessToken);
+    if (response.status == 200) this.setState({ user: response.data })
   }
 
   getAndChangeResultsPage() {
@@ -64,6 +75,13 @@ class App extends React.Component {
   changeRightPanel(panel) {
     this.setState({
       'selectedPanel': panel,
+    });
+  }
+
+  userLogOut() {
+    this.setState({
+      'user': undefined,
+      'accessToken': undefined
     });
   }
 
@@ -119,6 +137,7 @@ class App extends React.Component {
       return (
         <React.Fragment>
           <Login
+            loginUser={this.getUserInfo.bind(this)}
             closeLogin={this.closeLoginPanel.bind(this)}
           />
         </React.Fragment>
@@ -148,7 +167,6 @@ class App extends React.Component {
   }
 
   closeLoginPanel() {
-    console.log("Hey");
     this.setState({
       login: false
     });
