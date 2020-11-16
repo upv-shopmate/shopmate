@@ -7,27 +7,64 @@ import Result from './SearchResult';
 class SearchPanel extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      'results': [],
+      'completedSearch': false,
+    };
+  }
+
+
+  handleScroll(element) {
+    const bottomPosition = (element.target.scrollHeight -
+      element.target.offsetHeight);
+    const currentPosition = element.target.scrollTop;
+    if (currentPosition === bottomPosition) {
+      this.props.onResultsBottomPage();
+    }
   }
 
   renderResults() {
-    return this.props.results.map((result) =>
+    return this.state.results.map((result) =>
       <Result key={result.barcode} productData={result} />,
     );
   }
 
-  getResultsNumber() {
-    const results = this.props.results.length;
-    if (results > 0) {
-      return 'Resultados de la búsqueda (' + results + ')';
-    }
-    return 'No se han encontrado resultados. Inténtelo de nuevo.';
+  scrollToTop() {
+    const searchResults = document.querySelector('.searcher-results');
+    searchResults.scrollTo(0, 0);
   }
+
+  updateResults(input) {
+    this.setState({
+      'results': input,
+    });
+  }
+
+  changeCompletedSearch(input) {
+    this.setState({
+      'completedSearch': input,
+    });
+  }
+
+  getResultsNumber() {
+    if (this.state.completedSearch) {
+      const results = this.state.results.length;
+      if (results > 0) {
+        return 'Resultados de la búsqueda (' + results + ')';
+      }
+      return 'No se han encontrado resultados. Inténtelo de nuevo.';
+    } else {
+      return 'Buscando...';
+    }
+  }
+
 
   render() {
     return (
       <div className="searcher">
         <div className="searcher-title">{this.getResultsNumber()}</div>
-        <div className="searcher-results">
+        <div className="searcher-results"
+          onScroll={(e) => this.handleScroll(e)}>
           {this.renderResults()}
         </div>
         <div className="searcher-buttons">

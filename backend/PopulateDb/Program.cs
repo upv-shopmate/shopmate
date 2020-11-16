@@ -13,7 +13,7 @@ namespace PopulateDb
     internal class Program
     {
         private const string DEFAULT_INTERPRETER = "python";
-        private const string BASE_DIR = "scrapOpenFoodFacts/";
+        private const string BASE_DIR = "scrapOpenFoodFacts/mercadona-scrapper";
 
         private static async Task Main(string[] args)
         {
@@ -36,7 +36,7 @@ namespace PopulateDb
 
         private static void RunScript(string interpreter, string limit)
         {
-            using var process = new CommandLineProcess(interpreter, $"{Path.Combine(BASE_DIR, "scrap.py")} {limit}");
+            using var process = new CommandLineProcess(interpreter, $"{Path.Combine(BASE_DIR, "__main__.py")} {limit}");
             process.Start();
 
             Console.WriteLine($"-- (PID: {process.Id}) {process.ProcessName}");

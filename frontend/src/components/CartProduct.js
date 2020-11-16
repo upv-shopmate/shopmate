@@ -10,6 +10,11 @@ class CartProduct extends Component {
     super(props);
   }
 
+  roundUp(num, precision) {
+    precision = Math.pow(10, precision);
+    return (Math.ceil(num * precision) / precision).toFixed(2);
+  }
+
   getEntrieImage() {
     const image = this.props.entry.item.pictures[0];
     if (image !== undefined) {
@@ -31,14 +36,14 @@ class CartProduct extends Component {
   getEntrieUnitPrice() {
     const product = this.props.entry.item;
     if (this.props.entry.quantity > 1) {
-      return product.priceWithVat.toFixed(2) + '€/unidad';
+      return this.roundUp(product.priceWithVat, 2) + '€/unidad';
     }
     return '';
   }
 
   getEntrieTotalPrice() {
     const product = this.props.entry;
-    return product.totalPrice.toFixed(2) + ' €';
+    return this.roundUp(product.totalPrice, 2) + ' €';
   }
 
 

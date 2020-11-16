@@ -20,6 +20,10 @@ namespace ShopMate.Persistence
 
         public ICartRepository Carts { get; }
 
+        public IUserRepository Users { get; }
+
+        public ICouponRepository Coupons { get; }
+
         public bool SaveChanges();
     }
 
@@ -56,5 +60,11 @@ namespace ShopMate.Persistence
     { }
 
     public interface ICartRepository : IAsyncRepository<Cart>
+    { }
+
+    public interface IUserRepository : IAsyncRepository<User>
+    { }
+
+    public interface ICouponRepository : IAsyncRepository<Coupon>
     { }
 }
