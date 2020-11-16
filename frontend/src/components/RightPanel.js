@@ -7,16 +7,16 @@ import Cart from './Cart';
 import Map from './Map';
 import Searcher from './SearchPanel';
 import Square from './Square';
-import {requestMap} from '../requests/MapRequest';
-import {requestCatalog} from '../requests/ProductRequest.js';
+import { requestMap } from '../requests/MapRequest';
+import { requestCatalog } from '../requests/ProductRequest.js';
 import loadingGif from '../assets/images/loading.gif';
 
 // minimum width is 70
 const WIDTHS = {
-  CART: '70%',
-  CATALOG: '150%',
-  MAP: '150%',
-  SEARCHER: '150%',
+  CART: '130%',
+  CATALOG: '270%',
+  MAP: '250%',
+  SEARCHER: '250%',
 };
 class RightPanel extends React.Component {
   constructor(props) {

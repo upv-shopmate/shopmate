@@ -19,7 +19,7 @@ class NotLoginPanel extends React.Component {
           <div className="question"> ¿Ya tienes cuenta de cliente? </div>
           <div className="login-text"> Inicia sesión para ver tus listas de la compra, cupones y ofertas personalizadas</div>
           <button
-            className="login-button"
+            className="left-panel-login-button"
             onClick={this.openLoginPanel.bind(this)}
           >INICIAR SESIÓN</button>
         </div>
