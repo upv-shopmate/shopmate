@@ -10,11 +10,17 @@ import valenciaFlag from '../assets/images/Languages/valencia_flag.png';
 class Languages extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      //showPopup: this.props.showPopup,
+      langSelected: 'this.props.langSelected'
+    }
     this.closeLanguagePanel = this.closeLanguagePanel(this);
   }
 
   closeLanguagePanel() {
-    //this.props.closePanel();
+    this.setState({
+      showPopup: false
+    });
   }
 
   render() {
@@ -42,10 +48,8 @@ class Languages extends Component {
         </div>
         <div className="languageButtonLine">
             <button className="changeLanguageButton" 
-              onClick={() => {
-                //cambio de idioma
-              this.closeLanguagePanel();
-              }}> Aceptar
+              //onClick={ this.closeLanguagePanel()}
+              > Aceptar
         </button>
         </div>
     </div>

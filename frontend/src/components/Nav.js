@@ -5,6 +5,7 @@ import React from 'react';
 import shoppingIcon from '../assets/images/shopping_icon.png';
 import mapIcon from '../assets/images/map_icon.png';
 import storeIcon from '../assets/images/store_icon.png';
+import {useTranslation} from 'react-i18next'
 
 const SELECTED_BUTTON_COLOR = '#FDA332';
 const UNSELECTED_BUTTON_COLOR = 'grey';
@@ -52,8 +53,8 @@ class Nav extends React.Component {
           this.changePanel('cart');
         }} id="cart">
           <img src={shoppingIcon} className="nav-button-icon"></img>
-          <div className="nav-button-name">CARRITO</div>
-        </button>
+            <div className="nav-button-name">CARRITO</div>
+            </button>
         <button className="nav-button" onClick={() => {
           this.changePanel('catalog');
         }} id="catalog">

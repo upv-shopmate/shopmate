@@ -8,6 +8,9 @@
     justify-content: space-between;
     align-items: stretch;
     flex-flow: column;
+    position: relative;
+    right: 115px;
+    top: 10px
   }
 
   .languages{

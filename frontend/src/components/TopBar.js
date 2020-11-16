@@ -8,27 +8,33 @@ import SearchField from './SearchField';
 import Languages from './Languages';
 
 // TODO: extract user field to a new component, DO NOT implement user here
-class TopBar extends React.Component {
+class TopBar extends React.Component { 
   constructor(props) {
     super(props);
-    this.setState = {
-        langPanel: "",
-        langSelected: ""
+    this.state = {
+        showPopup: false,
+        langSelected: "es"
     }
-    this.showLanguagePanel = this.showLanguagePanel.bind(this);
-    this.closeLangaugePanel = this.closeLangaugePanel.bind(this);
-  }
-
-  showLanguagePanel(){
-
-  }
-
-  closeLangaugePanel() {
+    this.togglePopup = this.togglePopup.bind(this);
+    this.renderLanguages = this.renderLanguages.bind(this);
+    this.langRef = React.createRef();
     
   }
 
-
-
+  togglePopup() {
+    this.setState({
+      showPopup: !this.state.showPopup
+    });
+  }
+  
+  renderLanguages(){
+    if(this.state.showPopup === true)
+      return <Languages> 
+         ref={this.langRef}/</Languages>;
+    else return null;
+  }
+  
+  
   render() {
     return (
       <div className="top-bar">
@@ -47,15 +53,13 @@ class TopBar extends React.Component {
             <div className="name">Yoel</div>
           </div>
           <div className="translate-button top-button shadow">
-            <img src={translateIcon}></img>
-            <Languages className= "languages"
-              //closePanel={} 
-            />
+            <img src={translateIcon} onClick={this.togglePopup}/>
+            {this.renderLanguages()}
           </div>
           <div className="exit-button top-button shadow">
             <img src={exitIcon}></img>
           </div>
-        </div>
+        </div> 
       </div>
     );
   }
