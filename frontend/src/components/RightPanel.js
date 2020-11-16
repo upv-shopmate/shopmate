@@ -7,8 +7,8 @@ import Cart from './Cart';
 import Map from './Map';
 import Searcher from './SearchPanel';
 import Square from './Square';
-import { requestMap } from '../requests/MapRequest';
-import { requestCatalog } from '../requests/ProductRequest.js';
+import {requestMap} from '../requests/MapRequest';
+import {requestCatalog} from '../requests/ProductRequest.js';
 import loadingGif from '../assets/images/loading.gif';
 
 // minimum width is 70

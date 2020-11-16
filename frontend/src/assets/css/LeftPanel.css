@@ -26,7 +26,23 @@
     margin-bottom: 35px;
 }
 
-.button{
+.lf-list-button{
+    background-color: rgb(65, 64, 64);
+    color: white;
+    opacity: 0.4;
+    height: 40px;
+    width: 130px;
+    border: 0px;
+    flex-flow: row;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.lf-tag-button{
     background-color: rgb(65, 64, 64);
     color: white;
     height: 40px;
@@ -37,8 +53,6 @@
     margin-right: 5px;
     margin-top: 5px;
     margin-bottom: 5px;
-    opacity: 0.4;
-    cursor: not-allowed;
     display: flex;
     align-items: center;
 }

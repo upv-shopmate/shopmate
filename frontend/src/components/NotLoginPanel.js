@@ -8,7 +8,7 @@ class NotLoginPanel extends React.Component {
   }
 
   openLoginPanel() {
-    this.props.openLogin()
+    this.props.openLogin();
   }
 
   render() {

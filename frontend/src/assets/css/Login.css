@@ -90,6 +90,7 @@
     font-weight: bold;
     overflow: hidden;
     max-width: 500px;
+    min-height: 18px;
 }
 
 .account-field-image {

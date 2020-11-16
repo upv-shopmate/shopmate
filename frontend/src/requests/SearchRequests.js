@@ -1,5 +1,5 @@
 const request = require('axios');
-import { dataBaseURL } from '../components/App.js';
+import {dataBaseURL} from '../components/App.js';
 
 // query example: /Products/search?query=queso&page=0&itemsPerPage=10
 export async function requestSearchDataBase(input, page) {
@@ -9,10 +9,10 @@ export async function requestSearchDataBase(input, page) {
     'url': dataBaseURL + query + input + '&page=' + page + '&itemsPerPage=20',
     'rejectUnauthorized': false,
   })
-    .then(function (response) {
-      {
-        products = response.data;
-      }
-    });
+      .then(function(response) {
+        {
+          products = response.data;
+        }
+      });
   return products;
 }

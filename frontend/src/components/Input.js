@@ -24,7 +24,7 @@ class Input extends React.Component {
 
   changeFieldValue(value) {
     this.props.onChangeParent(value);
-    this.setState({ value });
+    this.setState({value});
   }
 
   render() {

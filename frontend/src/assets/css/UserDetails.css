@@ -49,6 +49,21 @@
     font-size: 70px;
 }
 
+.ud-more-info {
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+}
+
+.ud-email {
+    margin-bottom: 5px;
+    font-size: 20px;
+}
+
+.ud-phone {
+    font-size: 20px;
+}
+
 .logout-button:hover {
     transition: 0.5s;
     background-color: red;

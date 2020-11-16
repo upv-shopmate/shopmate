@@ -1,10 +1,10 @@
 import '../assets/css/Login.css';
-import passwordImage from "../assets/images/password_lock.png"
-import accountImage from "../assets/images/account_circle.png"
-import infoImage from "../assets/images/info.png"
-import rightArrow from "../assets/images/right_arrow.png"
-import leftArrow from "../assets/images/left_arrow.png"
-import { userAuthRequest } from "../requests/UserRequests.js"
+import passwordImage from '../assets/images/password_lock.png';
+import accountImage from '../assets/images/account_circle.png';
+import infoImage from '../assets/images/info.png';
+import rightArrow from '../assets/images/right_arrow.png';
+import leftArrow from '../assets/images/left_arrow.png';
+import {userAuthRequest} from '../requests/UserRequests.js';
 import Input from './Input';
 import React from 'react';
 
@@ -14,8 +14,7 @@ class Login extends React.Component {
     this.state = ({
       account: '',
       password: '',
-      accountError: '',
-      passwordError: '',
+      errorMessage: '',
     });
     this.updateAccountText = this.updateAccountText.bind(this);
     this.updatePasswordText = this.updatePasswordText.bind(this);
@@ -35,15 +34,10 @@ class Login extends React.Component {
     });
   }
 
-  changeAccountError(error) {
-    this.setState({
-      accountError: error,
-    });
-  }
 
   changePasswordError(error) {
     this.setState({
-      passwordError: error,
+      errorMessage: error,
     });
   }
 
@@ -52,12 +46,12 @@ class Login extends React.Component {
   }
 
   async login() {
-    let response = await userAuthRequest(this.state.account, this.state.password);
+    const response = await userAuthRequest(this.state.account, this.state.password);
     if (response.status == 200) {
       this.props.loginUser(response.accesToken);
       this.closeLoginPanel();
     } else {
-      this.changePasswordError("Correo o contraseña incorrectos");
+      this.changePasswordError('Correo o contraseña incorrectos');
     }
   }
 
@@ -80,7 +74,6 @@ class Login extends React.Component {
                 onChangeParent={this.updateAccountText}
               />
             </div>
-            <div className="login-error">{this.state.accountError}</div>
             <div className="login-field shadow-box-users ">
               <img
                 className="password-image"
@@ -91,7 +84,7 @@ class Login extends React.Component {
                 onChangeParent={this.updatePasswordText}
               />
             </div>
-            <div className="login-error">{this.state.passwordError}</div>
+            <div className="login-error">{this.state.errorMessage}</div>
           </div>
           <div className="bottom-block">
             <div className="info-block">

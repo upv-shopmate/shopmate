@@ -7,10 +7,72 @@ import NotLoginPanel from './NotLoginPanel';
 class LeftPanel extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      'buttonEnabled': false,
+      'userLoggedIn': this.props.loggedIn,
+    };
+  }
+
+  componentDidMount() {
+    this.initizializePanel();
+  }
+
+  initizializePanel() {
+    if (this.state.loggedIn) {
+      this.logIn();
+    } else {
+      this.logOut();
+    }
   }
 
   openLoginPanel() {
-    this.props.openLogin()
+    this.props.openLogin();
+  }
+
+  enableListsButton() {
+    const button = document.querySelector('.lf-list-button');
+    button.style.opacity = 1;
+    this.setState({
+      'buttonEnabled': true,
+    });
+  }
+
+  disableListsButton() {
+    const button = document.querySelector('.lf-list-button');
+    button.style.opacity = 0.4;
+    this.setState({
+      'buttonEnabled': false,
+    });
+  }
+
+  logIn() {
+    this.enableListsButton();
+    this.setState({
+      'userLoggedIn': true,
+    });
+  }
+
+  logOut() {
+    this.disableListsButton();
+    this.setState({
+      'userLoggedIn': false,
+    });
+  }
+
+  renderPanel() {
+    if (this.state.userLoggedIn) {
+      return (
+        <React.Fragment>
+
+        </React.Fragment>
+      );
+    } else {
+      return (
+        <React.Fragment>
+          <NotLoginPanel openLogin={this.openLoginPanel.bind(this)} />
+        </React.Fragment>
+      );
+    }
   }
 
   render() {
@@ -18,17 +80,18 @@ class LeftPanel extends React.Component {
       <div className="left-panel">
         <div className="left-panel-title">Lista de la compra</div>
         <div className="current-panel">
-          <NotLoginPanel openLogin={this.openLoginPanel.bind(this)} />
+          {this.renderPanel()}
         </div>
         <div className="bottom-buttons">
           <button
-            className="button"
+            disabled={this.state.buttonEnabled}
+            className="lf-list-button"
           >
             <img className="list-button-image" src={listImage}></img>
             <div className="list-button-text">MIS LISTAS</div>
           </button>
           <button
-            className="button"
+            className="lf-tag-button"
           >
             <img className="tag-button-image" src={tagImage}></img>
             <div className="tag-button-text">CUPONES</div>
