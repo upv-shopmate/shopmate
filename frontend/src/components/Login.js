@@ -1,3 +1,5 @@
+/* eslint react/prop-types: 0 */
+
 import '../assets/css/Login.css';
 import passwordImage from '../assets/images/password_lock.png';
 import accountImage from '../assets/images/account_circle.png';
@@ -46,7 +48,9 @@ class Login extends React.Component {
   }
 
   async login() {
-    const response = await userAuthRequest(this.state.account, this.state.password);
+    const account = this.state.account;
+    const password = this.state.password;
+    const response = await userAuthRequest(account, password);
     if (response.status == 200) {
       this.props.loginUser(response.accesToken);
       this.closeLoginPanel();
@@ -55,12 +59,28 @@ class Login extends React.Component {
     }
   }
 
+  getInfoText() {
+    return ('Pulse sobre las cajas de texto para ' +
+      'mostrar el teclado en pantalla.');
+  }
+
+  getSolution() {
+    return ('Pregunte a un empleado o acuda' +
+      ' al servicio de atención al cliente más cercano.');
+  }
+
+  getQuestion() {
+    return ('¿Tiene problemas para iniciar sesión?');
+  }
+
   render() {
     return (
       <div className="loginUser">
-        <div className="login-block shadow-box-users ">
+        <div className="login-block shadow-box-users">
           <div className="login-title">
-            <span className="init-title">Iniciando sesión en su cuenta de </span>
+            <span className="init-title">
+              Iniciando sesión en su cuenta de
+            </span>
             <span className="brand-text">Shopmate</span>
           </div>
           <div className="user-inputs">
@@ -91,7 +111,9 @@ class Login extends React.Component {
               <img
                 className="info-icon"
                 src={infoImage}></img>
-              <div className="info-text">Pulse sobre las cajas de texto para mostrar el teclado en pantalla.</div>
+              <div className="info-text">
+                {this.getInfoText()}
+              </div>
             </div>
             <button
               className="accept-login-button shadow-box-users "
@@ -101,8 +123,10 @@ class Login extends React.Component {
             </button>
           </div>
         </div>
-        <div className="problem-question">¿Tiene problemas para iniciar sesión?</div>
-        <div className="solution">Pregunte a un empleado o acuda al servicio de atención al cliente más cercano.</div>
+        <div className="problem-question">{this.getQuestion()}</div>
+        <div className="solution">
+          {this.getSolution()}
+        </div>
         <div className="login-return-button-wrapper">
           <button
             className="login-return-button shadow-box-users "

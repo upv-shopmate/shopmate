@@ -1,3 +1,5 @@
+/* eslint react/prop-types: 0 */
+
 import signOutIcon from '../assets/images/sign_out_icon.png';
 import leftArrow from '../assets/images/left_arrow.png';
 import '../assets/css/UserDetails.css';
@@ -57,7 +59,9 @@ class UserDetails extends React.Component {
         <button
           className="user-details-return-button shadow"
           onClick={this.closeUserDetails.bind(this)}>
-          <img className="user-details-return-button-image" src={leftArrow}></img>
+          <img
+            className="user-details-return-button-image"
+            src={leftArrow}></img>
           <div className="user-details-return-button-text">VOLVER</div>
         </button>
       </div>

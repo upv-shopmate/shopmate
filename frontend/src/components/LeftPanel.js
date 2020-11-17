@@ -1,3 +1,5 @@
+/* eslint react/prop-types: 0 */
+
 import '../assets/css/LeftPanel.css';
 import listImage from '../assets/images/list.png';
 import tagImage from '../assets/images/tag_icon.png';
@@ -9,7 +11,6 @@ class LeftPanel extends React.Component {
     super(props);
     this.state = {
       'buttonEnabled': false,
-      'userLoggedIn': this.props.loggedIn,
     };
   }
 
@@ -18,7 +19,7 @@ class LeftPanel extends React.Component {
   }
 
   initizializePanel() {
-    if (this.state.loggedIn) {
+    if (this.props.userLoggedIn) {
       this.logIn();
     } else {
       this.logOut();
@@ -84,7 +85,7 @@ class LeftPanel extends React.Component {
         </div>
         <div className="bottom-buttons">
           <button
-            disabled={this.state.buttonEnabled}
+            disabled={!this.state.buttonEnabled}
             className="lf-list-button"
           >
             <img className="list-button-image" src={listImage}></img>

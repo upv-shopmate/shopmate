@@ -34,7 +34,9 @@ class TopBar extends React.Component {
     let name = this.state.userInfo.name;
     const splitName = name.split(' ');
     name = splitName[0];
-    if (splitName.length > 2) name += ' ' + splitName[1].charAt(0).toUpperCase() + '.';
+    if (splitName.length > 2) {
+      name += ' ' + splitName[1].charAt(0).toUpperCase() + '.';
+    }
     return name;
   }
 
