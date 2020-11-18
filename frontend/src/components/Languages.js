@@ -54,7 +54,7 @@ class Languages extends Component {
               onClick= {this.closePanel()}
                
               > Aceptar
-              {this.pareht.renderLanguages()} 
+              {this.parent.renderLanguages()} 
             
         </button>
        
