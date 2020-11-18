@@ -93,9 +93,10 @@ class TopBar extends React.Component {
             <div className="user-first-letter">{this.getUserFirstLetter()}</div>
             <div className="user-button-name">{this.getUserName()}</div>
           </button>
-          <button className="translate-button top-button shadow" >
+          <button className="translate-button top-button shadow" onClick={this.togglePopup}>
             <img src={translateIcon} >
             </img>
+            {this.renderLanguages()}
           </button>
           <button className="exit-button top-button shadow"
             onClick={this.props.logOut}
