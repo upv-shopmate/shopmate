@@ -1,8 +1,17 @@
 {
     "lang":"val",
     "words" : {
-       "CARRITO"   : "CARRET",
-       "MAPA"  : "MAPA",
-       "CATÁLOGO": "CATÀLOG"
-    }
+      "CARRITO": {
+         "1": "CARRET"
+      },
+       "MAPA"  : {
+         "1": "MAPA"
+      },
+       "CATÁLOGO":{
+         "1": "CATÀLOG"
+      },
+      "SHOPMATE": {
+         "1": "TENDA AMIC"
+      }
+   }
  }

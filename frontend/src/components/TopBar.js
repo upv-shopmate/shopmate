@@ -6,9 +6,14 @@ import exitIcon from '../assets/images/leave_icon.png';
 import translateIcon from '../assets/images/translate.png';
 import SearchField from './SearchField';
 import Languages from './Languages';
+import { useTranslation } from 'react-i18next';
+import { bind } from 'file-loader';
 
+
+ 
 // TODO: extract user field to a new component, DO NOT implement user here
 class TopBar extends React.Component { 
+  
   constructor(props) {
     super(props);
     this.state = {
@@ -17,6 +22,7 @@ class TopBar extends React.Component {
     }
     this.togglePopup = this.togglePopup.bind(this);
     this.renderLanguages = this.renderLanguages.bind(this);
+    this.closeLanguagePanel = this.closeLanguagePanel.bind(this);
     this.langRef = React.createRef();
     
   }
@@ -29,18 +35,43 @@ class TopBar extends React.Component {
   
   renderLanguages(){
     if(this.state.showPopup === true)
-      return <Languages> 
-         ref={this.langRef}/</Languages>;
+      return <Languages 
+      closeLanguagePanel = {this.closeLanguagePanel()} >
+         ref={this.langRef}
+         </Languages>;
     else return null;
   }
   
+  handleClick(lang){
+    /*const {t, i18n} = useTranslation();*/
+    i18n.changeLanguage(lang);
+   }
+
+   closeLanguagePanel() {
+     this.setState = {
+      showPopup: false
+     }
+   }
   
   render() {
+    //const {t, i18n} = useTranslation();
     return (
-      <div className="top-bar">
+       <div className="top-bar"> 
         <div className="left-side">
           <img src={logo}></img>
-          <div className="logo-name">ShopMate</div>
+          <div className="logo-name"> 
+            </div>
+          <div className= 'prove-buttons'>
+            <button className='es'
+              onClick = {() => handleClick('es')}
+              /> Español
+            <button className='en'
+            onClick = {() => handleClick('en')}
+              /> English
+            <button className='val'
+            onClick = {() => handleClick('val')}
+              /> Valenciano
+          </div>
         </div>
         <SearchField
           goToLastState={this.props.goToLastState}
@@ -66,3 +97,4 @@ class TopBar extends React.Component {
 }
 
 export default TopBar;
+//<p>{t('ShopMate.1')}</p>

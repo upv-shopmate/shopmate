@@ -1,8 +1,17 @@
 {
     "lang":"en",
     "words" : {
-       "CARRITO": "CART",
-       "MAPA": "MAP",
-       "CATÁLOGO": "CATALOG"
-    }
+      "CARRITO": {
+         "1": "CART"
+      },
+       "MAPA"  : {
+         "1": "MAP"
+      },
+       "CATÁLOGO":{
+         "1": "CATALOG"
+      },
+      "SHOPMATE": {
+         "1": "SHOP MATE"
+      }
+   }
  }

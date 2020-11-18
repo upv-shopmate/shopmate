@@ -11,16 +11,19 @@ class Languages extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      //showPopup: this.props.showPopup,
-      langSelected: 'this.props.langSelected'
+      showPopup: true
+      //langSelected: this.props.langSelected
     }
-    this.closeLanguagePanel = this.closeLanguagePanel(this);
+    this.closePanel = this.closePanel(this);
+    this.renderLanguages = this.renderLanguages.bind(this);
   }
 
-  closeLanguagePanel() {
-    this.setState({
-      showPopup: false
-    });
+  closePanel() {
+    this.props.closeLanguages();
+  }
+
+  renderLanguages(){
+    return null;
   }
 
   render() {
@@ -48,9 +51,13 @@ class Languages extends Component {
         </div>
         <div className="languageButtonLine">
             <button className="changeLanguageButton" 
-              //onClick={ this.closeLanguagePanel()}
+              onClick= {this.closePanel()}
+               
               > Aceptar
+              {this.pareht.renderLanguages()} 
+            
         </button>
+       
         </div>
     </div>
     
