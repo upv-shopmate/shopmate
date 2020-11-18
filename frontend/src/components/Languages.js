@@ -14,17 +14,17 @@ class Languages extends Component {
       showPopup: true
       //langSelected: this.props.langSelected
     }
-    this.closePanel = this.closePanel(this);
-    this.renderLanguages = this.renderLanguages.bind(this);
+    //this.closePanel = this.closePanel(this);
+    //this.renderLanguages = this.renderLanguages.bind(this);
   }
 
-  closePanel() {
+  /*closePanel() {
     this.props.closeLanguages();
-  }
+  }*/
 
-  renderLanguages(){
+  /*renderLanguages(){
     return null;
-  }
+  }*/
 
   render() {
     return (
@@ -51,10 +51,10 @@ class Languages extends Component {
         </div>
         <div className="languageButtonLine">
             <button className="changeLanguageButton" 
-              onClick= {this.closePanel()}
+              //onClick= {this.closePanel()}
                
               > Aceptar
-              {this.parent.renderLanguages()} 
+             
             
         </button>
        
@@ -66,3 +66,4 @@ class Languages extends Component {
 }
 
 export default Languages;
+//{this.parent.renderLanguages()} 
