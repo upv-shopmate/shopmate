@@ -21,33 +21,74 @@
     right: 30px;
 }
 
-.right-side {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 20%;
-    height: 100%;
-    margin-right: 10px;
-}
 .user-field {
     display: flex;
     align-items: center;
-    height: 40%;
+    height: 42%;
     width: 100px;
-    background-color: rgb(203, 203, 203);
+    background-color:#FDA332;
     border-radius: 40px;
     margin-right: 10px;
+    color: white;
+    font-size: 14px;
 }
 
-.first-letter {
+.user-button-name {
     display: flex;
-    height: 100%;
-    width: 40%;
+    align-items: center;
+    font-size: 14px;
+    flex-grow: 1;
+    margin-left: 3px;
+}
+
+.user-first-letter {
+    display: flex;
+    height: 30px;
+    width: 30px;
     background-color: #FDA332;
-    border-radius: 40px;
+    border-radius: 100%;
     justify-content: center;
     align-items: center;
 }
+
+.user-button {
+    display: flex;
+    align-items: center;
+    width: auto;
+    height: 40%;
+    background-color: rgb(228, 222, 222);
+    border-radius: 40px;
+    margin-right: 10px;
+    border-color: transparent;
+    box-shadow: 0px 0px 0px 2px rgba(0.15, 0.15, 0.15, 0.15);
+}
+
+.right-side {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    margin-left: 15px;
+    height: 100%;
+    margin-right: 10px;
+}
+
+.user-login-button {
+    text-align: center;
+    height: 35px;
+    width: 100px;
+    background-color:#FDA332;
+    margin-right: 10px;
+    color: white;
+    font-size: 14px;
+    border-radius: 40px;
+    width: 130px;
+    border-color: transparent;
+    box-shadow: 0px 0px 0px 2px rgba(0.15, 0.15, 0.15, 0.15);
+}
+
+
+
 .name {
     display: flex;
     justify-content: center;
@@ -55,9 +96,10 @@
     height: 100%;
     width: 60%;
 }
+
 .top-button {
-    height: 30%;
-    width: 15%;
+    height: 42%;
+    width: 22%;
     border-radius: 100%;
     padding: 5px;
 }
@@ -69,9 +111,14 @@
 
 .translate-button {
     background-color:#FDA332;
+    width: 40px;
+    height: 40px;
 }
 .exit-button {
     background-color: red;
+    margin-left: 5px;
+    height: 40px;
+    width: 40px;
 }
 .shadow {
     filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.5))

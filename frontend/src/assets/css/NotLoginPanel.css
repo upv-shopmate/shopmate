@@ -1,0 +1,36 @@
+.not-logged-user-block{
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.left-panel-login-button {
+    background-color: rgb(65, 64, 64);
+    color: white;
+    height: 30px;
+    width: 130px;
+    border: 0px;
+    margin-top: 15px;
+    align-self: center;  
+}
+.account-image{
+    display: flex;
+    height: 80px;
+    width: 80px;
+}
+
+.question{
+    margin-top: 5px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.login-text{
+    word-break: keep-all;
+    text-align: center;
+    margin-left: 5px;
+    margin-right: 5px;
+    color: rgb(78, 78, 78);
+}

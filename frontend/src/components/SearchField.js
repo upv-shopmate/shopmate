@@ -5,13 +5,12 @@ import searchIcon from '../assets/images/search_icon.png';
 import clearButton from '../assets/images/clear_button.png';
 import Input from './Input';
 import '../assets/css/Nav.css';
-import {requestSearchDataBase} from '../requests/SearchRequests.js';
 
 class SearchField extends React.Component {
   constructor(props) {
     super(props);
     this.state = ({
-      value: '',
+      searchInput: '',
     });
     this.changePanel = this.changePanel.bind(this);
     this.search = this.search.bind(this);
@@ -24,10 +23,10 @@ class SearchField extends React.Component {
     this.props.onChangeRightPanel('searcher');
   }
 
-  async search() {
-    if (this.state.searchInput.length > 0) {
-      const products = await requestSearchDataBase(this.state.searchInput);
-      this.props.changeResults(products);
+  search() {
+    const searchInput = this.state.searchInput;
+    if (searchInput.length > 0 && searchInput.trim().length > 0) {
+      this.props.changeResults(searchInput);
       this.changePanel();
     } else {
       this.closeSearchPanel();
@@ -35,6 +34,7 @@ class SearchField extends React.Component {
   }
 
   closeSearchPanel() {
+    this.resetSearchInput();
     this.props.goToLastState();
   }
 
@@ -47,7 +47,14 @@ class SearchField extends React.Component {
 
   clearSearchField() {
     this.inputRef.current.clearFieldValue();
+    this.resetSearchInput();
     this.closeSearchPanel();
+  }
+
+  resetSearchInput() {
+    this.setState({
+      searchInput: '',
+    });
   }
 
   render() {

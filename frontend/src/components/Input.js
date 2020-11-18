@@ -41,12 +41,14 @@ class Input extends React.Component {
         onChange={(value) => {
           this.changeFieldValue(value);
         }}
+        type={this.props.type}
         value={this.state.value}
         placeholder={this.props.placeholder}
         defaultKeyboard={CustomMapping}
         isFirstLetterUppercase={true}
         isDraggable={false}
         opacity={1}
+        stickToBottom={true}
       />
     );
   }

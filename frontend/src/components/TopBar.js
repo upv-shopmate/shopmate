@@ -18,13 +18,43 @@ class TopBar extends React.Component {
     super(props);
     this.state = {
         showPopup: false,
+        'userLoggedIn': false,
+        'userInfo': undefined,
         langSelected: "es"
     }
     this.togglePopup = this.togglePopup.bind(this);
     this.renderLanguages = this.renderLanguages.bind(this);
-    this.closeLanguagePanel = this.closeLanguagePanel.bind(this);
-    this.langRef = React.createRef();
-    
+    //this.closeLanguagePanel = this.closeLanguagePanel.bind(this);
+    this.langRef = React.createRef(); 
+  }
+
+  logIn(user) {
+    this.setState({
+      'userLoggedIn': true,
+      'userInfo': user,
+    });
+  }
+
+  logOut() {
+    this.setState({
+      'userLoggedIn': false,
+      'userInfo': undefined,
+    });
+  }
+
+  getUserName() {
+    let name = this.state.userInfo.name;
+    const splitName = name.split(' ');
+    name = splitName[0];
+    if (splitName.length > 2) {
+      name += ' ' + splitName[1].charAt(0).toUpperCase() + '.';
+    }
+    return name;
+  }
+
+  getUserFirstLetter() {
+    const name = this.state.userInfo.name;
+    return name.charAt(0).toUpperCase();
   }
 
   togglePopup() {
@@ -36,7 +66,7 @@ class TopBar extends React.Component {
   renderLanguages(){
     if(this.state.showPopup === true)
       return <Languages 
-      closeLanguagePanel = {this.closeLanguagePanel()} >
+      /*closeLanguagePanel = {this.closeLanguagePanel()}*/ >
          ref={this.langRef}
          </Languages>;
     else return null;
@@ -47,12 +77,47 @@ class TopBar extends React.Component {
     i18n.changeLanguage(lang);
    }
 
-   closeLanguagePanel() {
+  /* closeLanguagePanel() {
      this.setState = {
       showPopup: false
      }
-   }
+   }*/
   
+  renderButtons() {
+    if (this.state.userLoggedIn) {
+      return (
+        <React.Fragment>
+          <button
+            className="user-button shadow"
+            onClick={this.props.openUserDetails}>
+            <div className="user-first-letter">{this.getUserFirstLetter()}</div>
+            <div className="user-button-name">{this.getUserName()}</div>
+          </button>
+          <button className="translate-button top-button shadow" >
+            <img src={translateIcon} >
+            </img>
+          </button>
+          <button className="exit-button top-button shadow"
+            onClick={this.props.logOut}
+          >
+            <img src={exitIcon}></img>
+          </button>
+        </React.Fragment>
+      );
+    } else {
+      return (
+        <React.Fragment>
+          <button className="user-login-button shadow"
+            onClick={this.props.openLogin} >Iniciar sesión</button>
+          <button className="translate-button top-button shadow" onClick={this.togglePopup}>
+            <img src={translateIcon}></img>
+            {this.renderLanguages()}
+          </button>
+        </React.Fragment>
+      );
+    }
+  }
+
   render() {
     //const {t, i18n} = useTranslation();
     return (
@@ -79,18 +144,8 @@ class TopBar extends React.Component {
           changeResults={this.props.changeResults}
         />
         <div className="right-side">
-          <div className="user-field shadow">
-            <div className="first-letter">Y</div>
-            <div className="name">Yoel</div>
-          </div>
-          <div className="translate-button top-button shadow">
-            <img src={translateIcon} onClick={this.togglePopup}/>
-            {this.renderLanguages()}
-          </div>
-          <div className="exit-button top-button shadow">
-            <img src={exitIcon}></img>
-          </div>
-        </div> 
+          {this.renderButtons()}
+        </div>
       </div>
     );
   }

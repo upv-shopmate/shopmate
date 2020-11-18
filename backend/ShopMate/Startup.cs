@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Data.SqlClient;
@@ -6,9 +7,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using ShopMate.Persistence;
 using ShopMate.Persistence.Relational;
+using ShopMate.Services;
 using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace ShopMate
 {
@@ -37,7 +42,9 @@ namespace ShopMate
                 config.Version = "0.0.0";
             });
 
-            ConfigurePersistence(services);
+            ConfigurePersistenceServices(services);
+
+            ConfigureAuthenticationServices(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,6 +59,7 @@ namespace ShopMate
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -63,7 +71,7 @@ namespace ShopMate
             app.UseSwaggerUi3();
         }
 
-        private void ConfigurePersistence(IServiceCollection services)
+        private void ConfigurePersistenceServices(IServiceCollection services)
         {
             var builder = new SqlConnectionStringBuilder(Configuration.GetConnectionString(ConnectionStringName))
             {
@@ -74,6 +82,32 @@ namespace ShopMate
                 options.UseSqlServer(builder.ConnectionString));
 
             services.AddScoped<IShopMateRepository, RelationalShopMateRepository>();
+        }
+
+        private void ConfigureAuthenticationServices(IServiceCollection services)
+        {
+            var secret = Encoding.ASCII.GetBytes(Configuration["Jwt:Secret"]);
+
+            services.AddAuthentication(o =>
+            {
+                o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(o =>
+            {
+                o.RequireHttpsMetadata = !Configuration.GetValue<bool>("Jwt:UnsafeMode");
+                o.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidIssuers = Configuration.GetSection("Jwt:Issuers").Get<List<string>>(),
+                    ValidAudiences = Configuration.GetSection("Jwt:Audiences").Get<List<string>>(),
+                    IssuerSigningKey = new SymmetricSecurityKey(secret),
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                };
+            });
+
+            services.AddScoped<IShopMateAuthService, JwtSessionAuthService>();
         }
     }
 }
