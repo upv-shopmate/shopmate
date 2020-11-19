@@ -1,18 +1,20 @@
 import '../assets/css/UserLists.css';
 import React from 'react';
 
-class UserLists extends React.Component {
+class UserList extends React.Component {
     constructor(props) {
         super(props);
     }
 
     render() {
         return(
-            <div className="shopping-lists">
-
+            <div className="list-name">
+                <div>
+                    
+                </div>
             </div>
         );
     }
 }
 
-export default UserLists;
+export default UserList;
