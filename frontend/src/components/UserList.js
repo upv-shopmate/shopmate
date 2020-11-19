@@ -1,4 +1,4 @@
-import '../assets/css/UserLists.css';
+import '../assets/css/UserList.css';
 import React from 'react';
 
 class UserList extends React.Component {
@@ -8,9 +8,12 @@ class UserList extends React.Component {
 
     render() {
         return(
-            <div className="list-name">
-                <div>
-                    
+            <div className="planned-list">
+                <div className="top-elements">
+                    <div className="name-list">Fiesta de Paco</div>
+                </div>
+                <div className="bot-elements">
+                    <div className="list-price">Precio planificado: 80 €</div>
                 </div>
             </div>
         );
