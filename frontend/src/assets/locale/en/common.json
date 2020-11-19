@@ -1,17 +1,6 @@
 {
-    "lang":"en",
-    "words" : {
-      "CARRITO": {
-         "1": "CART"
-      },
-       "MAPA"  : {
-         "1": "MAP"
-      },
-       "CATÁLOGO":{
-         "1": "CATALOG"
-      },
-      "SHOPMATE": {
-         "1": "SHOP MATE"
-      }
-   }
+   "muchos": "Log In",
+   "articulos_plural": "Quedan {{count}} artículos",
+   "articulos": "No queda ningún artículo",
+   "gatitos": "$t(articulos) pero hay gatitos"
  }

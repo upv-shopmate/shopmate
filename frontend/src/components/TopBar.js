@@ -6,8 +6,8 @@ import exitIcon from '../assets/images/leave_icon.png';
 import translateIcon from '../assets/images/translate.png';
 import SearchField from './SearchField';
 import Languages from './Languages';
-import { useTranslation } from 'react-i18next';
 import { bind } from 'file-loader';
+import { withTranslation } from 'react-i18next';
 
 
  
@@ -74,8 +74,8 @@ class TopBar extends React.Component {
   
   handleClick(lang){
     /*const {t, i18n} = useTranslation();*/
-    i18n.changeLanguage(lang);
-   }
+    this.props.i18n.changeLanguage(lang);
+  }
 
   /* closeLanguagePanel() {
      this.setState = {
@@ -84,6 +84,7 @@ class TopBar extends React.Component {
    }*/
   
   renderButtons() {
+    const { t, i18n } = this.props;
     if (this.state.userLoggedIn) {
       return (
         <React.Fragment>
@@ -106,10 +107,12 @@ class TopBar extends React.Component {
         </React.Fragment>
       );
     } else {
+      console.log(i18n)
       return (
         <React.Fragment>
           <button className="user-login-button shadow"
-            onClick={this.props.openLogin} >Iniciar sesión</button>
+            onClick={this.props.openLogin} >{t('articulos', { count: 1 })}
+          </button>
           <button className="translate-button top-button shadow" onClick={this.togglePopup}>
             <img src={translateIcon}></img>
             {this.renderLanguages()}
@@ -121,6 +124,7 @@ class TopBar extends React.Component {
 
   render() {
     //const {t, i18n} = useTranslation();
+    //const { t } = this.props;
     return (
        <div className="top-bar"> 
         <div className="left-side">
@@ -129,13 +133,13 @@ class TopBar extends React.Component {
             </div>
           <div className= 'prove-buttons'>
             <button className='es'
-              onClick = {() => handleClick('es')}
+              onClick = {() => this.handleClick('es')}
               /> Español
             <button className='en'
-            onClick = {() => handleClick('en')}
+            onClick = {() => this.handleClick('en')}
               /> English
             <button className='val'
-            onClick = {() => handleClick('val')}
+            onClick = {() => this.handleClick('ca')}
               /> Valenciano
           </div>
         </div>
@@ -150,7 +154,7 @@ class TopBar extends React.Component {
       </div>
     );
   }
+
 }
 
-export default TopBar;
-//<p>{t('ShopMate.1')}</p>
+export default withTranslation()(TopBar);

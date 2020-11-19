@@ -1,17 +1,3 @@
 {
-    "lang":"es",
-    "words" : {
-       "CARRITO": {
-         "1": "CARRITO"
-      },
-       "MAPA"  : {
-         "1": "MAPA"
-      },
-       "CATÁLOGO":{
-         "1": "CATÁLOGO"
-      },
-      "SHOPMATE": {
-         "1": "TIENDA AMIGO"
-      }
-    }
+   "muchos": "Iniciar sesión"
  }
