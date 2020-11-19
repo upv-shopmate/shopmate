@@ -5,6 +5,7 @@ import listImage from '../assets/images/list.png';
 import tagImage from '../assets/images/tag_icon.png';
 import React from 'react';
 import NotLoginPanel from './NotLoginPanel';
+import UserLists from './UserLists';
 
 class LeftPanel extends React.Component {
   constructor(props) {
@@ -64,7 +65,7 @@ class LeftPanel extends React.Component {
     if (this.state.userLoggedIn) {
       return (
         <React.Fragment>
-
+          <UserLists/>
         </React.Fragment>
       );
     } else {
