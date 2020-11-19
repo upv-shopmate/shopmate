@@ -2,6 +2,7 @@ import '../assets/css/Cart.css';
 import React from 'react';
 import CartProduct from './CartProduct';
 import {requestCartContentDataBase} from '../requests/CartContents';
+import { withTranslation } from 'react-i18next';
 
 class Cart extends React.Component {
   constructor(props) {
@@ -74,10 +75,11 @@ class Cart extends React.Component {
   }
 
   render() {
+    const { t, i18n } = this.props;
     return (
       <div className="product-list">
         <div className="cart-title">
-          Dentro de este carro ({this.getProductsListNumber()})
+          {t("insideCart")} ({this.getProductsListNumber()})
         </div>
         <div className="cart-products">{this.renderContents()}
         </div>
@@ -94,7 +96,7 @@ class Cart extends React.Component {
           </div>
           <div className="cart-info">
             <div className="cart-articles">
-              {this.getProductsListNumber()} artículos en el carro
+              {t("articlesCart", {articles: 2/*this.getProductsListNumber()*/})} 
             </div>
             <div className="planned-articles">N/A artículos planificados</div>
             <div className="coupons">Ningún cupón aplicado</div>
@@ -102,7 +104,7 @@ class Cart extends React.Component {
           <div className="final-price">
             <div className="total">Total</div>
             <div className="price">{this.getProductTotalPrice()} € </div>
-            <div className="planned-price">Planificado: N/A €</div>
+            <div className="planned-price">{t("estimated")} N/A €</div>
           </div>
         </div>
       </div>
@@ -110,4 +112,4 @@ class Cart extends React.Component {
   }
 }
 
-export default Cart;
+export default withTranslation()(Cart);

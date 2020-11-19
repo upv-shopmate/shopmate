@@ -24,7 +24,6 @@ class TopBar extends React.Component {
     }
     this.togglePopup = this.togglePopup.bind(this);
     this.renderLanguages = this.renderLanguages.bind(this);
-    //this.closeLanguagePanel = this.closeLanguagePanel.bind(this);
     this.langRef = React.createRef(); 
   }
 
@@ -65,24 +64,16 @@ class TopBar extends React.Component {
   
   renderLanguages(){
     if(this.state.showPopup === true)
-      return <Languages 
-      /*closeLanguagePanel = {this.closeLanguagePanel()}*/ >
+      return <Languages >
          ref={this.langRef}
          </Languages>;
     else return null;
   }
   
   handleClick(lang){
-    /*const {t, i18n} = useTranslation();*/
     this.props.i18n.changeLanguage(lang);
   }
 
-  /* closeLanguagePanel() {
-     this.setState = {
-      showPopup: false
-     }
-   }*/
-  
   renderButtons() {
     const { t, i18n } = this.props;
     if (this.state.userLoggedIn) {
@@ -107,11 +98,11 @@ class TopBar extends React.Component {
         </React.Fragment>
       );
     } else {
-      console.log(i18n)
+      
       return (
         <React.Fragment>
           <button className="user-login-button shadow"
-            onClick={this.props.openLogin} >{t('articulos', { count: 1 })}
+            onClick={this.props.openLogin} >{t('login')}
           </button>
           <button className="translate-button top-button shadow" onClick={this.togglePopup}>
             <img src={translateIcon}></img>
@@ -123,25 +114,13 @@ class TopBar extends React.Component {
   }
 
   render() {
-    //const {t, i18n} = useTranslation();
-    //const { t } = this.props;
+    
     return (
        <div className="top-bar"> 
         <div className="left-side">
           <img src={logo}></img>
           <div className="logo-name"> 
             </div>
-          <div className= 'prove-buttons'>
-            <button className='es'
-              onClick = {() => this.handleClick('es')}
-              /> Español
-            <button className='en'
-            onClick = {() => this.handleClick('en')}
-              /> English
-            <button className='val'
-            onClick = {() => this.handleClick('ca')}
-              /> Valenciano
-          </div>
         </div>
         <SearchField
           goToLastState={this.props.goToLastState}

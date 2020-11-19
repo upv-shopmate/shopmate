@@ -5,6 +5,7 @@ import listImage from '../assets/images/list.png';
 import tagImage from '../assets/images/tag_icon.png';
 import React from 'react';
 import NotLoginPanel from './NotLoginPanel';
+import { withTranslation } from 'react-i18next';
 
 class LeftPanel extends React.Component {
   constructor(props) {
@@ -77,9 +78,10 @@ class LeftPanel extends React.Component {
   }
 
   render() {
+    const { t, i18n } = this.props;
     return (
       <div className="left-panel">
-        <div className="left-panel-title">Lista de la compra</div>
+        <div className="left-panel-title">{t("shoppingList")}</div>
         <div className="current-panel">
           {this.renderPanel()}
         </div>
@@ -89,13 +91,13 @@ class LeftPanel extends React.Component {
             className="lf-list-button"
           >
             <img className="list-button-image" src={listImage}></img>
-            <div className="list-button-text">MIS LISTAS</div>
+            <div className="list-button-text">{t("myLists")}</div>
           </button>
           <button
             className="lf-tag-button"
           >
             <img className="tag-button-image" src={tagImage}></img>
-            <div className="tag-button-text">CUPONES</div>
+            <div className="tag-button-text">{t("coupons")}</div>
           </button>
         </div>
       </div>
@@ -103,4 +105,4 @@ class LeftPanel extends React.Component {
   }
 }
 
-export default LeftPanel;
+export default withTranslation()(LeftPanel);

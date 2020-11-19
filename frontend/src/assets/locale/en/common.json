@@ -1,6 +1,26 @@
 {
-   "muchos": "Log In",
-   "articulos_plural": "Quedan {{count}} artículos",
-   "articulos": "No queda ningún artículo",
-   "gatitos": "$t(articulos) pero hay gatitos"
+  "cart": "CART",
+  "catalog":  "CATALOG",
+  "map":  "MAP",
+  
+  "login": "Log In",
+
+  "spanish": "Spanish",
+  "english": "English",
+  "valencian": "Valencian",
+
+  "insideCart": "Inside this cart",
+  "articlesCart": "A product in the cart",
+  "articlesCart_plural": "{{articles}} products in the cart",
+  "estimated": "Estimated: ",
+   
+  "shoppingList": "Shopping List",
+  "myLists": "MY LISTS",
+  "coupons": "COUPONS",
+
+  "placeholder": "Search by products, brands, categories...",
+
+  "articulos_plural": "Quedan {{count}} artículos",
+  "articulos": "No queda ningún artículo",
+  "gatitos": "$t(articulos) pero hay gatitos"
  }

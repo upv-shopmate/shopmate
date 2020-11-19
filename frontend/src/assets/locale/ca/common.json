@@ -1,3 +1,23 @@
 {
-   "muchos": "Iniciar sessió"
+  "cart": "CARRET",
+  "catalog":  "CATÀLOG",
+  "map":  "MAPA",
+
+  "login": "Iniciar sessió",
+
+  "spanish": "Espanyol",
+  "english": "Anglés",
+  "valencian": "Valencià",
+
+  "insideCart": "Dins del carret",
+  "articlesCart": "{{articles}} article al carret",
+  "articlesCart_plural": "{{articles}} articles al carret",
+  "estimated": "Planificat: ",
+   
+  "shoppingList": "Llista de la compra",
+  "myLists": "LLISTES",
+  "coupons": "CUPONS",
+
+  "placeholder": "Buscar productes, marques, categories..."
+   
  }

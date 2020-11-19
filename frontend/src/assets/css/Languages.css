@@ -1,7 +1,7 @@
 .languagesPanel {
     display: flex;
-    width: 200px;
-    height: 300px;
+    width: 215px;
+    height: 250px;
     background-color: aliceblue;
     border-top-left-radius: 1%;
     border-top-right-radius: 1%;
@@ -9,7 +9,7 @@
     align-items: stretch;
     flex-flow: column;
     position: relative;
-    right: 160px;
+    right: 75px;
     top: 10px
   }
 

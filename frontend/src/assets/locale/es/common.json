@@ -1,3 +1,24 @@
 {
-   "muchos": "Iniciar sesión"
+  "cart": "CARRITO",
+  "catalog":  "CATÁLOGO",
+  "map":  "MAPA",
+  
+  "login": "Iniciar sesión",
+
+  "spanish": "Español",
+  "english": "Inglés",
+  "valencian": "Valenciano",
+
+  "insideCart": "Dentro de este carro",
+  "articlesCart_plural": " {{articles}} artículos en el carro",
+  "articlesCart": " {{articles}} artículo en el carro",
+  "estimated": "Planificado: ",
+
+  "shoppingList": "Lista de la compra",
+  "myLists": "MIS LISTAS",
+  "coupons": "CUPONES",
+
+  "placeholder": "Buscar productos, marcas, categorías..."
+
+   
  }
