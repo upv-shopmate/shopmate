@@ -114,5 +114,25 @@ namespace ShopMate.Controllers
 
             return CreatedAtRoute("GetCurrentUserShoppingListById", new { list.Id });
         }
+
+        [HttpDelete("lists/{id}")]
+        [Authorize(Roles = "user")]
+        public ActionResult DeleteUserShoppingListById(int id)
+        {
+            if (!auth.GetUserFromClaims(User.Claims, out User? user))
+            {
+                return Unauthorized();
+            }
+
+            var list = repository.ShoppingLists.GetAll().Where(l => l.Id == id && user! == l.Owner).FirstOrDefault();
+            if (list is null)
+            {
+                return NotFound();
+            }
+            repository.ShoppingLists.Remove(list);
+            repository.SaveChanges();
+
+            return NoContent();
+        }
     }
 }
