@@ -9,7 +9,7 @@ import pageLeftImage from '../assets/images/page-left.png';
 import pageRightImage from '../assets/images/page-right.png';
 
 const HEIGHTS = {
-  OPENED: '60%',
+  OPENED: '55%', // products height
   CLOSED: '100%',
 };
 

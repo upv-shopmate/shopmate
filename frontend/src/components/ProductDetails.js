@@ -1,6 +1,6 @@
 /* eslint react/prop-types: 0 */
 import '../assets/css/ProductDetails.css';
-import closeButton from '../assets/images/close_button.png';
+import closeButton from '../assets/images/icon/navigation/close_24px.png';
 import mapButton from '../assets/images/map_button.png';
 import imageNotFound from '../assets/images/image_not_found.jpg';
 import React, {Component} from 'react';
@@ -35,7 +35,7 @@ class ProductDetails extends Component {
   getProductBrand() {
     const aux = this.props.product.brands;
     if (aux !== [] && aux[0] !== undefined) {
-      return 'de ' + aux[0].name;
+      return aux[0].name;
     }
     return '';
   }
@@ -125,19 +125,19 @@ class ProductDetails extends Component {
             <div className="details-brand">{this.getProductBrand()}</div>
             <div className="details-price">{this.getProductPrice()}</div>
           </div>
+          <div className="details-line">
+          </div>
           <div className="details-box">
-            <div className="details-close-button">
-              <img className="details-close-button-image"
-                src={closeButton}
-                onClick={this.closeDetailsPanel}
-              >
-              </img>
-            </div>
             <div className="details-info">{this.getMoreInfo()}</div>
-            <div className="details-map-button">
-              <img className="details-map-button-image" src={mapButton}>
-              </img>
-            </div>
+          </div>
+          <div className="details-buttons">
+            <img className="details-close-button-image"
+              src={closeButton}
+              onClick={this.closeDetailsPanel}
+            >
+            </img>
+            <img className="details-map-button-image" src={mapButton}>
+            </img>
           </div>
         </div>
       );
