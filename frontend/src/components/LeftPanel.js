@@ -61,11 +61,29 @@ class LeftPanel extends React.Component {
     });
   }
 
+  renderLists() {
+    if (this.props.user.lists) {
+      return this.props.user.lists.entries.map((entry) =>
+        <UserList
+          key={entry.id}
+          entry={entry}
+        />,
+      );
+    }
+    else{
+      return(
+        <React.Fragment>
+          <div className="no-lists">No tiene listas creadas</div>
+        </React.Fragment>
+      );
+    }
+  }
+
   renderPanel() {
     if (this.state.userLoggedIn) {
       return (
         <React.Fragment>
-          <UserList/>
+          {this.renderLists}
         </React.Fragment>
       );
     } else {

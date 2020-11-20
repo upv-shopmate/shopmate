@@ -18,7 +18,15 @@
     font-weight: bold;
 }
 
-.list-price{
+.list-price {
     margin-left: 15px;
     color: rgb(78, 78, 78);
+}
+
+.top-elements{
+    background-color: whitesmoke;
+    border-radius: 7px;
+    border-width: 1px;
+    border-color: rgb(65, 64, 64);
+    border-style: solid;
 }
