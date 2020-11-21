@@ -7,8 +7,8 @@ import Cart from './Cart';
 import Map from './Map';
 import Searcher from './SearchPanel';
 import Square from './Square';
-import {requestMap} from '../requests/MapRequest';
-import {requestCatalog} from '../requests/ProductRequest.js';
+import { requestMap } from '../requests/MapRequest';
+import { requestCatalog } from '../requests/ProductRequest.js';
 import loadingGif from '../assets/images/loading.gif';
 
 // minimum width is 70
@@ -46,28 +46,43 @@ class RightPanel extends React.Component {
 
 
   async initializeCatalog() {
-    const catalog = await requestCatalog(0);
-    this.setState({
-      'initialCatalog': catalog,
-      'catalog': catalog,
-      'catalogPage': 1,
-    });
-    if (this.catalogRef.current !== null) {
-      this.catalogRef.current.updateCatalog(catalog);
+    let catalog;
+    try {
+      catalog = await requestCatalog(0);
+      this.props.hideErrorPanel();
+      this.setState({
+        'initialCatalog': catalog,
+        'catalog': catalog,
+        'catalogPage': 1,
+      });
+      if (this.catalogRef.current !== null) {
+        this.catalogRef.current.updateCatalog(catalog);
+      }
+    } catch (e) {
+      this.props.showErrorPanel()
+      this.initializeCatalog()
     }
   }
 
   async updateCatalog(page) {
-    this.showLoading();
-    const catalog = await requestCatalog(this.state.catalogPage);
-    this.setState({
-      'catalog': catalog,
-      'catalogPage': page,
-    });
-    if (this.catalogRef.current !== null) {
-      this.catalogRef.current.updateCatalog(catalog);
+    let catalog;
+    try {
+      this.showLoading();
+      catalog = await requestCatalog(this.state.catalogPage);
+      this.setState({
+        'catalog': catalog,
+        'catalogPage': page,
+      }, this.props.hideErrorPanel());
+      if (this.catalogRef.current !== null) {
+        this.catalogRef.current.updateCatalog(catalog);
+      }
+      this.hideLoading();
+    } catch (e) {
+      this.hideLoading();
+      this.props.showErrorPanel();
+      this.updateCatalog(page);
     }
-    this.hideLoading();
+
   }
 
   resetCatalog() {
@@ -81,9 +96,17 @@ class RightPanel extends React.Component {
   }
 
   async initializeMap() {
-    const map = await requestMap();
-    this.drawMap(map);
+    let map;
+    try {
+      map = await requestMap();
+      this.drawMap(map);
+      this.props.hideErrorPanel();
+    } catch (e) {
+      this.props.showErrorPanel();
+      this.initializeMap();
+    }
   }
+
   drawMap(map) {
     for (let x = 0; x < map.length; x++) {
       for (let y = 0; y < map[x].length; y++) {
@@ -138,7 +161,9 @@ class RightPanel extends React.Component {
     const panel = input;
     if (panel === 'cart') {
       this.changePanelWidth(WIDTHS.CART);
-      return <Cart />;
+      return <Cart
+        showErrorPanel={this.props.showErrorPanel}
+        hideErrorPanel={this.props.hideErrorPanel} />;
     } else if (panel === 'catalog') {
       this.changePanelWidth(WIDTHS.CATALOG);
       return <Catalog

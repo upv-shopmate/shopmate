@@ -1,7 +1,7 @@
 import '../assets/css/Cart.css';
 import React from 'react';
 import CartProduct from './CartProduct';
-import {requestCartContentDataBase} from '../requests/CartContents';
+import { requestCartContentDataBase } from '../requests/CartContents';
 
 class Cart extends React.Component {
   constructor(props) {
@@ -21,10 +21,17 @@ class Cart extends React.Component {
   }
 
   async getProductsFromDataBase() {
-    const data = await requestCartContentDataBase();
-    this.setState({
-      cartContent: data,
-    });
+    let data;
+    try {
+      data = await requestCartContentDataBase();
+      this.props.hideErrorPanel();
+      this.setState({
+        cartContent: data,
+      });
+    } catch (e) {
+      this.getProductsFromDataBase();
+      this.props.showErrorPanel();
+    }
   }
 
   getProductSubtotal() {
