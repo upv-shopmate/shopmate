@@ -6,7 +6,7 @@ import accountImage from '../assets/images/account_circle.png';
 import infoImage from '../assets/images/info.png';
 import rightArrow from '../assets/images/right_arrow.png';
 import leftArrow from '../assets/images/left_arrow.png';
-import { userAuthRequest } from '../requests/UserRequests.js';
+import {userAuthRequest} from '../requests/UserRequests.js';
 import Input from './Input';
 import React from 'react';
 
@@ -28,12 +28,14 @@ class Login extends React.Component {
     this.setState({
       account: input,
     });
+    this.changePasswordError('');
   }
 
   updatePasswordText(input) {
     this.setState({
       password: input,
     });
+    this.changePasswordError('');
   }
 
 
@@ -51,15 +53,16 @@ class Login extends React.Component {
     const account = this.state.account;
     const password = this.state.password;
     const response = await userAuthRequest(account, password);
-    console.log(response.status);
     if (response.status == 200) {
       this.props.loginUser(response.accesToken);
       this.closeLoginPanel();
       this.props.hideErrorPanel();
     } else if (response.status == 401) {
       this.changePasswordError('Correo o contraseña incorrectos');
-    } else {
+      this.props.hideErrorPanel();
+    } else if (response.status === 'ConnectionError') {
       this.props.showErrorPanel();
+      this.login();
     }
   }
 

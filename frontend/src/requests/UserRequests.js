@@ -1,5 +1,5 @@
 const request = require('axios');
-import { dataBaseURL } from '../components/App.js';
+import {dataBaseURL} from '../components/App.js';
 
 // query example: https://localhost:5001/api/User/authorize
 export async function userAuthRequest(username, password) {
@@ -8,21 +8,24 @@ export async function userAuthRequest(username, password) {
   const query = '/api/User/authorize';
 
   await request.post(
-    dataBaseURL + query,
-    { 'username': username, 'password': password })
-    .then(function (response) {
-      {
-        if ()
+      dataBaseURL + query,
+      {'username': username, 'password': password})
+      .then(function(response) {
+        {
           status = response.status;
-        if (status == '200') {
-          accesToken = response.data.accessToken;
+          if (status == '200') {
+            accesToken = response.data.accessToken;
+          }
         }
-      }
-    }).catch(function (error) {
-      status = error.response.status;
-    });
+      }).catch(function(error) {
+        try {
+          status = error.response.status;
+        } catch (e) {
+          status = 'ConnectionError';
+        }
+      });
 
-  return { 'status': status, 'accesToken': accesToken };
+  return {'status': status, 'accesToken': accesToken};
 }
 
 export async function userInfoRequest(accesToken) {
@@ -31,21 +34,21 @@ export async function userInfoRequest(accesToken) {
   const query = '/api/User';
 
   await request(
-    dataBaseURL + query,
-    {
-      headers: {
-        'Authorization': 'Bearer ' + accesToken,
-      },
-    })
-    .then(function (response) {
+      dataBaseURL + query,
       {
-        status = response.status;
-        if (status == '200') {
-          data = response.data;
+        headers: {
+          'Authorization': 'Bearer ' + accesToken,
+        },
+      })
+      .then(function(response) {
+        {
+          status = response.status;
+          if (status == '200') {
+            data = response.data;
+          }
         }
-      }
-    }).catch((error) => {
-      status = error.status;
-    });
-  return { 'status': status, 'data': data };
+      }).catch((error) => {
+        status = error.status;
+      });
+  return {'status': status, 'data': data};
 }

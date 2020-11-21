@@ -4,9 +4,9 @@ import TopBar from './TopBar';
 import LeftPanel from './LeftPanel';
 import RightPanel from './RightPanel';
 import Nav from './Nav';
-import { requestSearchDataBase } from '../requests/SearchRequests.js';
+import {requestSearchDataBase} from '../requests/SearchRequests.js';
 import Login from './Login';
-import { userInfoRequest } from '../requests/UserRequests.js';
+import {userInfoRequest} from '../requests/UserRequests.js';
 import UserDetails from './UserDetails';
 import ErrorPanel from './ErrorPanel';
 
@@ -36,15 +36,14 @@ class App extends React.Component {
   }
 
   async getUserInfo(accessToken) {
-
     this.setState({
       accessToken: accessToken,
     });
-    let response
+    let response;
     try {
       response = await userInfoRequest(accessToken);
       this.hideErrorPanel();
-      if (response.status == 200) this.setState({ user: response.data });
+      if (response.status == 200) this.setState({user: response.data});
       this.logInUser(response.data);
     } catch (e) {
       this.showErrorPanel();
@@ -196,7 +195,7 @@ class App extends React.Component {
     } catch (e) {
       rightPanelRef.hideLoading();
       this.showErrorPanel();
-      this.requestAndUpdateResults(searchInput, lastSearchInput, page)
+      this.requestAndUpdateResults(searchInput, lastSearchInput, page);
     }
   }
 
@@ -276,13 +275,13 @@ class App extends React.Component {
   showErrorPanel() {
     this.setState({
       'connectionError': true,
-    })
+    });
   }
 
   hideErrorPanel() {
     this.setState({
       'connectionError': false,
-    })
+    });
   }
 
   renderErrorPanel() {
@@ -291,7 +290,7 @@ class App extends React.Component {
         <React.Fragment>
           <ErrorPanel closeErrorPanel={this.hideErrorPanel.bind(this)} />
         </React.Fragment>
-      )
+      );
     }
   }
 

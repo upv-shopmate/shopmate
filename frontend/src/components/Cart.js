@@ -1,7 +1,9 @@
+/* eslint react/prop-types: 0 */
+
 import '../assets/css/Cart.css';
 import React from 'react';
 import CartProduct from './CartProduct';
-import { requestCartContentDataBase } from '../requests/CartContents';
+import {requestCartContentDataBase} from '../requests/CartContents';
 
 class Cart extends React.Component {
   constructor(props) {

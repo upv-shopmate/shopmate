@@ -1,5 +1,5 @@
 const request = require('axios');
-import { dataBaseURL } from '../components/App.js';
+import {dataBaseURL} from '../components/App.js';
 
 export async function requestMap() {
   let map = null;
@@ -8,11 +8,11 @@ export async function requestMap() {
     'rejectUnauthorized': false,
     'accept': 'application/json',
   })
-    .then(function (response) {
-      {
-        map = response.data;
-      }
-    });
+      .then(function(response) {
+        {
+          map = response.data;
+        }
+      });
   return map;
 }
 

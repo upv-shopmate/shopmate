@@ -7,8 +7,8 @@ import Cart from './Cart';
 import Map from './Map';
 import Searcher from './SearchPanel';
 import Square from './Square';
-import { requestMap } from '../requests/MapRequest';
-import { requestCatalog } from '../requests/ProductRequest.js';
+import {requestMap} from '../requests/MapRequest';
+import {requestCatalog} from '../requests/ProductRequest.js';
 import loadingGif from '../assets/images/loading.gif';
 
 // minimum width is 70
@@ -59,8 +59,8 @@ class RightPanel extends React.Component {
         this.catalogRef.current.updateCatalog(catalog);
       }
     } catch (e) {
-      this.props.showErrorPanel()
-      this.initializeCatalog()
+      this.props.showErrorPanel();
+      this.initializeCatalog();
     }
   }
 
@@ -82,7 +82,6 @@ class RightPanel extends React.Component {
       this.props.showErrorPanel();
       this.updateCatalog(page);
     }
-
   }
 
   resetCatalog() {
