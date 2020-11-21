@@ -2,7 +2,6 @@
     height: 100%;
     background-color: rgb(227, 227, 227);
     display: flex;
-    flex-grow: 1;
     flex-flow: column;
     border-right: black 2px solid;
 }
@@ -26,7 +25,6 @@
     justify-content: center;
     margin-top: 10px;
     margin-bottom: 35px;
-    flex-flow: row;
 }
 
 .lf-list-button{
