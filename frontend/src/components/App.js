@@ -7,6 +7,7 @@ import Nav from './Nav';
 import {requestSearchDataBase} from '../requests/SearchRequests.js';
 import Login from './Login';
 import {userInfoRequest} from '../requests/UserRequests.js';
+import {requestCatalog} from '../requests/ProductRequest.js';
 import UserDetails from './UserDetails';
 
 export const dataBaseURL = 'https://localhost:5001';
@@ -38,7 +39,19 @@ class App extends React.Component {
       accessToken: accessToken,
     });
     const response = await userInfoRequest(accessToken);
-    if (response.status == 200) this.setState({user: response.data});
+    // FIXME change this chunk of code to receive the list from the backend
+    const products = await requestCatalog(23);
+    const lists = [
+      {'name': 'lista 1', 'entries': products.slice(0, 4)},
+      {'name': 'lista 2', 'entries': products.slice(5, 9)},
+      {'name': 'lista 3', 'entries': products.slice(10, 13)},
+      {'name': 'lista 4', 'entries': products.slice(14, 18)},
+    ];
+    // ======================================================= pls
+
+    if (response.status == 200) {
+      this.setState({user: response.data, lists: lists});
+    }
     this.logInUser(response.data);
   }
 
@@ -201,6 +214,7 @@ class App extends React.Component {
               openLogin={this.openLoginPanel.bind(this)}
               ref={this.leftPanelRef}
               userLoggedIn={this.state.user != undefined}
+              lists={this.state.lists}
             />
             <RightPanel
               panel={this.state.selectedPanel}

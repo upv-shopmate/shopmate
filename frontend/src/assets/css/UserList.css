@@ -1,32 +1,25 @@
-.planned-list{
-    width: 250px;
-    height: 70px;
-    border-radius: 10px;
-    border-width: 2.5px;
-    border-color: rgb(65, 64, 64);
-    border-style: outset;
-    margin-top: 15px;
-    margin-left: 12px;
-    background-color: #FDA332;
+.user-list-wrapper{
+    margin-top: 10px;
+    height: 75px;
+    width: 90%;
+    background-color: white;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
     box-shadow: 0px 0px 2px 2.5px rgba(0.15, 0.15, 0.15, 0.15);
 }
 
-.name-list{
-    margin-top: 5px;
-    margin-left: 10px;
-    font-size: 22px;
+.user-list-name{
     font-weight: bold;
+    font-size: 20px;
 }
 
-.list-price {
-    margin-left: 15px;
-    color: rgb(78, 78, 78);
+.user-list-price {
+    font-size: 16px;
 }
-
-.top-elements{
-    background-color: whitesmoke;
-    border-radius: 7px;
-    border-width: 1px;
-    border-color: rgb(65, 64, 64);
-    border-style: solid;
+.user-list-quantity {
+    font-size: 14px;
 }

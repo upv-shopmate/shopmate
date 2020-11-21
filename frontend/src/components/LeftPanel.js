@@ -6,12 +6,18 @@ import tagImage from '../assets/images/tag_icon.png';
 import React from 'react';
 import NotLoginPanel from './NotLoginPanel';
 import UserList from './UserList';
+import ListProduct from './ListProduct';
+
+const DEFAULT_TITLE = 'Lista de la compra';
 
 class LeftPanel extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       'buttonEnabled': false,
+      'currentList': null,
+      'inList': false,
+      'title': DEFAULT_TITLE,
     };
   }
 
@@ -61,36 +67,75 @@ class LeftPanel extends React.Component {
     });
   }
 
-  renderLists() {
-    if (this.props.user.lists) {
-      return this.props.user.lists.entries.map((entry) =>
-        <UserList
-          key={entry.id}
-          entry={entry}
+  handleListClick(list) {
+    this.setState({
+      currentList: list,
+      inList: true,
+      title: list.name,
+    });
+  }
+
+  showLists() {
+    this.setState({
+      inList: false,
+      title: DEFAULT_TITLE,
+    });
+  }
+  renderList() {
+    if (this.state.currentList !== null) {
+      // FIXME
+      // change this implementation for one that makes sense with the data
+      // received in the endpoint from the backend
+      return this.state.currentList.entries.map((product) =>
+        <ListProduct
+          key={product.id}
+          name={product.name}
+          quantity={1}
+          image={product.pictures[0]}
         />,
       );
     }
-    else{
-      return(
-        <React.Fragment>
-          <div className="no-lists">No tiene listas creadas</div>
-        </React.Fragment>
+  }
+  renderLists() {
+    if (this.props.lists) {
+      return this.props.lists.map((list) =>
+        <UserList
+          key={list['name']}
+          entries={list['entries']}
+          name={list['name']}
+          onListClick={(list) => this.handleListClick(list)}
+          list={list}
+        />,
+      );
+    } else {
+      return (
+        <div className="no-lists">No tiene listas creadas</div>
       );
     }
   }
 
-  renderPanel() {
-    if (this.state.userLoggedIn) {
+  // FIXME dropdown funcionality should change this logic
+  renderListPanel() {
+    if (this.state.inList) {
       return (
-        <React.Fragment>
-          {this.renderLists}
-        </React.Fragment>
+        <div className="lf-lists">
+          {this.renderList()}
+        </div>
       );
     } else {
       return (
-        <React.Fragment>
-          <NotLoginPanel openLogin={this.openLoginPanel.bind(this)} />
-        </React.Fragment>
+        <div className="lf-lists">
+          {this.renderLists()}
+        </div>
+      );
+    }
+  }
+  renderPanel() {
+    if (this.state.userLoggedIn) {
+      return this.renderListPanel();
+    } else {
+      return (
+        <NotLoginPanel openLogin={this.openLoginPanel.bind(this)} />
       );
     }
   }
@@ -98,7 +143,7 @@ class LeftPanel extends React.Component {
   render() {
     return (
       <div className="left-panel">
-        <div className="left-panel-title">Lista de la compra</div>
+        <div className="left-panel-title">{this.state.title}</div>
         <div className="current-panel">
           {this.renderPanel()}
         </div>
@@ -106,6 +151,7 @@ class LeftPanel extends React.Component {
           <button
             disabled={!this.state.buttonEnabled}
             className="lf-list-button"
+            onClick={() => this.showLists()}
           >
             <img className="list-button-image" src={listImage}></img>
             <div className="list-button-text">MIS LISTAS</div>

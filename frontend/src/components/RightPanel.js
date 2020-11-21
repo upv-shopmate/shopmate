@@ -13,7 +13,7 @@ import loadingGif from '../assets/images/loading.gif';
 
 // minimum width is 70
 const WIDTHS = {
-  CART: '130%',
+  CART: '100%',
   CATALOG: '270%',
   MAP: '250%',
   SEARCHER: '250%',

@@ -1,9 +1,10 @@
 .left-panel {
     height: 100%;
-    background-color: rgb(211, 211, 211);
+    background-color: rgb(227, 227, 227);
     display: flex;
     flex-grow: 1;
     flex-flow: column;
+    border-right: black 2px solid;
 }
 
 .left-panel-title {
@@ -14,8 +15,8 @@
 }
 
 .current-panel{
-    display: flex;
     flex-grow: 1;
+    overflow-y: scroll;
 }
 
 .bottom-buttons{
@@ -23,6 +24,7 @@
     flex-wrap: wrap;
     align-items: flex-end;
     justify-content: center;
+    margin-top: 10px;
     margin-bottom: 35px;
     flex-flow: row;
 }
@@ -78,3 +80,9 @@
     
 }
 
+.lf-lists {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+}
