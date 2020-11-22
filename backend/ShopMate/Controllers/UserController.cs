@@ -57,7 +57,7 @@ namespace ShopMate.Controllers
                 return Unauthorized();
             }
 
-            var coupons = repository.Coupons.GetAll().Where(c => c.Owners.Contains(user));
+            var coupons = repository.Coupons.GetAll().Where(c => c.Owners.Contains(user!));
             return Ok(mapper.Map<List<CouponReadDto>>(coupons));
         }
 
@@ -101,8 +101,10 @@ namespace ShopMate.Controllers
                 return Unauthorized();
             }
 
-            var list = new ShoppingList(dto.Name);
-            list.Owner = user;
+            var list = new ShoppingList(dto.Name)
+            {
+                Owner = user
+            };
 
             foreach (var entry in dto.Entries)
             {
