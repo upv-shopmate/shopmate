@@ -89,7 +89,7 @@ namespace ShopMate.Controllers
                 return NotFound();
             }
 
-            return Ok(mapper.Map<List<ShoppingListReadDto>>(list));
+            return Ok(mapper.Map<ShoppingListReadDto>(list));
         }
 
         [HttpPost("lists")]

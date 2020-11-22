@@ -6,6 +6,8 @@ namespace ShopMate.Dto
 {
     public class ShoppingListReadDto
     {
+        public int Id { get; internal set; }
+
         public string Name { get; internal set; }
 
         public decimal SubtotalPrice { get; internal set; }
