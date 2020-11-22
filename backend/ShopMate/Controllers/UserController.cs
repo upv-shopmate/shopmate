@@ -74,7 +74,7 @@ namespace ShopMate.Controllers
             return Ok(mapper.Map<List<ShoppingListReadDto>>(lists));
         }
 
-        [HttpGet("lists/{id}")]
+        [HttpGet("lists/{id}", Name = "GetCurrentUserShoppingListById")]
         [Authorize(Roles = "user")]
         public ActionResult<ICollection<ShoppingListReadDto>> GetCurrentUserShoppingListById(int id)
         {
@@ -96,12 +96,22 @@ namespace ShopMate.Controllers
         [Authorize(Roles = "user")]
         public ActionResult CreateCurrentUserShoppingList([FromBody] ShoppingListCreateDto dto)
         {
+            if (!auth.GetUserFromClaims(User.Claims, out User? user))
+            {
+                return Unauthorized();
+            }
+
             var list = new ShoppingList(dto.Name);
+            list.Owner = user;
 
             foreach (var entry in dto.Entries)
             {
-                var product = repository.Products.GetAll().FirstOrDefault(p => p.Barcode.Value == entry.ItemId);    // FIXME
-                if (product is null || entry.Quantity < 1)
+                if (!Gtin14.TryFromStandardBarcode(entry.ItemId, out Gtin14? barcode) || entry.Quantity < 1)
+                {
+                    return BadRequest();
+                }
+                var product = repository.Products.GetAll().FirstOrDefault(p => p.Barcode == barcode);    // FIXME
+                if (product is null)
                 {
                     return BadRequest();
                 }
