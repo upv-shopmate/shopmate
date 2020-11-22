@@ -48,8 +48,8 @@ namespace ShopMate.Models
 
         public bool Equals(User? other) => Id == other?.Id;
 
-        public static bool operator ==(User? lhs, User? rhs) => lhs != null && lhs.Equals(rhs);
-        public static bool operator !=(User? lhs, User? rhs) => lhs != null && !lhs.Equals(rhs);
+        public static bool operator ==(User? lhs, User? rhs) => !(lhs is null) && lhs.Equals(rhs);
+        public static bool operator !=(User? lhs, User? rhs) => !(lhs is null) && !lhs.Equals(rhs);
 
         public override int GetHashCode() => Id.GetHashCode();
     }
