@@ -79,7 +79,7 @@ class Catalog extends React.Component {
   }
 
   renderProducts() {
-    if (this.state.products !== []) {
+    if (this.state.products.length > 0) {
       return this.state.products.map((product) =>
         <Product
           key={product.barcode}
@@ -97,9 +97,9 @@ class Catalog extends React.Component {
           {this.renderProducts()}
         </div>
         <div className="catalog-nav">
-          <img src={pageLeftImage} onClick={() => this.handleClickLeft()}/>
+          <img src={pageLeftImage} onClick={() => this.handleClickLeft()} />
           <div className="page-number">{this.props.page}</div>
-          <img src={pageRightImage} onClick={() => this.handleClickRight()}/>
+          <img src={pageRightImage} onClick={() => this.handleClickRight()} />
         </div>
         <div className="product-details">
           <ProductDetails

@@ -133,7 +133,9 @@ namespace ShopMate.Persistence.Relational
 
         public override IQueryable<ShoppingList> GetAll()
             => Set
-                .Include(l => l.Entries);
+                .Include(l => l.Entries)
+                .ThenInclude(e => e.Item)
+                .ThenInclude(p => p.PriceModifiers);
     }
 
     internal class RelationalCartRepository : RelationalRepository<Cart>, ICartRepository

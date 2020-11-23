@@ -4,6 +4,7 @@ import tagIcon from '../assets/images/tag_icon.png';
 import imageNotFound from '../assets/images/image_not_found.jpg';
 import React, {Component} from 'react';
 import {capitalize} from '../utils/Utils';
+import {withTranslation} from 'react-i18next';
 
 class SearchResult extends Component {
   constructor(props) {
@@ -55,6 +56,7 @@ class SearchResult extends Component {
   }
 
   getProductCategories() {
+    const {t, i18n} = this.props;
     let categories = this.props.productData.categories;
     if (categories.length > 0) {
       categories = categories.map((category) => category.name + ', ');
@@ -62,7 +64,7 @@ class SearchResult extends Component {
       categories[pos] = categories[pos].slice(0, categories[pos].length - 2);
       return categories;
     } else {
-      return 'Sin categorías';
+      return t('withoutCategories');
     }
   }
 
@@ -96,4 +98,4 @@ class SearchResult extends Component {
   }
 }
 
-export default SearchResult;
+export default withTranslation()(SearchResult);

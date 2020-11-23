@@ -11,9 +11,6 @@ export async function requestCatalog(page) {
         {
           products = response.data.items;
         }
-      })
-      .catch(function(error) {
-        console.log(error);
       });
   return products;
 }
