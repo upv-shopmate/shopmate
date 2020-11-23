@@ -10,59 +10,14 @@ import { withTranslation } from 'react-i18next';
 class LeftPanel extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      'buttonEnabled': false,
-    };
-  }
-
-  componentDidMount() {
-    this.initizializePanel();
-  }
-
-  initizializePanel() {
-    if (this.props.userLoggedIn) {
-      this.logIn();
-    } else {
-      this.logOut();
-    }
   }
 
   openLoginPanel() {
     this.props.openLogin();
   }
 
-  enableListsButton() {
-    const button = document.querySelector('.lf-list-button');
-    button.style.opacity = 1;
-    this.setState({
-      'buttonEnabled': true,
-    });
-  }
-
-  disableListsButton() {
-    const button = document.querySelector('.lf-list-button');
-    button.style.opacity = 0.4;
-    this.setState({
-      'buttonEnabled': false,
-    });
-  }
-
-  logIn() {
-    this.enableListsButton();
-    this.setState({
-      'userLoggedIn': true,
-    });
-  }
-
-  logOut() {
-    this.disableListsButton();
-    this.setState({
-      'userLoggedIn': false,
-    });
-  }
-
   renderPanel() {
-    if (this.state.userLoggedIn) {
+    if (this.props.userLoggedIn) {
       return (
         <React.Fragment>
 
@@ -87,7 +42,7 @@ class LeftPanel extends React.Component {
         </div>
         <div className="bottom-buttons">
           <button
-            disabled={!this.state.buttonEnabled}
+            disabled={!this.props.buttonEnabled}
             className="lf-list-button"
           >
             <img className="list-button-image" src={listImage}></img>

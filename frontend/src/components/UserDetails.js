@@ -53,7 +53,7 @@ class UserDetails extends React.Component {
               className="logout-button shadow"
               onClick={this.closeAndLogOut.bind(this)}>
               <img className="logout-button-image" src={signOutIcon}></img>
-              <div className="logout-button-text"></div>
+              <div className="logout-button-text">{t('logout')}</div>
             </button>
           </div>
 

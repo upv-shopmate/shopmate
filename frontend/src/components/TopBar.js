@@ -18,8 +18,6 @@ class TopBar extends React.Component {
     super(props);
     this.state = {
         showPopup: false,
-        'userLoggedIn': false,
-        'userInfo': undefined,
         langSelected: "es"
     }
     this.togglePopup = this.togglePopup.bind(this);
@@ -27,22 +25,8 @@ class TopBar extends React.Component {
     this.langRef = React.createRef(); 
   }
 
-  logIn(user) {
-    this.setState({
-      'userLoggedIn': true,
-      'userInfo': user,
-    });
-  }
-
-  logOut() {
-    this.setState({
-      'userLoggedIn': false,
-      'userInfo': undefined,
-    });
-  }
-
   getUserName() {
-    let name = this.state.userInfo.name;
+    let name = this.props.user.name;
     const splitName = name.split(' ');
     name = splitName[0];
     if (splitName.length > 2) {
@@ -52,7 +36,7 @@ class TopBar extends React.Component {
   }
 
   getUserFirstLetter() {
-    const name = this.state.userInfo.name;
+    const name = this.props.user.name;
     return name.charAt(0).toUpperCase();
   }
 
@@ -76,7 +60,7 @@ class TopBar extends React.Component {
 
   renderButtons() {
     const { t, i18n } = this.props;
-    if (this.state.userLoggedIn) {
+    if (this.props.userLoggedIn && this.props.user != undefined) {
       return (
         <React.Fragment>
           <button
