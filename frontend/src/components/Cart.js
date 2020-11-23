@@ -4,7 +4,7 @@ import '../assets/css/Cart.css';
 import React from 'react';
 import CartProduct from './CartProduct';
 import {requestCartContentDataBase} from '../requests/CartContents';
-import { withTranslation } from 'react-i18next';
+import {withTranslation} from 'react-i18next';
 
 class Cart extends React.Component {
   constructor(props) {
@@ -84,11 +84,11 @@ class Cart extends React.Component {
   }
 
   render() {
-    const { t, i18n } = this.props;
+    const {t, i18n} = this.props;
     return (
       <div className="product-list">
         <div className="cart-title">
-          {t("insideCart")} ({this.getProductsListNumber()})
+          {t('insideCart')} ({this.getProductsListNumber()})
         </div>
         <div className="cart-products">{this.renderContents()}
         </div>
@@ -105,15 +105,15 @@ class Cart extends React.Component {
           </div>
           <div className="cart-info">
             <div className="cart-articles">
-              {t("articlesCart", {articles: 2/*this.getProductsListNumber()*/})} 
+              {t('articlesCart', {articles: 2/* this.getProductsListNumber()*/})}
             </div>
-            <div className="planned-articles">{t("plannedArticles")}</div>
-            <div className="coupons">{t("appliedCoupons")}</div>
+            <div className="planned-articles">{t('plannedArticles')}</div>
+            <div className="coupons">{t('appliedCoupons')}</div>
           </div>
           <div className="final-price">
             <div className="total">Total</div>
             <div className="price">{this.getProductTotalPrice()} € </div>
-            <div className="planned-price">{t("estimated")} N/A €</div>
+            <div className="planned-price">{t('estimated')} N/A €</div>
           </div>
         </div>
       </div>

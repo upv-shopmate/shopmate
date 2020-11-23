@@ -3,7 +3,7 @@
 import '../assets/css/NotLoginPanel.css';
 import accountImage from '../assets/images/account_circle.png';
 import React from 'react';
-import { withTranslation } from 'react-i18next';
+import {withTranslation} from 'react-i18next';
 
 class NotLoginPanel extends React.Component {
   constructor(props) {
@@ -15,7 +15,7 @@ class NotLoginPanel extends React.Component {
   }
 
   render() {
-    const { t, i18n } = this.props;
+    const {t, i18n} = this.props;
     return (
       <div>
         <div className="not-logged-user-block">
@@ -25,7 +25,7 @@ class NotLoginPanel extends React.Component {
           <button
             className="left-panel-login-button"
             onClick={this.openLoginPanel.bind(this)}
-    >{t('login')}</button>
+          >{t('login')}</button>
         </div>
       </div>
     );

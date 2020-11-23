@@ -4,9 +4,9 @@ import TopBar from './TopBar';
 import LeftPanel from './LeftPanel';
 import RightPanel from './RightPanel';
 import Nav from './Nav';
-import { requestSearchDataBase } from '../requests/SearchRequests.js';
+import {requestSearchDataBase} from '../requests/SearchRequests.js';
 import Login from './Login';
-import { userInfoRequest } from '../requests/UserRequests.js';
+import {userInfoRequest} from '../requests/UserRequests.js';
 import UserDetails from './UserDetails';
 import ErrorPanel from './ErrorPanel';
 
@@ -27,7 +27,7 @@ class App extends React.Component {
       'accessToken': undefined,
       'panels': 'default',
       'connectionError': false,
-      'buttonEnabled': false
+      'buttonEnabled': false,
     };
     this.changeProductResults = this.changeProductResults.bind(this);
     this.goToLastState = this.goToLastState.bind(this);
@@ -42,7 +42,7 @@ class App extends React.Component {
     try {
       response = await userInfoRequest(accessToken);
       this.hideErrorPanel();
-      if (response.status == 200) this.setState({ user: response.data });
+      if (response.status == 200) this.setState({user: response.data});
       this.logInUser(response.data);
     } catch (e) {
       this.showErrorPanel();
@@ -61,7 +61,7 @@ class App extends React.Component {
     this.setState({
       'user': undefined,
       'accessToken': undefined,
-      'login': false
+      'login': false,
     });
     this.setDefaultPanel();
     this.disableListsButton();
@@ -124,10 +124,12 @@ class App extends React.Component {
 
   disableListsButton() {
     const button = document.querySelector('.lf-list-button');
-    button.style.opacity = 0.4;
-    this.setState({
-      'buttonEnabled': false,
-    });
+    if (button != null) {
+      button.style.opacity = 0.4;
+      this.setState({
+        'buttonEnabled': false,
+      });
+    }
   }
 
   changeProductResults(searchInput) {
@@ -233,7 +235,7 @@ class App extends React.Component {
           <div className="panels">
             <UserDetails
               user={this.state.user}
-              logOut={this.userLogOut.bind(this)}
+              logOut={this.logOutUser.bind(this)}
               closeUserDetails={this.setDefaultPanel.bind(this)}
             />
           </div>

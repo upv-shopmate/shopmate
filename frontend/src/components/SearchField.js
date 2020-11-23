@@ -5,7 +5,7 @@ import searchIcon from '../assets/images/search_icon.png';
 import clearButton from '../assets/images/clear_button.png';
 import Input from './Input';
 import '../assets/css/Nav.css';
-import { withTranslation } from 'react-i18next'; 
+import {withTranslation} from 'react-i18next';
 
 class SearchField extends React.Component {
   constructor(props) {
@@ -59,8 +59,8 @@ class SearchField extends React.Component {
   }
 
   render() {
-    const { t, i18n } = this.props;
-    const placeholder = t("placeholder");
+    const {t, i18n} = this.props;
+    const placeholder = t('placeholder');
     return (
       <div className="search-field">
         <img

@@ -9,7 +9,7 @@ import leftArrow from '../assets/images/left_arrow.png';
 import {userAuthRequest} from '../requests/UserRequests.js';
 import Input from './Input';
 import React from 'react';
-import { withTranslation } from 'react-i18next';
+import {withTranslation} from 'react-i18next';
 
 class Login extends React.Component {
   constructor(props) {
@@ -51,7 +51,7 @@ class Login extends React.Component {
   }
 
   async login() {
-    const { t, i18n } = this.props;
+    const {t, i18n} = this.props;
     const account = this.state.account;
     const password = this.state.password;
     const response = await userAuthRequest(account, password);
@@ -69,7 +69,7 @@ class Login extends React.Component {
   }
 
   render() {
-    const { t, i18n } = this.props;
+    const {t, i18n} = this.props;
     return (
       <div className="loginUser">
         <div className="login-block shadow-box-users">
