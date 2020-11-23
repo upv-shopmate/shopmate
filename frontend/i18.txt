@@ -1,0 +1,1 @@
+npm install i18next i18next-xhr-backend i18next-browser-languagedetector react-i18next --save

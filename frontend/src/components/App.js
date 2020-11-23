@@ -27,12 +27,11 @@ class App extends React.Component {
       'accessToken': undefined,
       'panels': 'default',
       'connectionError': false,
+      'buttonEnabled': false,
     };
     this.changeProductResults = this.changeProductResults.bind(this);
     this.goToLastState = this.goToLastState.bind(this);
-    this.topBarRef = React.createRef();
     this.rightPanelRef = React.createRef();
-    this.leftPanelRef = React.createRef();
   }
 
   async getUserInfo(accessToken) {
@@ -53,42 +52,20 @@ class App extends React.Component {
 
   logInUser(user) {
     this.setState({
-      'login': false,
-    }, () => {
-      this.logInLeftPanel();
-      this.logInTopBar(user);
+      'login': true,
     });
+    this.enableListsButton();
   }
 
   logOutUser() {
     this.setState({
       'user': undefined,
       'accessToken': undefined,
+      'login': false,
     });
-    this.logOutTopBar();
-    this.logOutLeftPanel();
+    this.setDefaultPanel();
+    this.disableListsButton();
   }
-
-  logInLeftPanel() {
-    if (this.leftPanelRef != null) {
-      this.leftPanelRef.current.logIn();
-    }
-  }
-
-  logOutLeftPanel() {
-    if (this.leftPanelRef != null) {
-      this.leftPanelRef.current.logOut();
-    }
-  }
-
-  logInTopBar(user) {
-    this.topBarRef.current.logIn(user);
-  }
-
-  logOutTopBar() {
-    this.topBarRef.current.logOut();
-  }
-
 
   getAndChangeResultsPage() {
     const page = this.state.resultsPage;
@@ -137,10 +114,22 @@ class App extends React.Component {
     });
   }
 
-  userDetailsLogOut() {
-    this.logOutTopBar();
-    this.userLogOut();
-    this.setDefaultPanel();
+  enableListsButton() {
+    const button = document.querySelector('.lf-list-button');
+    button.style.opacity = 1;
+    this.setState({
+      'buttonEnabled': true,
+    });
+  }
+
+  disableListsButton() {
+    const button = document.querySelector('.lf-list-button');
+    if (button != null) {
+      button.style.opacity = 0.4;
+      this.setState({
+        'buttonEnabled': false,
+      });
+    }
   }
 
   changeProductResults(searchInput) {
@@ -219,8 +208,9 @@ class App extends React.Component {
           <div className="panels">
             <LeftPanel
               openLogin={this.openLoginPanel.bind(this)}
-              ref={this.leftPanelRef}
-              userLoggedIn={this.state.user != undefined}
+              user={this.state.user}
+              userLoggedIn={this.state.login}
+              buttonEnabled={this.state.buttonEnabled}
             />
             <RightPanel
               showErrorPanel={this.showErrorPanel.bind(this)}
@@ -245,7 +235,7 @@ class App extends React.Component {
           <div className="panels">
             <UserDetails
               user={this.state.user}
-              logOut={this.userDetailsLogOut.bind(this)}
+              logOut={this.logOutUser.bind(this)}
               closeUserDetails={this.setDefaultPanel.bind(this)}
             />
           </div>
@@ -304,7 +294,8 @@ class App extends React.Component {
           goToLastState={this.goToLastState}
           openUserDetails={this.openUserDetailsPanel.bind(this)}
           openLogin={this.openLoginPanel.bind(this)}
-          ref={this.topBarRef}
+          user={this.state.user}
+          userLoggedIn={this.state.login}
         />
         {this.renderErrorPanel()}
         {this.renderPanels()}
