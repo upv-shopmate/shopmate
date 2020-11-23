@@ -1,3 +1,5 @@
+/* eslint react/prop-types: 0 */
+
 import '../assets/css/Cart.css';
 import React from 'react';
 import CartProduct from './CartProduct';
@@ -22,10 +24,17 @@ class Cart extends React.Component {
   }
 
   async getProductsFromDataBase() {
-    const data = await requestCartContentDataBase();
-    this.setState({
-      cartContent: data,
-    });
+    let data;
+    try {
+      data = await requestCartContentDataBase();
+      this.props.hideErrorPanel();
+      this.setState({
+        cartContent: data,
+      });
+    } catch (e) {
+      this.getProductsFromDataBase();
+      this.props.showErrorPanel();
+    }
   }
 
   getProductSubtotal() {

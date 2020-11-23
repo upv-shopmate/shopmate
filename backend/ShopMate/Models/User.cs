@@ -35,6 +35,8 @@ namespace ShopMate.Models
 
         public ICollection<Coupon> OwnedCoupons { get; set; } = new HashSet<Coupon>();
 
+        public ICollection<ShoppingList> ShoppingLists { get; set; } = new HashSet<ShoppingList>();
+
         public User(string name, string email)
         {
             Name = name;
@@ -46,8 +48,8 @@ namespace ShopMate.Models
 
         public bool Equals(User? other) => Id == other?.Id;
 
-        public static bool operator ==(User lhs, User rhs) => lhs.Equals(rhs);
-        public static bool operator !=(User lhs, User rhs) => !lhs.Equals(rhs);
+        public static bool operator ==(User? lhs, User? rhs) => !(lhs is null) && lhs.Equals(rhs);
+        public static bool operator !=(User? lhs, User? rhs) => !(lhs is null) && !lhs.Equals(rhs);
 
         public override int GetHashCode() => Id.GetHashCode();
     }

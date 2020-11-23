@@ -29,12 +29,14 @@ class Login extends React.Component {
     this.setState({
       account: input,
     });
+    this.changePasswordError('');
   }
 
   updatePasswordText(input) {
     this.setState({
       password: input,
     });
+    this.changePasswordError('');
   }
 
 
@@ -56,8 +58,13 @@ class Login extends React.Component {
     if (response.status == 200) {
       this.props.loginUser(response.accesToken);
       this.closeLoginPanel();
-    } else {
+      this.props.hideErrorPanel();
+    } else if (response.status == 401) {
       this.changePasswordError(t('incorrectEmailPass'));
+      this.props.hideErrorPanel();
+    } else if (response.status === 'ConnectionError') {
+      this.props.showErrorPanel();
+      this.login();
     }
   }
 

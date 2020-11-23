@@ -17,8 +17,12 @@ export async function userAuthRequest(username, password) {
             accesToken = response.data.accessToken;
           }
         }
-      }).catch((error) => {
-        status = error.status;
+      }).catch(function(error) {
+        try {
+          status = error.response.status;
+        } catch (e) {
+          status = 'ConnectionError';
+        }
       });
 
   return {'status': status, 'accesToken': accesToken};
