@@ -3,6 +3,7 @@
 import '../assets/css/NotLoginPanel.css';
 import accountImage from '../assets/images/account_circle.png';
 import React from 'react';
+import { withTranslation } from 'react-i18next';
 
 class NotLoginPanel extends React.Component {
   constructor(props) {
@@ -13,26 +14,22 @@ class NotLoginPanel extends React.Component {
     this.props.openLogin();
   }
 
-  getLoginText() {
-    return ('Inicia sesión para ver tus listas de la compra,' +
-      ' cupones y ofertas personalizadas.');
-  }
-
   render() {
+    const { t, i18n } = this.props;
     return (
       <div>
         <div className="not-logged-user-block">
           <img className="account-image" src={accountImage}></img>
-          <div className="question"> ¿Ya tienes cuenta de cliente? </div>
-          <div className="login-text">{this.getLoginText()}</div>
+          <div className="question"> {t('alreadyHasAccount')} </div>
+          <div className="login-text">{t('loginText')}</div>
           <button
             className="left-panel-login-button"
             onClick={this.openLoginPanel.bind(this)}
-          >INICIAR SESIÓN</button>
+    >{t('login')}</button>
         </div>
       </div>
     );
   }
 }
 
-export default NotLoginPanel;
+export default withTranslation()(NotLoginPanel);

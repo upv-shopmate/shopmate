@@ -5,6 +5,7 @@ import mapButton from '../assets/images/map_button.png';
 import imageNotFound from '../assets/images/image_not_found.jpg';
 import React, {Component} from 'react';
 import {capitalize} from '../utils/Utils';
+import { withTranslation } from 'react-i18next';
 
 class ProductDetails extends Component {
   constructor(props) {
@@ -76,39 +77,42 @@ class ProductDetails extends Component {
   }
 
   isProductStocked() {
+    const { t, i18n } = this.props;
     const aux = this.props.product.availableStock;
     if (aux > 0) {
-      return 'Si (' + aux + ')';
+      return t('yes') + ' (' + aux + ')';
     } else {
-      return 'No';
+      return t('no');
     }
   }
 
   isProductEdible() {
+    const { t, i18n } = this.props;
     if (this.props.product.edible) {
-      return 'Si';
+      return t('yes');
     } else {
-      return 'No';
+      return t('no');
     }
   }
 
   getMoreInfo() {
+    const { t, i18n } = this.props;
     return (
       <React.Fragment>
         <div className="details-text-line">
-          <span className="details-text-header">Peso: </span>
+          <span className="details-text-header">{t('weight')}</span>
           <span className="details-text">{this.getProductWeight()}</span>
         </div>
         <div className="details-text-line">
-          <span className="details-text-header">Volumen: </span>
+          <span className="details-text-header">{t('volume')}</span>
           <span className="details-text">{this.getProductVolume()}</span>
         </div>
         <div className="details-text-line">
-          <span className="details-text-header">País de origen: </span>
+          <span className="details-text-header">{t('originCountry')}</span>
           <span className="details-text">{this.getProductOriginCountry()}</span>
         </div>
         <div className="details-text-line">
-          <span className="details-text-header">En stock: </span>
+          <span className="details-text-header">{t('stocked')}</span>
           <span className="details-text">{this.isProductStocked()}</span>
         </div>
       </React.Fragment>
@@ -151,4 +155,4 @@ class ProductDetails extends Component {
   }
 }
 
-export default ProductDetails;
+export default withTranslation()(ProductDetails);

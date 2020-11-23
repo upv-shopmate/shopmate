@@ -61,13 +61,13 @@ class App extends React.Component {
   }
 
   logInLeftPanel() {
-    if (this.leftPanelRef != null) {
+    if (this.leftPanelRef != null && this.leftPanelRef.current != null) {
       this.leftPanelRef.current.logIn();
     }
   }
 
   logOutLeftPanel() {
-    if (this.leftPanelRef != null) {
+    if (this.leftPanelRef != null && this.leftPanelRef.current != null) {
       this.leftPanelRef.current.logOut();
     }
   }

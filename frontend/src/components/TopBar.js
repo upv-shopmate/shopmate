@@ -119,7 +119,7 @@ class TopBar extends React.Component {
        <div className="top-bar"> 
         <div className="left-side">
           <img src={logo}></img>
-          <div className="logo-name"> 
+          <div className="logo-name"> SHOPMATE
             </div>
         </div>
         <SearchField

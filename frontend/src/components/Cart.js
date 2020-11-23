@@ -46,15 +46,15 @@ class Cart extends React.Component {
       this.roundUp(cartContent.modifierBreakdowns[0].applicableBase, 2) : 0);
   }
 
-  getProductIVA() {
+  getProductIVA(t) {
     const cartContent = this.state.cartContent;
-    return 'IVA ' + (cartContent ?
+    return t('iva') + (cartContent ?
       cartContent.modifierBreakdowns[0].modifier.value * 100 : 0);
   }
 
-  getProductPriceImport() {
+  getProductPriceImport(t) {
     const cartContent = this.state.cartContent;
-    return ' Importe: ' + (cartContent ?
+    return t('ammount') + (cartContent ?
       this.roundUp(cartContent.modifierBreakdowns[0].totalDelta, 2) : 0);
   }
 
@@ -89,17 +89,17 @@ class Cart extends React.Component {
               Subtotal: {this.getProductSubtotal()} €
             </div>
             <div className="subtotal-import">
-              {this.getProductIVA()} %
+              {this.getProductIVA(t)} %
               {this.getProductPriceBase()} €
-              {this.getProductPriceImport()} €
+              {this.getProductPriceImport(t)} €
             </div>
           </div>
           <div className="cart-info">
             <div className="cart-articles">
               {t("articlesCart", {articles: 2/*this.getProductsListNumber()*/})} 
             </div>
-            <div className="planned-articles">N/A artículos planificados</div>
-            <div className="coupons">Ningún cupón aplicado</div>
+            <div className="planned-articles">{t("plannedArticles")}</div>
+            <div className="coupons">{t("appliedCoupons")}</div>
           </div>
           <div className="final-price">
             <div className="total">Total</div>
