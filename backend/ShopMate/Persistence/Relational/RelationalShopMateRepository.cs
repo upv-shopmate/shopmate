@@ -59,14 +59,14 @@ namespace ShopMate.Persistence.Relational
                             .Include(p => p.Labels)
                             .AsEnumerable()
                             .Where(p =>
-                                tokens.Contains(p.Barcode.Value)
+                                (p.Barcode.HasValue && tokens.Contains(p.Barcode.Value.Value))
                                 || tokens.Intersect(p.Name.ToLower().Split()).Any()
                                 || tokens.Intersect(p.Brands.SelectMany(b => b.Aliases.Select(a => a.ToLower()).Append(b.Name.ToLower()))).Any()
                                 || tokens.Intersect(p.Categories.Select(c => c.Name)).Any()
                                 || tokens.Intersect(p.Labels.Select(l => l.Name)).Any()
                                 || tokens.Contains(p.Weight + "g")
                             )
-                            .OrderBy(p => p.Barcode.Value)
+                            .OrderBy(p => p.Id)
                             .Skip(page * itemsPerPage)
                             .Take(itemsPerPage + 1)
                             .ToList();

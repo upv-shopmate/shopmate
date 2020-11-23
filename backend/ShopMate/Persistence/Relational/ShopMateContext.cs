@@ -36,8 +36,8 @@ namespace ShopMate.Persistence.Relational
                 .Property(p => p.Barcode)
                 .HasColumnType("char(14)")
                 .HasConversion(
-                    v => v.Value,
-                    v => new Gtin14(v));
+                    v => v.HasValue ? v.Value.Value : null,
+                    v => v != null ? (Gtin14?)new Gtin14(v) : null);
 
             SetupPrimitiveCollectionTypes(modelBuilder);
         }

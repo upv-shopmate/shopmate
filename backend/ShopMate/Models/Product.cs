@@ -10,11 +10,12 @@ namespace ShopMate.Models
 {
     public class Product : IEquatable<Product>
     {
+        public int Id { get; internal set; }
+
         /// <summary>
         /// The unique barcode of this product in GTIN-14 format.
         /// </summary>
-        [Key]
-        public Gtin14 Barcode { get; internal set; }
+        public Gtin14? Barcode { get; internal set; }
 
         [MaxLength(120)]
         public string Name { get; internal set; }
@@ -131,11 +132,11 @@ namespace ShopMate.Models
 
         public override bool Equals(object? other) => other is Product product && Equals(product);
 
-        public bool Equals(Product? other) => Barcode == other?.Barcode;
+        public bool Equals(Product? other) => Id == other?.Id;
 
         public static bool operator ==(Product lhs, Product rhs) => lhs.Equals(rhs);
         public static bool operator !=(Product lhs, Product rhs) => !lhs.Equals(rhs);
 
-        public override int GetHashCode() => Barcode.GetHashCode();
+        public override int GetHashCode() => Id.GetHashCode();
     }
 }

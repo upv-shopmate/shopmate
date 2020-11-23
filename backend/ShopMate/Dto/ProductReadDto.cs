@@ -6,6 +6,8 @@ namespace ShopMate.Dto
 {
     public class ProductReadDto
     {
+        public int Id { get; internal set; }
+
         public string Barcode { get; internal set; }
 
         public string Name { get; internal set; }
