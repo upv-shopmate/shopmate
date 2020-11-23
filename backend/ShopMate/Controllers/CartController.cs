@@ -37,7 +37,7 @@ namespace ShopMate.Controllers
         [HttpPost("list")] //Mirar si hay que poner Put en vez de Post
         public ActionResult<ShoppingListReadDto> AddContentsToCart([FromBody] ShoppingListEntryModifyDto dto)
         {
-            var barcode = repository.Products.GetByBarcode(dto.ItemId);
+            var barcode = repository.Products.GetAll().FirstOrDefault(p => p.Id == dto.ItemId);
             if (barcode is null)
             {
                 return BadRequest("Unknown item ID.");
@@ -54,7 +54,7 @@ namespace ShopMate.Controllers
         [HttpDelete("list")]
         public ActionResult<ShoppingListReadDto> RemoveContentsFromCart([FromBody] ShoppingListEntryModifyDto dto)
         {
-            var barcode = repository.Products.GetByBarcode(dto.ItemId);
+            var barcode = repository.Products.GetAll().FirstOrDefault(p => p.Id == dto.ItemId);
             if (barcode is null)
             {
                 return BadRequest("Unknown item ID.");
