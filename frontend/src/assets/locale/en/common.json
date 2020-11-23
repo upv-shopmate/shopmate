@@ -1,0 +1,59 @@
+{
+  "cart": "CART",
+  "catalog":  "CATALOG",
+  "map":  "MAP",
+  
+  "login": "Log In",
+  "logout": "LOG OUT",
+  "return": "RETURN",
+
+  "spanish": "Spanish",
+  "english": "English",
+  "valencian": "Valencian",
+
+  "insideCart": "Inside this cart",
+  "articlesCart": "A product in the cart",
+  "articlesCart_plural": "{{articles}} products in the cart",
+  "estimated": "Estimated: ",
+  "plannedArticles": "N/A plannified products",
+  "appliedCoupons": "No coupon applied",
+  "iva": " VAT: ",
+  "ammount": " Ammount: ",
+   
+  "shoppingList": "Shopping List",
+  "myLists": "MY LISTS",
+  "coupons": "COUPONS",
+
+  "placeholder": "Search by products, brands, categories...",
+
+  "incorrectEmailPass": "Incorrect email or password",
+  "loginInfoText": "Press on the text boxes to show the on-screen keyboard.",
+  "loginSolution": "Ask an employee or go to the closest customer support service point.",
+  "loginQuestion": "Do you have any trouble loging in?",
+  "logingIn": "Loging in your account at ",
+  "email": "Email",
+  "password": "Password",
+
+  "loginText": "Log in to see your shopping list, coupons and custom offers.",
+  "alreadyHasAccount": "Do you already have a client account?",
+
+  "yes": "Yes",
+  "no": "No",
+  "weight": "Weight: ",
+  "volume": "Volume: ",
+  "originCountry": "Origin country: ",
+  "stocked": "In stock: ",
+
+  "searchSomeResults": "Search results ({{results}})",
+  "searchNoResults": "No results found. Try again.",
+  "searching": "Searching...",
+
+  "withoutCategories": "Without categories",
+
+  "userDetailsTitle": "Account information",
+   
+
+  "articulos_plural": "Quedan {{count}} artículos",
+  "articulos": "No queda ningún artículo",
+  "gatitos": "$t(articulos) pero hay gatitos"
+ }
