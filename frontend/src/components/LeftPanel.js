@@ -33,7 +33,7 @@ class LeftPanel extends React.Component {
   }
 
   render() {
-    const {t, i18n} = this.props;
+    const {t} = this.props;
     return (
       <div className="left-panel">
         <div className="left-panel-title">{t('shoppingList')}</div>

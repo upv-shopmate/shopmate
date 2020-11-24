@@ -15,7 +15,7 @@ class NotLoginPanel extends React.Component {
   }
 
   render() {
-    const {t, i18n} = this.props;
+    const {t} = this.props;
     return (
       <div>
         <div className="not-logged-user-block">

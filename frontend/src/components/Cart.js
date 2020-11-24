@@ -84,7 +84,7 @@ class Cart extends React.Component {
   }
 
   render() {
-    const { t, i18n } = this.props;
+    const {t} = this.props;
     return (
       <div className="product-list">
         <div className="cart-title">
@@ -105,7 +105,7 @@ class Cart extends React.Component {
           </div>
           <div className="cart-info">
             <div className="cart-articles">
-              {t('articlesCart', { count: 2/* this.getProductsListNumber()*/ })}
+              {t('articlesCart', { count: this.getProductsListNumber() })}
             </div>
             <div className="planned-articles">{t('plannedArticles')}</div>
             <div className="coupons">{t('appliedCoupons')}</div>

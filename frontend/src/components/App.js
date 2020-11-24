@@ -39,11 +39,14 @@ class App extends React.Component {
       accessToken: accessToken,
     });
     let response;
-    try {
-      response = await userInfoRequest(accessToken);
-      this.hideErrorPanel();
-      if (response.status == 200) this.setState({ user: response.data });
-      this.logInUser(response.data);
+      try {
+          response = await userInfoRequest(accessToken);
+          this.hideErrorPanel();
+          if (response.status == 200) {
+              this.setState({ user: response.data });
+              this.logInUser(response.data);
+          }
+      }
     } catch (e) {
       this.showErrorPanel();
       this.getUserInfo(accessToken);
@@ -53,6 +56,7 @@ class App extends React.Component {
   logInUser(user) {
     this.setState({
       'login': true,
+      'user': user
     });
     this.enableListsButton();
   }
