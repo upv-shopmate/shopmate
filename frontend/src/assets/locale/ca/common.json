@@ -39,5 +39,9 @@
   "searchNoResults": "No s'han trobar resultats. Inténteu-ho de nou.",
   "searching": "Cercant...",
   "withoutCategories": "Sense categories",
-  "userDetailsTitle": "Informació del compte"
+  "userDetailsTitle": "Informació del compte",
+  "networkError": {
+    "title": "Xe!",
+    "message": "Pareix que hi ha hagut un problema amb la connexió del carret. No et preocupes, se solucionarà de seguida."
+  }
 }

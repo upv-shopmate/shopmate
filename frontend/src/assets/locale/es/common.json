@@ -39,5 +39,9 @@
   "searchNoResults": "No se han encontrado resultados. Inténtelo de nuevo.",
   "searching": "Buscando...",
   "withoutCategories": "Sin categorías",
-  "userDetailsTitle": "Información de la cuenta"
+  "userDetailsTitle": "Información de la cuenta",
+  "networkError": {
+    "title": "¡Córcholis!",
+    "message": "Parece que ha habido un problema con la conexión del carrito. No te preocupes, se solucionará enseguida."
+  }
 }

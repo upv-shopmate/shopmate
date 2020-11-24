@@ -42,5 +42,9 @@
   "userDetailsTitle": "Account information",
   "articulos_plural": "Quedan {{count}} artículos",
   "articulos": "No queda ningún artículo",
-  "gatitos": "$t(articulos) pero hay gatitos"
+  "gatitos": "$t(articulos) pero hay gatitos",
+  "networkError": {
+    "title": "Woopsie!",
+    "message": "There seems to have been a problem with the cart connection. Don't worry, it will be fixed right away."
+  }
 }
