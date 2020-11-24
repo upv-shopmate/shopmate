@@ -6,7 +6,7 @@ import RightPanel from './RightPanel';
 import Nav from './Nav';
 import {requestSearchDataBase} from '../requests/SearchRequests.js';
 import Login from './Login';
-import {userInfoRequest} from '../requests/UserRequests.js';
+import {userInfoRequest, userListsRequest} from '../requests/UserRequests.js';
 import {requestCatalog} from '../requests/ProductRequest.js';
 import UserDetails from './UserDetails';
 import ErrorPanel from './ErrorPanel';
@@ -29,6 +29,7 @@ class App extends React.Component {
       'panels': 'default',
       'connectionError': false,
       'buttonEnabled': false,
+      'currentList': null,
     };
     this.changeProductResults = this.changeProductResults.bind(this);
     this.goToLastState = this.goToLastState.bind(this);
@@ -44,16 +45,26 @@ class App extends React.Component {
     try {
       response = await userInfoRequest(accessToken);
       this.hideErrorPanel();
-      if (response.status == 200) this.logInUser(response.data);
+      if (response.status == 200) {
+        this.logInUser(response.data);
+        this.getUserLists();
+      }
     } catch (e) {
       this.showErrorPanel();
       this.getUserInfo(accessToken);
     }
+  }
 
-    if (response.status == 200) {
-      this.setState({user: response.data, lists: lists});
+  async getUserLists(){
+    let response;
+    try {
+      response = await userListsRequest(this.state.accessToken);
+      this.hideErrorPanel();
+      if (response.status == 200) this.setState({lists : response.data});
+    } catch (e) {
+      this.showErrorPanel();
+      this.getUserLists(this.state.accessToken);
     }
-    this.logInUser(response.data);
   }
 
   logInUser(user) {
@@ -80,6 +91,15 @@ class App extends React.Component {
       'resultsPage': page + 1,
     });
     return page + 1;
+  }
+
+  getCurrentList(list){
+    if(this.state.currentList == null || this.state.currentList.id != list.id){
+      this.setState({
+        'currentList' : list
+      });  
+      console.log(list);
+    }
   }
 
   resetCatalog() {
@@ -219,6 +239,7 @@ class App extends React.Component {
               userLoggedIn={this.state.login}
               buttonEnabled={this.state.buttonEnabled}
               lists={this.state.lists}
+              onGetCurrentList={this.getCurrentList.bind(this)}
             />
             <RightPanel
               showErrorPanel={this.showErrorPanel.bind(this)}
@@ -228,6 +249,7 @@ class App extends React.Component {
               results={this.state.results}
               moreResults={this.changeProductResults}
               ref={this.rightPanelRef}
+              currentList={this.state.currentList}
             />
           </div>
           <Nav

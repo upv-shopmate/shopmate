@@ -15,7 +15,7 @@
   "articlesCart_plural": " {{articles}} artículos en el carro",
   "articlesCart": " {{articles}} artículo en el carro",
   "estimated": "Planificado: ",
-  "plannedArticles": "N/A artículos planificados",
+  "plannedArticles": "{{articles}} artículos planificados",
   "appliedCoupons": "Ningún cupón aplicado",
   "iva": " IVA: ",
   "ammount": " Importe: ",
@@ -50,6 +50,7 @@
 
   "withoutCategories": "Sin categorías",
 
-  "userDetailsTitle": "Información de la cuenta"
-   
+  "userDetailsTitle": "Información de la cuenta",
+
+  "products" : "Productos" 
  }

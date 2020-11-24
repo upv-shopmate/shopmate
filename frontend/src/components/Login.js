@@ -56,7 +56,7 @@ class Login extends React.Component {
     const password = this.state.password;
     const response = await userAuthRequest(account, password);
     if (response.status == 200) {
-      this.props.loginUser(response.accesToken);
+      this.props.loginUser(response.accessToken);
       this.closeLoginPanel();
       this.props.hideErrorPanel();
     } else if (response.status == 401) {

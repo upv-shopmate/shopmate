@@ -8,6 +8,7 @@ import NotLoginPanel from './NotLoginPanel';
 import {withTranslation} from 'react-i18next';
 import UserList from './UserList';
 import ListProduct from './ListProduct';
+import Cart from './Cart';
 
 class LeftPanel extends React.Component {
   constructor(props) {
@@ -40,12 +41,13 @@ class LeftPanel extends React.Component {
       // FIXME
       // change this implementation for one that makes sense with the data
       // received in the endpoint from the backend
+      this.props.onGetCurrentList(this.state.currentList);
       return this.state.currentList.entries.map((product) =>
         <ListProduct
-          key={product.id}
-          name={product.name}
-          quantity={1}
-          image={product.pictures[0]}
+          key={product.item.id}
+          name={product.item.name}
+          quantity={product.quantity}
+          image={product.item.pictures[0]}
         />,
       );
     }

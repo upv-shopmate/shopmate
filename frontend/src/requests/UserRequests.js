@@ -3,7 +3,7 @@ import {dataBaseURL} from '../components/App.js';
 
 // query example: https://localhost:5001/api/User/authorize
 export async function userAuthRequest(username, password) {
-  let accesToken;
+  let accessToken;
   let status;
   const query = '/api/User/authorize';
 
@@ -14,7 +14,7 @@ export async function userAuthRequest(username, password) {
         {
           status = response.status;
           if (status == '200') {
-            accesToken = response.data.accessToken;
+            accessToken = response.data.accessToken;
           }
         }
       }).catch(function(error) {
@@ -25,10 +25,10 @@ export async function userAuthRequest(username, password) {
         }
       });
 
-  return {'status': status, 'accesToken': accesToken};
+  return {'status': status, 'accessToken': accessToken};
 }
 
-export async function userInfoRequest(accesToken) {
+export async function userInfoRequest(accessToken) {
   let status;
   let data;
   const query = '/api/User';
@@ -37,7 +37,7 @@ export async function userInfoRequest(accesToken) {
       dataBaseURL + query,
       {
         headers: {
-          'Authorization': 'Bearer ' + accesToken,
+          'Authorization': 'Bearer ' + accessToken,
         },
       })
       .then(function(response) {
@@ -51,4 +51,31 @@ export async function userInfoRequest(accesToken) {
         status = error.status;
       });
   return {'status': status, 'data': data};
+}
+
+export async function userListsRequest(accessToken) {
+  let status;
+  let data;
+  const query = '/api/User/lists';
+ 
+  await request(
+    dataBaseURL + query,
+    {
+      headers: {
+        'Authorization': 'Bearer ' + accessToken,
+      },
+    })
+    .then(function(response) {
+      {
+        status = response.status;
+        if (status == '200') {
+          data = response.data;
+        }
+      }
+    }).catch((error) => {
+      status = error.status;
+    });
+return {'status': status, 'data': data};
+
+
 }

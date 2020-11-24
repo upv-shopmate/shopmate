@@ -15,7 +15,7 @@
   "articlesCart": "A product in the cart",
   "articlesCart_plural": "{{articles}} products in the cart",
   "estimated": "Estimated: ",
-  "plannedArticles": "N/A plannified products",
+  "plannedArticles": "{{articles}} plannified products",
   "appliedCoupons": "No coupon applied",
   "iva": " VAT: ",
   "ammount": " Ammount: ",
@@ -55,5 +55,7 @@
 
   "articulos_plural": "Quedan {{count}} artículos",
   "articulos": "No queda ningún artículo",
-  "gatitos": "$t(articulos) pero hay gatitos"
+  "gatitos": "$t(articulos) pero hay gatitos",
+
+  "products" : "Products"
  }

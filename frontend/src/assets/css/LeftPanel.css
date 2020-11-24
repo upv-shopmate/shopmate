@@ -20,6 +20,11 @@
     justify-content: center;
 }
 
+.current-panel::-webkit-scrollbar{
+    display: none;
+    width: 0px;
+}
+
 .bottom-buttons{
     display: flex;
     flex-wrap: wrap;
