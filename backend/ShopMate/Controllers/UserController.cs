@@ -60,5 +60,79 @@ namespace ShopMate.Controllers
             var coupons = repository.Coupons.GetAll().Where(c => c.Owners.Contains(user));
             return Ok(mapper.Map<List<CouponReadDto>>(coupons));
         }
+
+        [HttpGet("lists")]
+        [Authorize(Roles = "user")]
+        public ActionResult<ICollection<ShoppingListReadDto>> GetCurrentUserShoppingLists()
+        {
+            if (!auth.GetUserFromClaims(User.Claims, out User? user))
+            {
+                return Unauthorized();
+            }
+
+            var lists = repository.ShoppingLists.GetAll().Where(l => user! == l.Owner);
+            return Ok(mapper.Map<List<ShoppingListReadDto>>(lists));
+        }
+
+        [HttpGet("lists/{id}")]
+        [Authorize(Roles = "user")]
+        public ActionResult<ICollection<ShoppingListReadDto>> GetCurrentUserShoppingListById(int id)
+        {
+            if (!auth.GetUserFromClaims(User.Claims, out User? user))
+            {
+                return Unauthorized();
+            }
+
+            var list = repository.ShoppingLists.GetAll().Where(l => l.Id == id && user! == l.Owner).FirstOrDefault();
+            if (list is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(mapper.Map<List<ShoppingListReadDto>>(list));
+        }
+
+        [HttpPost("lists")]
+        [Authorize(Roles = "user")]
+        public ActionResult CreateCurrentUserShoppingList([FromBody] ShoppingListCreateDto dto)
+        {
+            var list = new ShoppingList(dto.Name);
+
+            foreach (var entry in dto.Entries)
+            {
+                var product = repository.Products.GetAll().FirstOrDefault(p => p.Barcode.Value == entry.ItemId);    // FIXME
+                if (product is null || entry.Quantity < 1)
+                {
+                    return BadRequest();
+                }
+
+                list.AddEntry(new ShoppingListEntry(entry.Quantity, product));
+            }
+
+            repository.ShoppingLists.Add(list);
+            repository.SaveChanges();
+
+            return CreatedAtRoute("GetCurrentUserShoppingListById", new { list.Id });
+        }
+
+        [HttpDelete("lists/{id}")]
+        [Authorize(Roles = "user")]
+        public ActionResult DeleteUserShoppingListById(int id)
+        {
+            if (!auth.GetUserFromClaims(User.Claims, out User? user))
+            {
+                return Unauthorized();
+            }
+
+            var list = repository.ShoppingLists.GetAll().Where(l => l.Id == id && user! == l.Owner).FirstOrDefault();
+            if (list is null)
+            {
+                return NotFound();
+            }
+            repository.ShoppingLists.Remove(list);
+            repository.SaveChanges();
+
+            return NoContent();
+        }
     }
 }
