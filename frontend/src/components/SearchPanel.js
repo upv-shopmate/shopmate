@@ -48,7 +48,7 @@ class SearchPanel extends React.Component {
   }
 
   getResultsNumber() {
-    const {t, i18n} = this.props;
+    const {t} = this.props;
     if (this.state.completedSearch) {
       const results = this.state.results.length;
       if (results > 0) {
@@ -62,7 +62,7 @@ class SearchPanel extends React.Component {
 
 
   render() {
-    const {t, i18n} = this.props;
+    const {t} = this.props;
     return (
       <div className="searcher">
         <div className="searcher-title">{this.getResultsNumber()}</div>

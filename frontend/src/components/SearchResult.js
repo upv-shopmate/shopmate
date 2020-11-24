@@ -56,7 +56,7 @@ class SearchResult extends Component {
   }
 
   getProductCategories() {
-    const {t, i18n} = this.props;
+    const {t} = this.props;
     let categories = this.props.productData.categories;
     if (categories.length > 0) {
       categories = categories.map((category) => category.name + ', ');
