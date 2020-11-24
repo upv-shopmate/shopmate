@@ -4,9 +4,9 @@ import TopBar from './TopBar';
 import LeftPanel from './LeftPanel';
 import RightPanel from './RightPanel';
 import Nav from './Nav';
-import {requestSearchDataBase} from '../requests/SearchRequests.js';
+import { requestSearchDataBase } from '../requests/SearchRequests.js';
 import Login from './Login';
-import {userInfoRequest} from '../requests/UserRequests.js';
+import { userInfoRequest } from '../requests/UserRequests.js';
 import UserDetails from './UserDetails';
 import ErrorPanel from './ErrorPanel';
 
@@ -42,7 +42,7 @@ class App extends React.Component {
     try {
       response = await userInfoRequest(accessToken);
       this.hideErrorPanel();
-      if (response.status == 200) this.setState({user: response.data});
+      if (response.status == 200) this.setState({ user: response.data });
       this.logInUser(response.data);
     } catch (e) {
       this.showErrorPanel();

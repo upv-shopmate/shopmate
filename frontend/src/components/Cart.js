@@ -3,8 +3,8 @@
 import '../assets/css/Cart.css';
 import React from 'react';
 import CartProduct from './CartProduct';
-import {requestCartContentDataBase} from '../requests/CartContents';
-import {withTranslation} from 'react-i18next';
+import { requestCartContentDataBase } from '../requests/CartContents';
+import { withTranslation } from 'react-i18next';
 
 class Cart extends React.Component {
   constructor(props) {
@@ -84,7 +84,7 @@ class Cart extends React.Component {
   }
 
   render() {
-    const {t, i18n} = this.props;
+    const { t, i18n } = this.props;
     return (
       <div className="product-list">
         <div className="cart-title">
@@ -105,7 +105,7 @@ class Cart extends React.Component {
           </div>
           <div className="cart-info">
             <div className="cart-articles">
-              {t('articlesCart', {articles: 2/* this.getProductsListNumber()*/})}
+              {t('articlesCart', { count: 2/* this.getProductsListNumber()*/ })}
             </div>
             <div className="planned-articles">{t('plannedArticles')}</div>
             <div className="coupons">{t('appliedCoupons')}</div>
