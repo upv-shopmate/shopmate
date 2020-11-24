@@ -9,6 +9,7 @@ import Login from './Login';
 import {userInfoRequest} from '../requests/UserRequests.js';
 import {requestCatalog} from '../requests/ProductRequest.js';
 import UserDetails from './UserDetails';
+import ErrorPanel from './ErrorPanel';
 
 export const dataBaseURL = 'https://localhost:5001';
 
@@ -26,28 +27,28 @@ class App extends React.Component {
       'user': undefined,
       'accessToken': undefined,
       'panels': 'default',
+      'connectionError': false,
+      'buttonEnabled': false,
     };
     this.changeProductResults = this.changeProductResults.bind(this);
     this.goToLastState = this.goToLastState.bind(this);
-    this.topBarRef = React.createRef();
     this.rightPanelRef = React.createRef();
-    this.leftPanelRef = React.createRef();
   }
 
   async getUserInfo(accessToken) {
     this.setState({
       accessToken: accessToken,
     });
-    const response = await userInfoRequest(accessToken);
-    // FIXME change this chunk of code to receive the list from the backend
-    const products = await requestCatalog(23);
-    const lists = [
-      {'name': 'lista 1', 'entries': products.slice(0, 4)},
-      {'name': 'lista 2', 'entries': products.slice(5, 9)},
-      {'name': 'lista 3', 'entries': products.slice(10, 13)},
-      {'name': 'lista 4', 'entries': products.slice(14, 18)},
-    ];
-    // ======================================================= pls
+
+    let response;
+    try {
+      response = await userInfoRequest(accessToken);
+      this.hideErrorPanel();
+      if (response.status == 200) this.logInUser(response.data);
+    } catch (e) {
+      this.showErrorPanel();
+      this.getUserInfo(accessToken);
+    }
 
     if (response.status == 200) {
       this.setState({user: response.data, lists: lists});
@@ -57,42 +58,21 @@ class App extends React.Component {
 
   logInUser(user) {
     this.setState({
-      'login': false,
-    }, () => {
-      this.logInLeftPanel();
-      this.logInTopBar(user);
+      'login': true,
+      'user': user
     });
+    this.enableListsButton();
   }
 
   logOutUser() {
     this.setState({
       'user': undefined,
       'accessToken': undefined,
+      'login': false,
     });
-    this.logOutTopBar();
-    this.logOutLeftPanel();
+    this.setDefaultPanel();
+    this.disableListsButton();
   }
-
-  logInLeftPanel() {
-    if (this.leftPanelRef != null) {
-      this.leftPanelRef.current.logIn();
-    }
-  }
-
-  logOutLeftPanel() {
-    if (this.leftPanelRef != null) {
-      this.leftPanelRef.current.logOut();
-    }
-  }
-
-  logInTopBar(user) {
-    this.topBarRef.current.logIn(user);
-  }
-
-  logOutTopBar() {
-    this.topBarRef.current.logOut();
-  }
-
 
   getAndChangeResultsPage() {
     const page = this.state.resultsPage;
@@ -141,10 +121,22 @@ class App extends React.Component {
     });
   }
 
-  userDetailsLogOut() {
-    this.logOutTopBar();
-    this.userLogOut();
-    this.setDefaultPanel();
+  enableListsButton() {
+    const button = document.querySelector('.lf-list-button');
+    button.style.opacity = 1;
+    this.setState({
+      'buttonEnabled': true,
+    });
+  }
+
+  disableListsButton() {
+    const button = document.querySelector('.lf-list-button');
+    if (button != null) {
+      button.style.opacity = 0.4;
+      this.setState({
+        'buttonEnabled': false,
+      });
+    }
   }
 
   changeProductResults(searchInput) {
@@ -171,27 +163,36 @@ class App extends React.Component {
 
   async requestAndUpdateResults(searchInput, lastSearchInput, page) {
     const rightPanelRef = this.rightPanelRef.current;
+
     rightPanelRef.showLoading();
     if (searchInput !== lastSearchInput) {
       rightPanelRef.changeCompletedSearchResultsPanel(false);
       rightPanelRef.scrollToTopResultsPanel();
       rightPanelRef.updateSearchPanel([]);
     }
-    const result = await requestSearchDataBase(searchInput, page);
-    rightPanelRef.changeCompletedSearchResultsPanel(true);
-    if (result.nextPage == null) {
+    let result;
+    try {
+      result = await requestSearchDataBase(searchInput, page);
+      this.hideErrorPanel();
+      rightPanelRef.changeCompletedSearchResultsPanel(true);
+      if (result.nextPage == null) {
+        this.setState({
+          'noMoreResults': true,
+        });
+      }
+
+      const results = this.state.results.concat(result.items);
       this.setState({
-        'noMoreResults': true,
+        'results': results,
       });
+      rightPanelRef.updateSearchPanel(this.state.results);
+
+      rightPanelRef.hideLoading();
+    } catch (e) {
+      rightPanelRef.hideLoading();
+      this.showErrorPanel();
+      this.requestAndUpdateResults(searchInput, lastSearchInput, page);
     }
-
-    const results = this.state.results.concat(result.items);
-    this.setState({
-      'results': results,
-    });
-    rightPanelRef.updateSearchPanel(this.state.results);
-
-    rightPanelRef.hideLoading();
   }
 
   renderPanels() {
@@ -200,6 +201,8 @@ class App extends React.Component {
         <React.Fragment>
           <div className="panels">
             <Login
+              showErrorPanel={this.showErrorPanel.bind(this)}
+              hideErrorPanel={this.hideErrorPanel.bind(this)}
               loginUser={this.getUserInfo.bind(this)}
               closeLogin={this.setDefaultPanel.bind(this)}
             />
@@ -212,11 +215,14 @@ class App extends React.Component {
           <div className="panels">
             <LeftPanel
               openLogin={this.openLoginPanel.bind(this)}
-              ref={this.leftPanelRef}
-              userLoggedIn={this.state.user != undefined}
+              user={this.state.user}
+              userLoggedIn={this.state.login}
+              buttonEnabled={this.state.buttonEnabled}
               lists={this.state.lists}
             />
             <RightPanel
+              showErrorPanel={this.showErrorPanel.bind(this)}
+              hideErrorPanel={this.hideErrorPanel.bind(this)}
               panel={this.state.selectedPanel}
               goToLastState={this.goToLastState}
               results={this.state.results}
@@ -237,7 +243,7 @@ class App extends React.Component {
           <div className="panels">
             <UserDetails
               user={this.state.user}
-              logOut={this.userDetailsLogOut.bind(this)}
+              logOut={this.logOutUser.bind(this)}
               closeUserDetails={this.setDefaultPanel.bind(this)}
             />
           </div>
@@ -264,6 +270,28 @@ class App extends React.Component {
     });
   }
 
+  showErrorPanel() {
+    this.setState({
+      'connectionError': true,
+    });
+  }
+
+  hideErrorPanel() {
+    this.setState({
+      'connectionError': false,
+    });
+  }
+
+  renderErrorPanel() {
+    if (this.state.connectionError) {
+      return (
+        <React.Fragment>
+          <ErrorPanel closeErrorPanel={this.hideErrorPanel.bind(this)} />
+        </React.Fragment>
+      );
+    }
+  }
+
   render() {
     return (
       <div className="app">
@@ -274,8 +302,10 @@ class App extends React.Component {
           goToLastState={this.goToLastState}
           openUserDetails={this.openUserDetailsPanel.bind(this)}
           openLogin={this.openLoginPanel.bind(this)}
-          ref={this.topBarRef}
+          user={this.state.user}
+          userLoggedIn={this.state.login}
         />
+        {this.renderErrorPanel()}
         {this.renderPanels()}
       </div>
     );

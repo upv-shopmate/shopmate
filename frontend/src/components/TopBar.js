@@ -5,33 +5,25 @@ import logo from '../assets/images/logo.png';
 import exitIcon from '../assets/images/leave_icon.png';
 import translateIcon from '../assets/images/translate.png';
 import SearchField from './SearchField';
+import Languages from './Languages';
+import {withTranslation} from 'react-i18next';
+
 
 // TODO: extract user field to a new component, DO NOT implement user here
 class TopBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      'userLoggedIn': false,
-      'userInfo': undefined,
+      showPopup: false,
+      langSelected: 'es',
     };
-  }
-
-  logIn(user) {
-    this.setState({
-      'userLoggedIn': true,
-      'userInfo': user,
-    });
-  }
-
-  logOut() {
-    this.setState({
-      'userLoggedIn': false,
-      'userInfo': undefined,
-    });
+    this.togglePopup = this.togglePopup.bind(this);
+    this.renderLanguages = this.renderLanguages.bind(this);
+    this.langRef = React.createRef();
   }
 
   getUserName() {
-    let name = this.state.userInfo.name;
+    let name = this.props.user.name;
     const splitName = name.split(' ');
     name = splitName[0];
     if (splitName.length > 2) {
@@ -41,13 +33,31 @@ class TopBar extends React.Component {
   }
 
   getUserFirstLetter() {
-    const name = this.state.userInfo.name;
+    const name = this.props.user.name;
     return name.charAt(0).toUpperCase();
   }
 
+  togglePopup() {
+    this.setState({
+      showPopup: !this.state.showPopup,
+    });
+  }
+
+  renderLanguages() {
+    if (this.state.showPopup === true) {
+      return <Languages
+      togglePopup={this.togglePopup}>
+      </Languages>;
+    } else return null;
+  }
+
+  handleClick(lang) {
+    this.props.i18n.changeLanguage(lang);
+  }
 
   renderButtons() {
-    if (this.state.userLoggedIn) {
+    const {t} = this.props;
+    if (this.props.userLoggedIn && this.props.user != undefined) {
       return (
         <React.Fragment>
           <button
@@ -56,9 +66,13 @@ class TopBar extends React.Component {
             <div className="user-first-letter">{this.getUserFirstLetter()}</div>
             <div className="user-button-name">{this.getUserName()}</div>
           </button>
-          <button className="translate-button top-button shadow">
-            <img src={translateIcon}></img>
+          <button
+            className="translate-button top-button shadow"
+            onClick={this.togglePopup}>
+            <img src={translateIcon} >
+            </img>
           </button>
+          {this.renderLanguages()}
           <button className="exit-button top-button shadow"
             onClick={this.props.logOut}
           >
@@ -69,11 +83,16 @@ class TopBar extends React.Component {
     } else {
       return (
         <React.Fragment>
-          <button className="user-login-button shadow"
-            onClick={this.props.openLogin} >Iniciar sesión</button>
-          <button className="translate-button top-button shadow">
+          <button
+            className="user-login-button shadow"
+            onClick={this.props.openLogin} >{t('login')}
+          </button>
+          <button
+            className="translate-button top-button shadow"
+            onClick={this.togglePopup}>
             <img src={translateIcon}></img>
           </button>
+          {this.renderLanguages()}
         </React.Fragment>
       );
     }
@@ -84,7 +103,8 @@ class TopBar extends React.Component {
       <div className="top-bar">
         <div className="left-side">
           <img src={logo}></img>
-          <div className="logo-name">ShopMate</div>
+          <div className="logo-name"> ShopMate
+          </div>
         </div>
         <SearchField
           goToLastState={this.props.goToLastState}
@@ -99,4 +119,4 @@ class TopBar extends React.Component {
   }
 }
 
-export default TopBar;
+export default withTranslation()(TopBar);

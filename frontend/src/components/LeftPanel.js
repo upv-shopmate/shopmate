@@ -5,82 +5,36 @@ import listImage from '../assets/images/list.png';
 import tagImage from '../assets/images/tag_icon.png';
 import React from 'react';
 import NotLoginPanel from './NotLoginPanel';
+import {withTranslation} from 'react-i18next';
 import UserList from './UserList';
 import ListProduct from './ListProduct';
-
-const DEFAULT_TITLE = 'Lista de la compra';
 
 class LeftPanel extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      'buttonEnabled': false,
       'currentList': null,
       'inList': false,
-      'title': DEFAULT_TITLE,
     };
-  }
-
-  componentDidMount() {
-    this.initizializePanel();
-  }
-
-  initizializePanel() {
-    if (this.props.userLoggedIn) {
-      this.logIn();
-    } else {
-      this.logOut();
-    }
   }
 
   openLoginPanel() {
     this.props.openLogin();
   }
 
-  enableListsButton() {
-    const button = document.querySelector('.lf-list-button');
-    button.style.opacity = 1;
-    this.setState({
-      'buttonEnabled': true,
-    });
-  }
-
-  disableListsButton() {
-    const button = document.querySelector('.lf-list-button');
-    button.style.opacity = 0.4;
-    this.setState({
-      'buttonEnabled': false,
-    });
-  }
-
-  logIn() {
-    this.enableListsButton();
-    this.setState({
-      'userLoggedIn': true,
-    });
-  }
-
-  logOut() {
-    this.disableListsButton();
-    this.setState({
-      'userLoggedIn': false,
-    });
-  }
-
   handleListClick(list) {
     this.setState({
       currentList: list,
       inList: true,
-      title: list.name,
     });
   }
 
   showLists() {
     this.setState({
-      inList: false,
-      title: DEFAULT_TITLE,
+        inList: false,
     });
   }
+
   renderList() {
     if (this.state.currentList !== null) {
       // FIXME
@@ -96,6 +50,7 @@ class LeftPanel extends React.Component {
       );
     }
   }
+
   renderLists() {
     if (this.props.lists) {
       return this.props.lists.map((list) =>
@@ -130,8 +85,9 @@ class LeftPanel extends React.Component {
       );
     }
   }
+
   renderPanel() {
-    if (this.state.userLoggedIn) {
+    if (this.props.userLoggedIn) {
       return this.renderListPanel();
     } else {
       return (
@@ -141,26 +97,27 @@ class LeftPanel extends React.Component {
   }
 
   render() {
+    const {t} = this.props;
     return (
       <div className="left-panel">
-        <div className="left-panel-title">{this.state.title}</div>
+        <div className="left-panel-title">{t('shoppingList')}</div>
         <div className="current-panel">
           {this.renderPanel()}
         </div>
         <div className="bottom-buttons">
           <button
-            disabled={!this.state.buttonEnabled}
+            disabled={!this.props.buttonEnabled}
             className="lf-list-button"
             onClick={() => this.showLists()}
           >
             <img className="list-button-image" src={listImage}></img>
-            <div className="list-button-text">MIS LISTAS</div>
+            <div className="list-button-text">{t('myLists')}</div>
           </button>
           <button
             className="lf-tag-button"
           >
             <img className="tag-button-image" src={tagImage}></img>
-            <div className="tag-button-text">CUPONES</div>
+            <div className="tag-button-text">{t('coupons')}</div>
           </button>
         </div>
       </div>
@@ -168,4 +125,4 @@ class LeftPanel extends React.Component {
   }
 }
 
-export default LeftPanel;
+export default withTranslation()(LeftPanel);

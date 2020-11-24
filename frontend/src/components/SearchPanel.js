@@ -3,6 +3,7 @@ import '../assets/css/SearchPanel.css';
 import leftArrow from '../assets/images/left_arrow.png';
 import React from 'react';
 import Result from './SearchResult';
+import {withTranslation} from 'react-i18next';
 
 class SearchPanel extends React.Component {
   constructor(props) {
@@ -12,7 +13,6 @@ class SearchPanel extends React.Component {
       'completedSearch': false,
     };
   }
-
 
   handleScroll(element) {
     const bottomPosition = (element.target.scrollHeight -
@@ -47,19 +47,20 @@ class SearchPanel extends React.Component {
   }
 
   getResultsNumber() {
+    const {t} = this.props;
     if (this.state.completedSearch) {
       const results = this.state.results.length;
       if (results > 0) {
-        return 'Resultados de la búsqueda (' + results + ')';
+        return t('searchSomeResults', {results: results});
       }
-      return 'No se han encontrado resultados. Inténtelo de nuevo.';
+      return t('searchNoResults');
     } else {
-      return 'Buscando...';
+      return t('searching');
     }
   }
 
-
   render() {
+    const {t} = this.props;
     return (
       <div className="searcher">
         <div className="searcher-title">{this.getResultsNumber()}</div>
@@ -70,7 +71,7 @@ class SearchPanel extends React.Component {
         <div className="searcher-buttons">
           <button className="return-button" onClick={this.props.goToLastState}>
             <img className="return-button-image" src={leftArrow}></img>
-            <div className="return-button-text">VOLVER</div>
+            <div className="return-button-text">{t('return')}</div>
           </button>
         </div>
       </div>
@@ -78,4 +79,4 @@ class SearchPanel extends React.Component {
   }
 }
 
-export default SearchPanel;
+export default withTranslation()(SearchPanel);

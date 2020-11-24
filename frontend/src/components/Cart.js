@@ -1,7 +1,10 @@
+/* eslint react/prop-types: 0 */
+
 import '../assets/css/Cart.css';
 import React from 'react';
 import CartProduct from './CartProduct';
 import {requestCartContentDataBase} from '../requests/CartContents';
+import {withTranslation} from 'react-i18next';
 
 class Cart extends React.Component {
   constructor(props) {
@@ -21,10 +24,17 @@ class Cart extends React.Component {
   }
 
   async getProductsFromDataBase() {
-    const data = await requestCartContentDataBase();
-    this.setState({
-      cartContent: data,
-    });
+    let data;
+    try {
+      data = await requestCartContentDataBase();
+      this.props.hideErrorPanel();
+      this.setState({
+        cartContent: data,
+      });
+    } catch (e) {
+      this.getProductsFromDataBase();
+      this.props.showErrorPanel();
+    }
   }
 
   getProductSubtotal() {
@@ -45,15 +55,15 @@ class Cart extends React.Component {
       this.roundUp(cartContent.modifierBreakdowns[0].applicableBase, 2) : 0);
   }
 
-  getProductIVA() {
+  getProductIVA(t) {
     const cartContent = this.state.cartContent;
-    return 'IVA ' + (cartContent ?
+    return t('iva') + (cartContent ?
       cartContent.modifierBreakdowns[0].modifier.value * 100 : 0);
   }
 
-  getProductPriceImport() {
+  getProductPriceImport(t) {
     const cartContent = this.state.cartContent;
-    return ' Importe: ' + (cartContent ?
+    return t('ammount') + (cartContent ?
       this.roundUp(cartContent.modifierBreakdowns[0].totalDelta, 2) : 0);
   }
 
@@ -74,10 +84,11 @@ class Cart extends React.Component {
   }
 
   render() {
+    const {t} = this.props;
     return (
       <div className="product-list">
         <div className="cart-title">
-          Dentro de este carro ({this.getProductsListNumber()})
+          {t('insideCart')} ({this.getProductsListNumber()})
         </div>
         <div className="cart-products">{this.renderContents()}
         </div>
@@ -87,22 +98,22 @@ class Cart extends React.Component {
               Subtotal: {this.getProductSubtotal()} €
             </div>
             <div className="subtotal-import">
-              {this.getProductIVA()} %
+              {this.getProductIVA(t)} %
               {this.getProductPriceBase()} €
-              {this.getProductPriceImport()} €
+              {this.getProductPriceImport(t)} €
             </div>
           </div>
           <div className="cart-info">
             <div className="cart-articles">
-              {this.getProductsListNumber()} artículos en el carro
+              {t('articlesCart', {articles: this.getProductsListNumber()})}
             </div>
-            <div className="planned-articles">N/A artículos planificados</div>
-            <div className="coupons">Ningún cupón aplicado</div>
+            <div className="planned-articles">{t('plannedArticles')}</div>
+            <div className="coupons">{t('appliedCoupons')}</div>
           </div>
           <div className="final-price">
             <div className="total">Total</div>
             <div className="price">{this.getProductTotalPrice()} € </div>
-            <div className="planned-price">Planificado: N/A €</div>
+            <div className="planned-price">{t('estimated')} N/A €</div>
           </div>
         </div>
       </div>
@@ -110,4 +121,4 @@ class Cart extends React.Component {
   }
 }
 
-export default Cart;
+export default withTranslation()(Cart);

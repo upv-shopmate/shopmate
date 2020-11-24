@@ -3,4 +3,5 @@
     flex-wrap: wrap;
     overflow: hidden;
     justify-content: center;
+    min-width: 850px;
 }

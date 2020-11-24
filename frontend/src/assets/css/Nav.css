@@ -3,7 +3,7 @@
     height: 60px;
     position: relative;
     left: calc(50% - 250px); 
-    bottom: 30px;
+    top: 60px;
     display: flex;
     justify-content: space-evenly;
     overflow: hidden;

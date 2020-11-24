@@ -9,6 +9,7 @@ import leftArrow from '../assets/images/left_arrow.png';
 import {userAuthRequest} from '../requests/UserRequests.js';
 import Input from './Input';
 import React from 'react';
+import {withTranslation} from 'react-i18next';
 
 class Login extends React.Component {
   constructor(props) {
@@ -28,12 +29,14 @@ class Login extends React.Component {
     this.setState({
       account: input,
     });
+    this.changePasswordError('');
   }
 
   updatePasswordText(input) {
     this.setState({
       password: input,
     });
+    this.changePasswordError('');
   }
 
 
@@ -48,38 +51,31 @@ class Login extends React.Component {
   }
 
   async login() {
+    const {t} = this.props;
     const account = this.state.account;
     const password = this.state.password;
     const response = await userAuthRequest(account, password);
     if (response.status == 200) {
       this.props.loginUser(response.accesToken);
       this.closeLoginPanel();
-    } else {
-      this.changePasswordError('Correo o contraseña incorrectos');
+      this.props.hideErrorPanel();
+    } else if (response.status == 401) {
+      this.changePasswordError(t('incorrectEmailPass'));
+      this.props.hideErrorPanel();
+    } else if (response.status === 'ConnectionError') {
+      this.props.showErrorPanel();
+      this.login();
     }
   }
 
-  getInfoText() {
-    return ('Pulse sobre las cajas de texto para ' +
-      'mostrar el teclado en pantalla.');
-  }
-
-  getSolution() {
-    return ('Pregunte a un empleado o acuda' +
-      ' al servicio de atención al cliente más cercano.');
-  }
-
-  getQuestion() {
-    return ('¿Tiene problemas para iniciar sesión?');
-  }
-
   render() {
+    const {t} = this.props;
     return (
       <div className="loginUser">
         <div className="login-block shadow-box-users">
           <div className="login-title">
             <span className="init-title">
-              Iniciando sesión en su cuenta de
+              {t('logingIn')}
             </span>
             <span className="brand-text">Shopmate</span>
           </div>
@@ -90,7 +86,7 @@ class Login extends React.Component {
                 src={accountImage}></img>
               <Input
                 type="text"
-                placeholder="Correo electrónico"
+                placeholder= {t('email')}
                 onChangeParent={this.updateAccountText}
               />
             </div>
@@ -100,7 +96,7 @@ class Login extends React.Component {
                 src={passwordImage}></img>
               <Input
                 type="password"
-                placeholder="Contraseña"
+                placeholder= {t('password')}
                 onChangeParent={this.updatePasswordText}
               />
             </div>
@@ -110,30 +106,26 @@ class Login extends React.Component {
             <div className="info-block">
               <img
                 className="info-icon"
-                src={infoImage}></img>
-              <div className="info-text">
-                {this.getInfoText()}
-              </div>
+                src={infoImage}/>
+              <div className="info-text">{t('loginInfoText')}</div>
             </div>
             <button
               className="accept-login-button shadow-box-users "
               onClick={this.login}>
-              <div className="login-button-text">INICIAR SESIÓN</div>
+              <div className="login-button-text">{t('login')}</div>
               <img className="login-button-image" src={rightArrow}></img>
             </button>
           </div>
         </div>
-        <div className="problem-question">{this.getQuestion()}</div>
-        <div className="solution">
-          {this.getSolution()}
-        </div>
+        <div className="problem-question">{t('loginQuestion')}</div>
+        <div className="solution">{t('loginSolution')}</div>
         <div className="login-return-button-wrapper">
           <button
             className="login-return-button shadow-box-users "
             onClick={this.closeLoginPanel}
           >
             <img className="login-return-button-image" src={leftArrow}></img>
-            <div className="login-return-button-text">VOLVER</div>
+            <div className="login-return-button-text">{t('return')}</div>
           </button>
         </div>
       </div>
@@ -141,4 +133,4 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+export default withTranslation()(Login);

@@ -19,8 +19,12 @@
     "lint": "eslint src/**/*.js --fix"
   },
   "devDependencies": {
+    "@babel/core": "^7.12.3",
+    "@lingui/cli": "^3.2.1",
+    "@lingui/macro": "^3.2.1",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
+    "babel-plugin-macros": "^2.8.0",
     "babel-preset-react": "^6.24.1",
     "babili-webpack-plugin": "^0.1.2",
     "css-loader": "^3.6.0",
@@ -42,8 +46,13 @@
     "webpack-dev-server": "^3.9.0"
   },
   "dependencies": {
+    "@lingui/react": "^3.2.1",
     "axios": "^0.21.0",
+    "i18next": "^19.8.3",
+    "i18next-browser-languagedetector": "^6.0.1",
+    "i18next-xhr-backend": "^3.2.2",
     "node-ipc": "^9.1.1",
+    "react-i18next": "^11.7.3",
     "react-touch-screen-keyboard": "^1.0.0"
   }
 }
