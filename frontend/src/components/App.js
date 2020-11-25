@@ -238,6 +238,8 @@ class App extends React.Component {
               user={this.state.user}
               userLoggedIn={this.state.login}
               buttonEnabled={this.state.buttonEnabled}
+              enableListsButton={this.enableListsButton.bind(this)}
+              disableListsButton={this.disableListsButton.bind(this)}
               lists={this.state.lists}
               onGetCurrentList={this.getCurrentList.bind(this)}
             />

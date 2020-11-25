@@ -18,6 +18,18 @@ class LeftPanel extends React.Component {
     };
   }
 
+  componentDidMount() {
+    this.initizializeButtons();
+  }
+
+  initizializeButtons() {
+    if (this.props.userLoggedIn) {
+      this.props.enableListsButton();
+    } else {
+      this.props.disableListsButton();
+    }
+  }
+
   openLoginPanel() {
     this.props.openLogin();
   }
@@ -37,9 +49,6 @@ class LeftPanel extends React.Component {
 
   renderList() {
     if (this.state.currentList !== null) {
-      // FIXME
-      // change this implementation for one that makes sense with the data
-      // received in the endpoint from the backend
       this.props.onGetCurrentList(this.state.currentList);
       return this.state.currentList.entries.map((product) =>
         <ListProduct
@@ -71,7 +80,6 @@ class LeftPanel extends React.Component {
     }
   }
 
-  // FIXME dropdown funcionality should change this logic
   renderListPanel() {
     if (this.state.inList) {
       return (
