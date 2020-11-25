@@ -5,6 +5,7 @@ import listImage from '../assets/images/list.png';
 import tagImage from '../assets/images/tag_icon.png';
 import React from 'react';
 import NotLoginPanel from './NotLoginPanel';
+import UserList from './UserList';
 import {withTranslation} from 'react-i18next';
 
 class LeftPanel extends React.Component {
@@ -16,11 +17,30 @@ class LeftPanel extends React.Component {
     this.props.openLogin();
   }
 
+
+  renderLists() {
+    if (this.props.user.lists) {
+      return this.props.user.lists.entries.map((entry) =>
+        <UserList
+          key={entry.id}
+          entry={entry}
+        />,
+      );
+    }
+    else{
+      return(
+        <React.Fragment>
+          <div className="no-lists">No tiene listas creadas</div>
+        </React.Fragment>
+      );
+    }
+  }
+
   renderPanel() {
     if (this.props.userLoggedIn) {
       return (
         <React.Fragment>
-
+          {this.renderLists}
         </React.Fragment>
       );
     } else {
