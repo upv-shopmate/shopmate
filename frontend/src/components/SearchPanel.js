@@ -10,7 +10,6 @@ class SearchPanel extends React.Component {
     super(props);
   }
 
-
   handleScroll(element) {
     const bottomPosition = (element.target.scrollHeight -
       element.target.offsetHeight);
@@ -39,7 +38,6 @@ class SearchPanel extends React.Component {
       return t('searching');
     }
   }
-
 
   render() {
     const {t} = this.props;

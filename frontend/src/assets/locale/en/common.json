@@ -12,7 +12,7 @@
   "articlesCart": "A product in the cart",
   "articlesCart_plural": "{{count}} products in the cart",
   "estimated": "Estimated: ",
-  "plannedArticles": "N/A plannified products",
+  "plannedArticles": "{{articles}} plannified products",
   "appliedCoupons": "No coupon applied",
   "iva": " VAT: ",
   "ammount": " Ammount: ",
@@ -47,4 +47,5 @@
     "title": "Woopsie!",
     "message": "There seems to have been a problem with the cart connection. Don't worry, it will be fixed right away."
   }
-}
+  "products" : "Products"
+ }

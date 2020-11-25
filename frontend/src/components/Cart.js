@@ -72,6 +72,22 @@ class Cart extends React.Component {
       this.state.cartContent.entries.length : 0;
   }
 
+  getCurrentListProducts(){
+    if(this.props.currentList == null){
+      return(0);
+    } else {
+      return(this.props.currentList.entries.length);
+    }
+  }
+
+  getPlannedPrice(){
+    if(this.props.currentList == null){
+      return(0);
+    } else {
+      return(this.props.currentList.totalPrice.toFixed(2));
+    }
+  }
+
   renderContents() {
     if (this.state.cartContent) {
       return this.state.cartContent.entries.map((entry) =>
@@ -107,13 +123,13 @@ class Cart extends React.Component {
             <div className="cart-articles">
               {t('articlesCart', { count: this.getProductsListNumber() })}
             </div>
-            <div className="planned-articles">{t('plannedArticles')}</div>
+            <div className="planned-articles">{t('plannedArticles', {articles: this.getCurrentListProducts()})}</div>
             <div className="coupons">{t('appliedCoupons')}</div>
           </div>
           <div className="final-price">
             <div className="total">Total</div>
             <div className="price">{this.getProductTotalPrice()} € </div>
-            <div className="planned-price">{t('estimated')} N/A €</div>
+            <div className="planned-price">{t('estimated')} {this.getPlannedPrice()} €</div>
           </div>
         </div>
       </div>

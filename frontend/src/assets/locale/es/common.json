@@ -12,7 +12,7 @@
   "articlesCart_plural": " {{count}} artículos en el carro",
   "articlesCart": " {{count}} artículo en el carro",
   "estimated": "Planificado: ",
-  "plannedArticles": "N/A artículos planificados",
+  "plannedArticles": "{{articles}} artículos planificados",
   "appliedCoupons": "Ningún cupón aplicado",
   "iva": " IVA: ",
   "ammount": " Importe: ",
@@ -44,4 +44,5 @@
     "title": "¡Córcholis!",
     "message": "Parece que ha habido un problema con la conexión del carrito. No te preocupes, se solucionará enseguida."
   }
-}
+  "products" : "Productos" 
+ }

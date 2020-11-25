@@ -12,7 +12,7 @@
   "articlesCart": "{{count}} article al carret",
   "articlesCart_plural": "{{count}} articles al carret",
   "estimated": "Planificat: ",
-  "plannedArticles": "N/A articles planificats",
+  "plannedArticles": "{{articles}} articles planificats",
   "appliedCoupons": "Ningú cupó aplicat",
   "iva": " IVA: ",
   "ammount": " Import: ",
@@ -40,6 +40,7 @@
   "searching": "Cercant...",
   "withoutCategories": "Sense categories",
   "userDetailsTitle": "Informació del compte",
+  "products": "Productes"
   "networkError": {
     "title": "Xe!",
     "message": "Pareix que hi ha hagut un problema amb la connexió del carret. No et preocupes, se solucionarà de seguida."

@@ -13,7 +13,7 @@ import loadingGif from '../assets/images/loading.gif';
 
 // minimum width is 70
 const WIDTHS = {
-  CART: '130%',
+  CART: '100%',
   CATALOG: '270%',
   MAP: '250%',
   SEARCHER: '250%',
@@ -163,7 +163,9 @@ class RightPanel extends React.Component {
       this.changePanelWidth(WIDTHS.CART);
       return <Cart
         showErrorPanel={this.props.showErrorPanel}
-        hideErrorPanel={this.props.hideErrorPanel} />;
+        hideErrorPanel={this.props.hideErrorPanel} 
+        currentList={this.props.currentList}
+        />;
     } else if (panel === 'catalog') {
       this.changePanelWidth(WIDTHS.CATALOG);
       return <Catalog
