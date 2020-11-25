@@ -1,0 +1,126 @@
+.user-details-panel {
+    flex-grow: 1;
+    background-color: white;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.user-details-title {
+    margin-top: 40px;
+    margin-left: 80px;
+    font-size: 22px;
+    color: black;
+}
+
+.user-details {
+    margin-top: 20px;
+    align-self: stretch;
+    display: flex;
+    flex-grow: 1;
+}
+
+.icon-user {
+    margin-left: 90px;
+    display: flex;
+    height: 180px;
+    width: 180px;
+    background-color: #FDA332;
+    border-radius: 100%;
+    justify-content: center;
+    font-size: 120px;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+}
+
+.right-block {
+    margin-left: 40px;
+    margin-top: 45px;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-grow: 1;
+}
+
+.user-name {
+    font-size: 70px;
+}
+
+.ud-more-info {
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+}
+
+.ud-email {
+    margin-bottom: 5px;
+    font-size: 20px;
+}
+
+.ud-phone {
+    font-size: 20px;
+}
+
+.logout-button:hover {
+    transition: 0.5s;
+    background-color: red;
+}
+
+.logout-button {
+    margin-top: 40px;
+    display: flex;
+    border-radius: 3px;
+    border-color: transparent;
+    background-color: rgb(211, 35, 35);
+    align-items: center;
+    height: 40px;
+    width: 180px;
+}
+
+.logout-button-image {
+    width: 20px;
+    height: auto;
+    margin-left: 10px;
+}
+
+.logout-button-text {
+    color: white;
+    margin-left: 10px;
+}
+
+.user-details-return-button {
+    display:flex;
+    align-items: center;
+    justify-self: end;
+    align-self: flex-end;
+    background-color: rgb(250, 157, 43);
+    border-color: transparent;
+    height: 40px;
+    width: 100px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    border-radius: 2.5px;
+}
+
+.user-details-return-button-image {
+    width: 20px;
+    height: auto;
+    margin-right: 5px;
+}
+
+.user-details-return-button:hover{
+    transition: 0.5s;
+    background-color: darkorange;
+}
+
+
+.user-details-return-button-text {
+
+}
+
+.shadow {
+    filter: drop-shadow(0px 5px 4px rgba(0, 0, 0, 0.2));
+  }

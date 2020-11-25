@@ -1,0 +1,25 @@
+.user-list-wrapper{
+    margin-top: 10px;
+    height: 75px;
+    width: 90%;
+    background-color: white;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    box-shadow: 0px 0px 2px 2.5px rgba(0.15, 0.15, 0.15, 0.15);
+}
+
+.user-list-name{
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.user-list-price {
+    font-size: 16px;
+}
+.user-list-quantity {
+    font-size: 14px;
+}

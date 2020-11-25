@@ -17,7 +17,7 @@ namespace ShopMate.Migrations
             modelBuilder
                 .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.0-rc.2.20475.6");
+                .HasAnnotation("ProductVersion", "5.0.0");
 
             modelBuilder.Entity("BrandProduct", b =>
                 {
@@ -47,6 +47,36 @@ namespace ShopMate.Migrations
                     b.HasIndex("ProductsBarcode");
 
                     b.ToTable("CategoryProduct");
+                });
+
+            modelBuilder.Entity("CouponProduct", b =>
+                {
+                    b.Property<string>("AffectedByCouponsCode")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ApplicableProductsBarcode")
+                        .HasColumnType("char(14)");
+
+                    b.HasKey("AffectedByCouponsCode", "ApplicableProductsBarcode");
+
+                    b.HasIndex("ApplicableProductsBarcode");
+
+                    b.ToTable("CouponProduct");
+                });
+
+            modelBuilder.Entity("CouponUser", b =>
+                {
+                    b.Property<string>("OwnedCouponsCode")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("OwnersId")
+                        .HasColumnType("int");
+
+                    b.HasKey("OwnedCouponsCode", "OwnersId");
+
+                    b.HasIndex("OwnersId");
+
+                    b.ToTable("CouponUser");
                 });
 
             modelBuilder.Entity("LabelProduct", b =>
@@ -160,6 +190,25 @@ namespace ShopMate.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("ShopMate.Models.Coupon", b =>
+                {
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("StoreId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Code");
+
+                    b.HasIndex("StoreId");
+
+                    b.ToTable("Coupons");
+                });
+
             modelBuilder.Entity("ShopMate.Models.Label", b =>
                 {
                     b.Property<int>("Id")
@@ -210,6 +259,9 @@ namespace ShopMate.Migrations
                     b.Property<int>("Code")
                         .HasColumnType("int");
 
+                    b.Property<string>("CouponCode")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -220,6 +272,8 @@ namespace ShopMate.Migrations
                         .HasColumnType("money");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CouponCode");
 
                     b.ToTable("PriceModifier");
                 });
@@ -282,6 +336,9 @@ namespace ShopMate.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<int?>("OwnerId")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("SubtotalPrice")
                         .HasColumnType("money");
 
@@ -291,6 +348,8 @@ namespace ShopMate.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CartId");
+
+                    b.HasIndex("OwnerId");
 
                     b.ToTable("ShoppingLists");
                 });
@@ -320,6 +379,37 @@ namespace ShopMate.Migrations
                     b.ToTable("Stores");
                 });
 
+            modelBuilder.Entity("ShopMate.Models.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("MoneySpent")
+                        .HasColumnType("money");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
+                });
+
             modelBuilder.Entity("BrandProduct", b =>
                 {
                     b.HasOne("ShopMate.Models.Brand", null)
@@ -346,6 +436,36 @@ namespace ShopMate.Migrations
                     b.HasOne("ShopMate.Models.Product", null)
                         .WithMany()
                         .HasForeignKey("ProductsBarcode")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("CouponProduct", b =>
+                {
+                    b.HasOne("ShopMate.Models.Coupon", null)
+                        .WithMany()
+                        .HasForeignKey("AffectedByCouponsCode")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ShopMate.Models.Product", null)
+                        .WithMany()
+                        .HasForeignKey("ApplicableProductsBarcode")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("CouponUser", b =>
+                {
+                    b.HasOne("ShopMate.Models.Coupon", null)
+                        .WithMany()
+                        .HasForeignKey("OwnedCouponsCode")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ShopMate.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("OwnersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -410,6 +530,15 @@ namespace ShopMate.Migrations
                     b.Navigation("Owner");
                 });
 
+            modelBuilder.Entity("ShopMate.Models.Coupon", b =>
+                {
+                    b.HasOne("ShopMate.Models.Store", "Store")
+                        .WithMany()
+                        .HasForeignKey("StoreId");
+
+                    b.Navigation("Store");
+                });
+
             modelBuilder.Entity("ShopMate.Models.Position", b =>
                 {
                     b.HasOne("ShopMate.Models.Product", null)
@@ -417,11 +546,22 @@ namespace ShopMate.Migrations
                         .HasForeignKey("ProductBarcode");
                 });
 
+            modelBuilder.Entity("ShopMate.Models.PriceModifier", b =>
+                {
+                    b.HasOne("ShopMate.Models.Coupon", null)
+                        .WithMany("Effects")
+                        .HasForeignKey("CouponCode");
+                });
+
             modelBuilder.Entity("ShopMate.Models.ShoppingList", b =>
                 {
                     b.HasOne("ShopMate.Models.Cart", null)
                         .WithMany("TrackedLists")
                         .HasForeignKey("CartId");
+
+                    b.HasOne("ShopMate.Models.User", "Owner")
+                        .WithMany("ShoppingLists")
+                        .HasForeignKey("OwnerId");
 
                     b.OwnsMany("ShopMate.Models.ShoppingListEntry", "Entries", b1 =>
                         {
@@ -459,6 +599,8 @@ namespace ShopMate.Migrations
                         });
 
                     b.Navigation("Entries");
+
+                    b.Navigation("Owner");
                 });
 
             modelBuilder.Entity("ShopMate.Models.Cart", b =>
@@ -466,9 +608,19 @@ namespace ShopMate.Migrations
                     b.Navigation("TrackedLists");
                 });
 
+            modelBuilder.Entity("ShopMate.Models.Coupon", b =>
+                {
+                    b.Navigation("Effects");
+                });
+
             modelBuilder.Entity("ShopMate.Models.Product", b =>
                 {
                     b.Navigation("Positions");
+                });
+
+            modelBuilder.Entity("ShopMate.Models.User", b =>
+                {
+                    b.Navigation("ShoppingLists");
                 });
 #pragma warning restore 612, 618
         }

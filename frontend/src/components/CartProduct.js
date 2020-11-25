@@ -4,10 +4,17 @@ import '../assets/css/CartProduct.css';
 import imageNotFound from '../assets/images/image_not_found.jpg';
 import React, {Component} from 'react';
 import {capitalize} from '../utils/Utils';
+import {withTranslation} from 'react-i18next';
+
 
 class CartProduct extends Component {
   constructor(props) {
     super(props);
+  }
+
+  roundUp(num, precision) {
+    precision = Math.pow(10, precision);
+    return (Math.ceil(num * precision) / precision).toFixed(2);
   }
 
   getEntrieImage() {
@@ -25,12 +32,22 @@ class CartProduct extends Component {
   }
 
   getEntrieQuantity() {
-    return 'Cantidad: ' + this.props.entry.quantity;
+    const {t} = this.props;
+    return t('quantity') + this.props.entry.quantity;
   }
 
-  getEntriePrice() {
+  getEntrieUnitPrice() {
     const product = this.props.entry.item;
-    return product.priceWithVat.toFixed(2) + ' €';
+    const {t} = this.props;
+    if (this.props.entry.quantity > 1) {
+      return this.roundUp(product.priceWithVat, 2) + t('unitaryText');
+    }
+    return '';
+  }
+
+  getEntrieTotalPrice() {
+    const product = this.props.entry;
+    return this.roundUp(product.totalPrice, 2) + ' €';
   }
 
 
@@ -48,10 +65,17 @@ class CartProduct extends Component {
             </div>
           </div>
         </div>
-        <div className="entrie-price">{this.getEntriePrice()}</div>
+        <div className="entrie-price-box">
+          <div className="entrie-price">
+            {this.getEntrieTotalPrice()}
+          </div>
+          <div className="entrie-unit-price">
+            {this.getEntrieUnitPrice()}
+          </div>
+        </div>
       </div>
     );
   }
 }
 
-export default CartProduct;
+export default withTranslation()(CartProduct);

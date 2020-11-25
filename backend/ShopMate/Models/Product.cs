@@ -97,6 +97,11 @@ namespace ShopMate.Models
         public ICollection<Store> Vendors { get; internal set; } = new HashSet<Store>();
 
         /// <summary>
+        /// The coupons that affect this product
+        /// </summary>
+        public ICollection<Coupon> AffectedByCoupons { get; internal set; } = new HashSet<Coupon>();
+
+        /// <summary>
         /// Obtains the price of this product with all the price modifiers applied.
         /// </summary>
         public decimal ModifiedPrice => PriceModifiers.Aggregate(Price, (price, modifier) => modifier.Apply(price));

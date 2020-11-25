@@ -5,6 +5,7 @@ import React from 'react';
 import shoppingIcon from '../assets/images/shopping_icon.png';
 import mapIcon from '../assets/images/map_icon.png';
 import storeIcon from '../assets/images/store_icon.png';
+import {withTranslation} from 'react-i18next';
 
 const SELECTED_BUTTON_COLOR = '#FDA332';
 const UNSELECTED_BUTTON_COLOR = 'grey';
@@ -37,6 +38,7 @@ class Nav extends React.Component {
     this.props.changeLastPanel(panel);
     this.changeSelectedButton(panel);
     this.props.onChangeRightPanel(panel);
+    if (panel === 'catalog') this.props.resetCatalog();
   }
 
   changeSelectedButton(panel) {
@@ -46,29 +48,30 @@ class Nav extends React.Component {
   }
 
   render() {
+    const {t} = this.props;
     return (
       <div className="nav">
         <button className="nav-button" onClick={() => {
           this.changePanel('cart');
         }} id="cart">
           <img src={shoppingIcon} className="nav-button-icon"></img>
-          <div className="nav-button-name">CARRITO</div>
+          <div className="nav-button-name">{t('cart')}</div>
         </button>
         <button className="nav-button" onClick={() => {
           this.changePanel('catalog');
         }} id="catalog">
           <img src={storeIcon} className="nav-button-icon"></img>
-          <div className="nav-button-name">CATÁLOGO</div>
+          <div className="nav-button-name">{t('catalog')}</div>
         </button>
         <button className="nav-button" onClick={() => {
           this.changePanel('map');
         }} id="map">
           <img src={mapIcon} className="nav-button-icon"></img>
-          <div className="nav-button-name">MAPA</div>
+          <div className="nav-button-name">{t('map')}</div>
         </button>
       </div>
     );
   }
 }
 
-export default Nav;
+export default withTranslation()(Nav);

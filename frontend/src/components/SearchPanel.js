@@ -3,10 +3,20 @@ import '../assets/css/SearchPanel.css';
 import leftArrow from '../assets/images/left_arrow.png';
 import React from 'react';
 import Result from './SearchResult';
+import {withTranslation} from 'react-i18next';
 
 class SearchPanel extends React.Component {
   constructor(props) {
     super(props);
+  }
+
+  handleScroll(element) {
+    const bottomPosition = (element.target.scrollHeight -
+      element.target.offsetHeight);
+    const currentPosition = element.target.scrollTop;
+    if (currentPosition === bottomPosition) {
+      this.props.onResultsBottomPage();
+    }
   }
 
   renderResults() {
@@ -16,24 +26,32 @@ class SearchPanel extends React.Component {
   }
 
   getResultsNumber() {
-    const results = this.props.results.length;
-    if (results > 0) {
-      return 'Resultados de la búsqueda (' + results + ')';
+    const {t} = this.props;
+    if (this.props.completedSearch) {
+      const results = this.props.results.length;
+      console.log(results);
+      if (results > 0) {
+        return t('searchSomeResults', {results: results});
+      }
+      return t('searchNoResults');
+    } else {
+      return t('searching');
     }
-    return 'No se han encontrado resultados. Inténtelo de nuevo.';
   }
 
   render() {
+    const {t} = this.props;
     return (
       <div className="searcher">
         <div className="searcher-title">{this.getResultsNumber()}</div>
-        <div className="searcher-results">
+        <div className="searcher-results"
+          onScroll={(e) => this.handleScroll(e)}>
           {this.renderResults()}
         </div>
         <div className="searcher-buttons">
           <button className="return-button" onClick={this.props.goToLastState}>
             <img className="return-button-image" src={leftArrow}></img>
-            <div className="return-button-text">VOLVER</div>
+            <div className="return-button-text">{t('return')}</div>
           </button>
         </div>
       </div>
@@ -41,4 +59,4 @@ class SearchPanel extends React.Component {
   }
 }
 
-export default SearchPanel;
+export default withTranslation()(SearchPanel);

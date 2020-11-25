@@ -7,7 +7,8 @@ namespace ShopMate.Dto.Profiles
     {
         public ShoppingListEntryProfile()
         {
-            CreateMap<ShoppingListEntry, ShoppingListEntryReadDto>();
+            CreateMap<ShoppingListEntry, ShoppingListEntryReadDto>()
+                .ForMember(dest => dest.TotalPrice, c => c.MapFrom(src => src.ModifiedPrice));
         }
     }
 }

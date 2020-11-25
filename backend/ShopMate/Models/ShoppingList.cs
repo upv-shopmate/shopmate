@@ -20,6 +20,8 @@ namespace ShopMate.Models
         [Column(TypeName = "money")]
         public decimal TotalPrice { get; internal set; }
 
+        public User? Owner { get; internal set; }
+
         [NotMapped]
         public IReadOnlyCollection<PriceModifierBreakdown> ModifierBreakdowns
         {

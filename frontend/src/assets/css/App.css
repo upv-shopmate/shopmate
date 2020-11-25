@@ -7,10 +7,13 @@ body {
   width: 1024px;
   height: 768px;
   background-color: black;
+  position: relative;
 }
 
 .panels {
   height: calc(678px - 75px);
   width: 100%;
   display: flex;
+  position: relative;
+  top: 90px;
 }
