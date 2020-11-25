@@ -11,7 +11,7 @@ class UserList extends React.Component {
     this.state = {
       price: 0.0,
       quantity: this.props.entries.length,
-      price: this.props.list.totalPrice.toFixed(2)
+      price: this.props.list.totalPrice.toFixed(2),
     };
   }
 
@@ -27,7 +27,7 @@ class UserList extends React.Component {
         </div>
         <div className="user-list-price">{this.state.price}€</div>
       </div>
-    ); 
+    );
   }
 }
 

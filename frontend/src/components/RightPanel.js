@@ -7,13 +7,13 @@ import Cart from './Cart';
 import Map from './Map';
 import Searcher from './SearchPanel';
 import Square from './Square';
-import { requestMap } from '../requests/MapRequest';
-import { requestCatalog } from '../requests/ProductRequest.js';
+import {requestMap} from '../requests/MapRequest';
+import {requestCatalog} from '../requests/ProductRequest.js';
 import loadingGif from '../assets/images/loading.gif';
 
 // minimum width is 70
 const WIDTHS = {
-  CART: '100%',
+  CART: '60%',
   CATALOG: '270%',
   MAP: '250%',
   SEARCHER: '250%',
@@ -137,13 +137,13 @@ class RightPanel extends React.Component {
   updateSearchPanel(input) {
     this.setState({
       'results': input,
-    })
+    });
   }
 
   changeCompletedSearchResultsPanel(input) {
     this.setState({
       'completedSearch': input,
-    })
+    });
   }
 
   scrollToTopResultsPanel() {
@@ -163,9 +163,9 @@ class RightPanel extends React.Component {
       this.changePanelWidth(WIDTHS.CART);
       return <Cart
         showErrorPanel={this.props.showErrorPanel}
-        hideErrorPanel={this.props.hideErrorPanel} 
+        hideErrorPanel={this.props.hideErrorPanel}
         currentList={this.props.currentList}
-        />;
+      />;
     } else if (panel === 'catalog') {
       this.changePanelWidth(WIDTHS.CATALOG);
       return <Catalog

@@ -4,6 +4,8 @@ import '../assets/css/CartProduct.css';
 import imageNotFound from '../assets/images/image_not_found.jpg';
 import React, {Component} from 'react';
 import {capitalize} from '../utils/Utils';
+import {withTranslation} from 'react-i18next';
+
 
 class CartProduct extends Component {
   constructor(props) {
@@ -30,13 +32,15 @@ class CartProduct extends Component {
   }
 
   getEntrieQuantity() {
-    return 'Cantidad: ' + this.props.entry.quantity;
+    const {t} = this.props;
+    return t('quantity') + this.props.entry.quantity;
   }
 
   getEntrieUnitPrice() {
     const product = this.props.entry.item;
+    const {t} = this.props;
     if (this.props.entry.quantity > 1) {
-      return this.roundUp(product.priceWithVat, 2) + '€/unidad';
+      return this.roundUp(product.priceWithVat, 2) + t('unitaryText');
     }
     return '';
   }
@@ -74,4 +78,4 @@ class CartProduct extends Component {
   }
 }
 
-export default CartProduct;
+export default withTranslation()(CartProduct);

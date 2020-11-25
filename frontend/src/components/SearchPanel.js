@@ -3,7 +3,7 @@ import '../assets/css/SearchPanel.css';
 import leftArrow from '../assets/images/left_arrow.png';
 import React from 'react';
 import Result from './SearchResult';
-import { withTranslation } from 'react-i18next';
+import {withTranslation} from 'react-i18next';
 
 class SearchPanel extends React.Component {
   constructor(props) {
@@ -26,12 +26,12 @@ class SearchPanel extends React.Component {
   }
 
   getResultsNumber() {
-    const { t } = this.props;
+    const {t} = this.props;
     if (this.props.completedSearch) {
       const results = this.props.results.length;
       console.log(results);
       if (results > 0) {
-        return t('searchSomeResults', { results: results });
+        return t('searchSomeResults', {results: results});
       }
       return t('searchNoResults');
     } else {

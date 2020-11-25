@@ -5,13 +5,9 @@ import listImage from '../assets/images/list.png';
 import tagImage from '../assets/images/tag_icon.png';
 import React from 'react';
 import NotLoginPanel from './NotLoginPanel';
-<<<<<<<<< Temporary merge branch 1
-import UserList from './UserList';
-=========
 import {withTranslation} from 'react-i18next';
 import UserList from './UserList';
 import ListProduct from './ListProduct';
-import Cart from './Cart';
 
 class LeftPanel extends React.Component {
   constructor(props) {
@@ -35,7 +31,7 @@ class LeftPanel extends React.Component {
 
   showLists() {
     this.setState({
-        inList: false,
+      inList: false,
     });
   }
 
@@ -57,6 +53,7 @@ class LeftPanel extends React.Component {
   }
 
   renderLists() {
+    const {t} = this.props;
     if (this.props.lists) {
       return this.props.lists.map((list) =>
         <UserList
@@ -69,7 +66,7 @@ class LeftPanel extends React.Component {
       );
     } else {
       return (
-        <div className="no-lists">No tiene listas creadas</div>
+        <div className="no-lists">{t('noListMessage')}</div>
       );
     }
   }

@@ -40,9 +40,13 @@
   "searching": "Buscando...",
   "withoutCategories": "Sin categorías",
   "userDetailsTitle": "Información de la cuenta",
+  "noListMessage": "No tienes ninguna lista creada",
+  "quantity": "Cantidad: ",
+  "unitaryText": "€/unidad",
+  "inCart": "En el carro: ",
   "networkError": {
     "title": "¡Córcholis!",
     "message": "Parece que ha habido un problema con la conexión del carrito. No te preocupes, se solucionará enseguida."
-  }
-  "products" : "Productos" 
- }
+  },
+  "products": "Productos"
+}

@@ -15,11 +15,11 @@ class Languages extends Component {
     this.focusLost = this.focusLost.bind(this);
   }
 
-  componentDidMount(){
+  componentDidMount() {
     document.addEventListener('click', this.focusLost);
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     document.removeEventListener('click', this.focusLost);
   }
 
@@ -28,8 +28,8 @@ class Languages extends Component {
     this.props.togglePopup();
   }
 
-  focusLost(event){
-    if(this.focusRef && !this.focusRef.current.contains(event.target)){
+  focusLost(event) {
+    if (this.focusRef && !this.focusRef.current.contains(event.target)) {
       this.props.togglePopup();
     }
   }
@@ -38,7 +38,7 @@ class Languages extends Component {
     const {t} = this.props;
     return (
       <div className="languagesPanel"
-          ref = {this.focusRef}>
+        ref = {this.focusRef}>
         <div className="languages">
           <button className="spanish" onClick={() => {
             this.handleClick('es');

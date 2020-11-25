@@ -32,5 +32,6 @@
     text-align: center;
     margin-left: 5px;
     margin-right: 5px;
+    max-width: 250px;
     color: rgb(78, 78, 78);
 }

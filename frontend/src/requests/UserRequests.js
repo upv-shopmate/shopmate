@@ -57,25 +57,23 @@ export async function userListsRequest(accessToken) {
   let status;
   let data;
   const query = '/api/User/lists';
- 
+
   await request(
-    dataBaseURL + query,
-    {
-      headers: {
-        'Authorization': 'Bearer ' + accessToken,
-      },
-    })
-    .then(function(response) {
+      dataBaseURL + query,
       {
-        status = response.status;
-        if (status == '200') {
-          data = response.data;
+        headers: {
+          'Authorization': 'Bearer ' + accessToken,
+        },
+      })
+      .then(function(response) {
+        {
+          status = response.status;
+          if (status == '200') {
+            data = response.data;
+          }
         }
-      }
-    }).catch((error) => {
-      status = error.status;
-    });
-return {'status': status, 'data': data};
-
-
+      }).catch((error) => {
+        status = error.status;
+      });
+  return {'status': status, 'data': data};
 }

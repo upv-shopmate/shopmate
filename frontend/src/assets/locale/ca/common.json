@@ -40,9 +40,13 @@
   "searching": "Cercant...",
   "withoutCategories": "Sense categories",
   "userDetailsTitle": "Informació del compte",
-  "products": "Productes"
+  "products": "Productes",
+  "noListMessage": "No tens cap llista creada",
+  "quantity": "Quantitat: ",
+  "unitaryText": "€/unitat",
+  "inCart": "Al carret: ",
   "networkError": {
-    "title": "Xe!",
+    "title": "Xé!",
     "message": "Pareix que hi ha hagut un problema amb la connexió del carret. No et preocupes, se solucionarà de seguida."
   }
 }

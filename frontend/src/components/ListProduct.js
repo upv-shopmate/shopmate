@@ -2,6 +2,7 @@
 import '../assets/css/ListProduct.css';
 import React from 'react';
 import checkImage from '../assets/images/check.png';
+import {withTranslation} from 'react-i18next';
 
 class ListProduct extends React.Component {
   constructor(props) {
@@ -27,6 +28,7 @@ class ListProduct extends React.Component {
   }
 
   render() {
+    const {t} = this.props;
     return (
       <div className="list-product-wrapper"
         onClick={() => this.handleProductClick()}
@@ -41,7 +43,7 @@ class ListProduct extends React.Component {
         <div className="list-product-info">
           <div className="list-product-name">{this.props.name}</div>
           <div className="list-product-quantity">
-                        Cantidad {this.props.quantity}
+            {t('quantity')} {this.props.quantity}
           </div>
         </div>
       </div>
@@ -49,4 +51,4 @@ class ListProduct extends React.Component {
   }
 }
 
-export default ListProduct;
+export default withTranslation()(ListProduct);

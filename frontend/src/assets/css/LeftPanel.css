@@ -4,6 +4,7 @@
     display: flex;
     flex-flow: column;
     border-right: black 2px solid;
+    flex-grow: 1;
 }
 
 .left-panel-title {

@@ -4,10 +4,9 @@ import TopBar from './TopBar';
 import LeftPanel from './LeftPanel';
 import RightPanel from './RightPanel';
 import Nav from './Nav';
-import { requestSearchDataBase } from '../requests/SearchRequests.js';
+import {requestSearchDataBase} from '../requests/SearchRequests.js';
 import Login from './Login';
 import {userInfoRequest, userListsRequest} from '../requests/UserRequests.js';
-import {requestCatalog} from '../requests/ProductRequest.js';
 import UserDetails from './UserDetails';
 import ErrorPanel from './ErrorPanel';
 
@@ -46,9 +45,9 @@ class App extends React.Component {
       response = await userInfoRequest(accessToken);
       this.hideErrorPanel();
       if (response.status == 200) {
-        this.setState({ user: response.data });
-          this.logInUser(response.data);
-          this.getUserLists();
+        this.setState({user: response.data});
+        this.logInUser(response.data);
+        this.getUserLists();
       }
     } catch (e) {
       this.showErrorPanel();
@@ -56,12 +55,12 @@ class App extends React.Component {
     }
   }
 
-  async getUserLists(){
+  async getUserLists() {
     let response;
     try {
       response = await userListsRequest(this.state.accessToken);
       this.hideErrorPanel();
-      if (response.status == 200) this.setState({lists : response.data});
+      if (response.status == 200) this.setState({lists: response.data});
     } catch (e) {
       this.showErrorPanel();
       this.getUserLists(this.state.accessToken);
@@ -71,7 +70,7 @@ class App extends React.Component {
   logInUser(user) {
     this.setState({
       'login': true,
-      'user': user
+      'user': user,
     });
     this.enableListsButton();
   }
@@ -94,11 +93,12 @@ class App extends React.Component {
     return page + 1;
   }
 
-  getCurrentList(list){
-    if(this.state.currentList == null || this.state.currentList.id != list.id){
+  getCurrentList(list) {
+    if (this.state.currentList == null ||
+      this.state.currentList.id != list.id) {
       this.setState({
-        'currentList' : list
-      });  
+        'currentList': list,
+      });
       console.log(list);
     }
   }
@@ -176,7 +176,6 @@ class App extends React.Component {
       });
       noMoreResults = false;
     }
-
     if (!noMoreResults) {
       this.requestAndUpdateResults(searchInput, lastSearchInput, page);
     }

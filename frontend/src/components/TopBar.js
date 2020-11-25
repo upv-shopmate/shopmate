@@ -46,7 +46,7 @@ class TopBar extends React.Component {
   renderLanguages() {
     if (this.state.showPopup === true) {
       return <Languages
-      togglePopup={this.togglePopup}>
+        togglePopup={this.togglePopup}>
       </Languages>;
     } else return null;
   }
