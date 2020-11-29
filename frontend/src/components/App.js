@@ -9,6 +9,7 @@ import Login from './Login';
 import {userInfoRequest, userListsRequest} from '../requests/UserRequests.js';
 import UserDetails from './UserDetails';
 import ErrorPanel from './ErrorPanel';
+import Store from '../utils/Store'
 
 export const dataBaseURL = 'https://localhost:5001';
 

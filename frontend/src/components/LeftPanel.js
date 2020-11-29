@@ -8,6 +8,7 @@ import NotLoginPanel from './NotLoginPanel';
 import {withTranslation} from 'react-i18next';
 import UserList from './UserList';
 import ListProduct from './ListProduct';
+import { Store } from '../utils/Store';
 
 class LeftPanel extends React.Component {
   constructor(props) {
@@ -19,7 +20,9 @@ class LeftPanel extends React.Component {
   }
 
   componentDidMount() {
+    const store = Store().getInstance()
     this.initizializeButtons();
+    store.subscribe();
   }
 
   initizializeButtons() {
@@ -34,23 +37,20 @@ class LeftPanel extends React.Component {
     this.props.openLogin();
   }
 
-  handleListClick(list) {
-    this.setState({
-      currentList: list,
-      inList: true,
-    });
-  }
-
   showLists() {
     this.setState({
+      currentList: null,
       inList: false,
     });
   }
 
   renderList() {
-    if (this.state.currentList !== null) {
-      this.props.onGetCurrentList(this.state.currentList);
-      return this.state.currentList.entries.map((product) =>
+    const store = Store().getInstance();
+    const currentList = store.getState().currentList;
+    console.log(currentList);
+    if (currentList !== null) {
+      this.props.onGetCurrentList(currentList);
+      return currentList.entries.map((product) =>
         <ListProduct
           key={product.item.id}
           name={product.item.name}
@@ -81,7 +81,9 @@ class LeftPanel extends React.Component {
   }
 
   renderListPanel() {
-    if (this.state.inList) {
+    const store = Store().getInstance();
+    const currentList = store.getState().currentList;
+    if (currentList !== null) {
       return (
         <div className="lf-lists">
           {this.renderList()}

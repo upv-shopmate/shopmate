@@ -5,12 +5,16 @@ import React from 'react';
 import CartProduct from './CartProduct';
 import {requestCartContentDataBase} from '../requests/CartContents';
 import {withTranslation} from 'react-i18next';
+import { Store } from '../utils/Store';
 
 class Cart extends React.Component {
   constructor(props) {
     super(props);
+    const store = Store().getInstance();
     this.state = {
       'cartContent': null,
+      'store': store,
+      'currentList': store.getState.currentList, 
     };
   }
 

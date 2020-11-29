@@ -4,6 +4,7 @@
 import '../assets/css/UserList.css';
 import React from 'react';
 import {withTranslation} from 'react-i18next';
+import { Store } from '../utils/Store';
 
 class UserList extends React.Component {
   constructor(props) {
@@ -15,11 +16,19 @@ class UserList extends React.Component {
     };
   }
 
+  changeCurrentList() {
+    let store = Store().getInstance();
+    store.dispatch({
+      type: "changeCurrentList",
+      currentList: this.props.list
+    })
+  }
+
   render() {
     const {t} = this.props;
     return (
       <div className="user-list-wrapper"
-        onClick={() => this.props.onListClick(this.props.list)}
+        onClick={() => this.changeCurrentList()}
       >
         <div className="user-list-name">{this.props.name}</div>
         <div className="user-list-quantity">
