@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`unitary price 1`] = `
+<div
+  className="product-entrie"
+>
+  <img
+    className="entrie-image"
+    src=""
+  />
+  <div
+    className="entrie-info"
+  >
+    <div
+      className="entrie-topline"
+    >
+      <div
+        className="entrie-name"
+      >
+        Foo
+      </div>
+    </div>
+    <div
+      className="entrie-bottomline"
+    >
+      <div
+        className="entrie-quantity"
+      >
+        quantity1
+      </div>
+    </div>
+  </div>
+  <div
+    className="entrie-price-box"
+  >
+    <div
+      className="entrie-price"
+    >
+      NaN €
+    </div>
+    <div
+      className="entrie-unit-price"
+    >
+      
+    </div>
+  </div>
+</div>
+`;
