@@ -1,8 +1,17 @@
 import React from 'react';
-import renderer from '@babel/preset-react';
+import renderer from 'react-test-renderer';
 
-import {CartProduct} from '../src/components/CartProduct'
+import CartProduct from '../src/components/CartProduct'
 
 test('unitary price', () => {
-    const component = renderer.create(<CartProduct/>)
+    const entry = {
+        item: {
+            pictures: [""],
+            name: "foo",
+            barcode: "xdfedfwdf"
+        }
+    }
+    const component = renderer.create(
+        <CartProduct entry={entry} key={entry.item.barcode}></CartProduct>
+    );
 });
