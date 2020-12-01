@@ -1,5 +1,5 @@
 import React from 'react';
-import renderer from '@babel/preset-react';
+import renderer from 'react-preset-renderer';
 
 import {CartProduct} from '../src/components/CartProduct'
 
