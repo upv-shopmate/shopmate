@@ -12,6 +12,9 @@ class ProductDetails extends Component {
     super(props);
     this.viewDetails = this.viewDetails.bind(this);
     this.closeDetailsPanel = this.closeDetailsPanel.bind(this);
+    this.state = {
+      imagePage: 1,
+    }
   }
 
   roundUp(num, precision) {
@@ -25,7 +28,7 @@ class ProductDetails extends Component {
   }
 
   getProductImage() {
-    const image = this.props.product.pictures[0];
+    const image = this.props.product.pictures[this.state.imagePage - 1];
     if (image !== undefined) {
       return image;
     } else {
@@ -76,8 +79,38 @@ class ProductDetails extends Component {
     }
   }
 
+  goToLeftImage() {
+    let aux = this.state.imagePage;
+    if (aux > 1) {
+      this.setState({
+        imagePage: aux - 1,
+      });
+    }
+  }
+
+  goToRightImage() {
+    let aux = this.state.imagePage;
+    if (aux < product.pictures.length) {
+      this.setState({
+        imagePage: aux + 1,
+      });
+    }
+  }
+
+  getProductCategories() {
+    let categories = this.props.product.categories;
+    if (categories.length > 0) {
+      categories = categories.map((category) => category.name + '/ ');
+      const pos = categories.length - 1;
+      categories[pos] = categories[pos].slice(0, categories[pos].length - 2);
+      return categories;
+    } else {
+      return "N/A";
+    }
+  }
+
   isProductStocked() {
-    const {t} = this.props;
+    const { t } = this.props;
     const aux = this.props.product.availableStock;
     if (aux > 0) {
       return t('yes') + ' (' + aux + ')';
@@ -86,17 +119,8 @@ class ProductDetails extends Component {
     }
   }
 
-  isProductEdible() {
-    const {t} = this.props;
-    if (this.props.product.edible) {
-      return t('yes');
-    } else {
-      return t('no');
-    }
-  }
-
   getMoreInfo() {
-    const {t} = this.props;
+    const { t } = this.props;
     return (
       <React.Fragment>
         <div className="details-text-line">
@@ -107,17 +131,11 @@ class ProductDetails extends Component {
           <span className="details-text-header">{t('volume')}</span>
           <span className="details-text">{this.getProductVolume()}</span>
         </div>
-        <div className="details-text-line">
-          <span className="details-text-header">{t('originCountry')}</span>
-          <span className="details-text">{this.getProductOriginCountry()}</span>
-        </div>
-        <div className="details-text-line">
-          <span className="details-text-header">{t('stocked')}</span>
-          <span className="details-text">{this.isProductStocked()}</span>
-        </div>
       </React.Fragment>
     );
   }
+
+
 
   viewDetails() {
     if (this.props.product !== null) {
