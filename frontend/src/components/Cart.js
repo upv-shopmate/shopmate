@@ -3,8 +3,8 @@
 import '../assets/css/Cart.css';
 import React from 'react';
 import CartProduct from './CartProduct';
-import {requestCartContentDataBase} from '../requests/CartContents';
-import {withTranslation} from 'react-i18next';
+import { requestCartContentDataBase } from '../requests/CartContents';
+import { withTranslation } from 'react-i18next';
 
 class Cart extends React.Component {
   constructor(props) {
@@ -100,7 +100,7 @@ class Cart extends React.Component {
   }
 
   render() {
-    const {t} = this.props;
+    const { t } = this.props;
     return (
       <div className="product-list">
         <div className="cart-title">
@@ -121,10 +121,10 @@ class Cart extends React.Component {
           </div>
           <div className="cart-info">
             <div className="cart-articles">
-              {t('articlesCart', {count: this.getProductsListNumber()})}
+              {t('articlesCart', { count: this.getProductsListNumber() })}
             </div>
             <div className="planned-articles">
-              {t('plannedArticles', {articles: this.getCurrentListProducts()})}
+              {t('plannedArticles', { articles: this.getCurrentListProducts() })}
             </div>
             <div className="coupons">{t('appliedCoupons')}</div>
           </div>
@@ -142,3 +142,4 @@ class Cart extends React.Component {
 }
 
 export default withTranslation()(Cart);
+
