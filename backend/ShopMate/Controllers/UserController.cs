@@ -48,19 +48,6 @@ namespace ShopMate.Controllers
             return Ok(mapper.Map<UserReadDto>(user!));
         }
 
-        [HttpGet("coupons")]
-        [Authorize(Roles = "user")]
-        public ActionResult<ICollection<CouponReadDto>> GetCurrentUserCoupons()
-        {
-            if (!auth.GetUserFromClaims(User.Claims, out User? user))
-            {
-                return Unauthorized();
-            }
-
-            var coupons = repository.Coupons.GetAll().Where(c => c.Owners.Contains(user!));
-            return Ok(mapper.Map<List<CouponReadDto>>(coupons));
-        }
-
         [HttpGet("lists")]
         [Authorize(Roles = "user")]
         public ActionResult<ICollection<ShoppingListReadDto>> GetCurrentUserShoppingLists()
@@ -145,6 +132,19 @@ namespace ShopMate.Controllers
             repository.SaveChanges();
 
             return NoContent();
+        }
+
+        [HttpGet("coupons")]
+        [Authorize(Roles = "user")]
+        public ActionResult<ICollection<CouponReadDto>> GetCurrentUserCoupons()
+        {
+            if (!auth.GetUserFromClaims(User.Claims, out User? user))
+            {
+                return Unauthorized();
+            }
+
+            var coupons = repository.Coupons.GetAll().Where(c => c.Owners.Contains(user!));
+            return Ok(mapper.Map<List<CouponReadDto>>(coupons));
         }
     }
 }

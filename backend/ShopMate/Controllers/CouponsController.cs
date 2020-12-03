@@ -20,7 +20,7 @@ namespace ShopMate.Controllers
         }
 
         [HttpGet("{code}")]
-        public ActionResult<CouponReadDto> GetCouponById(string code)
+        public ActionResult<CouponReadDto> GetCouponByCode(string code)
         {
             var coupon = repository.Coupons.GetAll().FirstOrDefault(c => c.Code == code);
 

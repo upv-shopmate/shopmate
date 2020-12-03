@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ShopMate.Dto;
 using ShopMate.Models;
 using ShopMate.Persistence;
+using ShopMate.Services;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,11 +16,13 @@ namespace ShopMate.Controllers
     {
         private readonly IShopMateRepository repository;
         private readonly IMapper mapper;
+        private readonly IShopMateAuthService auth;
 
-        public CartController(IShopMateRepository repository, IMapper mapper)
+        public CartController(IShopMateRepository repository, IMapper mapper, IShopMateAuthService auth)
         {
             this.repository = repository;
             this.mapper = mapper;
+            this.auth = auth;
         }
 
         [HttpGet("list")]
@@ -114,6 +118,58 @@ namespace ShopMate.Controllers
             foreach (var shoppingList in shoppingLists)
             {
                 cart.TrackedLists.Remove(shoppingList);
+            }
+
+            return NoContent();
+        }
+
+        [HttpPut("coupons")]
+        public ActionResult ApplyCoupons([FromBody] ICollection<string> codes)
+        {
+            auth.GetUserFromClaims(User.Claims, out User? user);
+
+            ICollection<Coupon> coupons = new List<Coupon>();
+            foreach (var code in codes)
+            {
+                var coupon = repository.Coupons.GetAll().FirstOrDefault(c => c.Code == code);
+                if (coupon is null) { return BadRequest("Unknown coupon ID."); }
+
+                if (coupon.Owners.Any())
+                {
+                    if (user is null || !coupon.Owners.Contains(user))
+                    {
+                        return Unauthorized();
+                    }
+                }
+
+                coupons.Add(coupon);
+            }
+
+            var cart = repository.Carts.GetAll().FirstOrDefault(c => c.Id == 1);
+            foreach (var coupon in coupons)
+            {
+                cart.AppliedCoupons.Add(coupon);
+            }
+
+            return NoContent();
+        }
+
+        [HttpDelete("coupons")]
+        public ActionResult UnapplyCoupons([FromBody] ICollection<string> codes)
+        {
+            ICollection<Coupon> coupons = new List<Coupon>();
+            foreach (var code in codes)
+            {
+                var coupon = repository.Coupons.GetAll().FirstOrDefault(c => c.Code == code);
+                if (coupon is null) { return BadRequest("Unknown coupon ID."); }
+
+                coupons.Add(coupon);
+            }
+
+            var cart = repository.Carts.GetAll().FirstOrDefault(c => c.Id == 1);
+            foreach (var coupon in coupons)
+            {
+                cart.AppliedCoupons.Remove(coupon);
             }
 
             return NoContent();

@@ -20,6 +20,8 @@ namespace ShopMate.Models
 
         public ICollection<ShoppingList> TrackedLists { get; internal set; } = new HashSet<ShoppingList>();
 
+        public ICollection<Coupon> AppliedCoupons { get; internal set; } = new HashSet<Coupon>();
+
         public Cart() { }
 
         public void TrackShoppingList(ShoppingList list) => TrackedLists.Add(list);
