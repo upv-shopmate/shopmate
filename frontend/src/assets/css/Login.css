@@ -117,6 +117,7 @@
     border-radius: 2.5px;
     align-items: center;
     border-color: transparent;
+    justify-content: center;
 }
 
 .accept-login-button:hover{

@@ -37,7 +37,7 @@ class UserDetails extends React.Component {
   }
 
   render() {
-    const {t, i18n} = this.props;
+    const {t} = this.props;
     return (
       <div className="user-details-panel">
         <div className="user-details-title">{t('userDetailsTitle')}</div>

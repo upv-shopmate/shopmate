@@ -56,7 +56,7 @@ class SearchResult extends Component {
   }
 
   getProductCategories() {
-    const {t, i18n} = this.props;
+    const {t} = this.props;
     let categories = this.props.productData.categories;
     if (categories.length > 0) {
       categories = categories.map((category) => category.name + ', ');
@@ -69,6 +69,7 @@ class SearchResult extends Component {
   }
 
   render() {
+    const {t} = this.props;
     return (
       <div className="result">
         <img className="result-image" src={this.getProductImage()}></img>
@@ -83,7 +84,7 @@ class SearchResult extends Component {
             </div>
           </div>
           <div className="result-bottomline">
-            <div className="result-cart">En el carro: N/A</div>
+            <div className="result-cart">{t('inCart')} N/A</div>
             <div className="result-categories">
               <img className="result-categories-image" src={tagIcon}></img>
               <div className="result-categories-namelist">

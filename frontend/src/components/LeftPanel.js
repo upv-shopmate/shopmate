@@ -6,34 +6,108 @@ import tagImage from '../assets/images/tag_icon.png';
 import React from 'react';
 import NotLoginPanel from './NotLoginPanel';
 import {withTranslation} from 'react-i18next';
+import UserList from './UserList';
+import ListProduct from './ListProduct';
 
 class LeftPanel extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      'currentList': null,
+      'inList': false,
+    };
+  }
+
+  componentDidMount() {
+    this.initizializeButtons();
+  }
+
+  initizializeButtons() {
+    if (this.props.userLoggedIn) {
+      this.props.enableListsButton();
+    } else {
+      this.props.disableListsButton();
+    }
   }
 
   openLoginPanel() {
     this.props.openLogin();
   }
 
-  renderPanel() {
-    if (this.props.userLoggedIn) {
-      return (
-        <React.Fragment>
+  handleListClick(list) {
+    this.setState({
+      currentList: list,
+      inList: true,
+    });
+  }
 
-        </React.Fragment>
+  showLists() {
+    this.setState({
+      inList: false,
+    });
+  }
+
+  renderList() {
+    if (this.state.currentList !== null) {
+      this.props.onGetCurrentList(this.state.currentList);
+      return this.state.currentList.entries.map((product) =>
+        <ListProduct
+          key={product.item.id}
+          name={product.item.name}
+          quantity={product.quantity}
+          image={product.item.pictures[0]}
+        />,
+      );
+    }
+  }
+
+  renderLists() {
+    const {t} = this.props;
+    if (this.props.lists) {
+      return this.props.lists.map((list) =>
+        <UserList
+          key={list['name']}
+          entries={list['entries']}
+          name={list['name']}
+          onListClick={(list) => this.handleListClick(list)}
+          list={list}
+        />,
       );
     } else {
       return (
-        <React.Fragment>
-          <NotLoginPanel openLogin={this.openLoginPanel.bind(this)} />
-        </React.Fragment>
+        <div className="no-lists">{t('noListMessage')}</div>
+      );
+    }
+  }
+
+  renderListPanel() {
+    if (this.state.inList) {
+      return (
+        <div className="lf-lists">
+          {this.renderList()}
+        </div>
+      );
+    } else {
+      return (
+        <div className="lf-lists">
+          {this.renderLists()}
+        </div>
+      );
+    }
+  }
+
+  renderPanel() {
+    if (this.props.userLoggedIn) {
+      return this.renderListPanel();
+    } else {
+      return (
+        <NotLoginPanel openLogin={this.openLoginPanel.bind(this)} />
       );
     }
   }
 
   render() {
-    const {t, i18n} = this.props;
+    const {t} = this.props;
     return (
       <div className="left-panel">
         <div className="left-panel-title">{t('shoppingList')}</div>
@@ -44,6 +118,7 @@ class LeftPanel extends React.Component {
           <button
             disabled={!this.props.buttonEnabled}
             className="lf-list-button"
+            onClick={() => this.showLists()}
           >
             <img className="list-button-image" src={listImage}></img>
             <div className="list-button-text">{t('myLists')}</div>

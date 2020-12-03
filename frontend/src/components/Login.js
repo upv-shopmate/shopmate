@@ -51,12 +51,12 @@ class Login extends React.Component {
   }
 
   async login() {
-    const {t, i18n} = this.props;
+    const {t} = this.props;
     const account = this.state.account;
     const password = this.state.password;
     const response = await userAuthRequest(account, password);
     if (response.status == 200) {
-      this.props.loginUser(response.accesToken);
+      this.props.loginUser(response.accessToken);
       this.closeLoginPanel();
       this.props.hideErrorPanel();
     } else if (response.status == 401) {
@@ -69,7 +69,7 @@ class Login extends React.Component {
   }
 
   render() {
-    const {t, i18n} = this.props;
+    const {t} = this.props;
     return (
       <div className="loginUser">
         <div className="login-block shadow-box-users">

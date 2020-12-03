@@ -13,7 +13,7 @@ import loadingGif from '../assets/images/loading.gif';
 
 // minimum width is 70
 const WIDTHS = {
-  CART: '130%',
+  CART: '60%',
   CATALOG: '270%',
   MAP: '250%',
   SEARCHER: '250%',
@@ -27,11 +27,12 @@ class RightPanel extends React.Component {
       'catalog': [],
       'catalogPage': 0,
       'initialCatalog': [],
+      'results': [],
+      'completedSearch': false,
     };
     this.currentPanel = this.currentPanel.bind(this);
     this.catalogRef = React.createRef();
     this.loadingRef = React.createRef();
-    this.searchPanelRef = React.createRef();
   }
 
 
@@ -134,23 +135,23 @@ class RightPanel extends React.Component {
   }
 
   updateSearchPanel(input) {
-    if (this.searchPanelRef.current !== null) {
-      this.searchPanelRef.current.updateResults(input);
-    }
+    this.setState({
+      'results': input,
+    });
   }
 
   changeCompletedSearchResultsPanel(input) {
-    if (this.searchPanelRef.current !== null) {
-      this.searchPanelRef.current.changeCompletedSearch(input);
-    }
+    this.setState({
+      'completedSearch': input,
+    });
   }
 
   scrollToTopResultsPanel() {
-    if (this.searchPanelRef.current !== null) {
-      this.searchPanelRef.current.scrollToTop();
+    const searchResults = document.querySelector('.searcher-results');
+    if (searchResults !== null) {
+      searchResults.scrollTo(0, 0);
     }
   }
-
   searchMoreResults() {
     this.props.moreResults();
   }
@@ -162,7 +163,9 @@ class RightPanel extends React.Component {
       this.changePanelWidth(WIDTHS.CART);
       return <Cart
         showErrorPanel={this.props.showErrorPanel}
-        hideErrorPanel={this.props.hideErrorPanel} />;
+        hideErrorPanel={this.props.hideErrorPanel}
+        currentList={this.props.currentList}
+      />;
     } else if (panel === 'catalog') {
       this.changePanelWidth(WIDTHS.CATALOG);
       return <Catalog
@@ -178,7 +181,8 @@ class RightPanel extends React.Component {
       this.changePanelWidth(WIDTHS.SEARCHER);
       return (
         <Searcher
-          ref={this.searchPanelRef}
+          results={this.state.results}
+          completedSearch={this.state.completedSearch}
           goToLastState={this.props.goToLastState}
           onResultsBottomPage={() => this.searchMoreResults()}
         />

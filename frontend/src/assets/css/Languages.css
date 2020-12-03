@@ -1,5 +1,5 @@
 .languagesPanel {
-    display: flex;
+    display: block;
     width: 215px;
     height: 250px;
     background-color: aliceblue;
@@ -8,9 +8,9 @@
     justify-content: space-between;
     align-items: stretch;
     flex-flow: column;
-    position: relative;
-    right: 165px;
-    top: 10px
+    position: absolute;
+    right: 5px;
+    top: 70px;
   }
 
   .languages{

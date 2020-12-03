@@ -6,7 +6,6 @@ import exitIcon from '../assets/images/leave_icon.png';
 import translateIcon from '../assets/images/translate.png';
 import SearchField from './SearchField';
 import Languages from './Languages';
-import {bind} from 'file-loader';
 import {withTranslation} from 'react-i18next';
 
 
@@ -46,8 +45,8 @@ class TopBar extends React.Component {
 
   renderLanguages() {
     if (this.state.showPopup === true) {
-      return <Languages >
-         ref={this.langRef}
+      return <Languages
+        togglePopup={this.togglePopup}>
       </Languages>;
     } else return null;
   }
@@ -57,7 +56,7 @@ class TopBar extends React.Component {
   }
 
   renderButtons() {
-    const {t, i18n} = this.props;
+    const {t} = this.props;
     if (this.props.userLoggedIn && this.props.user != undefined) {
       return (
         <React.Fragment>
@@ -67,11 +66,13 @@ class TopBar extends React.Component {
             <div className="user-first-letter">{this.getUserFirstLetter()}</div>
             <div className="user-button-name">{this.getUserName()}</div>
           </button>
-          <button className="translate-button top-button shadow" onClick={this.togglePopup}>
+          <button
+            className="translate-button top-button shadow"
+            onClick={this.togglePopup}>
             <img src={translateIcon} >
             </img>
-            {this.renderLanguages()}
           </button>
+          {this.renderLanguages()}
           <button className="exit-button top-button shadow"
             onClick={this.props.logOut}
           >
@@ -82,13 +83,16 @@ class TopBar extends React.Component {
     } else {
       return (
         <React.Fragment>
-          <button className="user-login-button shadow"
+          <button
+            className="user-login-button shadow"
             onClick={this.props.openLogin} >{t('login')}
           </button>
-          <button className="translate-button top-button shadow" onClick={this.togglePopup}>
+          <button
+            className="translate-button top-button shadow"
+            onClick={this.togglePopup}>
             <img src={translateIcon}></img>
-            {this.renderLanguages()}
           </button>
+          {this.renderLanguages()}
         </React.Fragment>
       );
     }
@@ -99,7 +103,7 @@ class TopBar extends React.Component {
       <div className="top-bar">
         <div className="left-side">
           <img src={logo}></img>
-          <div className="logo-name"> SHOPMATE
+          <div className="logo-name"> ShopMate
           </div>
         </div>
         <SearchField

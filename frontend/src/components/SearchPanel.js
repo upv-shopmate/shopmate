@@ -8,12 +8,7 @@ import {withTranslation} from 'react-i18next';
 class SearchPanel extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      'results': [],
-      'completedSearch': false,
-    };
   }
-
 
   handleScroll(element) {
     const bottomPosition = (element.target.scrollHeight -
@@ -25,32 +20,16 @@ class SearchPanel extends React.Component {
   }
 
   renderResults() {
-    return this.state.results.map((result) =>
+    return this.props.results.map((result) =>
       <Result key={result.barcode} productData={result} />,
     );
   }
 
-  scrollToTop() {
-    const searchResults = document.querySelector('.searcher-results');
-    searchResults.scrollTo(0, 0);
-  }
-
-  updateResults(input) {
-    this.setState({
-      'results': input,
-    });
-  }
-
-  changeCompletedSearch(input) {
-    this.setState({
-      'completedSearch': input,
-    });
-  }
-
   getResultsNumber() {
-    const {t, i18n} = this.props;
-    if (this.state.completedSearch) {
-      const results = this.state.results.length;
+    const {t} = this.props;
+    if (this.props.completedSearch) {
+      const results = this.props.results.length;
+      console.log(results);
       if (results > 0) {
         return t('searchSomeResults', {results: results});
       }
@@ -60,9 +39,8 @@ class SearchPanel extends React.Component {
     }
   }
 
-
   render() {
-    const {t, i18n} = this.props;
+    const {t} = this.props;
     return (
       <div className="searcher">
         <div className="searcher-title">{this.getResultsNumber()}</div>

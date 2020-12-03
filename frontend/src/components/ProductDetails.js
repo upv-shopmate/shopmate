@@ -77,7 +77,7 @@ class ProductDetails extends Component {
   }
 
   isProductStocked() {
-    const {t, i18n} = this.props;
+    const {t} = this.props;
     const aux = this.props.product.availableStock;
     if (aux > 0) {
       return t('yes') + ' (' + aux + ')';
@@ -87,7 +87,7 @@ class ProductDetails extends Component {
   }
 
   isProductEdible() {
-    const {t, i18n} = this.props;
+    const {t} = this.props;
     if (this.props.product.edible) {
       return t('yes');
     } else {
@@ -96,7 +96,7 @@ class ProductDetails extends Component {
   }
 
   getMoreInfo() {
-    const {t, i18n} = this.props;
+    const {t} = this.props;
     return (
       <React.Fragment>
         <div className="details-text-line">
