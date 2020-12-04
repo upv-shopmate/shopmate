@@ -1,11 +1,11 @@
 /* eslint react/prop-types: 0 */
 import '../assets/css/ProductDetails.css';
-import closeButton from '../assets/images/icon/navigation/close_24px.png';
+import closeButton from '../assets/images/close_24px.png';
 import mapButton from '../assets/images/map_button.png';
 import imageNotFound from '../assets/images/image_not_found.jpg';
-import React, {Component} from 'react';
-import {capitalize} from '../utils/Utils';
-import {withTranslation} from 'react-i18next';
+import React, { Component } from 'react';
+import { capitalize } from '../utils/Utils';
+import { withTranslation } from 'react-i18next';
 
 class ProductDetails extends Component {
   constructor(props) {
@@ -77,7 +77,7 @@ class ProductDetails extends Component {
   }
 
   isProductStocked() {
-    const {t, i18n} = this.props;
+    const { t, i18n } = this.props;
     const aux = this.props.product.availableStock;
     if (aux > 0) {
       return t('yes') + ' (' + aux + ')';
@@ -87,7 +87,7 @@ class ProductDetails extends Component {
   }
 
   isProductEdible() {
-    const {t, i18n} = this.props;
+    const { t, i18n } = this.props;
     if (this.props.product.edible) {
       return t('yes');
     } else {
@@ -96,7 +96,7 @@ class ProductDetails extends Component {
   }
 
   getMoreInfo() {
-    const {t, i18n} = this.props;
+    const { t, i18n } = this.props;
     return (
       <React.Fragment>
         <div className="details-text-line">
