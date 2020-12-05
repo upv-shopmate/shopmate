@@ -102,7 +102,6 @@ class TopBar extends React.Component {
     return (
       <div className="top-bar">
         <div className="left-side">
-          <img src={logo}></img>
           <div className="logo-name"> ShopMate
           </div>
         </div>

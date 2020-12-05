@@ -1,8 +1,8 @@
 .list-product-wrapper {
-    width: 90%;
+    width: 95%;
     height: 60px;
-    background-color: white;
-    border-radius: 7px;
+    background-color: #eeeeee;
+    border-radius: 2.5px;
     display: flex;
     flex-flow: row;
     justify-content: space-between;

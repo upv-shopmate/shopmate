@@ -1,6 +1,7 @@
 .result {
   height: 60px;
-  border-radius: 7px;
+  width: 95%;
+  border-radius: 2.5px;
   display: flex;
   flex-flow: row;
   justify-content: space-between;
@@ -10,6 +11,7 @@
   margin-top: 8px;
   box-shadow: 0px 0px 2px 2.5px rgba(0.15, 0.15, 0.15, 0.15);
   cursor: pointer;
+  background-color: white;
 }
 
 .result-info {
@@ -58,6 +60,7 @@
 
 .result-cart {
   min-width: 110px;
+  font-size: 15px;
 }
 
 .result-categories {
@@ -69,10 +72,10 @@
 }
 
 .result-image {
-  max-height: 55px;
+  height: 50px;
   width: 50px;
-  min-width: 50px;
-  height: auto;
+  margin-top: 5px;
+  margin-bottom: 5px;
   margin-left: 15px;
   margin-right: 10px;
 }

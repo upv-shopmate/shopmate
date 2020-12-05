@@ -7,8 +7,9 @@
 }
 
 .left-panel-login-button {
-    background-color: rgb(65, 64, 64);
-    color: white;
+    background-color: #ffd369;
+    color: black;
+    font-weight: bold;
     height: 30px;
     width: 130px;
     border: 0px;
@@ -22,6 +23,7 @@
 }
 
 .question{
+    color: #ffffff;
     margin-top: 5px;
     font-weight: bold;
     text-align: center;
@@ -33,5 +35,5 @@
     margin-left: 5px;
     margin-right: 5px;
     max-width: 250px;
-    color: rgb(78, 78, 78);
+    color: rgba(255, 255, 255, 0.7);
 }

@@ -1,38 +1,29 @@
 .nav {
-    width: 500px;
-    height: 60px;
+    width: 520px;
+    height: 50px;
     position: relative;
-    left: calc(50% - 250px); 
-    top: 70px;
+    left: calc(50% - 260px); 
+    top: 65px;
     display: flex;
     justify-content: space-evenly;
     overflow: hidden;
-    border: 0.45px;
+    border: 2px rgb(90, 88, 88) solid;
     border-radius: 40px;
-    border-style: solid;
+
 }
 
 .nav-button {
     display: flex;
     align-items: center;
     color: white;
-    background-color: grey;
+    font-weight: bold;
     padding: 0;
     border: 0;
     border-right: solid 1px;
     border-color: rgb(162, 162, 162);
     width: 100%;
     height: 100%;
-}
-.nav-button:active {
-    background-color: rgba(128, 128, 128, 0.913);
-}
-.nav-button:first-child > .nav-button-icon{
-    margin-left: 28px;
-}
-
-.nav-button:last-child > .nav-button-icon{
-    margin-left: 30px;
+    justify-content: center;
 }
 
 .nav-button:last-child {
@@ -42,10 +33,8 @@
 .nav-button-name {
     font-size: 16px;
     margin-left: 8px;
-    font-weight: normal;
 }
 
 .nav-button-icon {
     height: 30px;
-    margin-left: 20px;
 }

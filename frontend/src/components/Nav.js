@@ -5,10 +5,10 @@ import React from 'react';
 import shoppingIcon from '../assets/images/shopping_icon.png';
 import mapIcon from '../assets/images/map_icon.png';
 import storeIcon from '../assets/images/store_icon.png';
-import {withTranslation} from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 
 const SELECTED_BUTTON_COLOR = '#FDA332';
-const UNSELECTED_BUTTON_COLOR = 'grey';
+const UNSELECTED_BUTTON_COLOR = '#393e46';
 
 class Nav extends React.Component {
   componentDidMount() {
@@ -48,7 +48,7 @@ class Nav extends React.Component {
   }
 
   render() {
-    const {t} = this.props;
+    const { t } = this.props;
     return (
       <div className="nav">
         <button className="nav-button" onClick={() => {

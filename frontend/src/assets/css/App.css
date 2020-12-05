@@ -21,6 +21,8 @@ body {
 
 button{
   font-family: textFont;
+  border-radius: 2.5px;
+  font-weight: bold;
 }
 
 @font-face {

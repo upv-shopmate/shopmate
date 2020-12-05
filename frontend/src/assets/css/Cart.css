@@ -25,9 +25,10 @@
 .total-prices{
     display: flex;
     flex-flow: row;
-    background-color: rgb(235, 235, 235);
+    background-color: #ffd369;
+    box-shadow: 0px 0px 2px 2.5px rgba(0.15, 0.15, 0.15, 0.15);
     justify-content: space-between;
-    height: 150px;
+    height: 200px;
 }
 
 .subtotal-block{
@@ -63,7 +64,7 @@
 .subtotal-import{
     margin-left: 10px;
     margin-top: 2px;
-    color: rgb(78, 78, 78);
+    color: #393e46;
 }
 
 .cart-articles{
@@ -74,12 +75,12 @@
 }
 
 .planned-articles{
-    color: rgb(78, 78, 78);
+    color: #393e46;
     margin-right: 10px;
 }
 
 .coupons{
-    color: rgb(78, 78, 78);
+    color: #393e46;
     margin-right: 10px;
 }
 
@@ -92,12 +93,12 @@
 
 .price{
     font-size: 40px;
-    color: rgb(250, 183, 0);
+    color: black;
     font-family: priceFont;
 }
 
 .planned-price{
     margin-bottom: 10px;
-    color: rgb(78, 78, 78);
+    color: #393e46;;
     font-family: priceFont;
 }

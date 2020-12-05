@@ -1,5 +1,5 @@
 .loginUser{
-    background-color: white;
+    background-color: #eeeeee;
     flex-grow: 1;
     display: flex;
     justify-content: center;
@@ -10,7 +10,7 @@
 .login-block{
     width: 620px;
     height: 290px;
-    background-color: rgb(230, 225, 225);
+    background-color: #393e46;
     display: flex;
     flex-flow: column;
     justify-content: space-between;
@@ -23,6 +23,7 @@
     margin-left: 30px;
     margin-top: 15px;
     margin-bottom: 10px;
+    color: white;
 }
 
 .brand-text{
@@ -75,7 +76,7 @@
 .info-text {
     text-align: left;
     flex-grow: 1;
-    color: black;
+    color: white;
 }
 
 .login-field > input {
@@ -88,7 +89,7 @@
 .login-error {
     align-self: flex-start;
     margin-left: 10px;
-    color: red;
+    color: rgb(241, 50, 50);
     font-weight: bold;
     overflow: hidden;
     max-width: 500px;
@@ -118,6 +119,7 @@
     align-items: center;
     border-color: transparent;
     justify-content: center;
+    font-weight: bold;
 }
 
 .accept-login-button:hover{
@@ -180,5 +182,5 @@
 }
 
 .login-return-button-text{
-
+    
 }

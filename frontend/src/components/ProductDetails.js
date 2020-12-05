@@ -12,6 +12,8 @@ class ProductDetails extends Component {
     super(props);
     this.viewDetails = this.viewDetails.bind(this);
     this.closeDetailsPanel = this.closeDetailsPanel.bind(this);
+    this.goToLeftImage = this.goToLeftImage.bind(this);
+    this.goToRightImage = this.goToRightImage.bind(this);
     this.state = {
       imagePage: 1,
     }
@@ -90,7 +92,7 @@ class ProductDetails extends Component {
 
   goToRightImage() {
     let aux = this.state.imagePage;
-    if (aux < product.pictures.length) {
+    if (aux < this.props.product.pictures.length) {
       this.setState({
         imagePage: aux + 1,
       });
