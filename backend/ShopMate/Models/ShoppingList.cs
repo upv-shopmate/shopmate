@@ -16,9 +16,13 @@ namespace ShopMate.Models
         public ICollection<ShoppingListEntry> Entries { get; private set; } = new List<ShoppingListEntry>();
 
         [Column(TypeName = "money")]
-        public decimal SubtotalPrice { get; internal set; }
+        public decimal SubtotalPrice => Entries.Select(e => e.Price).Sum();
         [Column(TypeName = "money")]
-        public decimal TotalPrice { get; internal set; }
+        public decimal TotalPrice => Entries.Select(e => e.ModifiedPrice).Sum();
+
+        public ICollection<Coupon> AppliedCoupons { get; set; } = new HashSet<Coupon>();
+        //AppliedCoupons de IReadOnly, crear metodos de add y remove coupons en los cuales se modifica la lista
+        //y poner primer foreach
 
         public User? Owner { get; internal set; }
 
@@ -74,9 +78,6 @@ namespace ShopMate.Models
             {
                 Entries.Add(entry);
             }
-
-            SubtotalPrice += entry.Quantity * entry.Item.Price;
-            TotalPrice += entry.Quantity * entry.Item.ModifiedPrice;
         }
 
         /// <summary>
@@ -101,13 +102,39 @@ namespace ShopMate.Models
                     oldEntry.First().Quantity = newQuantity;
                 }
 
-                SubtotalPrice -= newQuantity * entry.Item.Price;
-                TotalPrice -= newQuantity * entry.Item.ModifiedPrice;
-
                 return true;
             }
 
             return false;
+        }
+
+        public void ApplyCoupon(Coupon discount)
+        {
+            if (!AppliedCoupons.Contains(discount))
+            {
+                AppliedCoupons.Add(discount);
+                ActualizeEntryModifiers();
+            }
+        }
+
+        public void UnapplyCoupon(Coupon discount)
+        {
+            if (AppliedCoupons.Contains(discount))
+            {
+                AppliedCoupons.Remove(discount);
+                ActualizeEntryModifiers();
+            }
+        }
+
+        private void ActualizeEntryModifiers()
+        {
+            foreach (var entry in Entries)
+            {
+                entry.AdditionalModifiers.Clear();
+                entry.AdditionalModifiers.AddRange(AppliedCoupons
+                    .Where(c => !c.ApplicableProducts.Any() || c.ApplicableProducts.Contains(entry.Item))
+                    .SelectMany(c => c.Effects));
+            }
         }
 
         public override bool Equals(object? other) => other is ShoppingList list && Equals(list);

@@ -18,7 +18,18 @@ namespace ShopMate.Models
         public decimal Price => Quantity * Item.Price;
 
         [Column(TypeName = "money")]
-        public decimal ModifiedPrice => Quantity * Item.ModifiedPrice;
+        public decimal ModifiedPrice
+        {
+            get
+            {
+                var @base = Quantity * Item.Price;
+
+                return Item.PriceModifiers.Union(AdditionalModifiers)
+                    .Aggregate(@base, (price, modifier) => modifier.Apply(price));
+            }
+        }
+
+        public List<PriceModifier> AdditionalModifiers { get; set; } = new List<PriceModifier>();
 
         public IReadOnlyCollection<PriceModifierBreakdown> ModifierBreakdowns
         {

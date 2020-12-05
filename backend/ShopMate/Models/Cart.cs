@@ -24,48 +24,6 @@ namespace ShopMate.Models
 
         public Cart() { }
 
-        public void ApplyCoupon(Coupon discount)
-        {
-            if (!AppliedCoupons.Contains(discount))
-            {
-                if (!discount.ApplicableProducts.Any())
-                {
-                    Contents.TotalPrice -= discount.Effects.Select(d => d.DeltaFor(Contents.SubtotalPrice)).Sum();
-                }
-                else
-                {
-                    foreach (ShoppingListEntry entry in Contents.Entries)
-                    {
-                        if (discount.ApplicableProducts.Contains(entry.Item))
-                        {
-                            Contents.TotalPrice -= discount.Effects.Select(d => d.DeltaFor(entry.Price)).Sum();
-                        }
-                    }
-                }
-            }
-        }
-
-        public void UnapplyCoupon(Coupon discount)
-        {
-            if (AppliedCoupons.Contains(discount))
-            {
-                if (!discount.ApplicableProducts.Any())
-                {
-                    Contents.TotalPrice += discount.Effects.Select(d => d.DeltaFor(Contents.SubtotalPrice)).Sum();
-                }
-                else
-                {
-                    foreach (ShoppingListEntry entry in Contents.Entries)
-                    {
-                        if (discount.ApplicableProducts.Contains(entry.Item))
-                        {
-                            Contents.TotalPrice += discount.Effects.Select(d => d.DeltaFor(entry.Price)).Sum();
-                        }
-                    }
-                }
-            }
-        }
-
         public void TrackShoppingList(ShoppingList list) => TrackedLists.Add(list);
 
         public void UntrackShoppingList(ShoppingList list) => TrackedLists.Remove(list);
