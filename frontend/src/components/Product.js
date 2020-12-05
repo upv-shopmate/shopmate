@@ -1,9 +1,8 @@
 /* eslint react/prop-types: 0 */
 import '../assets/css/Product.css';
-import '../assets/css/fonts.css';
 import imageNotFound from '../assets/images/image_not_found.jpg';
-import React, {Component} from 'react';
-import {capitalize} from '../utils/Utils';
+import React, { Component } from 'react';
+import { capitalize } from '../utils/Utils';
 
 class Product extends Component {
   constructor(props) {

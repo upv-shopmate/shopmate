@@ -42,6 +42,7 @@
   .entrie-price-box {
     display: flex;
     flex-flow: column;
+    align-self: center;
     margin-right: 15px;
   }
 
@@ -51,10 +52,12 @@
 
   .entrie-unit-price {
     margin-left: 5px;
-    font-size: 13.3px;
+    font-size: 13px;
     align-self: flex-end;
-    font-weight: bold;
+    margin-top: -5px;
+    margin-bottom: 5px;
     color: gray;
+    font-family: priceFont;
   }
   
   .entrie-image {
@@ -66,9 +69,9 @@
 
   .entrie-price {
     display: flex;
-    font-weight: bold;
     font-size: 30px;
     width: auto;
     align-self: center;
+    font-family: priceFont;
   }
   

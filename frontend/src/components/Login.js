@@ -6,7 +6,7 @@ import accountImage from '../assets/images/account_circle.png';
 import infoImage from '../assets/images/info.png';
 import rightArrow from '../assets/images/right_arrow.png';
 import leftArrow from '../assets/images/left_arrow.png';
-import {userAuthRequest} from '../requests/UserRequests.js';
+import { userAuthRequest } from '../requests/UserRequests.js';
 import Input from './Input';
 import React from 'react';
 import {withTranslation} from 'react-i18next';
@@ -52,7 +52,7 @@ class Login extends React.Component {
   }
 
   async login() {
-    const {t} = this.props;
+    const { t } = this.props;
     const account = this.state.account;
     const password = this.state.password;
     const response = await userAuthRequest(account, password);
@@ -71,10 +71,10 @@ class Login extends React.Component {
   }
 
   render() {
-    const {t} = this.props;
+    const { t } = this.props;
     return (
       <div className="loginUser">
-        <div className="login-block shadow-box-users">
+        <div className="login-block">
           <div className="login-title">
             <span className="init-title">
               {t('logingIn')}
@@ -82,23 +82,23 @@ class Login extends React.Component {
             <span className="brand-text">Shopmate</span>
           </div>
           <div className="user-inputs">
-            <div className="login-field shadow-box-users ">
+            <div className="login-field">
               <img
                 className="account-field-image"
                 src={accountImage}></img>
               <Input
                 type="text"
-                placeholder= {t('email')}
+                placeholder={t('email')}
                 onChangeParent={this.updateAccountText}
               />
             </div>
-            <div className="login-field shadow-box-users ">
+            <div className="login-field">
               <img
                 className="password-image"
                 src={passwordImage}></img>
               <Input
                 type="password"
-                placeholder= {t('password')}
+                placeholder={t('password')}
                 onChangeParent={this.updatePasswordText}
               />
             </div>
@@ -108,11 +108,11 @@ class Login extends React.Component {
             <div className="info-block">
               <img
                 className="info-icon"
-                src={infoImage}/>
+                src={infoImage} />
               <div className="info-text">{t('loginInfoText')}</div>
             </div>
             <button
-              className="accept-login-button shadow-box-users "
+              className="accept-login-button"
               onClick={this.login}>
               <div className="login-button-text">{t('login')}</div>
               <img className="login-button-image" src={rightArrow}></img>
@@ -123,7 +123,7 @@ class Login extends React.Component {
         <div className="solution">{t('loginSolution')}</div>
         <div className="login-return-button-wrapper">
           <button
-            className="login-return-button shadow-box-users "
+            className="login-return-button"
             onClick={this.closeLoginPanel}
           >
             <img className="login-return-button-image" src={leftArrow}></img>

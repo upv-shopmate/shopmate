@@ -56,8 +56,8 @@
 .subtotal{
     margin-top: 10px;
     margin-left: 10px;
-    font-weight: bold;
     font-size: 18px;
+    font-family: priceFont;
 }
 
 .subtotal-import{
@@ -87,15 +87,17 @@
     font-weight: bold;
     font-size: 20px;
     margin-top: 5px;
+    font-family: priceFont;
 }
 
 .price{
     font-size: 40px;
-    font-weight: bold;
     color: rgb(250, 183, 0);
+    font-family: priceFont;
 }
 
 .planned-price{
     margin-bottom: 10px;
     color: rgb(78, 78, 78);
+    font-family: priceFont;
 }

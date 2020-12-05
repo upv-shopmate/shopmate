@@ -17,9 +17,8 @@
 .logo-name {
     color: #FDA332;
     position: relative;
-    font-size: 30px;
-    font-family: Raleway;
-    font-weight: bold;
+    font-size: 35px;
+    font-family: titleFont;
     right: 30px;
 }
 
@@ -89,8 +88,6 @@
     box-shadow: 0px 0px 0px 2px rgba(0.15, 0.15, 0.15, 0.15);
 }
 
-
-
 .name {
     display: flex;
     justify-content: center;
@@ -115,13 +112,12 @@
     background-color:#FDA332;
     width: 40px;
     height: 40px;
+    border-color: transparent;
+    box-shadow: 0px 0px 0px 2px rgba(0.15, 0.15, 0.15, 0.15);
 }
 .exit-button {
     background-color: red;
     margin-left: 5px;
     height: 40px;
     width: 40px;
-}
-.shadow {
-    filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.5))
 }

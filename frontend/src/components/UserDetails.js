@@ -4,7 +4,7 @@ import signOutIcon from '../assets/images/sign_out_icon.png';
 import leftArrow from '../assets/images/left_arrow.png';
 import '../assets/css/UserDetails.css';
 import React from 'react';
-import {withTranslation} from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 
 class UserDetails extends React.Component {
   constructor(props) {
@@ -37,7 +37,7 @@ class UserDetails extends React.Component {
   }
 
   render() {
-    const {t} = this.props;
+    const { t } = this.props;
     return (
       <div className="user-details-panel">
         <div className="user-details-title">{t('userDetailsTitle')}</div>
@@ -50,7 +50,7 @@ class UserDetails extends React.Component {
               <div className="ud-phone">{this.getPhoneNumber()}</div>
             </div>
             <button
-              className="logout-button shadow"
+              className="logout-button"
               onClick={this.closeAndLogOut.bind(this)}>
               <img className="logout-button-image" src={signOutIcon}></img>
               <div className="logout-button-text">{t('logout')}</div>
@@ -59,7 +59,7 @@ class UserDetails extends React.Component {
 
         </div>
         <button
-          className="user-details-return-button shadow"
+          className="user-details-return-button"
           onClick={this.closeUserDetails.bind(this)}>
           <img
             className="user-details-return-button-image"
