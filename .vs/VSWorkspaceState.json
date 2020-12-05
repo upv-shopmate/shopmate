@@ -5,9 +5,11 @@
     "\\backend\\PopulateDb",
     "\\backend\\PopulateDb\\scrapOpenFoodFacts",
     "\\backend\\ShopMate",
-    "\\backend\\ShopMate\\Persistence",
-    "\\backend\\ShopMate\\Persistence\\Relational"
+    "\\backend\\ShopMate\\Persistence\\Relational",
+    "\\frontend",
+    "\\frontend\\__mocks__",
+    "\\frontend\\__tests__"
   ],
-  "SelectedNode": "\\backend\\ShopMateServer.sln",
+  "SelectedNode": "\\frontend\\__tests__\\__snapshots__",
   "PreviewInSolutionExplorer": false
 }
