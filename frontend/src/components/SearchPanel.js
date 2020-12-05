@@ -29,7 +29,6 @@ class SearchPanel extends React.Component {
     const {t} = this.props;
     if (this.props.completedSearch) {
       const results = this.props.results.length;
-      console.log(results);
       if (results > 0) {
         return t('searchSomeResults', {results: results});
       }

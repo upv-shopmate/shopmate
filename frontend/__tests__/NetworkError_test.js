@@ -26,16 +26,18 @@ test('Error panel shows correctly', () => {
 
 /*test('Error panel shows when there is not connection',  () => {
     
-    const component = shallow(
-        <App/>
-    ).dive();
-    
+    const component = mount(
+        <App
+        
+        />
+    );
+    console.log(component)
     expect(component.state().connectionError).toBeFalsy();
     
-    component.setState({
-        connectionError: true,
-    });
-
-    expect(component.state().connectionError).toBeTruthy();
+    const app = mount(
+        <App connectionError = {true}/>
+    );
+    console.log(app);
+    expect(app.state().connectionError).toBeTruthy();
 
 });*/
