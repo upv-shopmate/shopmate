@@ -10,6 +10,7 @@ import {userAuthRequest} from '../requests/UserRequests.js';
 import Input from './Input';
 import React from 'react';
 import {withTranslation} from 'react-i18next';
+import {Store} from '../utils/Store'
 
 class Login extends React.Component {
   constructor(props) {
@@ -55,15 +56,16 @@ class Login extends React.Component {
     const account = this.state.account;
     const password = this.state.password;
     const response = await userAuthRequest(account, password);
+    const store = Store().getInstance();
     if (response.status == 200) {
       this.props.loginUser(response.accessToken);
       this.closeLoginPanel();
-      this.props.hideErrorPanel();
+      store.showError(false);
     } else if (response.status == 401) {
       this.changePasswordError(t('incorrectEmailPass'));
-      this.props.hideErrorPanel();
+      store.showError(false);
     } else if (response.status === 'ConnectionError') {
-      this.props.showErrorPanel();
+      store.showError(true);
       this.login();
     }
   }

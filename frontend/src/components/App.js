@@ -9,7 +9,7 @@ import Login from './Login';
 import {userInfoRequest, userListsRequest} from '../requests/UserRequests.js';
 import UserDetails from './UserDetails';
 import ErrorPanel from './ErrorPanel';
-import Store from '../utils/Store'
+import {Store} from '../utils/Store'
 
 export const dataBaseURL = 'https://localhost:5001';
 
@@ -54,6 +54,11 @@ class App extends React.Component {
       this.showErrorPanel();
       this.getUserInfo(accessToken);
     }
+  }
+
+  componentDidMount() {
+    const store = Store().getInstance();
+    store.subscribe(() => this.forceUpdate());
   }
 
   async getUserLists() {
@@ -206,6 +211,11 @@ class App extends React.Component {
       this.setState({
         'results': results,
       });
+      let store = Store().getInstance();
+      store.dispatch({
+        type: "changeResults",
+        results: results
+      })
       rightPanelRef.updateSearchPanel(this.state.results);
 
       rightPanelRef.hideLoading();
@@ -222,8 +232,6 @@ class App extends React.Component {
         <React.Fragment>
           <div className="panels">
             <Login
-              showErrorPanel={this.showErrorPanel.bind(this)}
-              hideErrorPanel={this.hideErrorPanel.bind(this)}
               loginUser={this.getUserInfo.bind(this)}
               closeLogin={this.setDefaultPanel.bind(this)}
             />
@@ -242,17 +250,13 @@ class App extends React.Component {
               enableListsButton={this.enableListsButton.bind(this)}
               disableListsButton={this.disableListsButton.bind(this)}
               lists={this.state.lists}
-              onGetCurrentList={this.getCurrentList.bind(this)}
             />
             <RightPanel
-              showErrorPanel={this.showErrorPanel.bind(this)}
-              hideErrorPanel={this.hideErrorPanel.bind(this)}
               panel={this.state.selectedPanel}
               goToLastState={this.goToLastState}
               results={this.state.results}
               moreResults={this.changeProductResults}
               ref={this.rightPanelRef}
-              currentList={this.state.currentList}
             />
           </div>
           <Nav
@@ -308,7 +312,9 @@ class App extends React.Component {
   }
 
   renderErrorPanel() {
-    if (this.state.connectionError) {
+    const store = Store().getInstance()
+    const connectionError = store.getState().error;
+    if (connectionError) {
       return (
         <React.Fragment>
           <ErrorPanel closeErrorPanel={this.hideErrorPanel.bind(this)} />

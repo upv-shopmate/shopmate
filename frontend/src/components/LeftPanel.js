@@ -14,15 +14,14 @@ class LeftPanel extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      'currentList': null,
       'inList': false,
     };
   }
 
   componentDidMount() {
-    const store = Store().getInstance()
     this.initizializeButtons();
-    store.subscribe();
+    const store = Store().getInstance()
+    store.subscribe(() => this.forceUpdate());
   }
 
   initizializeButtons() {
@@ -38,8 +37,12 @@ class LeftPanel extends React.Component {
   }
 
   showLists() {
+    const store = Store().getInstance()
+    store.dispatch({
+      type: "changeCurrentList",
+      currentList: null
+    })
     this.setState({
-      currentList: null,
       inList: false,
     });
   }
@@ -47,9 +50,7 @@ class LeftPanel extends React.Component {
   renderList() {
     const store = Store().getInstance();
     const currentList = store.getState().currentList;
-    console.log(currentList);
-    if (currentList !== null) {
-      this.props.onGetCurrentList(currentList);
+    if (currentList) {
       return currentList.entries.map((product) =>
         <ListProduct
           key={product.item.id}
@@ -69,7 +70,6 @@ class LeftPanel extends React.Component {
           key={list['name']}
           entries={list['entries']}
           name={list['name']}
-          onListClick={(list) => this.handleListClick(list)}
           list={list}
         />,
       );
@@ -83,6 +83,8 @@ class LeftPanel extends React.Component {
   renderListPanel() {
     const store = Store().getInstance();
     const currentList = store.getState().currentList;
+    console.log(store.getState())
+    console.log(currentList)
     if (currentList !== null) {
       return (
         <div className="lf-lists">

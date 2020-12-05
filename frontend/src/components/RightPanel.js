@@ -10,6 +10,7 @@ import Square from './Square';
 import {requestMap} from '../requests/MapRequest';
 import {requestCatalog} from '../requests/ProductRequest.js';
 import loadingGif from '../assets/images/loading.gif';
+import { Store } from '../utils/Store'
 
 // minimum width is 70
 const WIDTHS = {
@@ -43,14 +44,17 @@ class RightPanel extends React.Component {
     this.hideLoading();
     this.initializeMap();
     this.initializeCatalog();
+    const store = Store().getInstance()
+    store.subscribe(() => this.forceUpdate());
   }
 
 
   async initializeCatalog() {
     let catalog;
+    const store = Store().getInstance();
     try {
       catalog = await requestCatalog(0);
-      this.props.hideErrorPanel();
+      store.showError(false);
       this.setState({
         'initialCatalog': catalog,
         'catalog': catalog,
@@ -60,27 +64,28 @@ class RightPanel extends React.Component {
         this.catalogRef.current.updateCatalog(catalog);
       }
     } catch (e) {
-      this.props.showErrorPanel();
+      store.showError(true);
       this.initializeCatalog();
     }
   }
 
   async updateCatalog(page) {
     let catalog;
+    const store = Store().getInstance();
     try {
       this.showLoading();
       catalog = await requestCatalog(this.state.catalogPage);
       this.setState({
         'catalog': catalog,
         'catalogPage': page,
-      }, this.props.hideErrorPanel());
+      }, store.showError(false));
       if (this.catalogRef.current !== null) {
         this.catalogRef.current.updateCatalog(catalog);
       }
       this.hideLoading();
     } catch (e) {
       this.hideLoading();
-      this.props.showErrorPanel();
+      store.showError(true);
       this.updateCatalog(page);
     }
   }
@@ -97,12 +102,13 @@ class RightPanel extends React.Component {
 
   async initializeMap() {
     let map;
+    const store = Store().getInstance();
     try {
       map = await requestMap();
       this.drawMap(map);
-      this.props.hideErrorPanel();
+      store.showError(false);
     } catch (e) {
-      this.props.showErrorPanel();
+      store.showError(true);
       this.initializeMap();
     }
   }
@@ -164,7 +170,6 @@ class RightPanel extends React.Component {
       return <Cart
         showErrorPanel={this.props.showErrorPanel}
         hideErrorPanel={this.props.hideErrorPanel}
-        currentList={this.props.currentList}
       />;
     } else if (panel === 'catalog') {
       this.changePanelWidth(WIDTHS.CATALOG);
@@ -181,7 +186,6 @@ class RightPanel extends React.Component {
       this.changePanelWidth(WIDTHS.SEARCHER);
       return (
         <Searcher
-          results={this.state.results}
           completedSearch={this.state.completedSearch}
           goToLastState={this.props.goToLastState}
           onResultsBottomPage={() => this.searchMoreResults()}

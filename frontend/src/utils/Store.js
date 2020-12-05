@@ -1,41 +1,51 @@
 function createStore(reducer, initialState) {
     let state = initialState;
 
-    // Setup listners to keep track of when the state is changed
-    // to triger rerenders (observer pattern)
-    const listeners = [];
-
-    const subscribe = (listener) => (
-        listeners.push(listener)
-    );
+    const subscribe = (listener) => {
+        state.listeners.push(listener);
+    };
 
     const getState = () => (state);
 
     const dispatch = (action) => {
         state = reducer(state, action);
-        console.log(state)
         // call each listener function when the state is changed
         // its just a notification that state is changed
-        listeners.forEach(l => l());
+        state.listeners.forEach(l => l());
     };
+
+    const showError = (show) => {
+        dispatch({
+            type: "showError",
+            error: show
+        })
+    }
 
     return {
         subscribe,
         getState,
         dispatch,
+        showError
     };
 }
 
 function reducer(state, action) {
     if (action.type === 'changeCurrentList') {
-        return {
-            panel: action.currentList,
-        }
+        state["currentList"] = action.currentList;
+    } else if (action.type === 'changeResults') {
+        state["results"] = action.results;
+    } else if (action.type === 'showError') {
+        state["error"] = action.error;
     };
     return state;
 }
 
-const initialState = {currentList: [] };
+const initialState = {
+    results: [], 
+    currentList: null, 
+    listeners: [],
+    error: false, 
+};
 export function Store() {
     var instance;
 

@@ -10,16 +10,15 @@ import { Store } from '../utils/Store';
 class Cart extends React.Component {
   constructor(props) {
     super(props);
-    const store = Store().getInstance();
     this.state = {
       'cartContent': null,
-      'store': store,
-      'currentList': store.getState.currentList, 
     };
   }
 
   componentDidMount() {
     this.getProductsFromDataBase();
+    const store = Store().getInstance()
+    store.subscribe(() => this.forceUpdate());
   }
 
   roundUp(num, precision) {
@@ -28,16 +27,17 @@ class Cart extends React.Component {
   }
 
   async getProductsFromDataBase() {
+    const store = Store().getInstance();
     let data;
     try {
       data = await requestCartContentDataBase();
-      this.props.hideErrorPanel();
+      store.showError(false);
       this.setState({
         cartContent: data,
       });
     } catch (e) {
       this.getProductsFromDataBase();
-      this.props.showErrorPanel();
+      store.showError(true);
     }
   }
 
@@ -77,18 +77,18 @@ class Cart extends React.Component {
   }
 
   getCurrentListProducts() {
-    if (this.props.currentList == null) {
+    if (this.getCurrentList() == null) {
       return (0);
     } else {
-      return (this.props.currentList.entries.length);
+      return (this.getCurrentList().entries.length);
     }
   }
 
   getPlannedPrice() {
-    if (this.props.currentList == null) {
+    if (this.getCurrentList() == null) {
       return (0);
     } else {
-      return (this.props.currentList.totalPrice.toFixed(2));
+      return (this.getCurrentList().totalPrice.toFixed(2));
     }
   }
 
@@ -101,6 +101,11 @@ class Cart extends React.Component {
         />,
       );
     }
+  }
+
+  getCurrentList() {
+    const store = Store().getInstance();
+    return store.getState().currentList;
   }
 
   render() {
