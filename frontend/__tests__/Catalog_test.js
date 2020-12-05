@@ -1,18 +1,29 @@
 import React from 'react';
-import { mount, shallow, configure } from 'enzyme';
+import { mount, shallow, configure, render } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
 import Catalog from '../src/components/Catalog';
 
 configure({ adapter: new Adapter() });
 
-let data = {};
 
-test('item info panel opens', () => {
+test('item info panel opens', async () => {
+    let data = [
+        {
+            pictures: [],
+            name: "foo",
+            barcode: "234234",
+            priceWithVat: 1.4,
+            brands: ["xd"]
+        },
+    ];
     const wrapper = mount(
         <Catalog catalog={data} page={1}/>
     );
 
-    const productsPanel = wrapper.childAt(0).children();
-    console.log(productsPanel);
+    const productsPanel = wrapper.find(".products");
+    expect(wrapper.state().height).toEqual("100%");
+    await productsPanel.childAt(0).find("button").simulate("click");
+    expect(wrapper.state().height).toEqual("60%");
+    
 });

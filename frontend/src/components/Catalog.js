@@ -19,6 +19,7 @@ class Catalog extends React.Component {
     this.state = {
       products: [],
       selectedProduct: null,
+      height: HEIGHTS.CLOSED
     };
     this.showProductDetails = this.showProductDetails.bind(this);
     this.closeProductDetails = this.closeProductDetails.bind(this);
@@ -54,6 +55,7 @@ class Catalog extends React.Component {
       this.setState({
         products: this.state.products,
         selectedProduct: product,
+        height: HEIGHTS.OPENED
       });
       this.changePanelHeight(HEIGHTS.OPENED);
     }
@@ -63,6 +65,7 @@ class Catalog extends React.Component {
     this.setState({
       products: this.state.products,
       selectedProduct: null,
+      height: HEIGHTS.CLOSED 
     });
     this.changePanelHeight(HEIGHTS.CLOSED);
   }
