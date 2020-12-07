@@ -6,73 +6,127 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace PopulateDb
 {
     internal class Program
     {
-        private const string DEFAULT_INTERPRETER = "python";
-        private const string BASE_DIR = "scrapOpenFoodFacts/mercadona-scrapper";
+        private const string BASE_DIR = "data";
+        private const string PRODUCTS_DIR = "products";
+        private const string MAP_FILE = "map.json";
+        private const string USERS_FILE = "users.json";
 
-        private static async Task Main(string[] args)
+        private const int MAX_STOCK = 9000;
+        private const int MAX_TIMES_SOLD = 6070;
+
+        readonly static Random rng = new Random();
+
+        private static void Main(string[] args)
         {
-            var interpreter = args.ElementAtOrDefault(0) ?? DEFAULT_INTERPRETER;
-            var limit = args.ElementAtOrDefault(1) is null ? "" : args[1];
-            Console.WriteLine($"{interpreter} {limit}");
-
-            Console.WriteLine(">> Running scraping process...");
-            RunScript(interpreter, limit);
+            var path = Path.GetFullPath(args.ElementAtOrDefault(0) ?? BASE_DIR);
+            Console.WriteLine($"Data file directory: {path}\n");
 
             Console.WriteLine(">> Reading data...");
-            var data = await ReadData();
+            var products = ReadAllProductFiles(Path.Combine(path, PRODUCTS_DIR));
+            var users = ReadUsersFile(Path.Combine(path, USERS_FILE));
+            var map = ReadMapFile(Path.Combine(path, MAP_FILE));
+
+            Console.WriteLine(">> Populating with random values...");
+            FillWithRandomValues(products);
 
             Console.WriteLine(">> Seeding database...");
-            var insertedCount = SeedDatabase("Mercadona", "EUR", data);
+            var insertedCount = SeedDatabase("Mercadona", "EUR", products, users, map);
             Console.WriteLine($"-- Inserted {insertedCount} products.");
 
             Console.WriteLine(">> Done.");
         }
 
-        private static void RunScript(string interpreter, string limit)
+        private static ICollection<ProductJsonDto> ReadAllProductFiles(string path)
         {
-            using var process = new CommandLineProcess(interpreter, $"{Path.Combine(BASE_DIR, "__main__.py")} {limit}");
-            process.Start();
+            var products = new List<ProductJsonDto>();
 
-            Console.WriteLine($"-- (PID: {process.Id}) {process.ProcessName}");
-            process.OutputDataReceived += (_, args) => { Console.WriteLine(args.Data); };
-            process.ErrorDataReceived += (_, args) => { Console.Error.WriteLine(args.Data); };
+            var files = Directory.GetFiles(path, "*.json", SearchOption.AllDirectories);
+            foreach (var file in files)
+            {
+                ReadProductFile(file, products);
+            }
 
-            process.WaitForExit();
+            return products;
         }
 
-        private static async Task<IDictionary<string, ProductJsonDto>> ReadData()
+        private static void ReadProductFile(string path, ICollection<ProductJsonDto> products)
         {
-            var reader = new StreamReader("products.json");
-            var json = await reader.ReadToEndAsync();
-            return JsonConvert.DeserializeObject<Dictionary<string, ProductJsonDto>>(json);
+            using var stream = new StreamReader(path);
+            using var reader = new JsonTextReader(stream)
+            {
+                SupportMultipleContent = true
+            };
+
+            // done like this because we expect files to be large
+            var serializer = new JsonSerializer();
+            while (reader.Read())
+            {
+                if (reader.TokenType == JsonToken.StartObject)
+                {
+                    var product = serializer.Deserialize<ProductJsonDto>(reader);
+                    products.Add(product);
+                }
+            }
         }
 
-        private static uint SeedDatabase(string shopName, string currency, IDictionary<string, ProductJsonDto> data)
+        private static ICollection<UserJsonDto> ReadUsersFile(string path)
+        {
+            using var stream = new StreamReader(path);
+            return JsonConvert.DeserializeObject<List<UserJsonDto>>(stream.ReadToEnd());
+        }
+
+        private static int[][] ReadMapFile(string path)
+        {
+            using var stream = new StreamReader(path);
+            return JsonConvert.DeserializeObject<int[][]>(stream.ReadToEnd());
+        }
+
+        private static void FillWithRandomValues(ICollection<ProductJsonDto> products)
+        {
+            foreach (var product in products)
+            {
+                product.AvailableStock = (uint)rng.Next(0, MAX_STOCK);
+                product.TimesSold = (uint)rng.Next(0, MAX_TIMES_SOLD);
+            }
+        }
+
+        private static uint SeedDatabase(string shopName, string currency, ICollection<ProductJsonDto> products, ICollection<UserJsonDto> users, int[][] map)
         {
             uint count = 0;
 
             var optionsBuilder = new DbContextOptionsBuilder<ShopMateContext>()
-                .UseSqlServer("Server=playground.fukurokuju.dev;Database=ShopMateContext;User Id=dev;MultipleActiveResultSets=true;Integrated Security=false;Password=P7bEyU39zKhSXYVA");
+                .UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=ShopMateContext;Trusted_Connection=True;");
             using var db = new ShopMateContext(optionsBuilder.Options);
 
-            var store = new Store(shopName, currency);
+            var store = new Store(shopName, currency)
+            {
+                Map = map
+            };
             db.Set<Store>().Add(store);
 
-            var cart = new Cart();
+            var cart = new Cart
+            {
+                Active = true
+            };
             db.Set<Cart>().Add(cart);
             cart.Owner = store;
 
             var vat21 = new PriceModifier(PriceModifierCode.Vat, "", 0.21M, PriceModifierKind.Multiplicative);
 
-            foreach (var entry in data)
+            foreach (var userDto in users)
             {
-                if (InsertProduct(db, store, vat21, entry))
+                var user = new User(userDto.Name, userDto.Email, userDto.Phone, userDto.Password);
+                db.Set<User>().Add(user);
+            }
+
+            foreach (var product in products)
+            {
+                if (InsertProduct(db, store, vat21, product))
                 {
                     count++;
                 }
@@ -83,58 +137,46 @@ namespace PopulateDb
             return count;
         }
 
-        private static bool InsertProduct(ShopMateContext db, Store vendor, PriceModifier modifier, KeyValuePair<string, ProductJsonDto> entry)
+        private static bool InsertProduct(ShopMateContext db, Store vendor, PriceModifier modifier, ProductJsonDto entry)
         {
-            if (!Gtin14.TryFromStandardBarcode(entry.Key, out var barcode))
+            Gtin14? barcode = null;
+            if (!(entry.Barcode is null) && !Gtin14.TryFromStandardBarcode(entry.Barcode, out barcode))
             {
-                Console.WriteLine($"-- Skipping product with invalid barcode: {entry.Key}");
+                Console.WriteLine($"-- Skipping product with invalid barcode: {entry.ProductId} {entry.Name}");
                 return false;
             }
 
-            var dto = entry.Value;
-
-            if (!(db.Set<Product>().Find(barcode) is null))
+            if (!(db.Set<Product>().Find(entry.ProductId) is null))
             {
-                Console.WriteLine($"-- Not modifying product already present: {entry.Key}");
+                Console.WriteLine($"-- Not modifying product already present: {entry.ProductId} {entry.Name}");
                 return false;
             }
+
+            var category = MakeCategory(db.Categories, entry.Category, entry.SuperCategory);
 
             var product = new Product(
-                barcode.Value,
-                dto.Name.LimitLength(120),
-                dto.Weight,
-                dto.Volume,
-                dto.Units,
-                dto.OriginCountry?.LimitLength(2),
-                dto.Edible,
-                dto.Price,
-                dto.Pictures,
-                dto.AvailableStock,
-                dto.TimesSold);
+                barcode,
+                entry.Name.LimitLength(120),
+                entry.Weight,
+                entry.Volume,
+                entry.OriginCountry?.LimitLength(2),
+                entry.Price,
+                entry.Images,
+                entry.AvailableStock,
+                (uint)entry.TimesSold!)
+            {
+                Id = entry.ProductId,
+            };
+            product.Categories.Add(category);
 
             product.Vendors.Add(vendor);
 
-            if (dto.Brands != null)
+            if (entry.Brands != null)
             {
-                foreach (var name in dto.Brands)
+                foreach (var name in entry.Brands)
                 {
-                    product.Brands.Add(new Brand(name.LimitLength(50), new List<string>(), null));
-                }
-            }
-
-            if (dto.Categories != null)
-            {
-                foreach (var name in dto.Categories)
-                {
-                    product.Categories.Add(new Category(name.LimitLength(50)));
-                }
-            }
-
-            if (dto.Labels != null)
-            {
-                foreach (var name in dto.Labels)
-                {
-                    product.Labels.Add(new Label(name.LimitLength(50)));
+                    var brand = db.Brands.MatchingOrNew(new Brand(name.LimitLength(50), new List<string>(), null));
+                    product.Brands.Add(brand);
                 }
             }
 
@@ -144,18 +186,17 @@ namespace PopulateDb
             db.Set<Product>().Add(product);
             return true;
         }
-    }
 
-    public static class StringExtensions
-    {
-        public static string LimitLength(this string source, int maxLength)
+        private static Category MakeCategory(DbSet<Category> categories, string categoryName, string? superCategoryName)
         {
-            if (source.Length <= maxLength)
+            var category = categories.MatchingOrNew(new Category(categoryName));
+
+            if (!(superCategoryName is null) && category.Superior is null)
             {
-                return source;
+                category.Superior = categories.MatchingOrNew(new Category(superCategoryName));
             }
 
-            return source.Substring(0, maxLength);
+            return category;
         }
     }
 }
