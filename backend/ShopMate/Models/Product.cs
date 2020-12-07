@@ -31,20 +31,10 @@ namespace ShopMate.Models
         public double? Volume { get; internal set; }
 
         /// <summary>
-        /// The number of subunits a buyable entity of this product contains. Does not affect weight or volume calculations.
-        /// </summary>
-        public ushort? Units { get; internal set; }
-
-        /// <summary>
         /// The ISO 3166-1 Alpha-2 country code (e.g. "ES") of the country where this product was manufactured or grown.
         /// </summary>
         [Column(TypeName = "char(2)")]
         public string? OriginCountry { get; internal set; }
-
-        /// <summary>
-        /// Whether if this product is food.
-        /// </summary>
-        public bool Edible { get; internal set; }
 
         /// <summary>
         /// The retail price of each buyable entity of this product in the current store's currency.
@@ -76,11 +66,6 @@ namespace ShopMate.Models
         /// A set of descriptive tags used to enhance the product search and recommendation features.
         /// </summary>
         public ICollection<Category> Categories { get; internal set; } = new HashSet<Category>();
-
-        /// <summary>
-        /// A set of awards, seals, certifications and regulatory labels that apply to this product (e.g. "Gluten Free").
-        /// </summary>
-        public ICollection<Label> Labels { get; internal set; } = new HashSet<Label>();
 
         /// <summary>
         /// The fixed modifiers that apply to the price of this product.
@@ -115,15 +100,13 @@ namespace ShopMate.Models
         /// </remarks>
         public decimal PriceWithVat => PriceModifiers.Where(m => m.Code == PriceModifierCode.Vat).Aggregate(Price, (price, modifier) => modifier.Apply(price));
 
-        public Product(Gtin14? barcode, string name, double? weight, double? volume, ushort? units, string? originCountry, bool edible, decimal price, ICollection<string> pictures, uint? availableStock, uint timesSold)
+        public Product(Gtin14? barcode, string name, double? weight, double? volume, string? originCountry, decimal price, ICollection<string> pictures, uint? availableStock, uint timesSold)
         {
             Barcode = barcode;
             Name = name;
             Weight = weight;
             Volume = volume;
-            Units = units;
             OriginCountry = originCountry;
-            Edible = edible;
             Price = price;
             Pictures = pictures;
             AvailableStock = availableStock;
