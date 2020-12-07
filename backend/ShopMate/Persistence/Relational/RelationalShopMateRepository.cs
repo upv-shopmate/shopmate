@@ -16,7 +16,6 @@ namespace ShopMate.Persistence.Relational
             Products = new RelationalProductRepository(context.Products);
             Brands = new RelationalBrandRepository(context.Brands);
             Categories = new RelationalCategoryRepository(context.Categories);
-            Labels = new RelationalLabelRepository(context.Labels);
             Stores = new RelationalStoreRepository(context.Stores);
             ShoppingLists = new RelationalShoppingListRepository(context.ShoppingLists);
             Carts = new RelationalCartRepository(context.Carts);
@@ -29,8 +28,6 @@ namespace ShopMate.Persistence.Relational
         public IBrandRepository Brands { get; }
 
         public ICategoryRepository Categories { get; }
-
-        public ILabelRepository Labels { get; }
 
         public IStoreRepository Stores { get; }
 
@@ -99,16 +96,6 @@ namespace ShopMate.Persistence.Relational
         { }
 
         public override IQueryable<Category> GetAll()
-            => Set
-                .Include(c => c.Products);
-    }
-
-    internal class RelationalLabelRepository : RelationalRepository<Label>, ILabelRepository
-    {
-        public RelationalLabelRepository(DbSet<Label> set) : base(set)
-        { }
-
-        public override IQueryable<Label> GetAll()
             => Set
                 .Include(c => c.Products);
     }

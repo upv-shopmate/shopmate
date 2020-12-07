@@ -34,8 +34,6 @@ namespace ShopMate.Dto
 
         public ICollection<CategoryReadDto> Categories { get; internal set; }
 
-        public ICollection<LabelReadDto> Labels { get; internal set; }
-
         public ICollection<PriceModifierReadDto> PriceModifiers { get; internal set; }
 
         // TODO

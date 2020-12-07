@@ -10,6 +10,8 @@ namespace ShopMate.Models
 {
     public class Product : IEquatable<Product>
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [Key]
         public int Id { get; internal set; }
 
         /// <summary>
