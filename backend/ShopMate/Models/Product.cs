@@ -115,7 +115,7 @@ namespace ShopMate.Models
         /// </remarks>
         public decimal PriceWithVat => PriceModifiers.Where(m => m.Code == PriceModifierCode.Vat).Aggregate(Price, (price, modifier) => modifier.Apply(price));
 
-        public Product(Gtin14 barcode, string name, double? weight, double? volume, ushort? units, string? originCountry, bool edible, decimal price, ICollection<string> pictures, uint? availableStock, uint timesSold)
+        public Product(Gtin14? barcode, string name, double? weight, double? volume, ushort? units, string? originCountry, bool edible, decimal price, ICollection<string> pictures, uint? availableStock, uint timesSold)
         {
             Barcode = barcode;
             Name = name;
