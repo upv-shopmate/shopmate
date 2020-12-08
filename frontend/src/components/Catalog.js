@@ -103,6 +103,7 @@ class Catalog extends React.Component {
         </div>
         <div className="product-details">
           <ProductDetails
+            zoomImage={this.props.zoomImage}
             closePanel={this.closeProductDetails}
             product={this.state.selectedProduct}
           />

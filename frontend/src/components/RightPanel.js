@@ -175,11 +175,12 @@ class RightPanel extends React.Component {
       />;
     } else if (panel === 'catalog') {
       this.changePanelWidth(WIDTHS.CATALOG);
-      return <CategorieSelectionPanel
+      return <Catalog
         catalog={this.state.catalog}
         ref={this.catalogRef}
         onGoToPage={(page) => this.updateCatalog(page)}
         page={this.state.catalogPage}
+        zoomImage={this.props.zoomImage}
       />;
     } else if (panel === 'map') {
       this.changePanelWidth(WIDTHS.MAP);

@@ -15,6 +15,7 @@ class ProductDetails extends Component {
     this.closeDetailsPanel = this.closeDetailsPanel.bind(this);
     this.goToLeftImage = this.goToLeftImage.bind(this);
     this.goToRightImage = this.goToRightImage.bind(this);
+    this.zoomImage = this.zoomImage.bind(this);
     this.state = {
       imagePage: 1,
     }
@@ -115,6 +116,10 @@ class ProductDetails extends Component {
     } else {
       return t('no');
     }
+  }
+
+  zoomImage() {
+    this.props.zoomImage(this.props.product.pictures[this.state.imagePage - 1]);
   }
 
   getMoreInfo() {

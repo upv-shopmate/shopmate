@@ -9,7 +9,7 @@ import Login from './Login';
 import { userInfoRequest, userListsRequest } from '../requests/UserRequests.js';
 import { requestCartContentDataBase } from '../requests/CartContents';
 import UserDetails from './UserDetails';
-import ErrorPanel from './ErrorPanel';
+import ZoomedImage from './ZoomedImage'
 import { Store } from '../utils/Store'
 
 export const dataBaseURL = 'https://localhost:5001';
@@ -32,6 +32,7 @@ class App extends React.Component {
       'buttonEnabled': false,
       'currentList': null,
       'cartContent': undefined,
+      'zoomedImage': undefined,
     };
     this.changeProductResults = this.changeProductResults.bind(this);
     this.goToLastState = this.goToLastState.bind(this);
@@ -254,6 +255,7 @@ class App extends React.Component {
     if (this.state.panels === 'login') {
       return (
         <React.Fragment>
+          {}
           <div className="panels">
             <Login
               loginUser={this.getUserInfo.bind(this)}
@@ -265,6 +267,7 @@ class App extends React.Component {
     } else if (this.state.panels === 'default') {
       return (
         <React.Fragment>
+          {this.renderZoomedImage()}
           <div className="panels">
             <LeftPanel
               openLogin={this.openLoginPanel.bind(this)}
@@ -282,6 +285,7 @@ class App extends React.Component {
               moreResults={this.changeProductResults}
               cartContent={this.state.cartContent}
               ref={this.rightPanelRef}
+              zoomImage={this.showZoomedImage.bind(this)}
             />
           </div>
           <Nav
@@ -303,6 +307,34 @@ class App extends React.Component {
           </div>
         </React.Fragment>
       );
+    }
+  }
+
+  showZoomedImage(url) {
+    console.log("holi");
+    this.setState({
+      'zoomedImage': url,
+    })
+  }
+
+  hideZoomedImage() {
+    this.setState({
+      'zoomedImage': undefined,
+    })
+  }
+
+  renderZoomedImage() {
+    let image = this.state.zoomedImage;
+    if (image != undefined) {
+      return (
+        <React.Fragment>
+          <ZoomedImage
+            image={image}
+            unZoomImage={this.hideZoomedImage.bind(this)} />
+        </React.Fragment >
+      );
+    } else {
+      return null;
     }
   }
 
