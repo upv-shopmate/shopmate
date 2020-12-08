@@ -21,6 +21,9 @@ namespace PopulateDb
 
         readonly static Random rng = new Random();
 
+        readonly static ISet<Category> categoriesCache = new HashSet<Category>();
+        readonly static ISet<Brand> brandsCache = new HashSet<Brand>();
+
         private static void Main(string[] args)
         {
             var path = Path.GetFullPath(args.ElementAtOrDefault(0) ?? BASE_DIR);
@@ -153,6 +156,11 @@ namespace PopulateDb
             }
 
             var category = MakeCategory(db.Categories, entry.Category, entry.SuperCategory);
+            categoriesCache.Add(category);
+            if (!(category.Superior is null))
+            {
+                categoriesCache.Add(category.Superior);
+            }
 
             var product = new Product(
                 barcode,
@@ -175,7 +183,7 @@ namespace PopulateDb
             {
                 foreach (var name in entry.Brands)
                 {
-                    var brand = db.Brands.MatchingOrNew(new Brand(name.LimitLength(50), new List<string>(), null));
+                    var brand = db.Brands.MatchingOrNew(brandsCache, new Brand(name.LimitLength(50), new List<string>(), null));
                     product.Brands.Add(brand);
                 }
             }
@@ -189,11 +197,11 @@ namespace PopulateDb
 
         private static Category MakeCategory(DbSet<Category> categories, string categoryName, string? superCategoryName)
         {
-            var category = categories.MatchingOrNew(new Category(categoryName));
+            var category = categories.MatchingOrNew(categoriesCache, new Category(categoryName));
 
             if (!(superCategoryName is null) && category.Superior is null)
             {
-                category.Superior = categories.MatchingOrNew(new Category(superCategoryName));
+                category.Superior = categories.MatchingOrNew(categoriesCache, new Category(superCategoryName));
             }
 
             return category;
