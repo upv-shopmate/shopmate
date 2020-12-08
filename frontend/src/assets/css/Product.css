@@ -1,11 +1,12 @@
 .product {
-  width: 195px;
+  width: 200px;
   height: 85px;
   border-radius: 4px;
   border: solid 1px rgba(41, 40, 44, 0.479);
   margin-top: 12px;
   background-color: white;
   box-shadow: 0px 0px 2px 2px rgba(0.15, 0.15, 0.15, 0.15);
+  overflow: hidden;
 }
 
 .product-view {
@@ -32,12 +33,9 @@
 }
 
 .product-image {
-  border: 1.8px solid;
-  border-color: black;
   border-radius: 5%;
   width: auto;
-  max-width: 60px;
-  height: 90%;
+  height: 70px;
 }
 
 .product-name {
@@ -45,7 +43,6 @@
   font-weight: bold;
   max-width: 150px;
   min-width: 120px;
-  margin-right: 3px;
   overflow: hidden;
   margin-bottom: 3px;
 }

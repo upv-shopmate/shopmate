@@ -72,7 +72,7 @@ class ProductDetails extends Component {
   getProductVolume() {
     const aux = this.props.product.volume;
     if (aux !== null) {
-      return aux;
+      return aux + "mL";
     } else {
       return 'N/A';
     }

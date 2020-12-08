@@ -20,7 +20,8 @@
   margin-left: 5%;
   background-color: white;
   padding-top: 5px;
-  margin-top: -5px
+  overflow: hidden;
+  margin-top: -30px
 }
 
 .pd-image-nav-bar{
@@ -37,10 +38,13 @@
 
 .details-image {
   width: auto;
-  max-width: 180px;
   align-self: center;
   height: 100%;
-  overflow: hidden;
+  max-height: 143px;
+}
+
+.details-image:hover{
+  cursor: zoom-in;
 }
 
 .details-text-line {
