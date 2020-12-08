@@ -157,9 +157,9 @@ namespace PopulateDb
 
             var category = MakeCategory(db.Categories, entry.Category, entry.SuperCategory);
             categoriesCache.Add(category);
-            if (!(category.Superior is null))
+            if (!(category.Parent is null))
             {
-                categoriesCache.Add(category.Superior);
+                categoriesCache.Add(category.Parent);
             }
 
             var product = new Product(
@@ -199,9 +199,9 @@ namespace PopulateDb
         {
             var category = categories.MatchingOrNew(categoriesCache, new Category(categoryName));
 
-            if (!(superCategoryName is null) && category.Superior is null)
+            if (!(superCategoryName is null) && category.Parent is null)
             {
-                category.Superior = categories.MatchingOrNew(categoriesCache, new Category(superCategoryName));
+                category.Parent = categories.MatchingOrNew(categoriesCache, new Category(superCategoryName));
             }
 
             return category;

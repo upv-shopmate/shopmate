@@ -16,7 +16,8 @@ namespace ShopMate.Models
         [MaxLength(50)]
         public string Name { get; internal set; }
 
-        public Category? Superior { get; internal set; }
+        public Category? Parent { get; internal set; }
+        public ICollection<Category> Children { get; internal set; }
 
         /// <summary>
         /// The products tagged with this category.

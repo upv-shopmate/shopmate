@@ -38,6 +38,10 @@ namespace ShopMate.Persistence.Relational
                     v => v.HasValue ? v.Value.Value : null,
                     v => v != null ? (Gtin14?)new Gtin14(v) : null);
 
+            modelBuilder.Entity<Category>()
+                .HasMany(c => c.Children)
+                .WithOne(c => c.Parent!);
+
             SetupPrimitiveCollectionTypes(modelBuilder);
         }
 
