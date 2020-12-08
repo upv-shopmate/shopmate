@@ -2,18 +2,14 @@
 import '../assets/css/SearchResult.css';
 import tagIcon from '../assets/images/tag_icon.png';
 import imageNotFound from '../assets/images/image_not_found.jpg';
-import React, {Component} from 'react';
-import {capitalize} from '../utils/Utils';
-import {withTranslation} from 'react-i18next';
+import React, { Component } from 'react';
+import { capitalize } from '../utils/Utils';
+import { withTranslation } from 'react-i18next';
+import { roundUp } from '../utils/Utils';
 
 class SearchResult extends Component {
   constructor(props) {
     super(props);
-  }
-
-  roundUp(num, precision) {
-    precision = Math.pow(10, precision);
-    return (Math.ceil(num * precision) / precision).toFixed(2);
   }
 
   getProductName() {
@@ -39,7 +35,7 @@ class SearchResult extends Component {
   }
 
   getProductPrice() {
-    return this.roundUp(this.props.productData.priceWithVat, 2) + '€';
+    return roundUp(this.props.productData.priceWithVat, 2) + '€';
   }
 
   getProductWeightOrVolume() {
@@ -56,7 +52,7 @@ class SearchResult extends Component {
   }
 
   getProductCategories() {
-    const {t} = this.props;
+    const { t } = this.props;
     let categories = this.props.productData.categories;
     if (categories.length > 0) {
       categories = categories.map((category) => category.name + ', ');
@@ -69,7 +65,7 @@ class SearchResult extends Component {
   }
 
   render() {
-    const {t} = this.props;
+    const { t } = this.props;
     return (
       <div className="result">
         <img className="result-image" src={this.getProductImage()}></img>

@@ -3,77 +3,71 @@
 import '../assets/css/Cart.css';
 import React from 'react';
 import CartProduct from './CartProduct';
-import {requestCartContentDataBase} from '../requests/CartContents';
-import {withTranslation} from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import { Store } from '../utils/Store';
+import { roundUp } from '../utils/Utils';
 
 class Cart extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      'cartContent': null,
-    };
   }
 
   componentDidMount() {
-    this.getProductsFromDataBase();
     const store = Store().getInstance()
     store.subscribe(() => this.forceUpdate());
   }
 
-  roundUp(num, precision) {
-    precision = Math.pow(10, precision);
-    return (Math.ceil(num * precision) / precision).toFixed(2);
-  }
-
-  async getProductsFromDataBase() {
-    const store = Store().getInstance();
-    let data;
-    try {
-      data = await requestCartContentDataBase();
-      store.showError(false);
-      this.setState({
-        cartContent: data,
-      });
-    } catch (e) {
-      this.getProductsFromDataBase();
-      store.showError(true);
+  getProductSubtotal() {
+    const cartContent = this.props.cartContent;
+    if (cartContent !== undefined) {
+      return roundUp(cartContent.subtotalPrice, 2);
+    } else {
+      return 0;
     }
   }
 
-  getProductSubtotal() {
-    const cartContent = this.state.cartContent;
-    return (cartContent ?
-      this.roundUp(cartContent.subtotalPrice, 2) : 0);
-  }
-
   getProductTotalPrice() {
-    const cartContent = this.state.cartContent;
-    return (cartContent ?
-      this.roundUp(cartContent.totalPrice, 2) : 0);
+    const cartContent = this.props.cartContent;
+    if (cartContent !== undefined) {
+      return (roundUp(cartContent.totalPrice, 2));
+    } else {
+      return 0;
+    }
   }
 
   getProductPriceBase() {
-    const cartContent = this.state.cartContent;
-    return ' Base: ' + (cartContent ?
-      this.roundUp(cartContent.modifierBreakdowns[0].applicableBase, 2) : 0);
+    const cartContent = this.props.cartContent;
+    if (cartContent !== undefined) {
+      return ' Base: ' + roundUp(cartContent.modifierBreakdowns[0].applicableBase, 2);
+    } else {
+      return ' Base: 0'
+    }
   }
 
   getProductIVA(t) {
-    const cartContent = this.state.cartContent;
-    return t('iva') + (cartContent ?
-      cartContent.modifierBreakdowns[0].modifier.value * 100 : 0);
+    const cartContent = this.props.cartContent;
+    if (cartContent !== undefined) {
+      return t('iva') + cartContent.modifierBreakdowns[0].modifier.value * 100;
+    } else {
+      return t('iva') + 0;
+    }
   }
 
   getProductPriceImport(t) {
-    const cartContent = this.state.cartContent;
-    return t('ammount') + (cartContent ?
-      this.roundUp(cartContent.modifierBreakdowns[0].totalDelta, 2) : 0);
+    const cartContent = this.props.cartContent;
+    if (cartContent !== undefined) {
+      return t('ammount') + roundUp(cartContent.modifierBreakdowns[0].totalDelta, 2)
+    } else {
+      return t('ammount') + 0;
+    }
   }
 
   getProductsListNumber() {
-    return this.state.cartContent ?
-      this.state.cartContent.entries.length : 0;
+    if (this.props.cartContent !== undefined) {
+      return this.props.cartContent.entries.length;
+    } else {
+      return 0;
+    }
   }
 
   getCurrentListProducts() {
@@ -93,8 +87,8 @@ class Cart extends React.Component {
   }
 
   renderContents() {
-    if (this.state.cartContent) {
-      return this.state.cartContent.entries.map((entry) =>
+    if (this.props.cartContent !== undefined) {
+      return this.props.cartContent.entries.map((entry) =>
         <CartProduct
           key={entry.item.barcode}
           entry={entry}
@@ -109,7 +103,7 @@ class Cart extends React.Component {
   }
 
   render() {
-    const {t} = this.props;
+    const { t } = this.props;
     return (
       <div className="product-list">
         <div className="cart-title">
@@ -130,10 +124,10 @@ class Cart extends React.Component {
           </div>
           <div className="cart-info">
             <div className="cart-articles">
-              {t('articlesCart', {count: this.getProductsListNumber()})}
+              {t('articlesCart', { count: this.getProductsListNumber() })}
             </div>
             <div className="planned-articles">
-              {t('plannedArticles', {articles: this.getCurrentListProducts()})}
+              {t('plannedArticles', { articles: this.getCurrentListProducts() })}
             </div>
             <div className="coupons">{t('appliedCoupons')}</div>
           </div>

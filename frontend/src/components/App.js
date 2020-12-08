@@ -4,12 +4,13 @@ import TopBar from './TopBar';
 import LeftPanel from './LeftPanel';
 import RightPanel from './RightPanel';
 import Nav from './Nav';
-import {requestSearchDataBase} from '../requests/SearchRequests.js';
+import { requestSearchDataBase } from '../requests/SearchRequests.js';
 import Login from './Login';
-import {userInfoRequest, userListsRequest} from '../requests/UserRequests.js';
+import { userInfoRequest, userListsRequest } from '../requests/UserRequests.js';
+import { requestCartContentDataBase } from '../requests/CartContents';
 import UserDetails from './UserDetails';
 import ErrorPanel from './ErrorPanel';
-import {Store} from '../utils/Store'
+import { Store } from '../utils/Store'
 
 export const dataBaseURL = 'https://localhost:5001';
 
@@ -30,6 +31,7 @@ class App extends React.Component {
       'connectionError': false,
       'buttonEnabled': false,
       'currentList': null,
+      'cartContent': undefined,
     };
     this.changeProductResults = this.changeProductResults.bind(this);
     this.goToLastState = this.goToLastState.bind(this);
@@ -46,7 +48,7 @@ class App extends React.Component {
       response = await userInfoRequest(accessToken);
       this.hideErrorPanel();
       if (response.status == 200) {
-        this.setState({user: response.data});
+        this.setState({ user: response.data });
         this.logInUser(response.data);
         this.getUserLists();
       }
@@ -59,6 +61,22 @@ class App extends React.Component {
   componentDidMount() {
     const store = Store().getInstance();
     store.subscribe(() => this.forceUpdate());
+    this.initializeCart();
+  }
+
+  async initializeCart() {
+    let data;
+    try {
+      data = await requestCartContentDataBase();
+      this.hideErrorPanel();
+      this.setState({
+        cartContent: data,
+      });
+    } catch (e) {
+      console.log(e);
+      this.showErrorPanel();
+      this.initializeCart();
+    }
   }
 
   async getUserLists() {
@@ -66,7 +84,7 @@ class App extends React.Component {
     try {
       response = await userListsRequest(this.state.accessToken);
       this.hideErrorPanel();
-      if (response.status == 200) this.setState({lists: response.data});
+      if (response.status == 200) this.setState({ lists: response.data });
     } catch (e) {
       this.showErrorPanel();
       this.getUserLists(this.state.accessToken);
@@ -149,16 +167,22 @@ class App extends React.Component {
   }
 
   enableListsButton() {
-    const button = document.querySelector('.lf-list-button');
-    button.style.opacity = 1;
-    this.setState({
-      'buttonEnabled': true,
-    });
+    let button = document.querySelector('.lf-list-button');
+    if (button != null) {
+      button.style.opacity = 1;
+      button = document.querySelector('.lf-tag-button');
+      button.style.opacity = 1;
+      this.setState({
+        'buttonEnabled': true,
+      });
+    }
   }
 
   disableListsButton() {
-    const button = document.querySelector('.lf-list-button');
+    let button = document.querySelector('.lf-list-button');
     if (button != null) {
+      button.style.opacity = 0.4;
+      button = document.querySelector('.lf-tag-button');
       button.style.opacity = 0.4;
       this.setState({
         'buttonEnabled': false,
@@ -256,6 +280,7 @@ class App extends React.Component {
               goToLastState={this.goToLastState}
               results={this.state.results}
               moreResults={this.changeProductResults}
+              cartContent={this.state.cartContent}
               ref={this.rightPanelRef}
             />
           </div>

@@ -55,6 +55,7 @@
 
 .lf-tag-button{
     background-color: white;
+    opacity: 0.4;
     height: 40px;
     width: 130px;
     border: 0px;

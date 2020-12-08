@@ -3,6 +3,7 @@ import '../assets/css/Product.css';
 import imageNotFound from '../assets/images/image_not_found.jpg';
 import React, { Component } from 'react';
 import { capitalize } from '../utils/Utils';
+import { roundUp } from '../utils/Utils';
 
 class Product extends Component {
   constructor(props) {
@@ -11,11 +12,6 @@ class Product extends Component {
       product: this.props.productData,
     };
     this.setProduct = this.setProduct.bind(this);
-  }
-
-  roundUp(num, precision) {
-    precision = Math.pow(10, precision);
-    return (Math.ceil(num * precision) / precision).toFixed(2);
   }
 
   setProduct() {
@@ -36,7 +32,7 @@ class Product extends Component {
   }
 
   getPrice() {
-    return this.roundUp(this.state.product.priceWithVat, 2);
+    return roundUp(this.state.product.priceWithVat, 2);
   }
 
   getImage() {

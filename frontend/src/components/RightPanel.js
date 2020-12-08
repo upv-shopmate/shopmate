@@ -7,10 +7,11 @@ import Cart from './Cart';
 import Map from './Map';
 import Searcher from './SearchPanel';
 import Square from './Square';
-import {requestMap} from '../requests/MapRequest';
-import {requestCatalog} from '../requests/ProductRequest.js';
+import { requestMap } from '../requests/MapRequest';
+import { requestCatalog } from '../requests/ProductRequest.js';
 import loadingGif from '../assets/images/loading.gif';
 import { Store } from '../utils/Store'
+import CategorieSelectionPanel from './CategorieSelectionPanel'
 
 // minimum width is 70
 const WIDTHS = {
@@ -168,12 +169,13 @@ class RightPanel extends React.Component {
     if (panel === 'cart') {
       this.changePanelWidth(WIDTHS.CART);
       return <Cart
+        cartContent={this.props.cartContent}
         showErrorPanel={this.props.showErrorPanel}
         hideErrorPanel={this.props.hideErrorPanel}
       />;
     } else if (panel === 'catalog') {
       this.changePanelWidth(WIDTHS.CATALOG);
-      return <Catalog
+      return <CategorieSelectionPanel
         catalog={this.state.catalog}
         ref={this.catalogRef}
         onGoToPage={(page) => this.updateCatalog(page)}
