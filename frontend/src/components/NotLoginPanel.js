@@ -20,12 +20,12 @@ class NotLoginPanel extends React.Component {
       <div>
         <div className="not-logged-user-block">
           <img className="account-image" src={accountImage}></img>
-          <div className="question"> {t('alreadyHasAccount')} </div>
-          <div className="login-text">{t('loginText')}</div>
+          <div className="question"> {t('notLoginPanel.alreadyHasAccount')} </div>
+          <div className="login-text">{t('notLoginPanel.loginText')}</div>
           <button
             className="left-panel-login-button"
             onClick={this.openLoginPanel.bind(this)}
-          >{t('login')}</button>
+          >{t('notLoginPanel.login')}</button>
         </div>
       </div>
     );

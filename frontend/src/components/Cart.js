@@ -57,13 +57,13 @@ class Cart extends React.Component {
 
   getProductIVA(t) {
     const cartContent = this.state.cartContent;
-    return t('iva') + (cartContent ?
+    return t('cart.iva') + (cartContent ?
       cartContent.modifierBreakdowns[0].modifier.value * 100 : 0);
   }
 
   getProductPriceImport(t) {
     const cartContent = this.state.cartContent;
-    return t('ammount') + (cartContent ?
+    return t('cart.ammount') + (cartContent ?
       this.roundUp(cartContent.modifierBreakdowns[0].totalDelta, 2) : 0);
   }
 
@@ -104,7 +104,7 @@ class Cart extends React.Component {
     return (
       <div className="product-list">
         <div className="cart-title">
-          {t('insideCart')} ({this.getProductsListNumber()})
+          {t('cart.insideCart')} ({this.getProductsListNumber()})
         </div>
         <div className="cart-products">{this.renderContents()}
         </div>
@@ -121,18 +121,18 @@ class Cart extends React.Component {
           </div>
           <div className="cart-info">
             <div className="cart-articles">
-              {t('articlesCart', {count: this.getProductsListNumber()})}
+              {t('cart.articlesCart', {count: this.getProductsListNumber()})}
             </div>
             <div className="planned-articles">
-              {t('plannedArticles', {articles: this.getCurrentListProducts()})}
+              {t('cart.plannedArticles', {articles: this.getCurrentListProducts()})}
             </div>
-            <div className="coupons">{t('appliedCoupons')}</div>
+            <div className="coupons">{t('cart.appliedCoupons')}</div>
           </div>
           <div className="final-price">
             <div className="total">Total</div>
             <div className="price">{this.getProductTotalPrice()} € </div>
             <div className="planned-price">
-              {t('estimated')} {this.getPlannedPrice()} €
+              {t('cart.estimated')} {this.getPlannedPrice()} €
             </div>
           </div>
         </div>

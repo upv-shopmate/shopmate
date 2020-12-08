@@ -60,7 +60,7 @@ class Login extends React.Component {
       this.closeLoginPanel();
       this.props.hideErrorPanel();
     } else if (response.status == 401) {
-      this.changePasswordError(t('incorrectEmailPass'));
+      this.changePasswordError(t('login.incorrectEmailPass'));
       this.props.hideErrorPanel();
     } else if (response.status === 'ConnectionError') {
       this.props.showErrorPanel();
@@ -75,7 +75,7 @@ class Login extends React.Component {
         <div className="login-block shadow-box-users">
           <div className="login-title">
             <span className="init-title">
-              {t('logingIn')}
+              {t('login.logingIn')}
             </span>
             <span className="brand-text">Shopmate</span>
           </div>
@@ -86,7 +86,7 @@ class Login extends React.Component {
                 src={accountImage}></img>
               <Input
                 type="text"
-                placeholder= {t('email')}
+                placeholder= {t('login.email')}
                 onChangeParent={this.updateAccountText}
               />
             </div>
@@ -96,7 +96,7 @@ class Login extends React.Component {
                 src={passwordImage}></img>
               <Input
                 type="password"
-                placeholder= {t('password')}
+                placeholder= {t('login.password')}
                 onChangeParent={this.updatePasswordText}
               />
             </div>
@@ -107,25 +107,25 @@ class Login extends React.Component {
               <img
                 className="info-icon"
                 src={infoImage}/>
-              <div className="info-text">{t('loginInfoText')}</div>
+              <div className="info-text">{t('login.loginInfoText')}</div>
             </div>
             <button
               className="accept-login-button shadow-box-users "
               onClick={this.login}>
-              <div className="login-button-text">{t('login')}</div>
+              <div className="login-button-text">{t('login.login')}</div>
               <img className="login-button-image" src={rightArrow}></img>
             </button>
           </div>
         </div>
-        <div className="problem-question">{t('loginQuestion')}</div>
-        <div className="solution">{t('loginSolution')}</div>
+        <div className="problem-question">{t('login.loginQuestion')}</div>
+        <div className="solution">{t('login.loginSolution')}</div>
         <div className="login-return-button-wrapper">
           <button
             className="login-return-button shadow-box-users "
             onClick={this.closeLoginPanel}
           >
             <img className="login-return-button-image" src={leftArrow}></img>
-            <div className="login-return-button-text">{t('return')}</div>
+            <div className="login-return-button-text">{t('login.return')}</div>
           </button>
         </div>
       </div>

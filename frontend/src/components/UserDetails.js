@@ -40,7 +40,7 @@ class UserDetails extends React.Component {
     const {t} = this.props;
     return (
       <div className="user-details-panel">
-        <div className="user-details-title">{t('userDetailsTitle')}</div>
+        <div className="user-details-title">{t('userDetails.userDetailsTitle')}</div>
         <div className="user-details">
           <div className="icon-user">{this.getFirstLetter()}</div>
           <div className="right-block">
@@ -53,7 +53,7 @@ class UserDetails extends React.Component {
               className="logout-button shadow"
               onClick={this.closeAndLogOut.bind(this)}>
               <img className="logout-button-image" src={signOutIcon}></img>
-              <div className="logout-button-text">{t('logout')}</div>
+              <div className="logout-button-text">{t('userDetails.logout')}</div>
             </button>
           </div>
 
@@ -64,7 +64,7 @@ class UserDetails extends React.Component {
           <img
             className="user-details-return-button-image"
             src={leftArrow}></img>
-          <div className="user-details-return-button-text">{t('return')}</div>
+          <div className="user-details-return-button-text">{t('userDetails.return')}</div>
         </button>
       </div>
     );

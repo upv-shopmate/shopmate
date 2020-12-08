@@ -64,7 +64,7 @@ class SearchResult extends Component {
       categories[pos] = categories[pos].slice(0, categories[pos].length - 2);
       return categories;
     } else {
-      return t('withoutCategories');
+      return t('searchResult.withoutCategories');
     }
   }
 
@@ -84,7 +84,7 @@ class SearchResult extends Component {
             </div>
           </div>
           <div className="result-bottomline">
-            <div className="result-cart">{t('inCart')} N/A</div>
+            <div className="result-cart">{t('searchResult.inCart')} N/A</div>
             <div className="result-categories">
               <img className="result-categories-image" src={tagIcon}></img>
               <div className="result-categories-namelist">

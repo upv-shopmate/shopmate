@@ -60,7 +60,7 @@ class SearchField extends React.Component {
 
   render() {
     const {t} = this.props;
-    const placeholder = t('placeholder');
+    const placeholder = t('searchField.placeholder');
     return (
       <div className="search-field">
         <img

@@ -75,7 +75,7 @@ class LeftPanel extends React.Component {
       );
     } else {
       return (
-        <div className="no-lists">{t('noListMessage')}</div>
+        <div className="no-lists">{t('leftPanel.noListMessage')}</div>
       );
     }
   }
@@ -110,7 +110,7 @@ class LeftPanel extends React.Component {
     const {t} = this.props;
     return (
       <div className="left-panel">
-        <div className="left-panel-title">{t('shoppingList')}</div>
+        <div className="left-panel-title">{t('leftPanel.shoppingList')}</div>
         <div className="current-panel">
           {this.renderPanel()}
         </div>
@@ -121,13 +121,13 @@ class LeftPanel extends React.Component {
             onClick={() => this.showLists()}
           >
             <img className="list-button-image" src={listImage}></img>
-            <div className="list-button-text">{t('myLists')}</div>
+            <div className="list-button-text">{t('leftPanel.myLists')}</div>
           </button>
           <button
             className="lf-tag-button"
           >
             <img className="tag-button-image" src={tagImage}></img>
-            <div className="tag-button-text">{t('coupons')}</div>
+            <div className="tag-button-text">{t('leftPanel.coupons')}</div>
           </button>
         </div>
       </div>
