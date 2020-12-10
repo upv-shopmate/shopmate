@@ -32,8 +32,8 @@ namespace ShopMate.Controllers
             var contents = cart.Contents;
 
             // FIXME
-            contents.AddEntry(new ShoppingListEntry(3, repository.Products.GetByBarcode("08410100025155")));
-            contents.AddEntry(new ShoppingListEntry(1, repository.Products.GetByBarcode("08426967022510")));
+            contents.AddEntry(new ShoppingListEntry(3, repository.Products.GetAll().FirstOrDefault(p => p.Id == 1393)));
+            contents.AddEntry(new ShoppingListEntry(1, repository.Products.GetAll().FirstOrDefault(p => p.Id == 2800)));
 
             return Ok(mapper.Map<ShoppingListReadDto>(contents));
         }
@@ -41,7 +41,7 @@ namespace ShopMate.Controllers
         [HttpPost("list")] //Mirar si hay que poner Put en vez de Post
         public ActionResult<ShoppingListReadDto> AddContentsToCart([FromBody] ShoppingListEntryModifyDto dto)
         {
-            var barcode = repository.Products.GetByBarcode(dto.ItemId);
+            var barcode = repository.Products.GetAll().FirstOrDefault(p => p.Id == dto.ItemId);
             if (barcode is null)
             {
                 return BadRequest("Unknown item ID.");
@@ -58,7 +58,7 @@ namespace ShopMate.Controllers
         [HttpDelete("list")]
         public ActionResult<ShoppingListReadDto> RemoveContentsFromCart([FromBody] ShoppingListEntryModifyDto dto)
         {
-            var barcode = repository.Products.GetByBarcode(dto.ItemId);
+            var barcode = repository.Products.GetAll().FirstOrDefault(p => p.Id == dto.ItemId);
             if (barcode is null)
             {
                 return BadRequest("Unknown item ID.");

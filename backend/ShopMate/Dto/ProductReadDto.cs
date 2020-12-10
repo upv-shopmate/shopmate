@@ -6,7 +6,9 @@ namespace ShopMate.Dto
 {
     public class ProductReadDto
     {
-        public string Barcode { get; internal set; }
+        public int Id { get; internal set; }
+
+        public string? Barcode { get; internal set; }
 
         public string Name { get; internal set; }
 
@@ -31,8 +33,6 @@ namespace ShopMate.Dto
         public ICollection<BrandReadDto> Brands { get; internal set; }
 
         public ICollection<CategoryReadDto> Categories { get; internal set; }
-
-        public ICollection<LabelReadDto> Labels { get; internal set; }
 
         public ICollection<PriceModifierReadDto> PriceModifiers { get; internal set; }
 

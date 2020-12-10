@@ -12,8 +12,6 @@ namespace ShopMate.Persistence
 
         public ICategoryRepository Categories { get; }
 
-        public ILabelRepository Labels { get; }
-
         public IStoreRepository Stores { get; }
 
         public IShoppingListRepository ShoppingLists { get; }
@@ -48,9 +46,6 @@ namespace ShopMate.Persistence
     { }
 
     public interface ICategoryRepository : IAsyncRepository<Category>
-    { }
-
-    public interface ILabelRepository : IAsyncRepository<Label>
     { }
 
     public interface IStoreRepository : IAsyncRepository<Store>

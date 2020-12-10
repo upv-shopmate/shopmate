@@ -21,7 +21,20 @@ namespace ShopMate.Controllers
             this.mapper = mapper;
         }
 
-        [HttpGet("{barcode}")]
+        [HttpGet("{id}")]
+        public ActionResult<ProductReadDto> GetProductById(int id)
+        {
+            var product = repository.Products.GetAll().FirstOrDefault(p => p.Id == id);
+
+            if (product is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(mapper.Map<ProductReadDto>(product));
+        }
+
+        [HttpGet("barcode/{barcode}")]
         public ActionResult<ProductReadDto> GetProductByBarcode(string barcode)
         {
             var product = repository.Products.GetByBarcode(barcode);

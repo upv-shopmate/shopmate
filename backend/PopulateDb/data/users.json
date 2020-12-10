@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Manolo el Pruebas",
+    "email": "test@example.com",
+    "phone": "+34 12345678",
+    "password": "1234"
+  },
+  {
+    "name": "Pepe García",
+    "email": "pgarcia@example.com",
+    "phone": "+34 645871991",
+    "password": "febrero99"
+  }
+]
