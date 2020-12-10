@@ -16,7 +16,6 @@ namespace ShopMate.Persistence.Relational
         public DbSet<Product> Products { get; set; }
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<Label> Labels { get; set; }
         public DbSet<Store> Stores { get; set; }
         public DbSet<ShoppingList> ShoppingLists { get; set; }
         public DbSet<Cart> Carts { get; set; }
@@ -36,8 +35,12 @@ namespace ShopMate.Persistence.Relational
                 .Property(p => p.Barcode)
                 .HasColumnType("char(14)")
                 .HasConversion(
-                    v => v.Value,
-                    v => new Gtin14(v));
+                    v => v.HasValue ? v.Value.Value : null,
+                    v => v != null ? (Gtin14?)new Gtin14(v) : null);
+
+            modelBuilder.Entity<Category>()
+                .HasMany(c => c.Children)
+                .WithOne(c => c.Parent!);
 
             SetupPrimitiveCollectionTypes(modelBuilder);
         }

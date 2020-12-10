@@ -5,6 +5,6 @@ namespace ShopMate.Dto
     public class ShoppingListEntryModifyDto
     {
         public int Quantity { get; set; }
-        public string ItemId { get; set; }
+        public int ItemId { get; set; }
     }
 }

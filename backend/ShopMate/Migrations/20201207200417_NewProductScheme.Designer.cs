@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShopMate.Persistence.Relational;
 
 namespace ShopMate.Migrations
 {
     [DbContext(typeof(ShopMateContext))]
-    partial class ShopMateContextModelSnapshot : ModelSnapshot
+    [Migration("20201207200417_NewProductScheme")]
+    partial class NewProductScheme
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -170,12 +172,12 @@ namespace ShopMate.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int?>("ParentId")
+                    b.Property<int?>("SuperiorId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ParentId");
+                    b.HasIndex("SuperiorId");
 
                     b.ToTable("Categories");
                 });
@@ -487,11 +489,11 @@ namespace ShopMate.Migrations
 
             modelBuilder.Entity("ShopMate.Models.Category", b =>
                 {
-                    b.HasOne("ShopMate.Models.Category", "Parent")
-                        .WithMany("Children")
-                        .HasForeignKey("ParentId");
+                    b.HasOne("ShopMate.Models.Category", "Superior")
+                        .WithMany()
+                        .HasForeignKey("SuperiorId");
 
-                    b.Navigation("Parent");
+                    b.Navigation("Superior");
                 });
 
             modelBuilder.Entity("ShopMate.Models.Coupon", b =>
@@ -569,11 +571,6 @@ namespace ShopMate.Migrations
             modelBuilder.Entity("ShopMate.Models.Cart", b =>
                 {
                     b.Navigation("TrackedLists");
-                });
-
-            modelBuilder.Entity("ShopMate.Models.Category", b =>
-                {
-                    b.Navigation("Children");
                 });
 
             modelBuilder.Entity("ShopMate.Models.Coupon", b =>

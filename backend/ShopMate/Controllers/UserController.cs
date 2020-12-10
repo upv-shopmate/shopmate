@@ -108,11 +108,7 @@ namespace ShopMate.Controllers
 
             foreach (var entry in dto.Entries)
             {
-                if (!Gtin14.TryFromStandardBarcode(entry.ItemId, out Gtin14? barcode) || entry.Quantity < 1)
-                {
-                    return BadRequest();
-                }
-                var product = repository.Products.GetAll().FirstOrDefault(p => p.Barcode == barcode);    // FIXME
+                var product = repository.Products.GetAll().FirstOrDefault(p => p.Id == entry.ItemId);
                 if (product is null)
                 {
                     return BadRequest();

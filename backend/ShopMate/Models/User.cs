@@ -37,10 +37,12 @@ namespace ShopMate.Models
 
         public ICollection<ShoppingList> ShoppingLists { get; set; } = new HashSet<ShoppingList>();
 
-        public User(string name, string email)
+        public User(string name, string email, string phone, string password)
         {
             Name = name;
             Email = email;
+            Phone = phone;
+            Password = password;
             MoneySpent = 0;
         }
 
