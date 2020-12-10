@@ -29,6 +29,7 @@ namespace ShopMate.Models
             }
         }
 
+        [NotMapped]
         public List<PriceModifier> AdditionalModifiers { get; set; } = new List<PriceModifier>();
 
         public IReadOnlyCollection<PriceModifierBreakdown> ModifierBreakdowns
