@@ -7,9 +7,10 @@ using System.Linq;
 
 namespace ShopMate.Models
 {
-    [Owned]
     public class ShoppingListEntry
     {
+        public int Id { get; internal set; }
+
         public int Quantity { get; set; }
 
         public Product Item { get; set; }
@@ -29,7 +30,6 @@ namespace ShopMate.Models
             }
         }
 
-        [NotMapped]
         public List<PriceModifier> AdditionalModifiers { get; set; } = new List<PriceModifier>();
 
         public IReadOnlyCollection<PriceModifierBreakdown> ModifierBreakdowns

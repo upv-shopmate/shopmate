@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
 namespace ShopMate.Models
@@ -20,13 +21,17 @@ namespace ShopMate.Models
 
         public ICollection<ShoppingList> TrackedLists { get; internal set; } = new HashSet<ShoppingList>();
 
-        public ICollection<Coupon> AppliedCoupons { get; internal set; } = new HashSet<Coupon>();
+        public IReadOnlyCollection<Coupon> AppliedCoupons { get => (IReadOnlyCollection<Coupon>)Contents.AppliedCoupons; }
 
         public Cart() { }
 
         public void TrackShoppingList(ShoppingList list) => TrackedLists.Add(list);
 
         public void UntrackShoppingList(ShoppingList list) => TrackedLists.Remove(list);
+
+        public void ApplyCoupon(Coupon coupon) => Contents.ApplyCoupon(coupon);
+
+        public void UnapplyCoupon(Coupon coupon) => Contents.UnapplyCoupon(coupon);
 
         public override bool Equals(object? other) => other is Cart cart && Equals(cart);
 

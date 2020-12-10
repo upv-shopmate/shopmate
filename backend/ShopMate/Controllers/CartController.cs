@@ -67,6 +67,7 @@ namespace ShopMate.Controllers
 
             var cart = repository.Carts.GetAll().FirstOrDefault(c => c.Id == 1); //Temporal hasta que haya loggin;
             cart.Contents.RemoveEntry(entry);
+            repository.SaveChanges();
 
             return NoContent();
         }
@@ -77,7 +78,7 @@ namespace ShopMate.Controllers
             var cart = repository.Carts.GetAll().FirstOrDefault(b => b.Id == 1); //Temporal hasta que haya loggin
             var shoppingLists = cart.TrackedLists;
 
-            return Ok(shoppingLists);
+            return Ok(mapper.Map<List<ShoppingListReadDto>>(shoppingLists));
         }
 
         [HttpPut("tracking")]
@@ -99,6 +100,7 @@ namespace ShopMate.Controllers
                     cart.TrackedLists.Add(shoppingList);
                 }
             }
+            repository.SaveChanges();
 
             return NoContent();
         }
@@ -119,8 +121,18 @@ namespace ShopMate.Controllers
             {
                 cart.TrackedLists.Remove(shoppingList);
             }
+            repository.SaveChanges();
 
             return NoContent();
+        }
+
+        [HttpGet("coupons")]
+        public ActionResult<ICollection<CouponReadShortDto>> GetCouponsAppliedInCart()
+        {
+            Cart cart = repository.Carts.GetAll().FirstOrDefault(c => c.Id == 1); //Temporal hasta que haya loggin
+            IReadOnlyCollection<Coupon> couponList = cart.AppliedCoupons;
+
+            return Ok(mapper.Map<List<CouponReadShortDto>>(couponList));
         }
 
         [HttpPut("coupons")]
@@ -148,8 +160,9 @@ namespace ShopMate.Controllers
             var cart = repository.Carts.GetAll().FirstOrDefault(c => c.Id == 1);
             foreach (var coupon in coupons)
             {
-                cart.AppliedCoupons.Add(coupon);
+                cart.ApplyCoupon(coupon);
             }
+            repository.SaveChanges();
 
             return NoContent();
         }
@@ -169,8 +182,9 @@ namespace ShopMate.Controllers
             var cart = repository.Carts.GetAll().FirstOrDefault(c => c.Id == 1);
             foreach (var coupon in coupons)
             {
-                cart.AppliedCoupons.Remove(coupon);
+                cart.UnapplyCoupon(coupon);
             }
+            repository.SaveChanges();
 
             return NoContent();
         }

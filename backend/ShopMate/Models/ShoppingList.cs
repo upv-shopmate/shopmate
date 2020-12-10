@@ -21,8 +21,6 @@ namespace ShopMate.Models
         public decimal TotalPrice => Entries.Select(e => e.ModifiedPrice).Sum();
 
         public ICollection<Coupon> AppliedCoupons { get; set; } = new HashSet<Coupon>();
-        //AppliedCoupons de IReadOnly, crear metodos de add y remove coupons en los cuales se modifica la lista
-        //y poner primer foreach
 
         public User? Owner { get; internal set; }
 
