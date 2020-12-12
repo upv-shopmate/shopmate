@@ -21,19 +21,39 @@ function createStore(reducer, initialState) {
         })
     }
 
+    const changePanel = (panel) => {
+        dispatch({
+            type: "changePanel",
+            panel: panel
+        })
+    }
+
+    const showProduct = (productInMap) => {
+        dispatch({
+            type: "showProduct",
+            productInMap: productInMap
+        })
+    }
+
     return {
         subscribe,
         getState,
         dispatch,
-        showError
+        showError,
+        changePanel,
+        showProduct,
     };
 }
 
 function reducer(state, action) {
     if (action.type === 'changeCurrentList') {
         state["currentList"] = action.currentList;
+    } else if (action.type === 'changePanel') {
+        state["panel"] = action.panel;
     } else if (action.type === 'changeResults') {
         state["results"] = action.results;
+    } else if (action.type === 'showProduct') {
+        state["productInMap"] = action.productInMap;
     } else if (action.type === 'showError') {
         state["error"] = action.error;
     };
@@ -45,6 +65,8 @@ const initialState = {
     currentList: null, 
     listeners: [],
     error: false, 
+    panel: "cart",
+    productInMap: null
 };
 export function Store() {
     var instance;

@@ -9,6 +9,7 @@ import { withTranslation } from 'react-i18next';
 import { roundUp } from '../utils/Utils';
 import rightArrow from '../assets/images/right_arrow.png';
 import leftArrow from '../assets/images/left_arrow.png';
+import { Store } from '../utils/Store.js'
 
 class ProductDetails extends Component {
   constructor(props) {
@@ -140,7 +141,11 @@ class ProductDetails extends Component {
     );
   }
 
-
+  showInMap() {
+    const store = Store().getInstance();
+    store.changePanel("map");
+    store.showProduct(this.props.product);
+  }
 
   viewDetails() {
     if (this.props.product !== null) {
@@ -175,7 +180,11 @@ class ProductDetails extends Component {
               onClick={this.closeDetailsPanel}
             >
             </img>
-            <img className="details-map-button-image" src={mapButton}>
+            <img 
+              className="details-map-button-image"
+              src={mapButton}
+              onClick={() => this.showInMap()}
+            >
             </img>
           </div>
         </div>

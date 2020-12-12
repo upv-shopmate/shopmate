@@ -1,0 +1,30 @@
+.product-in-map {
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    min-width: 850px;
+    height: 100%;
+}
+
+.product-in-map-wrapper {
+    height: 80px;
+    width: 80px;
+    position: relative;
+
+}
+.product-in-map-image {
+    height: 100%;
+    width: 100%;
+    border: black 1px solid;
+    border-radius: 100%;
+}
+.product-in-map-drop {
+    width: 0;
+    height: 0;
+    position: relative;
+    bottom: 10px;
+    left: 20px;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-top: 30px solid black;
+}

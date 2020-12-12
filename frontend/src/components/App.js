@@ -37,6 +37,8 @@ class App extends React.Component {
     this.changeProductResults = this.changeProductResults.bind(this);
     this.goToLastState = this.goToLastState.bind(this);
     this.rightPanelRef = React.createRef();
+    const store = Store().getInstance()
+    store.subscribe(() => this.forceUpdate());
   }
 
   async getUserInfo(accessToken) {
@@ -124,7 +126,6 @@ class App extends React.Component {
       this.setState({
         'currentList': list,
       });
-      console.log(list);
     }
   }
 
@@ -251,6 +252,11 @@ class App extends React.Component {
     }
   }
 
+  getRightPanel() {
+    let panel = Store().getInstance().getState().panel
+    return panel;
+  }
+
   renderPanels() {
     if (this.state.panels === 'login') {
       return (
@@ -279,7 +285,7 @@ class App extends React.Component {
               lists={this.state.lists}
             />
             <RightPanel
-              panel={this.state.selectedPanel}
+              panel={this.getRightPanel()}
               goToLastState={this.goToLastState}
               results={this.state.results}
               moreResults={this.changeProductResults}
@@ -311,7 +317,6 @@ class App extends React.Component {
   }
 
   showZoomedImage(url) {
-    console.log("holi");
     this.setState({
       'zoomedImage': url,
     })

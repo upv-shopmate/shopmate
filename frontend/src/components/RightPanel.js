@@ -215,7 +215,7 @@ class RightPanel extends React.Component {
   render() {
     return (
       <div className="right-panel">
-        <this.currentPanel panel={this.props.panel} />
+        <this.currentPanel  />
         <img
           src={loadingGif}
           className="loading-gif"
