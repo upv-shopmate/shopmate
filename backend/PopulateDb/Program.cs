@@ -104,7 +104,7 @@ namespace PopulateDb
                 {
                     for (int j = 0; j < mapWidth; j += 1)
                     {
-                        if (map[i][j] != 0) { validPositions.Add((i, j)); }
+                        if (map[i][j] > 2) { validPositions.Add((i, j)); }
                     }
                 }
             }
