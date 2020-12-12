@@ -1,0 +1,35 @@
+.cdd-panel {
+    width: 100%;
+    height: 30px;
+    display: flex;
+    margin-left: 10px;
+    align-items: center;
+}
+
+.cdd-dropdown {
+    display: flex;
+    flex-flow: column;
+    position: absolute;
+    left: 335px;
+    bottom: 105px;
+    width: 245px;
+    overflow-y: scroll;
+    max-height: 450px;
+    border: solid 1px;
+    background-color: #222831;
+}
+
+.cdd-clear-button {
+    width: 25px;
+    height: 25px;
+}
+
+.cdd-text {
+    width: 230px;
+}
+
+.cdd-button {
+    width: 230px;
+    margin-left: -80px;
+    margin-right: 5px;
+}

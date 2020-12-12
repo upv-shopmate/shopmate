@@ -36,15 +36,17 @@ function reducer(state, action) {
         state["results"] = action.results;
     } else if (action.type === 'showError') {
         state["error"] = action.error;
+    } else if (action.type === 'changeCategories') {
+        state["categories"] = action.categories;
     };
     return state;
 }
 
 const initialState = {
-    results: [], 
-    currentList: null, 
+    results: [],
+    currentList: null,
     listeners: [],
-    error: false, 
+    error: false,
 };
 export function Store() {
     var instance;
@@ -55,7 +57,7 @@ export function Store() {
     }
     return {
         getInstance: () => {
-            if(!instance) {
+            if (!instance) {
                 instance = createInstance();
             }
             return instance;

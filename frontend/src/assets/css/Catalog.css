@@ -6,7 +6,6 @@
 
 .product-details {
   width: 100%;
-  height: 800px;
 }
 
 .products {
@@ -15,6 +14,12 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+  overflow-y: scroll;
+}
+
+.catalog-bottom {
+  display: flex;
+  align-items: center;
 }
 
 .catalog-nav {

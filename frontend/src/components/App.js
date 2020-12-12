@@ -8,8 +8,10 @@ import { requestSearchDataBase } from '../requests/SearchRequests.js';
 import Login from './Login';
 import { userInfoRequest, userListsRequest } from '../requests/UserRequests.js';
 import { requestCartContentDataBase } from '../requests/CartContents';
+import { requestAllCategories } from '../requests/CategoriesRequests'
 import UserDetails from './UserDetails';
 import ZoomedImage from './ZoomedImage'
+import ErrorPanel from './ErrorPanel'
 import { Store } from '../utils/Store'
 
 export const dataBaseURL = 'https://localhost:5001';
@@ -32,7 +34,7 @@ class App extends React.Component {
       'buttonEnabled': false,
       'currentList': null,
       'cartContent': undefined,
-      'zoomedImage': undefined,
+      'zoomedImage': undefined
     };
     this.changeProductResults = this.changeProductResults.bind(this);
     this.goToLastState = this.goToLastState.bind(this);
@@ -63,6 +65,24 @@ class App extends React.Component {
     const store = Store().getInstance();
     store.subscribe(() => this.forceUpdate());
     this.initializeCart();
+    this.initializeCategories();
+  }
+
+  async initializeCategories() {
+    let data;
+    let store = Store().getInstance();
+    try {
+      data = await requestAllCategories();
+      this.hideErrorPanel();
+      store.dispatch({
+        type: "changeCategories",
+        categories: data
+      })
+    } catch (e) {
+      console.log(e);
+      this.showErrorPanel();
+      this.initializeCategories();
+    }
   }
 
   async initializeCart() {

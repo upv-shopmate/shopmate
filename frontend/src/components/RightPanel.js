@@ -11,7 +11,6 @@ import { requestMap } from '../requests/MapRequest';
 import { requestCatalog } from '../requests/ProductRequest.js';
 import loadingGif from '../assets/images/loading.gif';
 import { Store } from '../utils/Store'
-import CategorieSelectionPanel from './CategorieSelectionPanel'
 
 // minimum width is 70
 const WIDTHS = {
