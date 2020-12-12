@@ -147,7 +147,11 @@ class ProductDetails extends Component {
       return (
         <div className="details">
           <div className="details-image-wrapper">
-            <img className="details-image" src={this.getProductImage()}>
+            <img 
+            className="details-image" 
+            src={this.getProductImage()}
+            onClick={() => this.zoomImage()}
+            >
             </img>
             <div className="details-pages">
               <img src={leftArrow} onClick={() => this.goToLeftImage()}></img>
