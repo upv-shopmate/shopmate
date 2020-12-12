@@ -7,6 +7,8 @@ import React, { Component } from 'react';
 import { capitalize } from '../utils/Utils';
 import { withTranslation } from 'react-i18next';
 import { roundUp } from '../utils/Utils';
+import rightArrow from '../assets/images/right_arrow.png';
+import leftArrow from '../assets/images/left_arrow.png';
 
 class ProductDetails extends Component {
   constructor(props) {
@@ -144,7 +146,19 @@ class ProductDetails extends Component {
     if (this.props.product !== null) {
       return (
         <div className="details">
-          <img className="details-image" src={this.getProductImage()}></img>
+          <div className="details-image-wrapper">
+            <img 
+            className="details-image" 
+            src={this.getProductImage()}
+            onClick={() => this.zoomImage()}
+            >
+            </img>
+            <div className="details-pages">
+              <img src={leftArrow} onClick={() => this.goToLeftImage()}></img>
+              <span>{this.state.imagePage}</span>
+              <img src={rightArrow} onClick={() => this.goToRightImage()}></img>
+            </div>
+          </div>
           <div className="details-title">
             <div className="details-name">{this.getProductName()}</div>
             <div className="details-brand">{this.getProductBrand()}</div>
