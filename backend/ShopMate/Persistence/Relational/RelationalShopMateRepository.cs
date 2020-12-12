@@ -76,7 +76,6 @@ namespace ShopMate.Persistence.Relational
                 .Include(p => p.Brands)
                 .Include(p => p.Categories)
                 .ThenInclude(c => c.Parent)     // no recursive load: requirements say at most 2 category levels
-                .Include(p => p.Positions)
                 .Include(p => p.Vendors)
                 .Include(p => p.PriceModifiers);
     }

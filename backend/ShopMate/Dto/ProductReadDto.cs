@@ -36,8 +36,7 @@ namespace ShopMate.Dto
 
         public ICollection<PriceModifierReadDto> PriceModifiers { get; internal set; }
 
-        // TODO
-        //public ICollection<Position> Positions { get; internal set; }
+        public ICollection<PositionReadDto> Positions { get; internal set; }
 
         public ICollection<StoreReadDto> Vendors { get; internal set; }
 

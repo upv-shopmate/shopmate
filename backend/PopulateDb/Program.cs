@@ -35,7 +35,7 @@ namespace PopulateDb
             var map = ReadMapFile(Path.Combine(path, MAP_FILE));
 
             Console.WriteLine(">> Populating with random values...");
-            FillWithRandomValues(products);
+            FillWithRandomValues(products, map);
 
             Console.WriteLine(">> Seeding database...");
             var insertedCount = SeedDatabase("Mercadona", "EUR", products, users, map);
@@ -89,12 +89,37 @@ namespace PopulateDb
             return JsonConvert.DeserializeObject<int[][]>(stream.ReadToEnd());
         }
 
-        private static void FillWithRandomValues(ICollection<ProductJsonDto> products)
+        private static void FillWithRandomValues(ICollection<ProductJsonDto> products, int[][] map)
         {
+            int mapHeight;
+            int mapWidth;
+            var validPositions = new List<(int, int)>();
+            var populateMap = map.Length > 1 && map[0].Length > 1;
+            if (populateMap)
+            {
+                mapHeight = map.Length;
+                mapWidth = map[0].Length;
+                
+                for (int i = 0; i < mapHeight; i += 1)
+                {
+                    for (int j = 0; j < mapWidth; j += 1)
+                    {
+                        if (map[i][j] != 0) { validPositions.Add((i, j)); }
+                    }
+                }
+            }
+            
             foreach (var product in products)
             {
                 product.AvailableStock = (uint)rng.Next(0, MAX_STOCK);
                 product.TimesSold = (uint)rng.Next(0, MAX_TIMES_SOLD);
+                product.Positions = new List<(int, int)>();
+
+                if (populateMap)
+                {
+                    var position = validPositions[rng.Next(validPositions.Count)];
+                    product.Positions.Add(position);
+                }
             }
         }
 
@@ -105,6 +130,8 @@ namespace PopulateDb
             var optionsBuilder = new DbContextOptionsBuilder<ShopMateContext>()
                 .UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=ShopMateContext;Trusted_Connection=True;");
             using var db = new ShopMateContext(optionsBuilder.Options);
+
+            db.Database.Migrate();
 
             var store = new Store(shopName, currency)
             {
@@ -190,6 +217,11 @@ namespace PopulateDb
 
             product.PriceModifiers.Add(modifier);
             modifier.Products.Add(product);
+
+            foreach (var position in entry.Positions)
+            {
+                product.Positions.Add(new Position(position.Item1, position.Item2));
+            }
 
             db.Set<Product>().Add(product);
             return true;
