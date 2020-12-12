@@ -8,9 +8,6 @@ namespace ShopMate.Persistence
     {
         public IQueryable<T> GetAll();
 
-        public IEnumerable<T> GetPage(int page, int itemsPerPage);
-        public IEnumerable<T> GetPage(int page, int itemsPerPage, out bool hasNext);
-
         public void Add(T entity);
 
         public void AddMany(IEnumerable<T> entities);

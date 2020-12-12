@@ -75,6 +75,7 @@ namespace ShopMate.Persistence.Relational
             => Set
                 .Include(p => p.Brands)
                 .Include(p => p.Categories)
+                .ThenInclude(c => c.Parent)     // no recursive load: requirements say at most 2 category levels
                 .Include(p => p.Positions)
                 .Include(p => p.Vendors)
                 .Include(p => p.PriceModifiers);
@@ -97,7 +98,8 @@ namespace ShopMate.Persistence.Relational
 
         public override IQueryable<Category> GetAll()
             => Set
-                .Include(c => c.Products);
+                .Include(c => c.Products)
+                .Include(c => c.Parent);
     }
 
     internal class RelationalStoreRepository : RelationalRepository<Store>, IStoreRepository

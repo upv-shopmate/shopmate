@@ -8,6 +8,6 @@ namespace ShopMate.Dto
 
         public string Name { get; internal set; }
 
-        public CategoryReadDto? Superior { get; internal set; }
+        public CategoryReadDto? Parent { get; internal set; }
     }
 }
