@@ -13,7 +13,9 @@ class Category extends Component {
     checkIfSubCategory() {
         const categoryCss = this.category.current;
         if (this.props.category.parent != null) {
-            categoryCss.style.backgroundColor = "gray";
+            categoryCss.style.backgroundColor = "#eeeeee";
+            categoryCss.style.marginTop = "1px";
+            categoryCss.style.paddingLeft = "25px";
         }
     }
 
@@ -25,7 +27,7 @@ class Category extends Component {
         if (this.props.category.parent == null) {
             return this.props.category.name;
         } else {
-            return "-" + this.props.category.name;
+            return "- " + this.props.category.name;
         }
     }
 

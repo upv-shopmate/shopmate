@@ -1,8 +1,12 @@
 .c-category {
     width: 100%;
-    max-width: 223px;
-    height: 90px;
-    margin-top: 1px;
-    background-color: white;
-    padding-left: 5px;
+    max-width: 100%;
+    min-height: 35px;
+    margin-top: 2px;
+    background-color: #ffd369;
+    padding-left: 10px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0px 0px 2px 2.5px rgba(0.15, 0.15, 0.15, 0.15);
+    font-weight: bold;
 }

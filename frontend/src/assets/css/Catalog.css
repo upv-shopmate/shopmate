@@ -9,16 +9,20 @@
 }
 
 .products {
+  margin-top: 10px;
   width: 100%;
-  height: 82%;
+  height: auto;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
   overflow-y: scroll;
 }
 
 .catalog-bottom {
   display: flex;
+  position: sticky;
+  top: 580px;
+  z-index: 1;
+  width: 840px;
   align-items: center;
 }
 

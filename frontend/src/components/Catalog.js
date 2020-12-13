@@ -9,11 +9,6 @@ import pageLeftImage from '../assets/images/page-left.png';
 import pageRightImage from '../assets/images/page-right.png';
 import CategoriesDropDown from './CategoriesDropDown';
 
-const HEIGHTS = {
-  OPENED: '55%', // products height
-  CLOSED: '82%',
-};
-
 class Catalog extends React.Component {
   constructor(props) {
     super(props);
@@ -43,20 +38,12 @@ class Catalog extends React.Component {
     });
   }
 
-  changePanelHeight(newHeight) {
-    const productsPanel = document.querySelector('.products');
-    if (productsPanel !== null) {
-      productsPanel.style.height = newHeight;
-    }
-  }
-
   showProductDetails(product) {
     if (product !== null) {
       this.setState({
         products: this.state.products,
         selectedProduct: product,
       });
-      this.changePanelHeight(HEIGHTS.OPENED);
     }
   }
 
@@ -65,7 +52,6 @@ class Catalog extends React.Component {
       products: this.state.products,
       selectedProduct: null,
     });
-    this.changePanelHeight(HEIGHTS.CLOSED);
   }
 
   handleClickLeft() {
@@ -80,7 +66,8 @@ class Catalog extends React.Component {
   }
 
   renderProducts() {
-    if (this.state.products.length > 0) {
+    let products = this.state.products;
+    if (products != undefined && products.length > 0) {
       return this.state.products.map((product) =>
         <Product
           key={product.barcode}

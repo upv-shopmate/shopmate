@@ -5,10 +5,10 @@ import listImage from '../assets/images/list.png';
 import tagImage from '../assets/images/tag_icon.png';
 import React from 'react';
 import NotLoginPanel from './NotLoginPanel';
-import {withTranslation} from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import UserList from './UserList';
 import ListProduct from './ListProduct';
-import {getStore} from '../utils/Store';
+import { getStore } from '../utils/Store';
 
 class LeftPanel extends React.Component {
   constructor(props) {
@@ -63,7 +63,7 @@ class LeftPanel extends React.Component {
   }
 
   renderLists() {
-    const {t} = this.props;
+    const { t } = this.props;
     if (this.props.lists) {
       return this.props.lists.map((list) =>
         <UserList
@@ -83,8 +83,6 @@ class LeftPanel extends React.Component {
   renderListPanel() {
     const store = getStore();
     const currentList = store.getState().currentList;
-    console.log(store.getState());
-    console.log(currentList);
     if (currentList !== null) {
       return (
         <div className="lf-lists">
@@ -111,7 +109,7 @@ class LeftPanel extends React.Component {
   }
 
   render() {
-    const {t} = this.props;
+    const { t } = this.props;
     return (
       <div className="left-panel">
         <div className="left-panel-title">{t('shoppingList')}</div>

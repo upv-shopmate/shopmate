@@ -11,7 +11,7 @@ import { requestMap } from '../requests/MapRequest';
 import { requestCatalog } from '../requests/ProductRequest.js';
 import { requestCatalogByCategory } from '../requests/ProductRequest.js';
 import loadingGif from '../assets/images/loading.gif';
-import {getStore} from '../utils/Store';
+import { getStore } from '../utils/Store';
 
 // minimum width is 70
 const WIDTHS = {
@@ -41,8 +41,8 @@ class RightPanel extends React.Component {
   updateCategory(category) {
     this.setState({
       'selectedCategory': category,
-      'catalogPage': 0,
-    }, () => { this.updateCatalog() })
+      'catalogPage': 1,
+    }, () => { this.updateCatalog(1) })
   }
 
 
@@ -85,9 +85,9 @@ class RightPanel extends React.Component {
     try {
       this.showLoading();
       if (this.state.selectedCategory == undefined) {
-        catalog = await requestCatalog(this.state.catalogPage);
+        catalog = await requestCatalog(page - 1);
       } else {
-        catalog = await requestCatalogByCategory(this.state.category.id, this.state.catalogPage);
+        catalog = await requestCatalogByCategory(this.state.selectedCategory.id, page - 1);
       }
       this.setState({
         'catalog': catalog,

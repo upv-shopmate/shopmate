@@ -56,9 +56,9 @@ function reducer(state, action) {
     state['productInMap'] = action.productInMap;
   } else if (action.type === 'showError') {
     state['error'] = action.error;
-    }else if (action.type === 'changeCategories') {
+  } else if (action.type === 'changeCategories') {
     state["categories"] = action.categories;
-};
+  };
   return state;
 }
 

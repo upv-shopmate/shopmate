@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Category from './Category'
 import '../assets/css/CategoriesDropDown.css'
 import clearButton from '../assets/images/clear_button.png';
-import { Store } from '../utils/Store';
+import { getStore } from '../utils/Store';
 
 class CatergoriesDropDown extends Component {
     constructor(props) {
@@ -28,13 +28,20 @@ class CatergoriesDropDown extends Component {
     }
 
     setCategory(category) {
-        if (category != undefined && category.parent != null) {
-            this.toggleShowCategories();
-            this.updateCategory();
+        if (category != this.state.selectedCategory) {
+            this.setState({
+                'selectedCategory': category,
+            }, () => {
+                if (category != undefined && category.parent != null) {
+                    this.toggleShowCategories();
+                    this.updateCategory();
+                }
+            });
+        } else {
+            this.setState({
+                'selectedCategory': undefined,
+            })
         }
-        this.setState({
-            'selectedCategory': category,
-        });
     }
 
     sortCategories(categories) {
@@ -50,8 +57,11 @@ class CatergoriesDropDown extends Component {
     }
 
     resetCategory() {
-        this.setCategory(undefined);
-        this.updateCategory(undefined);
+        this.setState({
+            'selectedCategory': undefined,
+        }, () => {
+            this.updateCategory();
+        });
     }
 
 
@@ -75,7 +85,7 @@ class CatergoriesDropDown extends Component {
     }
 
     getCategories() {
-        let categories = Store().getInstance().getState().categories;
+        let categories = getStore().getState().categories;
         return categories;
     }
 
