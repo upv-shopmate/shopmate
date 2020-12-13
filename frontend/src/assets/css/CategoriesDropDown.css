@@ -45,10 +45,11 @@
 }
 
 .cdd-button {
+    height: 30px;
     width: 230px;
     margin-left: -80px;
     margin-right: 5px;
     font-weight: bold;
     background-color: #ffffff;
-    ;
+    border-radius: 2.5px;
 }

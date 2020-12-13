@@ -89,15 +89,18 @@ class RightPanel extends React.Component {
       } else {
         catalog = await requestCatalogByCategory(this.state.selectedCategory.id, page - 1);
       }
-      this.setState({
-        'catalog': catalog,
-        'catalogPage': page,
-      }, store.showError(false));
-      if (this.catalogRef.current !== null) {
-        this.catalogRef.current.updateCatalog(catalog);
+      if(catalog != undefined) {
+        this.setState({
+          'catalog': catalog,
+          'catalogPage': page,
+        }, store.showError(false));
+        if (this.catalogRef.current !== null) {
+          this.catalogRef.current.updateCatalog(catalog);
+        }
       }
       this.hideLoading();
     } catch (e) {
+      console.error(e);
       this.hideLoading();
       store.showError(true);
       this.updateCatalog(page);
