@@ -52,6 +52,10 @@ namespace ShopMate.Persistence.Relational
                 .Property(p => p.Pictures)
                 .HasJsonConversion();
 
+            modelBuilder.Entity<Product>()
+                .Property(p => p.Positions)
+                .HasJsonConversion();
+
             modelBuilder.Entity<Brand>()
                 .Property(b => b.Aliases)
                 .HasJsonConversion();

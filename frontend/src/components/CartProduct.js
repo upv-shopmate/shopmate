@@ -2,10 +2,10 @@
 
 import '../assets/css/CartProduct.css';
 import imageNotFound from '../assets/images/image_not_found.jpg';
-import React, { Component } from 'react';
-import { capitalize } from '../utils/Utils';
-import { withTranslation } from 'react-i18next';
-import { roundUp } from '../utils/Utils';
+import React, {Component} from 'react';
+import {capitalize} from '../utils/Utils';
+import {withTranslation} from 'react-i18next';
+import {roundUp} from '../utils/Utils';
 
 class CartProduct extends Component {
   constructor(props) {
@@ -27,13 +27,13 @@ class CartProduct extends Component {
   }
 
   getEntrieQuantity() {
-    const { t } = this.props;
+    const {t} = this.props;
     return t('quantity') + this.props.entry.quantity;
   }
 
   getEntrieUnitPrice() {
     const product = this.props.entry.item;
-    const { t } = this.props;
+    const {t} = this.props;
     if (this.props.entry.quantity > 1) {
       return roundUp(product.priceWithVat, 2) + t('unitaryText');
     }

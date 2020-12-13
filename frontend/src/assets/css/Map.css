@@ -1,4 +1,5 @@
-.map {
+.map-layout {
+    position: absolute;
     display: flex;
     flex-wrap: wrap;
     overflow: hidden;

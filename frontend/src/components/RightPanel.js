@@ -11,7 +11,7 @@ import { requestMap } from '../requests/MapRequest';
 import { requestCatalog } from '../requests/ProductRequest.js';
 import { requestCatalogByCategory } from '../requests/ProductRequest.js';
 import loadingGif from '../assets/images/loading.gif';
-import { Store } from '../utils/Store'
+import {getStore} from '../utils/Store';
 
 // minimum width is 70
 const WIDTHS = {
@@ -54,14 +54,14 @@ class RightPanel extends React.Component {
     this.hideLoading();
     this.initializeMap();
     this.initializeCatalog();
-    const store = Store().getInstance()
+    const store = getStore();
     store.subscribe(() => this.forceUpdate());
   }
 
 
   async initializeCatalog() {
     let catalog;
-    const store = Store().getInstance();
+    const store = getStore();
     try {
       catalog = await requestCatalog(0);
       store.showError(false);
@@ -81,7 +81,7 @@ class RightPanel extends React.Component {
 
   async updateCatalog(page) {
     let catalog;
-    const store = Store().getInstance();
+    const store = getStore();
     try {
       this.showLoading();
       if (this.state.selectedCategory == undefined) {
@@ -116,7 +116,7 @@ class RightPanel extends React.Component {
 
   async initializeMap() {
     let map;
-    const store = Store().getInstance();
+    const store = getStore();
     try {
       map = await requestMap();
       this.drawMap(map);
@@ -229,7 +229,7 @@ class RightPanel extends React.Component {
   render() {
     return (
       <div className="right-panel">
-        <this.currentPanel panel={this.props.panel} />
+        <this.currentPanel />
         <img
           src={loadingGif}
           className="loading-gif"

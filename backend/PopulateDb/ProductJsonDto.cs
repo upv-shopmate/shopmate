@@ -54,5 +54,7 @@ namespace PopulateDb
 
         [JsonProperty("labels")]
         public List<string>? Labels { get; internal set; }
+
+        public ICollection<(int,int)> Positions { get; internal set; }
     }
 }

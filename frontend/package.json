@@ -53,6 +53,7 @@
     "i18next-xhr-backend": "^3.2.2",
     "node-ipc": "^9.1.1",
     "react-i18next": "^11.7.3",
+    "react-reveal": "^1.2.2",
     "react-touch-screen-keyboard": "^1.0.0"
   }
 }
