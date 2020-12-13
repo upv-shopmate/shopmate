@@ -8,8 +8,8 @@
 }
 
 .product-in-map-wrapper {
-    height: 80px;
-    width: 80px;
+    height: 50px;
+    width: 50px;
     position: relative;
 
 }
@@ -24,8 +24,8 @@
     height: 0;
     position: relative;
     bottom: 10px;
-    left: 20px;
-    border-left: 20px solid transparent;
-    border-right: 20px solid transparent;
-    border-top: 30px solid black;
+    left: 10px;
+    border-left: 16px solid transparent;
+    border-right: 16px solid transparent;
+    border-top: 23px solid black;
 }

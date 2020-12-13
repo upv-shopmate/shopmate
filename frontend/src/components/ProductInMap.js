@@ -2,6 +2,7 @@
 import '../assets/css/ProductInMap.css';
 import React from 'react';
 import { Store } from '../utils/Store.js'
+import {Bounce} from 'react-reveal'
 
 class ProductInMap extends React.Component {
   constructor(props) {
@@ -21,8 +22,9 @@ class ProductInMap extends React.Component {
 
   getCoordinates() {
       let pos = this.props.pos;
-      let left = (pos[0] * 10) - 40;
-      let top = (pos[1] * 10) - 80;
+      let left = (pos[0] * 10) - 25;
+      if(left < 0) left = 0;
+      let top = (pos[1] * 10) - 50;
       return [left, top];
   }
   
@@ -33,12 +35,14 @@ class ProductInMap extends React.Component {
                 className="product-in-map-wrapper"
                 ref={this.waterDrop}
             >
-                <img
-                    src={this.props.image}
-                    className="product-in-map-image"
-                >
-                </img>
-                <div className="product-in-map-drop"></div>
+                <Bounce top>
+                    <img
+                        src={this.props.image}
+                        className="product-in-map-image"
+                    >
+                    </img>
+                    <div className="product-in-map-drop"></div>
+                </Bounce>
             </div>
         </div>
     );
