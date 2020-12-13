@@ -24,7 +24,8 @@ class Map extends React.Component {
     } else {
       const product = store.getState().productInMap;
       const img = product.pictures[0];
-      const pos = [100, 300];
+      console.log(product)
+      const pos = [product.positions[0].y, product.positions[0].x]
       return <ProductInMap image={img} pos={pos}/>
     }
   }

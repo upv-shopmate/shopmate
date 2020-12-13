@@ -21,10 +21,8 @@ class ProductInMap extends React.Component {
 
   getCoordinates() {
       let pos = this.props.pos;
-      let left = pos[0] - 40;
-      let top = pos[1] - 40;
-      if(left < 0) left = 0;
-      if(top < 0) top = 0;
+      let left = (pos[0] * 10) - 40;
+      let top = (pos[1] * 10) - 80;
       return [left, top];
   }
   

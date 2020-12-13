@@ -4,6 +4,7 @@
     position: absolute;
     min-width: 850px;
     height: 100%;
+    overflow: hidden;
 }
 
 .product-in-map-wrapper {
