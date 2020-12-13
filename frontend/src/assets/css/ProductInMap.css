@@ -19,7 +19,7 @@
     border: black 1px solid;
     border-radius: 100%;
 }
-.product-in-map-drop {
+#product-in-map-drop {
     width: 0;
     height: 0;
     position: relative;
@@ -28,4 +28,15 @@
     border-left: 16px solid transparent;
     border-right: 16px solid transparent;
     border-top: 23px solid black;
+}
+
+#product-in-map-drop-top {
+    width: 0;
+    height: 0;
+    position: relative;
+    left: 10px;
+    top: 10px;
+    border-left: 16px solid transparent;
+    border-right: 16px solid transparent;
+    border-bottom: 23px solid black;
 }
