@@ -8,7 +8,6 @@ import ProductDetails from './ProductDetails';
 import pageLeftImage from '../assets/images/page-left.png';
 import pageRightImage from '../assets/images/page-right.png';
 import CategoriesDropDown from './CategoriesDropDown';
-import { requestCatalogByCategory } from '../requests/ProductRequest';
 
 const HEIGHTS = {
   OPENED: '55%', // products height
@@ -21,16 +20,9 @@ class Catalog extends React.Component {
     this.state = {
       products: [],
       selectedProduct: null,
-      selectedCategory: undefined,
     };
     this.showProductDetails = this.showProductDetails.bind(this);
     this.closeProductDetails = this.closeProductDetails.bind(this);
-  }
-
-  updateCategory(category) {
-    this.setState({
-      selectedCategory: category,
-    });
   }
 
   componentDidMount() {
@@ -106,7 +98,8 @@ class Catalog extends React.Component {
           {this.renderProducts()}
         </div>
         <div className="catalog-bottom">
-          <CategoriesDropDown></CategoriesDropDown>
+          <CategoriesDropDown
+            updateCategory={this.props.updateCategory.bind(this)} />
           <div className="catalog-nav">
             <img src={pageLeftImage} onClick={() => this.handleClickLeft()} />
             <div className="page-number">{this.props.page}</div>

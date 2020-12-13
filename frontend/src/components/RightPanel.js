@@ -9,6 +9,7 @@ import Searcher from './SearchPanel';
 import Square from './Square';
 import { requestMap } from '../requests/MapRequest';
 import { requestCatalog } from '../requests/ProductRequest.js';
+import { requestCatalogByCategory } from '../requests/ProductRequest.js';
 import loadingGif from '../assets/images/loading.gif';
 import { Store } from '../utils/Store'
 
@@ -30,11 +31,20 @@ class RightPanel extends React.Component {
       'initialCatalog': [],
       'results': [],
       'completedSearch': false,
+      'selectedCategory': undefined,
     };
     this.currentPanel = this.currentPanel.bind(this);
     this.catalogRef = React.createRef();
     this.loadingRef = React.createRef();
   }
+
+  updateCategory(category) {
+    this.setState({
+      'selectedCategory': category,
+      'catalogPage': 0,
+    }, () => { this.updateCatalog() })
+  }
+
 
 
   componentDidMount() {
@@ -74,7 +84,11 @@ class RightPanel extends React.Component {
     const store = Store().getInstance();
     try {
       this.showLoading();
-      catalog = await requestCatalog(this.state.catalogPage);
+      if (this.state.selectedCategory == undefined) {
+        catalog = await requestCatalog(this.state.catalogPage);
+      } else {
+        catalog = await requestCatalogByCategory(this.state.category.id, this.state.catalogPage);
+      }
       this.setState({
         'catalog': catalog,
         'catalogPage': page,
@@ -175,6 +189,7 @@ class RightPanel extends React.Component {
     } else if (panel === 'catalog') {
       this.changePanelWidth(WIDTHS.CATALOG);
       return <Catalog
+        updateCategory={this.updateCategory.bind(this)}
         catalog={this.state.catalog}
         ref={this.catalogRef}
         onGoToPage={(page) => this.updateCatalog(page)}

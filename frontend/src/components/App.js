@@ -34,7 +34,7 @@ class App extends React.Component {
       'buttonEnabled': false,
       'currentList': null,
       'cartContent': undefined,
-      'zoomedImage': undefined
+      'zoomedImage': undefined,
     };
     this.changeProductResults = this.changeProductResults.bind(this);
     this.goToLastState = this.goToLastState.bind(this);

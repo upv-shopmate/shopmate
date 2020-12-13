@@ -23,8 +23,15 @@ class CatergoriesDropDown extends Component {
         }
     }
 
+    updateCategory() {
+        this.props.updateCategory(this.state.selectedCategory);
+    }
+
     setCategory(category) {
-        if (category != undefined && category.parent != null) this.toggleShowCategories();
+        if (category != undefined && category.parent != null) {
+            this.toggleShowCategories();
+            this.updateCategory();
+        }
         this.setState({
             'selectedCategory': category,
         });
@@ -44,6 +51,7 @@ class CatergoriesDropDown extends Component {
 
     resetCategory() {
         this.setCategory(undefined);
+        this.updateCategory(undefined);
     }
 
 

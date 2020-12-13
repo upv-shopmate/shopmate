@@ -15,7 +15,7 @@ export async function requestCatalog(page) {
   return products;
 }
 
-export async function requestCatalogByCategory(page) {
+export async function requestCatalogByCategory(id, page) {
   let products = 0;
   await request({
     'url': dataBaseURL + '/api/Products?page=' + page + '&itemsPerPage=20',
