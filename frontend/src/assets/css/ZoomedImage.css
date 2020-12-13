@@ -1,0 +1,26 @@
+.zi-panel{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0,0,0,0.4); 
+    z-index: 11;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.zi-image{
+    height: 70%;
+    width: auto;
+}
+
+.zi-closebutton{
+    align-self: center;
+    position: absolute;
+    top: 120px;
+    right: 250px;
+    height: 25px;
+    border-radius: 100%;
+}

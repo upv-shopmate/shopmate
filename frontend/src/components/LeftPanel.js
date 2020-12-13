@@ -5,21 +5,23 @@ import listImage from '../assets/images/list.png';
 import tagImage from '../assets/images/tag_icon.png';
 import React from 'react';
 import NotLoginPanel from './NotLoginPanel';
-import {withTranslation} from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import UserList from './UserList';
 import ListProduct from './ListProduct';
+import { getStore } from '../utils/Store';
 
 class LeftPanel extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      'currentList': null,
       'inList': false,
     };
   }
 
   componentDidMount() {
     this.initizializeButtons();
+    const store = getStore();
+    store.subscribe(() => this.forceUpdate());
   }
 
   initizializeButtons() {
@@ -34,23 +36,22 @@ class LeftPanel extends React.Component {
     this.props.openLogin();
   }
 
-  handleListClick(list) {
-    this.setState({
-      currentList: list,
-      inList: true,
-    });
-  }
-
   showLists() {
+    const store = getStore();
+    store.dispatch({
+      type: 'changeCurrentList',
+      currentList: null,
+    });
     this.setState({
       inList: false,
     });
   }
 
   renderList() {
-    if (this.state.currentList !== null) {
-      this.props.onGetCurrentList(this.state.currentList);
-      return this.state.currentList.entries.map((product) =>
+    const store = getStore();
+    const currentList = store.getState().currentList;
+    if (currentList) {
+      return currentList.entries.map((product) =>
         <ListProduct
           key={product.item.id}
           name={product.item.name}
@@ -62,14 +63,13 @@ class LeftPanel extends React.Component {
   }
 
   renderLists() {
-    const {t} = this.props;
+    const { t } = this.props;
     if (this.props.lists) {
       return this.props.lists.map((list) =>
         <UserList
           key={list['name']}
           entries={list['entries']}
           name={list['name']}
-          onListClick={(list) => this.handleListClick(list)}
           list={list}
         />,
       );
@@ -81,7 +81,9 @@ class LeftPanel extends React.Component {
   }
 
   renderListPanel() {
-    if (this.state.inList) {
+    const store = getStore();
+    const currentList = store.getState().currentList;
+    if (currentList !== null) {
       return (
         <div className="lf-lists">
           {this.renderList()}
@@ -107,7 +109,7 @@ class LeftPanel extends React.Component {
   }
 
   render() {
-    const {t} = this.props;
+    const { t } = this.props;
     return (
       <div className="left-panel">
         <div className="left-panel-title">{t('shoppingList')}</div>
@@ -124,6 +126,7 @@ class LeftPanel extends React.Component {
             <div className="list-button-text">{t('myLists')}</div>
           </button>
           <button
+            disabled={!this.props.buttonEnabled}
             className="lf-tag-button"
           >
             <img className="tag-button-image" src={tagImage}></img>

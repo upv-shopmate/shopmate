@@ -1,6 +1,6 @@
 .left-panel {
     height: 100%;
-    background-color: rgb(227, 227, 227);
+    background-color: #393e46;
     display: flex;
     flex-flow: column;
     border-right: black 2px solid;
@@ -12,6 +12,7 @@
     align-self: center;
     font-size: 18px;
     font-weight: bold;
+    color: #ffffff;
 }
 
 .current-panel{
@@ -33,15 +34,16 @@
     justify-content: center;
     margin-top: 10px;
     margin-bottom: 35px;
+    color: black;
 }
 
 .lf-list-button{
-    background-color: rgb(65, 64, 64);
-    color: white;
+    background-color: white;
     opacity: 0.4;
     height: 40px;
     width: 130px;
     border: 0px;
+    font-weight: bold;
     flex-flow: row;
     margin-left: 5px;
     margin-right: 5px;
@@ -52,11 +54,12 @@
 }
 
 .lf-tag-button{
-    background-color: rgb(65, 64, 64);
-    color: white;
+    background-color: white;
+    opacity: 0.4;
     height: 40px;
     width: 130px;
     border: 0px;
+    font-weight: bold;
     flex-flow: row;
     margin-left: 5px;
     margin-right: 5px;

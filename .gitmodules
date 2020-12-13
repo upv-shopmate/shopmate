@@ -1,3 +1,0 @@
-[submodule "backend/PopulateDb/scrapOpenFoodFacts"]
-	path = backend/PopulateDb/scrapOpenFoodFacts
-	url = https://github.com/upv-shopmate/scrapOpenFoodFacts.git

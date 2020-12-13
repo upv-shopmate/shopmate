@@ -3,100 +3,108 @@
 import '../assets/css/Cart.css';
 import React from 'react';
 import CartProduct from './CartProduct';
-import { requestCartContentDataBase } from '../requests/CartContents';
-import { withTranslation } from 'react-i18next';
+import {withTranslation} from 'react-i18next';
+import {getStore} from '../utils/Store';
+import {roundUp} from '../utils/Utils';
 
 class Cart extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      'cartContent': null,
-    };
   }
 
   componentDidMount() {
-    this.getProductsFromDataBase();
-  }
-
-  roundUp(num, precision) {
-    precision = Math.pow(10, precision);
-    return (Math.ceil(num * precision) / precision).toFixed(2);
-  }
-
-  async getProductsFromDataBase() {
-    let data;
-    try {
-      data = await requestCartContentDataBase();
-      this.props.hideErrorPanel();
-      this.setState({
-        cartContent: data,
-      });
-    } catch (e) {
-      this.getProductsFromDataBase();
-      this.props.showErrorPanel();
-    }
+    const store = getStore();
+    store.subscribe(() => this.forceUpdate());
   }
 
   getProductSubtotal() {
-    const cartContent = this.state.cartContent;
-    return (cartContent ?
-      this.roundUp(cartContent.subtotalPrice, 2) : 0);
+    const cartContent = this.props.cartContent;
+    if (cartContent !== undefined) {
+      return roundUp(cartContent.subtotalPrice, 2);
+    } else {
+      return 0;
+    }
   }
 
   getProductTotalPrice() {
-    const cartContent = this.state.cartContent;
-    return (cartContent ?
-      this.roundUp(cartContent.totalPrice, 2) : 0);
+    const cartContent = this.props.cartContent;
+    if (cartContent !== undefined) {
+      return (roundUp(cartContent.totalPrice, 2));
+    } else {
+      return 0;
+    }
   }
 
   getProductPriceBase() {
-    const cartContent = this.state.cartContent;
-    return ' Base: ' + (cartContent ?
-      this.roundUp(cartContent.modifierBreakdowns[0].applicableBase, 2) : 0);
+    const cartContent = this.props.cartContent;
+    if (cartContent !== undefined) {
+      return ' Base: ' + roundUp(
+          cartContent.modifierBreakdowns[0].applicableBase, 2,
+      );
+    } else {
+      return ' Base: 0';
+    }
   }
 
   getProductIVA(t) {
-    const cartContent = this.state.cartContent;
-    return t('iva') + (cartContent ?
-      cartContent.modifierBreakdowns[0].modifier.value * 100 : 0);
+    const cartContent = this.props.cartContent;
+    if (cartContent !== undefined) {
+      return t('iva') +
+      cartContent.modifierBreakdowns[0].modifier.value * 100;
+    } else {
+      return t('iva') + 0;
+    }
   }
 
   getProductPriceImport(t) {
-    const cartContent = this.state.cartContent;
-    return t('ammount') + (cartContent ?
-      this.roundUp(cartContent.modifierBreakdowns[0].totalDelta, 2) : 0);
+    const cartContent = this.props.cartContent;
+    if (cartContent !== undefined) {
+      return t('ammount') + roundUp(
+          cartContent.modifierBreakdowns[0].totalDelta, 2,
+      );
+    } else {
+      return t('ammount') + 0;
+    }
   }
 
   getProductsListNumber() {
-    return this.state.cartContent ?
-      this.state.cartContent.entries.length : 0;
+    if (this.props.cartContent !== undefined) {
+      return this.props.cartContent.entries.length;
+    } else {
+      return 0;
+    }
   }
 
   getCurrentListProducts() {
-    if (this.props.currentList == null) {
+    if (this.getCurrentList() == null) {
       return (0);
     } else {
-      return (this.props.currentList.entries.length);
+      return (this.getCurrentList().entries.length);
     }
   }
 
   getPlannedPrice() {
-    if (this.props.currentList == null) {
+    if (this.getCurrentList() == null) {
       return (0);
     } else {
-      return (this.props.currentList.totalPrice.toFixed(2));
+      return (this.getCurrentList().totalPrice.toFixed(2));
     }
   }
 
   renderContents() {
-    if (this.state.cartContent) {
-      return this.state.cartContent.entries.map((entry) =>
+    if (this.props.cartContent !== undefined) {
+      return this.props.cartContent.entries.map((entry) =>
         <CartProduct
           key={entry.item.barcode}
           entry={entry}
         />,
       );
     }
+  }
+
+  getCurrentList() {
+    const store = getStore();
+    return store.getState().currentList;
   }
 
   render() {

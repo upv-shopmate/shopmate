@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ShopMate.Dto;
 using ShopMate.Persistence;
+using ShopMate.Persistence.Relational;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -21,7 +22,20 @@ namespace ShopMate.Controllers
             this.mapper = mapper;
         }
 
-        [HttpGet("{barcode}")]
+        [HttpGet("{id}")]
+        public ActionResult<ProductReadDto> GetProductById(int id)
+        {
+            var product = repository.Products.GetAll().FirstOrDefault(p => p.Id == id);
+
+            if (product is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(mapper.Map<ProductReadDto>(product));
+        }
+
+        [HttpGet("barcode/{barcode}")]
         public ActionResult<ProductReadDto> GetProductByBarcode(string barcode)
         {
             var product = repository.Products.GetByBarcode(barcode);
@@ -35,9 +49,15 @@ namespace ShopMate.Controllers
         }
 
         [HttpGet]
-        public ActionResult<PageReadDto<ProductReadDto>> GetProductsPage([FromQuery] int page, [FromQuery] int itemsPerPage = DEFAULT_ITEMS_PER_PAGE)
+        public ActionResult<PageReadDto<ProductReadDto>> GetProductsPage([FromQuery] int page, [FromQuery] int itemsPerPage = DEFAULT_ITEMS_PER_PAGE, [FromQuery] int? category = null)
         {
-            var products = repository.Products.GetPage(page, itemsPerPage, out var hasNextPage).ToList();
+            var productsQuery = repository.Products.GetAll();
+            if (!(category is null))
+            {
+                productsQuery = productsQuery.Where(p => p.Categories.Select(c => c.Id).Any(id => id == category));
+            }
+
+            var products = productsQuery.GetPage(page, itemsPerPage, out var hasNextPage).ToList();
 
             if (!products.Any())
             {

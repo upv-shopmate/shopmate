@@ -4,10 +4,16 @@ import leftArrow from '../assets/images/left_arrow.png';
 import React from 'react';
 import Result from './SearchResult';
 import {withTranslation} from 'react-i18next';
+import {getStore} from '../utils/Store';
 
 class SearchPanel extends React.Component {
   constructor(props) {
     super(props);
+  }
+
+  componentDidMount() {
+    const store = getStore();
+    store.subscribe(() => this.forceUpdate());
   }
 
   handleScroll(element) {
@@ -20,15 +26,20 @@ class SearchPanel extends React.Component {
   }
 
   renderResults() {
-    return this.props.results.map((result) =>
+    return this.getResults().map((result) =>
       <Result key={result.barcode} productData={result} />,
     );
+  }
+
+  getResults() {
+    const store = getStore();
+    return store.getState().results;
   }
 
   getResultsNumber() {
     const {t} = this.props;
     if (this.props.completedSearch) {
-      const results = this.props.results.length;
+      const results = this.getResults().length;
       if (results > 0) {
         return t('searchSomeResults', {results: results});
       }

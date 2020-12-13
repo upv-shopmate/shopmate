@@ -10,6 +10,7 @@ import {userAuthRequest} from '../requests/UserRequests.js';
 import Input from './Input';
 import React from 'react';
 import {withTranslation} from 'react-i18next';
+import {getStore} from '../utils/Store';
 
 class Login extends React.Component {
   constructor(props) {
@@ -55,15 +56,16 @@ class Login extends React.Component {
     const account = this.state.account;
     const password = this.state.password;
     const response = await userAuthRequest(account, password);
+    const store = getStore();
     if (response.status == 200) {
       this.props.loginUser(response.accessToken);
       this.closeLoginPanel();
-      this.props.hideErrorPanel();
+      store.showError(false);
     } else if (response.status == 401) {
       this.changePasswordError(t('incorrectEmailPass'));
-      this.props.hideErrorPanel();
+      store.showError(false);
     } else if (response.status === 'ConnectionError') {
-      this.props.showErrorPanel();
+      store.showError(true);
       this.login();
     }
   }
@@ -72,7 +74,7 @@ class Login extends React.Component {
     const {t} = this.props;
     return (
       <div className="loginUser">
-        <div className="login-block shadow-box-users">
+        <div className="login-block">
           <div className="login-title">
             <span className="init-title">
               {t('logingIn')}
@@ -80,23 +82,23 @@ class Login extends React.Component {
             <span className="brand-text">Shopmate</span>
           </div>
           <div className="user-inputs">
-            <div className="login-field shadow-box-users ">
+            <div className="login-field">
               <img
                 className="account-field-image"
                 src={accountImage}></img>
               <Input
                 type="text"
-                placeholder= {t('email')}
+                placeholder={t('email')}
                 onChangeParent={this.updateAccountText}
               />
             </div>
-            <div className="login-field shadow-box-users ">
+            <div className="login-field">
               <img
                 className="password-image"
                 src={passwordImage}></img>
               <Input
                 type="password"
-                placeholder= {t('password')}
+                placeholder={t('password')}
                 onChangeParent={this.updatePasswordText}
               />
             </div>
@@ -106,11 +108,11 @@ class Login extends React.Component {
             <div className="info-block">
               <img
                 className="info-icon"
-                src={infoImage}/>
+                src={infoImage} />
               <div className="info-text">{t('loginInfoText')}</div>
             </div>
             <button
-              className="accept-login-button shadow-box-users "
+              className="accept-login-button"
               onClick={this.login}>
               <div className="login-button-text">{t('login')}</div>
               <img className="login-button-image" src={rightArrow}></img>
@@ -121,7 +123,7 @@ class Login extends React.Component {
         <div className="solution">{t('loginSolution')}</div>
         <div className="login-return-button-wrapper">
           <button
-            className="login-return-button shadow-box-users "
+            className="login-return-button"
             onClick={this.closeLoginPanel}
           >
             <img className="login-return-button-image" src={leftArrow}></img>

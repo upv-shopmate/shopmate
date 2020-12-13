@@ -1,0 +1,42 @@
+.product-in-map {
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    min-width: 850px;
+    height: 100%;
+    overflow: hidden;
+}
+
+.product-in-map-wrapper {
+    height: 50px;
+    width: 50px;
+    position: relative;
+
+}
+.product-in-map-image {
+    height: 100%;
+    width: 100%;
+    border: black 1px solid;
+    border-radius: 100%;
+}
+#product-in-map-drop {
+    width: 0;
+    height: 0;
+    position: relative;
+    bottom: 10px;
+    left: 10px;
+    border-left: 16px solid transparent;
+    border-right: 16px solid transparent;
+    border-top: 23px solid black;
+}
+
+#product-in-map-drop-top {
+    width: 0;
+    height: 0;
+    position: relative;
+    left: 10px;
+    top: 10px;
+    border-left: 16px solid transparent;
+    border-right: 16px solid transparent;
+    border-bottom: 23px solid black;
+}

@@ -16,7 +16,6 @@ namespace ShopMate.Persistence.Relational
             Products = new RelationalProductRepository(context.Products);
             Brands = new RelationalBrandRepository(context.Brands);
             Categories = new RelationalCategoryRepository(context.Categories);
-            Labels = new RelationalLabelRepository(context.Labels);
             Stores = new RelationalStoreRepository(context.Stores);
             ShoppingLists = new RelationalShoppingListRepository(context.ShoppingLists);
             Carts = new RelationalCartRepository(context.Carts);
@@ -29,8 +28,6 @@ namespace ShopMate.Persistence.Relational
         public IBrandRepository Brands { get; }
 
         public ICategoryRepository Categories { get; }
-
-        public ILabelRepository Labels { get; }
 
         public IStoreRepository Stores { get; }
 
@@ -56,17 +53,15 @@ namespace ShopMate.Persistence.Relational
             var products = Set
                             .Include(p => p.Brands)
                             .Include(p => p.Categories)
-                            .Include(p => p.Labels)
                             .AsEnumerable()
                             .Where(p =>
-                                tokens.Contains(p.Barcode.Value)
+                                (p.Barcode.HasValue && tokens.Contains(p.Barcode.Value.Value))
                                 || tokens.Intersect(p.Name.ToLower().Split()).Any()
                                 || tokens.Intersect(p.Brands.SelectMany(b => b.Aliases.Select(a => a.ToLower()).Append(b.Name.ToLower()))).Any()
                                 || tokens.Intersect(p.Categories.Select(c => c.Name)).Any()
-                                || tokens.Intersect(p.Labels.Select(l => l.Name)).Any()
                                 || tokens.Contains(p.Weight + "g")
                             )
-                            .OrderBy(p => p.Barcode.Value)
+                            .OrderBy(p => p.Id)
                             .Skip(page * itemsPerPage)
                             .Take(itemsPerPage + 1)
                             .ToList();
@@ -80,9 +75,8 @@ namespace ShopMate.Persistence.Relational
             => Set
                 .Include(p => p.Brands)
                 .Include(p => p.Categories)
-                .Include(p => p.Positions)
+                .ThenInclude(c => c.Parent)     // no recursive load: requirements say at most 2 category levels
                 .Include(p => p.Vendors)
-                .Include(p => p.Labels)
                 .Include(p => p.PriceModifiers);
     }
 
@@ -103,17 +97,8 @@ namespace ShopMate.Persistence.Relational
 
         public override IQueryable<Category> GetAll()
             => Set
-                .Include(c => c.Products);
-    }
-
-    internal class RelationalLabelRepository : RelationalRepository<Label>, ILabelRepository
-    {
-        public RelationalLabelRepository(DbSet<Label> set) : base(set)
-        { }
-
-        public override IQueryable<Label> GetAll()
-            => Set
-                .Include(c => c.Products);
+                .Include(c => c.Products)
+                .Include(c => c.Parent);
     }
 
     internal class RelationalStoreRepository : RelationalRepository<Store>, IStoreRepository

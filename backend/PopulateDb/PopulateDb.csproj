@@ -3,6 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,7 +25,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy &quot;$(ProjectDir)scrapOpenFoodFacts&quot; &quot;$(OutDir)scrapOpenFoodFacts&quot; /Y /I /S" />
+    <Exec Command="xcopy &quot;$(ProjectDir)data&quot; &quot;$(OutDir)data&quot; /Y /I /S" />
   </Target>
 
 </Project>
