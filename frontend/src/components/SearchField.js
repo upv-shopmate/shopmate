@@ -6,6 +6,7 @@ import clearButton from '../assets/images/clear_button.png';
 import Input from './Input';
 import '../assets/css/Nav.css';
 import { withTranslation } from 'react-i18next';
+import { Store } from '../utils/Store.js'
 
 class SearchField extends React.Component {
   constructor(props) {
@@ -21,7 +22,8 @@ class SearchField extends React.Component {
   }
 
   changePanel() {
-    this.props.onChangeRightPanel('searcher');
+    const store = Store().getInstance();
+    store.changePanel("searcher");
   }
 
   search() {

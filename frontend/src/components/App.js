@@ -152,6 +152,7 @@ class App extends React.Component {
     this.setState({
       'selectedPanel': this.state.lastPanel,
     });
+    Store().getInstance().changePanel(this.state.lastPanel)
     this.resetResults();
   }
 
