@@ -4,7 +4,7 @@
 import '../assets/css/UserList.css';
 import React from 'react';
 import {withTranslation} from 'react-i18next';
-import { Store } from '../utils/Store';
+import {getStore} from '../utils/Store';
 
 class UserList extends React.Component {
   constructor(props) {
@@ -17,11 +17,11 @@ class UserList extends React.Component {
   }
 
   changeCurrentList() {
-    let store = Store().getInstance();
+    const store = getStore();
     store.dispatch({
-      type: "changeCurrentList",
-      currentList: this.props.list
-    })
+      type: 'changeCurrentList',
+      currentList: this.props.list,
+    });
   }
 
   render() {

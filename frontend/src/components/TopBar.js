@@ -1,12 +1,11 @@
 /* eslint react/prop-types: 0 */
 import '../assets/css/TopBar.css';
 import React from 'react';
-import logo from '../assets/images/logo.png';
 import exitIcon from '../assets/images/leave_icon.png';
 import translateIcon from '../assets/images/translate.png';
 import SearchField from './SearchField';
 import Languages from './Languages';
-import { withTranslation } from 'react-i18next';
+import {withTranslation} from 'react-i18next';
 
 
 // TODO: extract user field to a new component, DO NOT implement user here
@@ -56,7 +55,7 @@ class TopBar extends React.Component {
   }
 
   renderButtons() {
-    const { t } = this.props;
+    const {t} = this.props;
     if (this.props.userLoggedIn && this.props.user != undefined) {
       return (
         <React.Fragment>

@@ -5,8 +5,8 @@ import React from 'react';
 import shoppingIcon from '../assets/images/shopping_icon.png';
 import mapIcon from '../assets/images/map_icon.png';
 import storeIcon from '../assets/images/store_icon.png';
-import { withTranslation } from 'react-i18next';
-import {Store} from '../utils/Store.js' 
+import {withTranslation} from 'react-i18next';
+import {getStore} from '../utils/Store.js';
 
 const SELECTED_BUTTON_COLOR = '#FDA332';
 const UNSELECTED_BUTTON_COLOR = '#393e46';
@@ -15,12 +15,12 @@ class Nav extends React.Component {
   componentDidMount() {
     this.initializeRefs();
     this.initializeButtonBackground();
-    const store = Store().getInstance()
+    const store = getStore();
     store.subscribe(() => this.forceUpdate());
   }
 
   componentDidUpdate() {
-    this.changeSelectedButton(Store().getInstance().getState().panel);
+    this.changeSelectedButton(getStore().getState().panel);
   }
 
   initializeRefs() {
@@ -43,21 +43,21 @@ class Nav extends React.Component {
 
   changePanel(panel, initialized) {
     this.props.changeLastPanel(panel);
-    if(initialized) {
-      Store().getInstance().changePanel(panel);
+    if (initialized) {
+      getStore().changePanel(panel);
     }
     if (panel === 'catalog') this.props.resetCatalog();
   }
 
   changeSelectedButton(panel) {
-    console.log(panel)
+    if (panel == 'searcher') return;
     this.unselectEveryButton();
     const navButton = document.querySelector('#' + panel);
     navButton.style.backgroundColor = SELECTED_BUTTON_COLOR;
   }
 
   render() {
-    const { t } = this.props;
+    const {t} = this.props;
     return (
       <div className="nav">
         <button className="nav-button" onClick={() => {

@@ -4,7 +4,7 @@ import signOutIcon from '../assets/images/sign_out_icon.png';
 import leftArrow from '../assets/images/left_arrow.png';
 import '../assets/css/UserDetails.css';
 import React from 'react';
-import { withTranslation } from 'react-i18next';
+import {withTranslation} from 'react-i18next';
 
 class UserDetails extends React.Component {
   constructor(props) {
@@ -37,7 +37,7 @@ class UserDetails extends React.Component {
   }
 
   render() {
-    const { t } = this.props;
+    const {t} = this.props;
     return (
       <div className="user-details-panel">
         <div className="user-details-title">{t('userDetailsTitle')}</div>

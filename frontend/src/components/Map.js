@@ -1,8 +1,8 @@
 /* eslint react/prop-types: 0 */
 import '../assets/css/Map.css';
 import React from 'react';
-import { Store } from '../utils/Store.js'
-import ProductInMap from './ProductInMap'
+import {getStore} from '../utils/Store.js';
+import ProductInMap from './ProductInMap';
 
 // 853x566
 // 85x56
@@ -13,20 +13,20 @@ class Map extends React.Component {
     this.state = {
       'map': props.map,
     };
-    const store = Store().getInstance()
+    const store = getStore();
     store.subscribe(() => this.forceUpdate());
   }
-  
+
   showProduct() {
-    const store = Store().getInstance()
-    if(store.getState().productInMap == null) {
+    const store = getStore();
+    if (store.getState().productInMap == null) {
       return null;
     } else {
       const product = store.getState().productInMap;
       const img = product.pictures[0];
-      console.log(product)
-      const pos = [product.positions[0].y, product.positions[0].x]
-      return <ProductInMap image={img} pos={pos}/>
+      console.log(product);
+      const pos = [product.positions[0].y, product.positions[0].x];
+      return <ProductInMap image={img} pos={pos}/>;
     }
   }
 

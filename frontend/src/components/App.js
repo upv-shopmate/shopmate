@@ -4,13 +4,14 @@ import TopBar from './TopBar';
 import LeftPanel from './LeftPanel';
 import RightPanel from './RightPanel';
 import Nav from './Nav';
-import { requestSearchDataBase } from '../requests/SearchRequests.js';
+import {requestSearchDataBase} from '../requests/SearchRequests.js';
 import Login from './Login';
-import { userInfoRequest, userListsRequest } from '../requests/UserRequests.js';
-import { requestCartContentDataBase } from '../requests/CartContents';
+import {userInfoRequest, userListsRequest} from '../requests/UserRequests.js';
+import {requestCartContentDataBase} from '../requests/CartContents';
 import UserDetails from './UserDetails';
-import ZoomedImage from './ZoomedImage'
-import { Store } from '../utils/Store'
+import ZoomedImage from './ZoomedImage';
+import ErrorPanel from './ErrorPanel';
+import {getStore} from '../utils/Store';
 
 export const dataBaseURL = 'https://localhost:5001';
 
@@ -37,7 +38,7 @@ class App extends React.Component {
     this.changeProductResults = this.changeProductResults.bind(this);
     this.goToLastState = this.goToLastState.bind(this);
     this.rightPanelRef = React.createRef();
-    const store = Store().getInstance()
+    const store = getStore();
     store.subscribe(() => this.forceUpdate());
   }
 
@@ -51,7 +52,7 @@ class App extends React.Component {
       response = await userInfoRequest(accessToken);
       this.hideErrorPanel();
       if (response.status == 200) {
-        this.setState({ user: response.data });
+        this.setState({user: response.data});
         this.logInUser(response.data);
         this.getUserLists();
       }
@@ -62,7 +63,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    const store = Store().getInstance();
+    const store = getStore();
     store.subscribe(() => this.forceUpdate());
     this.initializeCart();
   }
@@ -87,7 +88,7 @@ class App extends React.Component {
     try {
       response = await userListsRequest(this.state.accessToken);
       this.hideErrorPanel();
-      if (response.status == 200) this.setState({ lists: response.data });
+      if (response.status == 200) this.setState({lists: response.data});
     } catch (e) {
       this.showErrorPanel();
       this.getUserLists(this.state.accessToken);
@@ -149,7 +150,7 @@ class App extends React.Component {
   }
 
   goToLastState() {
-    Store().getInstance().changePanel(this.state.lastPanel)
+    getStore().changePanel(this.state.lastPanel);
     this.resetResults();
   }
 
@@ -235,11 +236,11 @@ class App extends React.Component {
       this.setState({
         'results': results,
       });
-      let store = Store().getInstance();
+      const store = getStore();
       store.dispatch({
-        type: "changeResults",
-        results: results
-      })
+        type: 'changeResults',
+        results: results,
+      });
       rightPanelRef.updateSearchPanel(this.state.results);
 
       rightPanelRef.hideLoading();
@@ -251,7 +252,7 @@ class App extends React.Component {
   }
 
   getRightPanel() {
-    let panel = Store().getInstance().getState().panel
+    const panel = getStore().getState().panel;
     return panel;
   }
 
@@ -317,17 +318,17 @@ class App extends React.Component {
   showZoomedImage(url) {
     this.setState({
       'zoomedImage': url,
-    })
+    });
   }
 
   hideZoomedImage() {
     this.setState({
       'zoomedImage': undefined,
-    })
+    });
   }
 
   renderZoomedImage() {
-    let image = this.state.zoomedImage;
+    const image = this.state.zoomedImage;
     if (image != undefined) {
       return (
         <React.Fragment>
@@ -372,7 +373,7 @@ class App extends React.Component {
   }
 
   renderErrorPanel() {
-    const store = Store().getInstance()
+    const store = getStore();
     const connectionError = store.getState().error;
     if (connectionError) {
       return (

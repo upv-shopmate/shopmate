@@ -3,9 +3,9 @@
 import '../assets/css/Cart.css';
 import React from 'react';
 import CartProduct from './CartProduct';
-import { withTranslation } from 'react-i18next';
-import { Store } from '../utils/Store';
-import { roundUp } from '../utils/Utils';
+import {withTranslation} from 'react-i18next';
+import {getStore} from '../utils/Store';
+import {roundUp} from '../utils/Utils';
 
 class Cart extends React.Component {
   constructor(props) {
@@ -13,7 +13,7 @@ class Cart extends React.Component {
   }
 
   componentDidMount() {
-    const store = Store().getInstance()
+    const store = getStore();
     store.subscribe(() => this.forceUpdate());
   }
 
@@ -38,16 +38,19 @@ class Cart extends React.Component {
   getProductPriceBase() {
     const cartContent = this.props.cartContent;
     if (cartContent !== undefined) {
-      return ' Base: ' + roundUp(cartContent.modifierBreakdowns[0].applicableBase, 2);
+      return ' Base: ' + roundUp(
+          cartContent.modifierBreakdowns[0].applicableBase, 2,
+      );
     } else {
-      return ' Base: 0'
+      return ' Base: 0';
     }
   }
 
   getProductIVA(t) {
     const cartContent = this.props.cartContent;
     if (cartContent !== undefined) {
-      return t('iva') + cartContent.modifierBreakdowns[0].modifier.value * 100;
+      return t('iva') +
+      cartContent.modifierBreakdowns[0].modifier.value * 100;
     } else {
       return t('iva') + 0;
     }
@@ -56,7 +59,9 @@ class Cart extends React.Component {
   getProductPriceImport(t) {
     const cartContent = this.props.cartContent;
     if (cartContent !== undefined) {
-      return t('ammount') + roundUp(cartContent.modifierBreakdowns[0].totalDelta, 2)
+      return t('ammount') + roundUp(
+          cartContent.modifierBreakdowns[0].totalDelta, 2,
+      );
     } else {
       return t('ammount') + 0;
     }
@@ -98,12 +103,12 @@ class Cart extends React.Component {
   }
 
   getCurrentList() {
-    const store = Store().getInstance();
+    const store = getStore();
     return store.getState().currentList;
   }
 
   render() {
-    const { t } = this.props;
+    const {t} = this.props;
     return (
       <div className="product-list">
         <div className="cart-title">
@@ -124,10 +129,10 @@ class Cart extends React.Component {
           </div>
           <div className="cart-info">
             <div className="cart-articles">
-              {t('articlesCart', { count: this.getProductsListNumber() })}
+              {t('articlesCart', {count: this.getProductsListNumber()})}
             </div>
             <div className="planned-articles">
-              {t('plannedArticles', { articles: this.getCurrentListProducts() })}
+              {t('plannedArticles', {articles: this.getCurrentListProducts()})}
             </div>
             <div className="coupons">{t('appliedCoupons')}</div>
           </div>

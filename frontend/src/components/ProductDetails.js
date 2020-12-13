@@ -3,13 +3,13 @@ import '../assets/css/ProductDetails.css';
 import closeButton from '../assets/images/close_24px.png';
 import mapButton from '../assets/images/map_button.png';
 import imageNotFound from '../assets/images/image_not_found.jpg';
-import React, { Component } from 'react';
-import { capitalize } from '../utils/Utils';
-import { withTranslation } from 'react-i18next';
-import { roundUp } from '../utils/Utils';
+import React, {Component} from 'react';
+import {capitalize} from '../utils/Utils';
+import {withTranslation} from 'react-i18next';
+import {roundUp} from '../utils/Utils';
 import rightArrow from '../assets/images/right_arrow.png';
 import leftArrow from '../assets/images/left_arrow.png';
-import { Store } from '../utils/Store.js'
+import {getStore} from '../utils/Store.js';
 
 class ProductDetails extends Component {
   constructor(props) {
@@ -21,7 +21,7 @@ class ProductDetails extends Component {
     this.zoomImage = this.zoomImage.bind(this);
     this.state = {
       imagePage: 1,
-    }
+    };
   }
 
   getProductName() {
@@ -75,14 +75,14 @@ class ProductDetails extends Component {
   getProductVolume() {
     const aux = this.props.product.volume;
     if (aux !== null) {
-      return aux + "mL";
+      return aux + 'mL';
     } else {
       return 'N/A';
     }
   }
 
   goToLeftImage() {
-    let aux = this.state.imagePage;
+    const aux = this.state.imagePage;
     if (aux > 1) {
       this.setState({
         imagePage: aux - 1,
@@ -91,7 +91,7 @@ class ProductDetails extends Component {
   }
 
   goToRightImage() {
-    let aux = this.state.imagePage;
+    const aux = this.state.imagePage;
     if (aux < this.props.product.pictures.length) {
       this.setState({
         imagePage: aux + 1,
@@ -107,12 +107,12 @@ class ProductDetails extends Component {
       categories[pos] = categories[pos].slice(0, categories[pos].length - 2);
       return categories;
     } else {
-      return "N/A";
+      return 'N/A';
     }
   }
 
   isProductStocked() {
-    const { t } = this.props;
+    const {t} = this.props;
     const aux = this.props.product.availableStock;
     if (aux > 0) {
       return t('yes') + ' (' + aux + ')';
@@ -126,7 +126,7 @@ class ProductDetails extends Component {
   }
 
   getMoreInfo() {
-    const { t } = this.props;
+    const {t} = this.props;
     return (
       <React.Fragment>
         <div className="details-text-line">
@@ -142,8 +142,8 @@ class ProductDetails extends Component {
   }
 
   showInMap() {
-    const store = Store().getInstance();
-    store.changePanel("map");
+    const store = getStore();
+    store.changePanel('map');
     store.showProduct(this.props.product);
   }
 
@@ -152,10 +152,10 @@ class ProductDetails extends Component {
       return (
         <div className="details">
           <div className="details-image-wrapper">
-            <img 
-            className="details-image" 
-            src={this.getProductImage()}
-            onClick={() => this.zoomImage()}
+            <img
+              className="details-image"
+              src={this.getProductImage()}
+              onClick={() => this.zoomImage()}
             >
             </img>
             <div className="details-pages">
@@ -180,7 +180,7 @@ class ProductDetails extends Component {
               onClick={this.closeDetailsPanel}
             >
             </img>
-            <img 
+            <img
               className="details-map-button-image"
               src={mapButton}
               onClick={() => this.showInMap()}

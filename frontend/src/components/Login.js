@@ -6,11 +6,11 @@ import accountImage from '../assets/images/account_circle.png';
 import infoImage from '../assets/images/info.png';
 import rightArrow from '../assets/images/right_arrow.png';
 import leftArrow from '../assets/images/left_arrow.png';
-import { userAuthRequest } from '../requests/UserRequests.js';
+import {userAuthRequest} from '../requests/UserRequests.js';
 import Input from './Input';
 import React from 'react';
 import {withTranslation} from 'react-i18next';
-import {Store} from '../utils/Store'
+import {getStore} from '../utils/Store';
 
 class Login extends React.Component {
   constructor(props) {
@@ -52,11 +52,11 @@ class Login extends React.Component {
   }
 
   async login() {
-    const { t } = this.props;
+    const {t} = this.props;
     const account = this.state.account;
     const password = this.state.password;
     const response = await userAuthRequest(account, password);
-    const store = Store().getInstance();
+    const store = getStore();
     if (response.status == 200) {
       this.props.loginUser(response.accessToken);
       this.closeLoginPanel();
@@ -71,7 +71,7 @@ class Login extends React.Component {
   }
 
   render() {
-    const { t } = this.props;
+    const {t} = this.props;
     return (
       <div className="loginUser">
         <div className="login-block">
