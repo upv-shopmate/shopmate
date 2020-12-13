@@ -15,6 +15,12 @@ class Nav extends React.Component {
   componentDidMount() {
     this.initializeRefs();
     this.initializeButtonBackground();
+    const store = Store().getInstance()
+    store.subscribe(() => this.forceUpdate());
+  }
+
+  componentDidUpdate() {
+    this.changeSelectedButton(Store().getInstance().getState().panel);
   }
 
   initializeRefs() {
@@ -37,7 +43,6 @@ class Nav extends React.Component {
 
   changePanel(panel, initialized) {
     this.props.changeLastPanel(panel);
-    this.changeSelectedButton(panel);
     if(initialized) {
       Store().getInstance().changePanel(panel);
     }
@@ -45,6 +50,7 @@ class Nav extends React.Component {
   }
 
   changeSelectedButton(panel) {
+    console.log(panel)
     this.unselectEveryButton();
     const navButton = document.querySelector('#' + panel);
     navButton.style.backgroundColor = SELECTED_BUTTON_COLOR;
