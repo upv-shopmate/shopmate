@@ -144,7 +144,8 @@ class Cart extends React.Component {
       return <PaymentPopup
         togglePopup={this.togglePopup}
         getProductTotalPrice={this.getProductTotalPrice}
-        cartContent={this.props.cartContent}>
+        cartContent={this.props.cartContent}
+        resetCartContent={this.props.resetCartContent}>
       </PaymentPopup>;
     } else return null;
   }

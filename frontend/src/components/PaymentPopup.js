@@ -28,6 +28,7 @@ class PaymentPopup extends React.Component {
     });
     // pending real integration with payment platform
     setTimeout(() => {
+      this.props.resetCartContent();
       this.setState({
         'paymentProcessed': true,
         'paymentSuccessful': true, // comment this line to see the payment fail message

@@ -37,6 +37,7 @@ class App extends React.Component {
       'zoomedImage': undefined,
     };
     this.addProductToCartContent = this.addProductToCartContent.bind(this);
+    this.resetCartContent = this.resetCartContent.bind(this);
     this.changeProductResults = this.changeProductResults.bind(this);
     this.goToLastState = this.goToLastState.bind(this);
     this.rightPanelRef = React.createRef();
@@ -117,8 +118,24 @@ class App extends React.Component {
     }
     updatedContent.subtotalPrice = updatedContent.subtotalPrice + product.price;
     updatedContent.totalPrice = updatedContent.totalPrice + product.priceWithVat;
+    updatedContent.modifierBreakdowns[0].applicableBase =
+      updatedContent.modifierBreakdowns[0].applicableBase + product.price;
+    updatedContent.modifierBreakdowns[0].totalDelta = 
+      updatedContent.modifierBreakdowns[0].totalDelta + product.priceWithVat - product.price;
     this.setState({
       cartContent: updatedContent,
+    });
+  }
+
+  resetCartContent(){
+    let resettedContent = this.state.cartContent;
+    resettedContent.entries = new Array();
+    resettedContent.subtotalPrice = 0;
+    resettedContent.totalPrice = 0;
+    resettedContent.modifierBreakdowns[0].applicableBase = 0;
+    resettedContent.modifierBreakdowns[0].totalDelta = 0;
+    this.setState({
+      cartContent: resettedContent,
     });
   }
 
@@ -331,6 +348,7 @@ class App extends React.Component {
               ref={this.rightPanelRef}
               zoomImage={this.showZoomedImage.bind(this)}
               addProductToCartContent={this.addProductToCartContent}
+              resetCartContent={this.resetCartContent}
             />
           </div>
           <Nav
