@@ -142,6 +142,7 @@ class PaymentPopup extends React.Component {
           </div>
           <div className="confirmation-button-box-payment-popup">
             <button className="confirmation-button-payment-popup"
+              disabled={this.props.getProductTotalPrice()==0}
               onClick={this.processPayment}>
               {t('confirmPayment')}
             </button>

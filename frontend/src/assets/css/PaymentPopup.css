@@ -79,6 +79,7 @@
 }
 
 .confirmation-button-payment-popup, 
+.confirmation-button-payment-popup-disabled, 
 .return-button-payment-popup,
 .cancel-button-payment-popup,
 .try-again-button-payment-popup {
@@ -96,6 +97,11 @@
 
 .confirmation-button-payment-popup{
     width: 200px;
+}
+
+.confirmation-button-payment-popup:disabled{
+    background-color: #a2a2a2;
+    color: #666666;
 }
 
 .bottom-payment-popup{
