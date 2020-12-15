@@ -48,5 +48,16 @@
     "title": "Woopsie!",
     "message": "There seems to have been a problem with the cart connection. Don't worry, it will be fixed right away."
   },
-  "products": "Products"
+  "products": "Products",
+  "paymentMenu": "Payment Menu",
+  "paymentFinished": "Payment process finished",
+  "paymentFailed": "Payment process failed",
+  "paymentInProcess": "Starting payment process",
+  "paymentFinishedMessage": "Payment finished. Thank you for your purchase.",
+  "paymentFailedMessage": "Error at the payment validation.",
+  "paymentInProcessMessage": "Pay attention to the dataphone, please.",
+  "totalToPay": "Total to pay: ",
+  "confirmPayment": "Confirm payment",
+  "cancel": "Cancel",
+  "tryAgain": "Try again"
 }

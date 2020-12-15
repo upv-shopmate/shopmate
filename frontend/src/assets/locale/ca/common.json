@@ -48,5 +48,16 @@
   "networkError": {
     "title": "Xé!",
     "message": "Pareix que hi ha hagut un problema amb la connexió del carret. No et preocupes, se solucionarà de seguida."
-  }
+  },
+  "paymentMenu": "Menú de Pagament",
+  "paymentFinished": "Procés de pagament finalitzat",
+  "paymentFailed": "Procés de pagament fallit",
+  "paymentInProcess": "Iniciant procediment de pagament",
+  "paymentFinishedMessage": "Pagament fet. Gràcies per la seua compra.",
+  "paymentFailedMessage": "No s'ha pogut validar el pagament.",
+  "paymentInProcessMessage": "Per favor, dirigeixa la seua atenció al datàfon.",
+  "totalToPay": "Total a pagar: ",
+  "confirmPayment": "Confirmar pagament",
+  "cancel": "Cancelar",
+  "tryAgain": "Reintentar pagament"
 }

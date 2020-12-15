@@ -3,13 +3,21 @@
 import '../assets/css/Cart.css';
 import React from 'react';
 import CartProduct from './CartProduct';
+import PaymentPopup from './PaymentPopup';
 import {withTranslation} from 'react-i18next';
 import {getStore} from '../utils/Store';
 import {roundUp} from '../utils/Utils';
+import {requestProductByBarcode} from '../requests/ProductRequest';
 
 class Cart extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      showPopup: false,
+    };
+    this.togglePopup = this.togglePopup.bind(this);
+    this.getProductTotalPrice = this.getProductTotalPrice.bind(this);
+    window.cart = this;
   }
 
   componentDidMount() {
@@ -107,6 +115,40 @@ class Cart extends React.Component {
     return store.getState().currentList;
   }
 
+  async addProduct(barcode){
+    let answerMessage;
+    try{
+      if (this.props.cartContent !== undefined) {
+        let product = await requestProductByBarcode(barcode);
+        this.props.addProductToCartContent(product);
+        answerMessage = "El producto ha sido añadido satisfactoriamente.";
+      }
+    }catch(e){
+      answerMessage = "El producto solicitado no ha podido ser añadido al carro, asegúrese de que el código introducido es correcto.";
+    }
+    return answerMessage;
+  }
+
+  getCartContent(){
+    return this.props.cartContent;
+  }
+
+  togglePopup() {
+    this.setState({
+      showPopup: !this.state.showPopup,
+    });
+  }
+
+  renderPaymentPopup() {
+    if (this.state.showPopup === true) {
+      return <PaymentPopup
+        togglePopup={this.togglePopup}
+        getProductTotalPrice={this.getProductTotalPrice}
+        cartContent={this.props.cartContent}>
+      </PaymentPopup>;
+    } else return null;
+  }
+
   render() {
     const {t} = this.props;
     return (
@@ -116,7 +158,8 @@ class Cart extends React.Component {
         </div>
         <div className="cart-products">{this.renderContents()}
         </div>
-        <div className="total-prices">
+        <div className="total-prices"
+          onClick={this.togglePopup}>
           <div className="subtotal-block">
             <div className="subtotal">
               Subtotal: {this.getProductSubtotal()} €
@@ -144,6 +187,7 @@ class Cart extends React.Component {
             </div>
           </div>
         </div>
+        {this.renderPaymentPopup()}
       </div>
     );
   }

@@ -4,15 +4,15 @@ import TopBar from './TopBar';
 import LeftPanel from './LeftPanel';
 import RightPanel from './RightPanel';
 import Nav from './Nav';
-import { requestSearchDataBase } from '../requests/SearchRequests.js';
+import {requestSearchDataBase} from '../requests/SearchRequests.js';
 import Login from './Login';
-import { userInfoRequest, userListsRequest } from '../requests/UserRequests.js';
-import { requestCartContentDataBase } from '../requests/CartContents';
-import { requestAllCategories } from '../requests/CategoriesRequests'
+import {userInfoRequest, userListsRequest} from '../requests/UserRequests.js';
+import {requestCartContentDataBase} from '../requests/CartContents';
+import {requestAllCategories} from '../requests/CategoriesRequests';
 import UserDetails from './UserDetails';
 import ZoomedImage from './ZoomedImage';
 import ErrorPanel from './ErrorPanel';
-import { getStore } from '../utils/Store';
+import {getStore} from '../utils/Store';
 
 export const dataBaseURL = 'https://localhost:5001';
 
@@ -36,6 +36,7 @@ class App extends React.Component {
       'cartContent': undefined,
       'zoomedImage': undefined,
     };
+    this.addProductToCartContent = this.addProductToCartContent.bind(this);
     this.changeProductResults = this.changeProductResults.bind(this);
     this.goToLastState = this.goToLastState.bind(this);
     this.rightPanelRef = React.createRef();
@@ -53,7 +54,7 @@ class App extends React.Component {
       response = await userInfoRequest(accessToken);
       this.hideErrorPanel();
       if (response.status == 200) {
-        this.setState({ user: response.data });
+        this.setState({user: response.data});
         this.logInUser(response.data);
         this.getUserLists();
       }
@@ -72,14 +73,14 @@ class App extends React.Component {
 
   async initializeCategories() {
     let data;
-    let store = getStore();
+    const store = getStore();
     try {
       data = await requestAllCategories();
       this.hideErrorPanel();
       store.dispatch({
-        type: "changeCategories",
-        categories: data
-      })
+        type: 'changeCategories',
+        categories: data,
+      });
     } catch (e) {
       this.showErrorPanel();
       this.initializeCategories();
@@ -100,12 +101,33 @@ class App extends React.Component {
     }
   }
 
+  addProductToCartContent(product) {
+    let updatedContent = this.state.cartContent;
+    let productAlreadyInside = false;
+    updatedContent.entries.forEach(element => {
+      if(element.item.id === product.id){
+        productAlreadyInside = true;
+        element.quantity = element.quantity + 1;
+        element.totalPrice = element.quantity * element.item.priceWithVat;
+      }
+    });
+    if (!productAlreadyInside){
+      let newItem = {"item": product, "quantity": 1, "totalPrice": product.priceWithVat};
+      updatedContent.entries.push(newItem);
+    }
+    updatedContent.subtotalPrice = updatedContent.subtotalPrice + product.price;
+    updatedContent.totalPrice = updatedContent.totalPrice + product.priceWithVat;
+    this.setState({
+      cartContent: updatedContent,
+    });
+  }
+
   async getUserLists() {
     let response;
     try {
       response = await userListsRequest(this.state.accessToken);
       this.hideErrorPanel();
-      if (response.status == 200) this.setState({ lists: response.data });
+      if (response.status == 200) this.setState({lists: response.data});
     } catch (e) {
       this.showErrorPanel();
       this.getUserLists(this.state.accessToken);
@@ -308,6 +330,7 @@ class App extends React.Component {
               cartContent={this.state.cartContent}
               ref={this.rightPanelRef}
               zoomImage={this.showZoomedImage.bind(this)}
+              addProductToCartContent={this.addProductToCartContent}
             />
           </div>
           <Nav

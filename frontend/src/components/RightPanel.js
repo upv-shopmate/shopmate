@@ -7,11 +7,11 @@ import Cart from './Cart';
 import Map from './Map';
 import Searcher from './SearchPanel';
 import Square from './Square';
-import { requestMap } from '../requests/MapRequest';
-import { requestCatalog } from '../requests/ProductRequest.js';
-import { requestCatalogByCategory } from '../requests/ProductRequest.js';
+import {requestMap} from '../requests/MapRequest';
+import {requestCatalog} from '../requests/ProductRequest.js';
+import {requestCatalogByCategory} from '../requests/ProductRequest.js';
 import loadingGif from '../assets/images/loading.gif';
-import { getStore } from '../utils/Store';
+import {getStore} from '../utils/Store';
 
 // minimum width is 70
 const WIDTHS = {
@@ -42,9 +42,10 @@ class RightPanel extends React.Component {
     this.setState({
       'selectedCategory': category,
       'catalogPage': 1,
-    }, () => { this.updateCatalog(1) })
+    }, () => {
+      this.updateCatalog(1);
+    });
   }
-
 
 
   componentDidMount() {
@@ -89,7 +90,7 @@ class RightPanel extends React.Component {
       } else {
         catalog = await requestCatalogByCategory(this.state.selectedCategory.id, page - 1);
       }
-      if(catalog != undefined) {
+      if (catalog != undefined) {
         this.setState({
           'catalog': catalog,
           'catalogPage': page,
@@ -188,6 +189,7 @@ class RightPanel extends React.Component {
         cartContent={this.props.cartContent}
         showErrorPanel={this.props.showErrorPanel}
         hideErrorPanel={this.props.hideErrorPanel}
+        addProductToCartContent={this.props.addProductToCartContent}
       />;
     } else if (panel === 'catalog') {
       this.changePanelWidth(WIDTHS.CATALOG);

@@ -29,6 +29,7 @@
     box-shadow: 0px 0px 2px 2.5px rgba(0.15, 0.15, 0.15, 0.15);
     justify-content: space-between;
     height: 200px;
+    cursor: pointer;
 }
 
 .subtotal-block{
