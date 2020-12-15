@@ -37,6 +37,7 @@ class App extends React.Component {
       'zoomedImage': undefined,
     };
     this.addProductToCartContent = this.addProductToCartContent.bind(this);
+    this.removeProductToCartContent = this.removeProductToCartContent.bind(this);
     this.resetCartContent = this.resetCartContent.bind(this);
     this.changeProductResults = this.changeProductResults.bind(this);
     this.goToLastState = this.goToLastState.bind(this);
@@ -109,21 +110,79 @@ class App extends React.Component {
       if(element.item.id === product.id){
         productAlreadyInside = true;
         element.quantity = element.quantity + 1;
-        element.totalPrice = element.quantity * element.item.priceWithVat;
+        element.totalPrice = element.quantity * element.item.modifiedPrice;
       }
     });
     if (!productAlreadyInside){
-      let newItem = {"item": product, "quantity": 1, "totalPrice": product.priceWithVat};
+      let newItem = {"item": product, "quantity": 1, "totalPrice": product.modifiedPrice};
       updatedContent.entries.push(newItem);
     }
     updatedContent.subtotalPrice = updatedContent.subtotalPrice + product.price;
-    updatedContent.totalPrice = updatedContent.totalPrice + product.priceWithVat;
-    updatedContent.modifierBreakdowns[0].applicableBase =
-      updatedContent.modifierBreakdowns[0].applicableBase + product.price;
-    updatedContent.modifierBreakdowns[0].totalDelta = 
-      updatedContent.modifierBreakdowns[0].totalDelta + product.priceWithVat - product.price;
+    updatedContent.totalPrice = updatedContent.totalPrice + product.modifiedPrice;
+    this.addModifiersToCartContent(product, updatedContent);
     this.setState({
       cartContent: updatedContent,
+    });
+  }
+
+  addModifiersToCartContent(product, updatedContent){
+    let modifiers = product.priceModifiers;
+    updatedContent.modifierBreakdowns.forEach(storedModifier => {
+      modifiers.forEach(productModifier => {
+        if (storedModifier.modifier.code === productModifier.code && storedModifier.modifier.value === productModifier.value){
+          storedModifier.applicableBase = storedModifier.applicableBase + product.price;
+          storedModifier.totalDelta = storedModifier.applicableBase * productModifier.value;
+          modifiers.splice(modifiers.indexOf(productModifier), 1);
+        }
+      });
+    });
+    modifiers.forEach(modifier => {
+      let newModifier = {"applicableBase": product.price, "modifier": modifier, "totalDelta": product.price * modifier.value}
+      updatedContent.modifierBreakdowns.push(newModifier);
+    });
+  }
+
+  removeProductToCartContent(product) {
+    let updatedContent = this.state.cartContent;
+    let productInside = false;
+    updatedContent.entries.forEach(element => {
+      if(element.item.id === product.id){
+        productInside = true;
+        if (element.quantity === 1){
+          let index = updatedContent.entries.indexOf(element);
+          updatedContent.entries.splice(index, 1);
+        }
+        else{
+          element.quantity = element.quantity - 1;
+          element.totalPrice = element.quantity * element.item.modifiedPrice;
+        }
+      }
+    });
+    if (productInside){
+      updatedContent.subtotalPrice = updatedContent.subtotalPrice - product.price;
+      updatedContent.totalPrice = updatedContent.totalPrice - product.modifiedPrice;
+      this.removeModifiersFromCartContent(product, updatedContent);
+      this.setState({
+        cartContent: updatedContent,
+      });
+    }
+    return productInside;
+  }
+
+  removeModifiersFromCartContent(product, updatedContent){
+    let modifiers = product.priceModifiers;
+    updatedContent.modifierBreakdowns.forEach(storedModifier => {
+      modifiers.forEach(productModifier => {
+        if (storedModifier.modifier.code === productModifier.code && storedModifier.modifier.value === productModifier.value){
+          storedModifier.applicableBase = storedModifier.applicableBase - product.price;
+          storedModifier.totalDelta = storedModifier.applicableBase * productModifier.value;
+          modifiers.splice(modifiers.indexOf(productModifier), 1);
+          if (storedModifier.applicableBase === 0){
+            let indexModifier = updatedContent.modifierBreakdowns.indexOf(storedModifier);
+            updatedContent.modifierBreakdowns.splice(indexModifier, 1);
+          }
+        }
+      });
     });
   }
 
@@ -132,8 +191,7 @@ class App extends React.Component {
     resettedContent.entries = new Array();
     resettedContent.subtotalPrice = 0;
     resettedContent.totalPrice = 0;
-    resettedContent.modifierBreakdowns[0].applicableBase = 0;
-    resettedContent.modifierBreakdowns[0].totalDelta = 0;
+    resettedContent.modifierBreakdowns = new Array();
     this.setState({
       cartContent: resettedContent,
     });
@@ -348,6 +406,7 @@ class App extends React.Component {
               ref={this.rightPanelRef}
               zoomImage={this.showZoomedImage.bind(this)}
               addProductToCartContent={this.addProductToCartContent}
+              removeProductToCartContent={this.removeProductToCartContent}
               resetCartContent={this.resetCartContent}
             />
           </div>

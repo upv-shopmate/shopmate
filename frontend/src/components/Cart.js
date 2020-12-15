@@ -45,7 +45,7 @@ class Cart extends React.Component {
 
   getProductPriceBase() {
     const cartContent = this.props.cartContent;
-    if (cartContent !== undefined) {
+    if (cartContent !== undefined && cartContent.modifierBreakdowns.length > 0) {
       return ' Base: ' + roundUp(
           cartContent.modifierBreakdowns[0].applicableBase, 2,
       );
@@ -56,7 +56,7 @@ class Cart extends React.Component {
 
   getProductIVA(t) {
     const cartContent = this.props.cartContent;
-    if (cartContent !== undefined) {
+    if (cartContent !== undefined && cartContent.modifierBreakdowns.length > 0) {
       return t('iva') +
       cartContent.modifierBreakdowns[0].modifier.value * 100;
     } else {
@@ -66,7 +66,7 @@ class Cart extends React.Component {
 
   getProductPriceImport(t) {
     const cartContent = this.props.cartContent;
-    if (cartContent !== undefined) {
+    if (cartContent !== undefined && cartContent.modifierBreakdowns.length > 0) {
       return t('ammount') + roundUp(
           cartContent.modifierBreakdowns[0].totalDelta, 2,
       );
@@ -125,6 +125,20 @@ class Cart extends React.Component {
       }
     }catch(e){
       answerMessage = "El producto solicitado no ha podido ser añadido al carro, asegúrese de que el código introducido es correcto.";
+    }
+    return answerMessage;
+  }
+
+  async removeProduct(barcode){
+    let answerMessage;
+    try{
+      if (this.props.cartContent !== undefined) {
+        let product = await requestProductByBarcode(barcode);
+        this.props.removeProductToCartContent(product);
+        answerMessage = "El producto ha sido removido satisfactoriamente.";
+      }
+    }catch(e){
+      answerMessage = "El producto solicitado no ha podido ser removido del carro, asegúrese de que el código introducido es correcto y se encuentra en el carro.";
     }
     return answerMessage;
   }

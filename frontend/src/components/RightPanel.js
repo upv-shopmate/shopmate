@@ -190,6 +190,7 @@ class RightPanel extends React.Component {
         showErrorPanel={this.props.showErrorPanel}
         hideErrorPanel={this.props.hideErrorPanel}
         addProductToCartContent={this.props.addProductToCartContent}
+        removeProductToCartContent={this.props.removeProductToCartContent}
         resetCartContent={this.props.resetCartContent}
       />;
     } else if (panel === 'catalog') {
