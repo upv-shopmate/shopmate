@@ -1,74 +1,79 @@
 .product-entrie {
-    height: 60px;
-    border-radius: 7px;
-    display: flex;
-    flex-flow: row;
-    justify-content: space-between;
-    align-items: center;
-    margin-left: 20px;
-    margin-right: 20px;
-    margin-top: 8px;
-    box-shadow: 0px 0px 2px 2.5px rgba(0.15, 0.15, 0.15, 0.15);
-    cursor: pointer;
-    width: 100%;
-  }
-  
-  .entrie-info {
-    display: flex;
-    flex-flow: column;
-    justify-content: space-around;
-    min-width: 60%;
-    flex-grow: 1;
-    margin-left: 10px;
-    margin-right: 15px;
-  }
-  
-  .entrie-topline {
-    display: flex;
-  }
-  
-  .entrie-name {
-    font-weight: bold;
-    font-size: 18px;
-  }
+  height: 70px;
+  border-radius: 2.5px;
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: 8px;
+  box-shadow: 0px 0px 2px 2.5px rgba(0.15, 0.15, 0.15, 0.15);
+  width: 100%;
+  background-color: white;
+  overflow: hidden;
+}
 
-  .entrie-bottomline {
-    display: flex;
-    justify-content: space-between;
-    flex-grow: 1;
-    align-items: center;
-  }
+.entrie-info {
+  display: flex;
+  flex-flow: column;
+  justify-content: space-around;
+  min-width: 60%;
+  flex-grow: 1;
+  margin-left: 10px;
+  margin-right: 15px;
+}
 
-  .entrie-price-box {
-    display: flex;
-    flex-flow: column;
-    margin-right: 15px;
-  }
+.entrie-topline {
+  display: flex;
+}
 
-  .entrie-unit-text {
-    font-size: 15px;
-  }
+.entrie-name {
+  font-weight: bold;
+  font-size: 18px;
+}
 
-  .entrie-unit-price {
-    margin-left: 5px;
-    font-size: 13.3px;
-    align-self: flex-end;
-    font-weight: bold;
-    color: gray;
-  }
-  
-  .entrie-image {
-    max-height: 55px;
-    width: 50px;
-    height: auto;
-    margin-left: 15px;
-  }
+.entrie-bottomline {
+  display: flex;
+  justify-content: space-between;
+  flex-grow: 1;
+  align-items: center;
+}
 
-  .entrie-price {
-    display: flex;
-    font-weight: bold;
-    font-size: 30px;
-    width: auto;
-    align-self: center;
-  }
-  
+.entrie-price-box {
+  display: flex;
+  flex-flow: column;
+  align-self: center;
+  margin-right: 15px;
+}
+
+.entrie-unit-text {
+  font-size: 15px;
+}
+
+.entrie-unit-price {
+  margin-left: 5px;
+  font-size: 13px;
+  align-self: flex-end;
+  margin-top: -5px;
+  margin-bottom: 5px;
+  color: gray;
+  font-family: priceFont;
+}
+
+.entrie-image {
+  height: 80px;
+  width: auto;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.entrie-price {
+  display: flex;
+  font-size: 30px;
+  width: auto;
+  align-self: center;
+  font-family: priceFont;
+}

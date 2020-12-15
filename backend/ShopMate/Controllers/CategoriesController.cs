@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ShopMate.Dto;
 using ShopMate.Persistence;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ShopMate.Controllers
@@ -30,6 +31,14 @@ namespace ShopMate.Controllers
             }
 
             return Ok(mapper.Map<CategoryReadDto>(category));
+        }
+
+        [HttpGet]
+        public ActionResult<ICollection<CategoryReadDto>> GetAllCategories()
+        {
+            var categories = repository.Categories.GetAll().ToList();
+
+            return Ok(mapper.Map<List<CategoryReadDto>>(categories));
         }
     }
 }

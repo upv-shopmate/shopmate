@@ -1,12 +1,13 @@
 .search-field {
   width: 45%;
-  height: 40%;
+  height: 35px;
   background-color: white;
-  border-radius: 40px;
+  border-radius: 7px;
   display: flex;
   align-items: center;
+  margin-left: 24px;
   overflow: hidden;
-  box-shadow: 0px 0px 2px 2.5px rgba(0.15, 0.15, 0.15, 0.15);
+  box-shadow: 0px 0px 2px 2.5px rgba(255, 255, 255, 0.15);
 }
 
 .search-field > input {
@@ -41,7 +42,4 @@
 .search-input {
   margin-left: 5px;
   width: calc(100% - 20px);
-}
-.shadow {
-  filter: drop-shadow(0px 8px 8px rgba(0, 0, 0, 0.5));
 }

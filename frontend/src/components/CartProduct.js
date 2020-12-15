@@ -5,16 +5,11 @@ import imageNotFound from '../assets/images/image_not_found.jpg';
 import React, {Component} from 'react';
 import {capitalize} from '../utils/Utils';
 import {withTranslation} from 'react-i18next';
-
+import {roundUp} from '../utils/Utils';
 
 class CartProduct extends Component {
   constructor(props) {
     super(props);
-  }
-
-  roundUp(num, precision) {
-    precision = Math.pow(10, precision);
-    return (Math.ceil(num * precision) / precision).toFixed(2);
   }
 
   getEntrieImage() {
@@ -33,21 +28,21 @@ class CartProduct extends Component {
 
   getEntrieQuantity() {
     const {t} = this.props;
-    return t('cartProduct.quantity') + this.props.entry.quantity;
+    return t('quantity') + this.props.entry.quantity;
   }
 
   getEntrieUnitPrice() {
     const product = this.props.entry.item;
     const {t} = this.props;
     if (this.props.entry.quantity > 1) {
-      return this.roundUp(product.priceWithVat, 2) + t('cartProduct.unitaryText');
+      return roundUp(product.priceWithVat, 2) + t('unitaryText');
     }
     return '';
   }
 
   getEntrieTotalPrice() {
     const product = this.props.entry;
-    return this.roundUp(product.totalPrice, 2) + ' €';
+    return roundUp(product.totalPrice, 2) + ' €';
   }
 
 

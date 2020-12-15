@@ -50,7 +50,7 @@ class UserDetails extends React.Component {
               <div className="ud-phone">{this.getPhoneNumber()}</div>
             </div>
             <button
-              className="logout-button shadow"
+              className="logout-button"
               onClick={this.closeAndLogOut.bind(this)}>
               <img className="logout-button-image" src={signOutIcon}></img>
               <div className="logout-button-text">{t('userDetails.logout')}</div>
@@ -59,7 +59,7 @@ class UserDetails extends React.Component {
 
         </div>
         <button
-          className="user-details-return-button shadow"
+          className="user-details-return-button"
           onClick={this.closeUserDetails.bind(this)}>
           <img
             className="user-details-return-button-image"

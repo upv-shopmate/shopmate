@@ -5,15 +5,11 @@ import imageNotFound from '../assets/images/image_not_found.jpg';
 import React, {Component} from 'react';
 import {capitalize} from '../utils/Utils';
 import {withTranslation} from 'react-i18next';
+import {roundUp} from '../utils/Utils';
 
 class SearchResult extends Component {
   constructor(props) {
     super(props);
-  }
-
-  roundUp(num, precision) {
-    precision = Math.pow(10, precision);
-    return (Math.ceil(num * precision) / precision).toFixed(2);
   }
 
   getProductName() {
@@ -39,7 +35,7 @@ class SearchResult extends Component {
   }
 
   getProductPrice() {
-    return this.roundUp(this.props.productData.priceWithVat, 2) + '€';
+    return roundUp(this.props.productData.priceWithVat, 2) + '€';
   }
 
   getProductWeightOrVolume() {
