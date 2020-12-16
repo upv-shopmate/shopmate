@@ -57,7 +57,7 @@ function reducer(state, action) {
   } else if (action.type === 'showError') {
     state['error'] = action.error;
   } else if (action.type === 'changeCategories') {
-    state["categories"] = action.categories;
+    state['categories'] = action.categories;
   };
   return state;
 }

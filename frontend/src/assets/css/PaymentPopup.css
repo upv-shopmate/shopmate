@@ -1,0 +1,110 @@
+.payment-popup{
+    position: absolute;
+    background-color: dimgrey;
+    height: 100%;
+    width: 70%;
+}
+
+.top-payment-popup{
+    font-size: x-large;
+    font-weight: bolder;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.body-payment-popup{
+    display: flex;
+    flex-direction: row;
+    height: 450px;
+}
+
+.body-payment-message-popup{
+    font-size: xx-large;
+    text-align: center;
+    height: 300px;
+    margin-top: 150px;
+}
+
+.product-list-payment-popup{
+    width: 300px;
+    height: 420px;
+    border: solid;
+    border-color: darkgrey;
+    background-color: white;
+    border-radius: 2.5px;
+    margin-left: 20px;
+    white-space: pre-wrap;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.confirmation-menu-payment-popup{
+    white-space: pre-line;
+    width: 50%;
+    margin-top: 120px;
+    font-size: xx-large;
+    text-align: center;
+}
+
+.payment-message-icon{
+   height: 200px;
+   position: absolute;
+   display: block;
+   margin-top: 30px;
+   margin-left: 265px;
+}
+
+.return-button-payment-popup{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-left: 450px;
+}
+
+.return-button-img{
+    height: 20px;
+    margin-left: 5px;
+}
+
+.return-button-text{
+    margin-right: 25px;
+}
+
+.cancel-button-payment-popup{
+    margin-left: 100px;
+}
+
+.try-again-button-payment-popup{
+    margin-left: 287px;
+}
+
+.confirmation-button-payment-popup, 
+.confirmation-button-payment-popup-disabled, 
+.return-button-payment-popup,
+.cancel-button-payment-popup,
+.try-again-button-payment-popup {
+    text-align: center;
+    height: 35px;
+    width: 150px;
+    border-radius: 2.5px;
+    background-color:#ffd369;
+    color: black;
+    font-size: 14px;
+    width: 115px;
+    border-color: transparent;
+    font-weight: bold;
+}
+
+.confirmation-button-payment-popup{
+    width: 200px;
+}
+
+.confirmation-button-payment-popup:disabled{
+    background-color: #a2a2a2;
+    color: #666666;
+}
+
+.bottom-payment-popup{
+    display: flex;
+    flex-direction: row;
+}
