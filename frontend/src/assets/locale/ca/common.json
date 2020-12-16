@@ -48,5 +48,7 @@
   "networkError": {
     "title": "Xé!",
     "message": "Pareix que hi ha hagut un problema amb la connexió del carret. No et preocupes, se solucionarà de seguida."
-  }
+  },
+  "filterProducts": "Filtrar per categoria",
+  "filterProductsButton": "Selecciona una subcategoria"
 }

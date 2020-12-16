@@ -48,5 +48,7 @@
     "title": "Woopsie!",
     "message": "There seems to have been a problem with the cart connection. Don't worry, it will be fixed right away."
   },
-  "products": "Products"
+  "products": "Products",
+  "filterProducts": "Filter by category",
+  "filterProductsButton": "Select a subcategory"
 }

@@ -48,5 +48,7 @@
     "title": "¡Córcholis!",
     "message": "Parece que ha habido un problema con la conexión del carrito. No te preocupes, se solucionará enseguida."
   },
-  "products": "Productos"
+  "products": "Productos",
+  "filterProducts": "Filtrar por categoría",
+  "filterProductsButton": "Selecciona una sabcategoría"
 }
