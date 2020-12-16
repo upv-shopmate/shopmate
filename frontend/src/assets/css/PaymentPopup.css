@@ -1,6 +1,6 @@
 .payment-popup{
     position: absolute;
-    background-color: dimgrey;
+    background-color: rgb(177, 177, 177);
     height: 100%;
     width: 70%;
 }
@@ -30,7 +30,7 @@
     width: 300px;
     height: 420px;
     border: solid;
-    border-color: darkgrey;
+    border-color: rgb(87, 87, 87);
     background-color: white;
     border-radius: 2.5px;
     margin-left: 20px;
@@ -107,4 +107,8 @@
 .bottom-payment-popup{
     display: flex;
     flex-direction: row;
+}
+
+.ammount-payment-popup-price {
+    font-weight: bolder;
 }

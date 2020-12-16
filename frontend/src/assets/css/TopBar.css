@@ -57,7 +57,7 @@
     display: flex;
     align-items: center;
     width: auto;
-    height: 40%;
+    height: 35px;
     background-color: #eeeeee;
     border-radius: 2.5px;
     margin-right: 10px;
@@ -108,15 +108,16 @@
 }
 
 .translate-button {
-    background-color:#ffd369;
-    width: auto;
+    background-color: #ffd369;
+    width: 35px;
     height: 35px;
     border-color: transparent;
+    border: 0px;
 }
 .exit-button {
     background-color: red;
-    border: 0;
     margin-left: 5px;
     height: 35px;
     width: 35px;
+    border: 0px;
 }

@@ -54,9 +54,9 @@ class PaymentPopup extends React.Component {
       text = text.substring(0, length);
     } else {
       if (onRight) {
-        text = new Array(length - text.toString().length + 1).join(' ') + text;
+        text = new Array(length - text.length + 1).join(' ') + text;
       } else {
-        text = text + new Array(length - text.toString().length + 1).join(' ');
+        text = text + new Array(length - text.length + 1).join(' ');
       }
     }
     return text;
@@ -64,11 +64,11 @@ class PaymentPopup extends React.Component {
 
   getTextCartContent() {
     const cartList = this.props.cartContent;
+    let text = new Array(32).join('*') + '\n';
     if (cartList !== undefined) {
-      let text = new Array(32).join('*') + '\n';
       cartList.entries.forEach((element) => {
         text = text +
-                    this.fillTextPartWithWhitespaces(element.quantity, 4) +
+                    this.fillTextPartWithWhitespaces(element.quantity.toString(), 4) +
                     this.fillTextPartWithWhitespaces(element.item.name, 20) +
                     this.fillTextPartWithWhitespaces(roundUp(element.totalPrice, 2), 7, true) +
                     '\n';
@@ -130,7 +130,8 @@ class PaymentPopup extends React.Component {
 
   renderPaymentMenu() {
     const {t} = this.props;
-    const total = t('totalToPay') + '\n ' + this.props.getProductTotalPrice() + ' €';
+    const total = t('totalToPay') + '\n ';
+    const totalPrice = this.props.getProductTotalPrice() + ' €';
     return (
       <div className="body-payment-popup">
         <div className="product-list-payment-popup">
@@ -139,6 +140,9 @@ class PaymentPopup extends React.Component {
         <div className="confirmation-menu-payment-popup">
           <div className="ammount-payment-popup">
             {total}
+          </div>
+          <div className="ammount-payment-popup-price">
+            {totalPrice}
           </div>
           <div className="confirmation-button-box-payment-popup">
             <button className="confirmation-button-payment-popup"

@@ -49,7 +49,7 @@
     "message": "Parece que ha habido un problema con la conexión del carrito. No te preocupes, se solucionará enseguida."
   },
   "products": "Productos",
-  "paymentMenu": "Menú de Pago",
+  "paymentMenu": "Menú de pago",
   "paymentFinished": "Proceso de pago finalizado",
   "paymentFailed": "Proceso de pago fallido",
   "paymentInProcess": "Iniciando procedimiento de pago",

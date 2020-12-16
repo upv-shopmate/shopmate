@@ -49,7 +49,7 @@
     "title": "Xé!",
     "message": "Pareix que hi ha hagut un problema amb la connexió del carret. No et preocupes, se solucionarà de seguida."
   },
-  "paymentMenu": "Menú de Pagament",
+  "paymentMenu": "Menú de pagament",
   "paymentFinished": "Procés de pagament finalitzat",
   "paymentFailed": "Procés de pagament fallit",
   "paymentInProcess": "Iniciant procediment de pagament",
