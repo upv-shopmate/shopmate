@@ -66,7 +66,7 @@ class Catalog extends React.Component {
   }
 
   renderProducts() {
-    let products = this.state.products;
+    const products = this.state.products;
     if (products != undefined && products.length > 0) {
       return this.state.products.map((product) =>
         <Product

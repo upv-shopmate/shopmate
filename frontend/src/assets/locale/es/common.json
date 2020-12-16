@@ -84,6 +84,17 @@
   },
   "userList":{
     "products": "Productos"
-  }
-  
+  },
+  "products": "Productos",
+  "paymentMenu": "Menú de pago",
+  "paymentFinished": "Proceso de pago finalizado",
+  "paymentFailed": "Proceso de pago fallido",
+  "paymentInProcess": "Iniciando procedimiento de pago",
+  "paymentFinishedMessage": "Pago realizado. Gracias por su compra.",
+  "paymentFailedMessage": "Fallo al validar el pago.",
+  "paymentInProcessMessage": "Por favor, dirija su atención hacia el datáfono.",
+  "totalToPay": "Total a pagar: ",
+  "confirmPayment": "Confirmar pago",
+  "cancel": "Cancelar",
+  "tryAgain": "Reintentar pago"
 }

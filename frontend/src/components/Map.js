@@ -1,7 +1,7 @@
 /* eslint react/prop-types: 0 */
 import '../assets/css/Map.css';
 import React from 'react';
-import { getStore } from '../utils/Store.js';
+import {getStore} from '../utils/Store.js';
 import ProductInMap from './ProductInMap';
 
 // 853x566
