@@ -18,11 +18,9 @@ namespace PopulateDb
 
         private const int MAX_STOCK = 9000;
         private const int MAX_TIMES_SOLD = 6070;
-
-        readonly static Random rng = new Random();
-
-        readonly static ISet<Category> categoriesCache = new HashSet<Category>();
-        readonly static ISet<Brand> brandsCache = new HashSet<Brand>();
+        private static readonly Random rng = new Random();
+        private static readonly ISet<Category> categoriesCache = new HashSet<Category>();
+        private static readonly ISet<Brand> brandsCache = new HashSet<Brand>();
 
         private static void Main(string[] args)
         {
@@ -100,9 +98,9 @@ namespace PopulateDb
                 mapHeight = map.Length;
                 mapWidth = map[0].Length;
                 
-                for (int i = 0; i < mapHeight; i += 1)
+                for (var i = 0; i < mapHeight; i += 1)
                 {
-                    for (int j = 0; j < mapWidth; j += 1)
+                    for (var j = 0; j < mapWidth; j += 1)
                     {
                         if (map[i][j] > 2) { validPositions.Add((i, j)); }
                     }
