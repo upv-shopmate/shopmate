@@ -31,8 +31,11 @@
 .return-button {
   display: flex;
   align-items: center;
-  background-color: rgb(252, 184, 59);
+  background-color: #ffd369;
   cursor: pointer;
+  border: 0px;
+  border-radius: 2.5px;
+  margin-top: 10px;
 }
 
 .return-button-image {

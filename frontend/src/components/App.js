@@ -4,15 +4,15 @@ import TopBar from './TopBar';
 import LeftPanel from './LeftPanel';
 import RightPanel from './RightPanel';
 import Nav from './Nav';
-import { requestSearchDataBase } from '../requests/SearchRequests.js';
+import {requestSearchDataBase} from '../requests/SearchRequests.js';
 import Login from './Login';
-import { userInfoRequest, userListsRequest } from '../requests/UserRequests.js';
-import { requestCartContentDataBase } from '../requests/CartContents';
-import { requestAllCategories } from '../requests/CategoriesRequests'
+import {userInfoRequest, userListsRequest} from '../requests/UserRequests.js';
+import {requestCartContentDataBase} from '../requests/CartContents';
+import {requestAllCategories} from '../requests/CategoriesRequests';
 import UserDetails from './UserDetails';
 import ZoomedImage from './ZoomedImage';
 import ErrorPanel from './ErrorPanel';
-import { getStore } from '../utils/Store';
+import {getStore} from '../utils/Store';
 
 export const dataBaseURL = 'https://localhost:5001';
 
@@ -36,6 +36,10 @@ class App extends React.Component {
       'cartContent': undefined,
       'zoomedImage': undefined,
     };
+    this.addProductToCartContent = this.addProductToCartContent.bind(this);
+    this.removeProductToCartContent =
+      this.removeProductToCartContent.bind(this);
+    this.resetCartContent = this.resetCartContent.bind(this);
     this.changeProductResults = this.changeProductResults.bind(this);
     this.goToLastState = this.goToLastState.bind(this);
     this.rightPanelRef = React.createRef();
@@ -53,7 +57,7 @@ class App extends React.Component {
       response = await userInfoRequest(accessToken);
       this.hideErrorPanel();
       if (response.status == 200) {
-        this.setState({ user: response.data });
+        this.setState({user: response.data});
         this.logInUser(response.data);
         this.getUserLists();
       }
@@ -72,14 +76,14 @@ class App extends React.Component {
 
   async initializeCategories() {
     let data;
-    let store = getStore();
+    const store = getStore();
     try {
       data = await requestAllCategories();
       this.hideErrorPanel();
       store.dispatch({
-        type: "changeCategories",
-        categories: data
-      })
+        type: 'changeCategories',
+        categories: data,
+      });
     } catch (e) {
       this.showErrorPanel();
       this.initializeCategories();
@@ -100,12 +104,120 @@ class App extends React.Component {
     }
   }
 
+  addProductToCartContent(product) {
+    const updatedContent = this.state.cartContent;
+    let productAlreadyInside = false;
+    updatedContent.entries.forEach((element) => {
+      if (element.item.id === product.id) {
+        productAlreadyInside = true;
+        element.quantity = element.quantity + 1;
+        element.totalPrice =
+          element.quantity * element.item.modifiedPrice;
+      }
+    });
+    if (!productAlreadyInside) {
+      const newItem = {
+        'item': product,
+        'quantity': 1,
+        'totalPrice': product.modifiedPrice,
+      };
+      updatedContent.entries.push(newItem);
+    }
+    updatedContent.subtotalPrice = updatedContent.subtotalPrice + product.price;
+    updatedContent.totalPrice =
+      updatedContent.totalPrice + product.modifiedPrice;
+    this.addModifiersToCartContent(product, updatedContent);
+    this.setState({
+      cartContent: updatedContent,
+    });
+  }
+
+  addModifiersToCartContent(product, updatedContent) {
+    const modifiers = product.priceModifiers;
+    updatedContent.modifierBreakdowns.forEach((storedModifier) => {
+      modifiers.forEach((productModifier) => {
+        if (storedModifier.modifier.code === productModifier.code &&
+          storedModifier.modifier.value === productModifier.value) {
+          storedModifier.applicableBase = storedModifier.applicableBase + product.price;
+          storedModifier.totalDelta =
+            storedModifier.applicableBase * productModifier.value;
+          modifiers.splice(modifiers.indexOf(productModifier), 1);
+        }
+      });
+    });
+    modifiers.forEach((modifier) => {
+      const newModifier = {
+        'applicableBase': product.price,
+        'modifier': modifier,
+        'totalDelta': product.price * modifier.value,
+      };
+      updatedContent.modifierBreakdowns.push(newModifier);
+    });
+  }
+
+  removeProductToCartContent(product) {
+    const updatedContent = this.state.cartContent;
+    let productInside = false;
+    updatedContent.entries.forEach((element) => {
+      if (element.item.id === product.id) {
+        productInside = true;
+        if (element.quantity === 1) {
+          const index = updatedContent.entries.indexOf(element);
+          updatedContent.entries.splice(index, 1);
+        } else {
+          element.quantity = element.quantity - 1;
+          element.totalPrice = element.quantity * element.item.modifiedPrice;
+        }
+      }
+    });
+    if (productInside) {
+      updatedContent.subtotalPrice = updatedContent.subtotalPrice - product.price;
+      updatedContent.totalPrice = updatedContent.totalPrice - product.modifiedPrice;
+      this.removeModifiersFromCartContent(product, updatedContent);
+      this.setState({
+        cartContent: updatedContent,
+      });
+    }
+    return productInside;
+  }
+
+  removeModifiersFromCartContent(product, updatedContent) {
+    const modifiers = product.priceModifiers;
+    updatedContent.modifierBreakdowns.forEach((storedModifier) => {
+      modifiers.forEach((productModifier) => {
+        if (storedModifier.modifier.code === productModifier.code &&
+          storedModifier.modifier.value === productModifier.value) {
+          storedModifier.applicableBase = storedModifier.applicableBase - product.price;
+          storedModifier.totalDelta =
+          storedModifier.applicableBase * productModifier.value;
+          modifiers.splice(modifiers.indexOf(productModifier), 1);
+          if (storedModifier.applicableBase === 0) {
+            const indexModifier =
+              updatedContent.modifierBreakdowns.indexOf(storedModifier);
+            updatedContent.modifierBreakdowns.splice(indexModifier, 1);
+          }
+        }
+      });
+    });
+  }
+
+  resetCartContent() {
+    const resettedContent = this.state.cartContent;
+    resettedContent.entries = [];
+    resettedContent.subtotalPrice = 0;
+    resettedContent.totalPrice = 0;
+    resettedContent.modifierBreakdowns = [];
+    this.setState({
+      cartContent: resettedContent,
+    });
+  }
+
   async getUserLists() {
     let response;
     try {
       response = await userListsRequest(this.state.accessToken);
       this.hideErrorPanel();
-      if (response.status == 200) this.setState({ lists: response.data });
+      if (response.status == 200) this.setState({lists: response.data});
     } catch (e) {
       this.showErrorPanel();
       this.getUserLists(this.state.accessToken);
@@ -308,6 +420,9 @@ class App extends React.Component {
               cartContent={this.state.cartContent}
               ref={this.rightPanelRef}
               zoomImage={this.showZoomedImage.bind(this)}
+              addProductToCartContent={this.addProductToCartContent}
+              removeProductToCartContent={this.removeProductToCartContent}
+              resetCartContent={this.resetCartContent}
             />
           </div>
           <Nav
