@@ -65,7 +65,7 @@ class PaymentPopup extends React.Component {
   getTextCartContent() {
     const cartList = this.props.cartContent;
     if (cartList !== undefined) {
-      var text = new Array(32).join('*') + '\n';
+      let text = new Array(32).join('*') + '\n';
       cartList.entries.forEach((element) => {
         text = text +
                     this.fillTextPartWithWhitespaces(element.quantity, 4) +

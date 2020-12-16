@@ -37,7 +37,8 @@ class App extends React.Component {
       'zoomedImage': undefined,
     };
     this.addProductToCartContent = this.addProductToCartContent.bind(this);
-    this.removeProductToCartContent = this.removeProductToCartContent.bind(this);
+    this.removeProductToCartContent =
+      this.removeProductToCartContent.bind(this);
     this.resetCartContent = this.resetCartContent.bind(this);
     this.changeProductResults = this.changeProductResults.bind(this);
     this.goToLastState = this.goToLastState.bind(this);
@@ -104,61 +105,72 @@ class App extends React.Component {
   }
 
   addProductToCartContent(product) {
-    let updatedContent = this.state.cartContent;
+    const updatedContent = this.state.cartContent;
     let productAlreadyInside = false;
-    updatedContent.entries.forEach(element => {
-      if(element.item.id === product.id){
+    updatedContent.entries.forEach((element) => {
+      if (element.item.id === product.id) {
         productAlreadyInside = true;
         element.quantity = element.quantity + 1;
-        element.totalPrice = element.quantity * element.item.modifiedPrice;
+        element.totalPrice =
+          element.quantity * element.item.modifiedPrice;
       }
     });
-    if (!productAlreadyInside){
-      let newItem = {"item": product, "quantity": 1, "totalPrice": product.modifiedPrice};
+    if (!productAlreadyInside) {
+      const newItem = {
+        'item': product,
+        'quantity': 1,
+        'totalPrice': product.modifiedPrice,
+      };
       updatedContent.entries.push(newItem);
     }
     updatedContent.subtotalPrice = updatedContent.subtotalPrice + product.price;
-    updatedContent.totalPrice = updatedContent.totalPrice + product.modifiedPrice;
+    updatedContent.totalPrice =
+      updatedContent.totalPrice + product.modifiedPrice;
     this.addModifiersToCartContent(product, updatedContent);
     this.setState({
       cartContent: updatedContent,
     });
   }
 
-  addModifiersToCartContent(product, updatedContent){
-    let modifiers = product.priceModifiers;
-    updatedContent.modifierBreakdowns.forEach(storedModifier => {
-      modifiers.forEach(productModifier => {
-        if (storedModifier.modifier.code === productModifier.code && storedModifier.modifier.value === productModifier.value){
+  addModifiersToCartContent(product, updatedContent) {
+    const modifiers = product.priceModifiers;
+    updatedContent.modifierBreakdowns.forEach((storedModifier) => {
+      modifiers.forEach((productModifier) => {
+        if (storedModifier.modifier.code === productModifier.code &&
+          storedModifier.modifier.value === productModifier.value) {
           storedModifier.applicableBase = storedModifier.applicableBase + product.price;
-          storedModifier.totalDelta = storedModifier.applicableBase * productModifier.value;
+          storedModifier.totalDelta =
+            storedModifier.applicableBase * productModifier.value;
           modifiers.splice(modifiers.indexOf(productModifier), 1);
         }
       });
     });
-    modifiers.forEach(modifier => {
-      let newModifier = {"applicableBase": product.price, "modifier": modifier, "totalDelta": product.price * modifier.value}
+    modifiers.forEach((modifier) => {
+      const newModifier = {
+        'applicableBase': product.price,
+        'modifier': modifier,
+        'totalDelta': product.price * modifier.value,
+      };
       updatedContent.modifierBreakdowns.push(newModifier);
     });
   }
 
   removeProductToCartContent(product) {
-    let updatedContent = this.state.cartContent;
+    const updatedContent = this.state.cartContent;
     let productInside = false;
-    updatedContent.entries.forEach(element => {
-      if(element.item.id === product.id){
+    updatedContent.entries.forEach((element) => {
+      if (element.item.id === product.id) {
         productInside = true;
-        if (element.quantity === 1){
-          let index = updatedContent.entries.indexOf(element);
+        if (element.quantity === 1) {
+          const index = updatedContent.entries.indexOf(element);
           updatedContent.entries.splice(index, 1);
-        }
-        else{
+        } else {
           element.quantity = element.quantity - 1;
           element.totalPrice = element.quantity * element.item.modifiedPrice;
         }
       }
     });
-    if (productInside){
+    if (productInside) {
       updatedContent.subtotalPrice = updatedContent.subtotalPrice - product.price;
       updatedContent.totalPrice = updatedContent.totalPrice - product.modifiedPrice;
       this.removeModifiersFromCartContent(product, updatedContent);
@@ -169,16 +181,19 @@ class App extends React.Component {
     return productInside;
   }
 
-  removeModifiersFromCartContent(product, updatedContent){
-    let modifiers = product.priceModifiers;
-    updatedContent.modifierBreakdowns.forEach(storedModifier => {
-      modifiers.forEach(productModifier => {
-        if (storedModifier.modifier.code === productModifier.code && storedModifier.modifier.value === productModifier.value){
+  removeModifiersFromCartContent(product, updatedContent) {
+    const modifiers = product.priceModifiers;
+    updatedContent.modifierBreakdowns.forEach((storedModifier) => {
+      modifiers.forEach((productModifier) => {
+        if (storedModifier.modifier.code === productModifier.code &&
+          storedModifier.modifier.value === productModifier.value) {
           storedModifier.applicableBase = storedModifier.applicableBase - product.price;
-          storedModifier.totalDelta = storedModifier.applicableBase * productModifier.value;
+          storedModifier.totalDelta =
+          storedModifier.applicableBase * productModifier.value;
           modifiers.splice(modifiers.indexOf(productModifier), 1);
-          if (storedModifier.applicableBase === 0){
-            let indexModifier = updatedContent.modifierBreakdowns.indexOf(storedModifier);
+          if (storedModifier.applicableBase === 0) {
+            const indexModifier =
+              updatedContent.modifierBreakdowns.indexOf(storedModifier);
             updatedContent.modifierBreakdowns.splice(indexModifier, 1);
           }
         }
@@ -186,12 +201,12 @@ class App extends React.Component {
     });
   }
 
-  resetCartContent(){
-    let resettedContent = this.state.cartContent;
-    resettedContent.entries = new Array();
+  resetCartContent() {
+    const resettedContent = this.state.cartContent;
+    resettedContent.entries = [];
     resettedContent.subtotalPrice = 0;
     resettedContent.totalPrice = 0;
-    resettedContent.modifierBreakdowns = new Array();
+    resettedContent.modifierBreakdowns = [];
     this.setState({
       cartContent: resettedContent,
     });

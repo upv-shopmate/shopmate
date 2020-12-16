@@ -115,35 +115,37 @@ class Cart extends React.Component {
     return store.getState().currentList;
   }
 
-  async addProduct(barcode){
+  async addProduct(barcode) {
     let answerMessage;
-    try{
+    try {
       if (this.props.cartContent !== undefined) {
-        let product = await requestProductByBarcode(barcode);
+        const product = await requestProductByBarcode(barcode);
         this.props.addProductToCartContent(product);
-        answerMessage = "El producto ha sido añadido satisfactoriamente.";
+        answerMessage = 'El producto ha sido añadido satisfactoriamente.';
       }
-    }catch(e){
-      answerMessage = "El producto solicitado no ha podido ser añadido al carro, asegúrese de que el código introducido es correcto.";
+    } catch (e) {
+      answerMessage = 'El producto solicitado no ha podido ser añadido al carro,' +
+        ' asegúrese de que el código introducido es correcto.';
     }
     return answerMessage;
   }
 
-  async removeProduct(barcode){
+  async removeProduct(barcode) {
     let answerMessage;
-    try{
+    try {
       if (this.props.cartContent !== undefined) {
-        let product = await requestProductByBarcode(barcode);
+        const product = await requestProductByBarcode(barcode);
         this.props.removeProductToCartContent(product);
-        answerMessage = "El producto ha sido removido satisfactoriamente.";
+        answerMessage = 'El producto ha sido removido satisfactoriamente.';
       }
-    }catch(e){
-      answerMessage = "El producto solicitado no ha podido ser removido del carro, asegúrese de que el código introducido es correcto y se encuentra en el carro.";
+    } catch (e) {
+      answerMessage = 'El producto solicitado no ha podido ser removido del carro,' +
+        ' asegúrese de que el código introducido es correcto y se encuentra en el carro.';
     }
     return answerMessage;
   }
 
-  getCartContent(){
+  getCartContent() {
     return this.props.cartContent;
   }
 
