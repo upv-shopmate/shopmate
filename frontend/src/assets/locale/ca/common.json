@@ -59,8 +59,7 @@
   "totalToPay": "Total a pagar: ",
   "confirmPayment": "Confirmar pagament",
   "cancel": "Cancelar",
-  "tryAgain": "Reintentar pagament"
-  },
+  "tryAgain": "Reintentar pagament",
   "filterProducts": "Filtrar per categoria",
   "filterProductsButton": "Selecciona una subcategoria"
 }

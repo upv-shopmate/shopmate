@@ -50,8 +50,7 @@
   },
   "products": "Productos",
   "filterProducts": "Filtrar por categoría",
-  "filterProductsButton": "Selecciona una sabcategoría"
-  "products": "Productos",
+  "filterProductsButton": "Selecciona una sabcategoría",
   "paymentMenu": "Menú de pago",
   "paymentFinished": "Proceso de pago finalizado",
   "paymentFailed": "Proceso de pago fallido",
