@@ -60,4 +60,7 @@
   "confirmPayment": "Confirm payment",
   "cancel": "Cancel",
   "tryAgain": "Try again"
+  "products": "Products",
+  "filterProducts": "Filter by category",
+  "filterProductsButton": "Select a subcategory"
 }

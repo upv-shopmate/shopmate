@@ -49,6 +49,9 @@
     "message": "Parece que ha habido un problema con la conexión del carrito. No te preocupes, se solucionará enseguida."
   },
   "products": "Productos",
+  "filterProducts": "Filtrar por categoría",
+  "filterProductsButton": "Selecciona una sabcategoría"
+  "products": "Productos",
   "paymentMenu": "Menú de pago",
   "paymentFinished": "Proceso de pago finalizado",
   "paymentFailed": "Proceso de pago fallido",
