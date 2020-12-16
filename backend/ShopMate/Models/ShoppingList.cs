@@ -20,34 +20,7 @@ namespace ShopMate.Models
         [Column(TypeName = "money")]
         public decimal TotalPrice => Entries.Select(e => e.ModifiedPrice).Sum();
 
-        public ICollection<Coupon> AppliedCoupons { get; set; } = new HashSet<Coupon>();
-
         public User? Owner { get; internal set; }
-
-        [NotMapped]
-        public IReadOnlyCollection<PriceModifierBreakdown> ModifierBreakdowns
-        {
-            get
-            {
-                var dictionary = new Dictionary<PriceModifier, PriceModifierBreakdown>();
-                foreach (var entry in Entries)
-                {
-                    foreach (var breakdown in entry.ModifierBreakdowns)
-                    {
-                        if (dictionary.TryGetValue(breakdown.Modifier, out _))
-                        {
-                            dictionary[breakdown.Modifier] += breakdown;
-                        }
-                        else
-                        {
-                            dictionary.Add(breakdown.Modifier, breakdown);
-                        }
-                    }
-                }
-
-                return dictionary.Values;
-            }
-        }
 
         public ShoppingList(string name)
         {
@@ -63,7 +36,7 @@ namespace ShopMate.Models
         /// Add or update a product with its quantity to the list of entries.
         /// </summary>
         /// <remarks>
-        /// If a corresponding entry is already present it will be updated to reflect the new quantity the addition.
+        /// If a corresponding entry is already present it will be updated to reflect the new quantity after the addition.
         /// </remarks>
         public void AddEntry(ShoppingListEntry entry)
         {
@@ -104,35 +77,6 @@ namespace ShopMate.Models
             }
 
             return false;
-        }
-
-        public void ApplyCoupon(Coupon discount)
-        {
-            if (!AppliedCoupons.Contains(discount))
-            {
-                AppliedCoupons.Add(discount);
-                ActualizeEntryModifiers();
-            }
-        }
-
-        public void UnapplyCoupon(Coupon discount)
-        {
-            if (AppliedCoupons.Contains(discount))
-            {
-                AppliedCoupons.Remove(discount);
-                ActualizeEntryModifiers();
-            }
-        }
-
-        private void ActualizeEntryModifiers()
-        {
-            foreach (var entry in Entries)
-            {
-                entry.AdditionalModifiers.Clear();
-                entry.AdditionalModifiers.AddRange(AppliedCoupons
-                    .Where(c => !c.ApplicableProducts.Any() || c.ApplicableProducts.Contains(entry.Item))
-                    .SelectMany(c => c.Effects));
-            }
         }
 
         public override bool Equals(object? other) => other is ShoppingList list && Equals(list);

@@ -48,6 +48,7 @@ namespace ShopMate.Persistence.Relational
 
         public IEnumerable<Product> SearchByQuery(string query, int page, int itemsPerPage, out bool hasNext)
         {
+            // FIXME this whole function is terrible, really
             var tokens = query.Trim().ToLower().Split(' ');
 
             var products = Set
@@ -130,12 +131,7 @@ namespace ShopMate.Persistence.Relational
 
         public override IQueryable<Cart> GetAll()
             => Set
-                .Include(c => c.Contents)
-                .ThenInclude(l => l.Entries)
-                .ThenInclude(e => e.AdditionalModifiers)
-                .Include(c => c.Contents)
-                .ThenInclude(l => l.AppliedCoupons)
-                .Include(c => c.AppliedCoupons);
+                .Include(c => c.Owner);
     }
 
     internal class RelationalUserRepository : RelationalRepository<User>, IUserRepository

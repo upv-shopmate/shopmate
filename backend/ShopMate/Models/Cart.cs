@@ -13,25 +13,9 @@ namespace ShopMate.Models
 
         public bool Active { get; internal set; }
 
-        public decimal PlannedPrice => TrackedLists.Sum(list => list.TotalPrice);
-
         public Store Owner { get; internal set; }
 
-        public ShoppingList Contents { get; internal set; } = new ShoppingList("");
-
-        public ICollection<ShoppingList> TrackedLists { get; internal set; } = new HashSet<ShoppingList>();
-
-        public IReadOnlyCollection<Coupon> AppliedCoupons { get => (IReadOnlyCollection<Coupon>)Contents.AppliedCoupons; }
-
         public Cart() { }
-
-        public void TrackShoppingList(ShoppingList list) => TrackedLists.Add(list);
-
-        public void UntrackShoppingList(ShoppingList list) => TrackedLists.Remove(list);
-
-        public void ApplyCoupon(Coupon coupon) => Contents.ApplyCoupon(coupon);
-
-        public void UnapplyCoupon(Coupon coupon) => Contents.UnapplyCoupon(coupon);
 
         public override bool Equals(object? other) => other is Cart cart && Equals(cart);
 
