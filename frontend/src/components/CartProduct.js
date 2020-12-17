@@ -28,14 +28,14 @@ class CartProduct extends Component {
 
   getEntrieQuantity() {
     const {t} = this.props;
-    return t('quantity') + this.props.entry.quantity;
+    return t('cartProduct.quantity') + this.props.entry.quantity;
   }
 
   getEntrieUnitPrice() {
     const product = this.props.entry.item;
     const {t} = this.props;
     if (this.props.entry.quantity > 1) {
-      return roundUp(product.priceWithVat, 2) + t('unitaryText');
+      return roundUp(product.priceWithVat, 2) + t('cartProduct.unitaryText');
     }
     return '';
   }

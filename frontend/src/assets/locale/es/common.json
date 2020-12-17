@@ -1,54 +1,94 @@
 {
-  "cart": "CARRITO",
-  "catalog": "CATÁLOGO",
-  "map": "MAPA",
-  "login": "Iniciar sesión",
-  "logout": "CERRAR SESIÓN",
-  "return": "VOLVER",
-  "spanish": "Español",
-  "english": "Inglés",
-  "valencian": "Valenciano",
-  "insideCart": "Dentro de este carro",
-  "articlesCart_plural": " {{count}} artículos en el carro",
-  "articlesCart": " {{count}} artículo en el carro",
-  "estimated": "Planificado: ",
-  "plannedArticles": "{{articles}} artículos planificados",
-  "appliedCoupons": "Ningún cupón aplicado",
-  "iva": " IVA: ",
-  "ammount": " Importe: ",
-  "shoppingList": "Lista de la compra",
-  "myLists": "MIS LISTAS",
-  "coupons": "CUPONES",
-  "placeholder": "Buscar productos, marcas, categorías...",
-  "incorrectEmailPass": "Correo o contraseña incorrectos",
-  "loginInfoText": "Pulse sobre las cajas de texto para mostrar el teclado en pantalla.",
-  "loginSolution": "Pregunte a un empleado o acuda al servicio de atención al cliente más cercano.",
-  "loginQuestion": "¿Tiene problemas para iniciar sesión?",
-  "logingIn": "Iniciando sesión en su cuenta de ",
-  "email": "Correo electrónico",
-  "password": "Contraseña",
-  "loginText": "Inicia sesión para ver tus listas de la compra, cupones y ofertas personalizadas.",
-  "alreadyHasAccount": "¿Ya tienes cuenta de cliente?",
-  "yes": "Sí",
-  "no": "No",
-  "weight": "Peso: ",
-  "volume": "Volumen: ",
-  "originCountry": "País de origen: ",
-  "stocked": "En stock: ",
-  "searchSomeResults": "Resultados de la búsqueda ({{results}})",
-  "searchNoResults": "No se han encontrado resultados. Inténtelo de nuevo.",
-  "searching": "Buscando...",
-  "withoutCategories": "Sin categorías",
-  "userDetailsTitle": "Información de la cuenta",
-  "noListMessage": "No tienes ninguna lista creada",
-  "quantity": "Cantidad: ",
-  "unitaryText": "€/unidad",
-  "inCart": "En el carro: ",
-  "networkError": {
+  "nav": {
+    "cart": "CARRITO",
+    "catalog": "CATÁLOGO",
+    "map": "MAPA"
+  },
+  "topBar": {
+    "login": "Iniciar sesión"
+  },
+  "userDetails":{
+    "userDetailsTitle": "Información de la cuenta",
+    "logout": "CERRAR SESIÓN",
+    "return": "VOLVER"
+  },
+  "languages":{
+    "spanish": "Español",
+    "english": "Inglés",
+    "valencian": "Valenciano"
+  },
+  "cart":{
+    "insideCart": "Dentro de este carro",
+    "articlesCart_plural": " {{count}} artículos en el carro",
+    "articlesCart": " {{count}} artículo en el carro",
+    "estimated": "Planificado: ",
+    "plannedArticles": "{{articles}} artículos planificados",
+    "appliedCoupons":{
+      "none": "Ningún cupón aplicado",
+      "one": "{{count}} cupón aplicado",
+      "plural": "{{count}} cupones aplicados"
+    },
+    "iva": " IVA: ",
+    "ammount": " Importe: "
+  },
+  "leftPanel":{
+    "shoppingList": "Lista de la compra",
+    "myLists": "MIS LISTAS",
+    "coupons": "CUPONES",
+    "noListMessage": "No tienes ninguna lista creada"
+  },
+  "searchField":{
+    "placeholder": "Buscar productos, marcas, categorías..."
+  }, 
+  "login":{
+    "incorrectEmailPass": "Correo o contraseña incorrectos",
+    "loginInfoText": "Pulse sobre las cajas de texto para mostrar el teclado en pantalla.",
+    "loginSolution": "Pregunte a un empleado o acuda al servicio de atención al cliente más cercano.",
+    "loginQuestion": "¿Tiene problemas para iniciar sesión?",
+    "logingIn": "Iniciando sesión en su cuenta de ",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "loginText": "Inicia sesión para ver tus listas de la compra, cupones y ofertas personalizadas.",
+    "return": "VOLVER",
+    "login": "Iniciar sesión"
+  },
+  "notLoginPanel":{
+    "loginText": "Inicia sesión para ver tus listas de la compra, cupones y ofertas personalizadas.",
+    "login": "Iniciar sesión",
+    "alreadyHasAccount": "¿Ya tienes cuenta de cliente?"
+  },
+  "productDetails":{
+    "yes": "Sí",
+    "no": "No",
+    "weight": "Peso: ",
+    "volume": "Volumen: ",
+    "originCountry": "País de origen: ",
+    "stocked": "En stock: "
+  },
+  "searchPanel":{
+    "searchSomeResults": "Resultados de la búsqueda ({{results}})",
+    "searchNoResults": "No se han encontrado resultados. Inténtelo de nuevo.",
+    "searching": "Buscando...",
+    "return": "VOLVER"
+  },
+  "listProduct":{
+    "quantity": "Cantidad: "
+  },
+  "searchResult":{
+    "withoutCategories": "Sin categorías",
+    "inCart": "En el carro: "
+  },
+  "cartProduct":{
+    "unitaryText": "€/unidad",
+    "quantity": "Cantidad: "
+  },
+  "errorPanel": {
     "title": "¡Córcholis!",
     "message": "Parece que ha habido un problema con la conexión del carrito. No te preocupes, se solucionará enseguida."
   },
-  "products": "Productos",
+  "userList":{
+    "products": "Productos"
+  },
   "filterProducts": "Filtrar por categoría",
   "filterProductsButton": "Selecciona una sabcategoría",
   "paymentMenu": "Menú de pago",
@@ -61,5 +101,7 @@
   "totalToPay": "Total a pagar: ",
   "confirmPayment": "Confirmar pago",
   "cancel": "Cancelar",
-  "tryAgain": "Reintentar pago"
+  "tryAgain": "Reintentar pago",
+  "applied" : "Aplicado",
+  "not-applied": "Sin aplicar"
 }

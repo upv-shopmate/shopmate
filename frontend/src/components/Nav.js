@@ -64,19 +64,19 @@ class Nav extends React.Component {
           this.changePanel('cart', true);
         }} id="cart">
           <img src={shoppingIcon} className="nav-button-icon"></img>
-          <div className="nav-button-name">{t('cart')}</div>
+          <div className="nav-button-name">{t('nav.cart')}</div>
         </button>
         <button className="nav-button" onClick={() => {
           this.changePanel('catalog', true);
         }} id="catalog">
           <img src={storeIcon} className="nav-button-icon"></img>
-          <div className="nav-button-name">{t('catalog')}</div>
+          <div className="nav-button-name">{t('nav.catalog')}</div>
         </button>
         <button className="nav-button" onClick={() => {
           this.changePanel('map', true);
         }} id="map">
           <img src={mapIcon} className="nav-button-icon"></img>
-          <div className="nav-button-name">{t('map')}</div>
+          <div className="nav-button-name">{t('nav.map')}</div>
         </button>
       </div>
     );

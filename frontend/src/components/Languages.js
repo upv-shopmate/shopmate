@@ -44,19 +44,19 @@ class Languages extends Component {
             this.handleClick('es');
           }} id= "es">
             <img src={spainFlag} className="flag-icon"></img>
-            <div className="language-name"> {t('spanish')}</div>
+            <div className="language-name"> {t('languages.spanish')}</div>
           </button>
           <button className="english" onClick={() => {
             this.handleClick('en');
           }} id="en">
             <img src={ukFlag} className="flag-icon"></img>
-            <div className="language-name">{t('english')}</div>
+            <div className="language-name">{t('languages.english')}</div>
           </button>
           <button className="valencian" onClick={() => {
             this.handleClick('ca');
           }} id="val">
             <img src={valenciaFlag} className="flag-icon"></img>
-            <div className="language-name">{t('valencian')}</div>
+            <div className="language-name">{t('languages.valencian')}</div>
           </button>
         </div>
       </div>

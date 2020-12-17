@@ -7,6 +7,7 @@ namespace ShopMate.Dto.Profiles
     {
         public CouponProfile()
         {
+            CreateMap<Coupon, CouponReadShortDto>();
             CreateMap<Coupon, CouponReadDto>();
         }
     }

@@ -1,53 +1,93 @@
 {
-  "cart": "CARRET",
-  "catalog": "CATÀLOG",
-  "map": "MAPA",
-  "login": "Iniciar sessió",
-  "logout": "CERRAR SESSIÓ",
-  "return": "TORNAR",
-  "spanish": "Espanyol",
-  "english": "Anglés",
-  "valencian": "Valencià",
-  "insideCart": "Dins del carret",
-  "articlesCart": "{{count}} article al carret",
-  "articlesCart_plural": "{{count}} articles al carret",
-  "estimated": "Planificat: ",
-  "plannedArticles": "{{articles}} articles planificats",
-  "appliedCoupons": "Ningú cupó aplicat",
-  "iva": " IVA: ",
-  "ammount": " Import: ",
-  "shoppingList": "Llista de la compra",
-  "myLists": "LLISTES",
-  "coupons": "CUPONS",
-  "placeholder": "Cercar productes, marques, categories...",
-  "incorrectEmailPass": "Correu o contrasenya incorrectes",
-  "loginInfoText": "Pressioni sobre les caixes de text per mostrar el teclat a pantalla.",
-  "loginSolution": "Pregunti a un empleat o acudeixi al servei d'atenció a client més proper.",
-  "loginQuestion": "Té problemes per iniciar sessió?",
-  "logingIn": "Iniciant sessió al seu compte de ",
-  "email": "Correu electrònic",
-  "password": "Contrasenya",
-  "loginText": "Inicia sessió per veure les teues llistes de la compra, cupons y ofertes personalitzades.",
-  "alreadyHasAccount": "Té ja un compte de client?",
-  "yes": "Sí",
-  "no": "No",
-  "weight": "Pes: ",
-  "volume": "Volum: ",
-  "originCountry": "País d'origen: ",
-  "stocked": "En estoc: ",
-  "searchSomeResults": "Resultats de la cerca ({{results}})",
-  "searchNoResults": "No s'han trobar resultats. Inténteu-ho de nou.",
-  "searching": "Cercant...",
-  "withoutCategories": "Sense categories",
-  "userDetailsTitle": "Informació del compte",
-  "products": "Productes",
-  "noListMessage": "No tens cap llista creada",
-  "quantity": "Quantitat: ",
-  "unitaryText": "€/unitat",
-  "inCart": "Al carret: ",
-  "networkError": {
+  "nav": {
+    "cart": "CARRET",
+    "catalog": "CATÀLOG",
+    "map": "MAPA"
+  },
+  "topBar": {
+    "login": "Iniciar sessió"
+  },
+  "userDetails":{
+    "userDetailsTitle": "Informació del compte",
+    "logout": "CERRAR SESSIÓ",
+    "return": "TORNAR"
+  },
+  "languages":{
+    "spanish": "Espanyol",
+    "english": "Anglés",
+    "valencian": "Valencià"
+  },
+  "cart":{
+    "insideCart": "Dins del carret",
+    "articlesCart": "{{count}} article al carret",
+    "articlesCart_plural": "{{count}} articles al carret",
+    "estimated": "Planificat: ",
+    "plannedArticles": "{{articles}} articles planificats",
+    "appliedCoupons":{
+      "none": "Cap cupó aplicat",
+      "one": "{{count}} cupó aplicat",
+      "plural": "{{count}} cupons aplicats"
+    },
+    "iva": " IVA: ",
+    "ammount": " Import: "
+  },
+  "leftPanel":{
+    "shoppingList": "Llista de la compra",
+    "myLists": "LLISTES",
+    "coupons": "CUPONS",
+    "noListMessage": "No tens cap llista creada"
+  },
+  "searchField":{
+    "placeholder": "Cercar productes, marques, categories..."
+  }, 
+  "login":{
+    "incorrectEmailPass": "Correu o contrasenya incorrectes",
+    "loginInfoText": "Pressioni sobre les caixes de text per mostrar el teclat a pantalla.",
+    "loginSolution": "Pregunti a un empleat o acudeixi al servei d'atenció a client més proper.",
+    "loginQuestion": "Té problemes per iniciar sessió?",
+    "logingIn": "Iniciant sessió al seu compte de ",
+    "email": "Correu electrònic",
+    "password": "Contrasenya",
+    "loginText": "Inicia sessió per veure les teues llistes de la compra, cupons y ofertes personalitzades.",
+    "return": "TORNAR",
+    "login": "Iniciar sessió"
+  },
+  "notLoginPanel":{
+    "loginText": "Inicia sessió per veure les teues llistes de la compra, cupons y ofertes personalitzades.",
+    "login": "Iniciar sessió",
+    "alreadyHasAccount": "Té ja un compte de client?"
+  },
+  "productDetails":{
+    "yes": "Sí",
+    "no": "No",
+    "weight": "Pes: ",
+    "volume": "Volum: ",
+    "originCountry": "País d'origen: ",
+    "stocked": "En estoc: "
+  },
+  "searchPanel":{
+    "searchSomeResults": "Resultats de la cerca ({{results}})",
+    "searchNoResults": "No s'han trobat resultats. Inténteu-ho de nou.",
+    "searching": "Cercant...",
+    "return": "TORNAR"
+  },
+  "listProduct":{
+    "quantity": "Quantitat: "
+  },
+  "searchResult":{
+    "withoutCategories": "Sense categories",
+    "inCart": "Al carret: "
+  },
+  "cartProduct":{
+    "unitaryText": "€/unitat",
+    "quantity": "Quantitat: "
+  },
+  "errorPanel": {
     "title": "Xé!",
-    "message": "Pareix que hi ha hagut un problema amb la connexió del carret. No et preocupes, se solucionarà de seguida."
+    "message": "Pareix que hi ha hagut un problema amb la connexió del carret. No et preocupes, es solucionarà de seguida."
+  },
+  "userList":{
+    "products": "Productes"
   },
   "paymentMenu": "Menú de pagament",
   "paymentFinished": "Procés de pagament finalitzat",
@@ -60,6 +100,8 @@
   "confirmPayment": "Confirmar pagament",
   "cancel": "Cancelar",
   "tryAgain": "Reintentar pagament",
+  "applied": "Aplicat",
+  "not-applied": "Sense aplicar",
   "filterProducts": "Filtrar per categoria",
   "filterProductsButton": "Selecciona una subcategoria"
 }

@@ -9,13 +9,18 @@ import {withTranslation} from 'react-i18next';
 import UserList from './UserList';
 import ListProduct from './ListProduct';
 import {getStore} from '../utils/Store';
+import CouponsList from './CouponsList';
 
 class LeftPanel extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       'inList': false,
+      'showingLists': true,
+      'showingCoupons': false,
     };
+    this.showLists = this.showLists.bind(this);
+    this.showCoupons = this.showCoupons.bind(this);
   }
 
   componentDidMount() {
@@ -44,6 +49,15 @@ class LeftPanel extends React.Component {
     });
     this.setState({
       inList: false,
+      showingLists: true,
+      showingCoupons: false,
+    });
+  }
+
+  showCoupons() {
+    this.setState({
+      showingLists: false,
+      showingCoupons: true,
     });
   }
 
@@ -75,7 +89,7 @@ class LeftPanel extends React.Component {
       );
     } else {
       return (
-        <div className="no-lists">{t('noListMessage')}</div>
+        <div className="no-lists">{t('leftPanel.noListMessage')}</div>
       );
     }
   }
@@ -98,9 +112,27 @@ class LeftPanel extends React.Component {
     }
   }
 
+  renderCouponsPanel() {
+    return (
+      <div className="lf-lists">
+        <CouponsList
+        coupons={this.props.coupons}
+        appliedCoupons={this.props.appliedCoupons}
+        applyCoupon={this.props.applyCoupon}
+        removeCoupon={this.props.removeCoupon}
+        ></CouponsList>
+      </div>
+    );
+  }
+
   renderPanel() {
     if (this.props.userLoggedIn) {
-      return this.renderListPanel();
+      if (this.state.showingLists){
+        return this.renderListPanel();
+      }
+      else if (this.state.showingCoupons){
+        return this.renderCouponsPanel();
+      }
     } else {
       return (
         <NotLoginPanel openLogin={this.openLoginPanel.bind(this)} />
@@ -112,7 +144,7 @@ class LeftPanel extends React.Component {
     const {t} = this.props;
     return (
       <div className="left-panel">
-        <div className="left-panel-title">{t('shoppingList')}</div>
+        <div className="left-panel-title">{t('leftPanel.shoppingList')}</div>
         <div className="current-panel">
           {this.renderPanel()}
         </div>
@@ -120,17 +152,18 @@ class LeftPanel extends React.Component {
           <button
             disabled={!this.props.buttonEnabled}
             className="lf-list-button"
-            onClick={() => this.showLists()}
+            onClick={this.showLists}
           >
             <img className="list-button-image" src={listImage}></img>
-            <div className="list-button-text">{t('myLists')}</div>
+            <div className="list-button-text">{t('leftPanel.myLists')}</div>
           </button>
           <button
             disabled={!this.props.buttonEnabled}
             className="lf-tag-button"
+            onClick={this.showCoupons}
           >
             <img className="tag-button-image" src={tagImage}></img>
-            <div className="tag-button-text">{t('coupons')}</div>
+            <div className="tag-button-text">{t('leftPanel.coupons')}</div>
           </button>
         </div>
       </div>

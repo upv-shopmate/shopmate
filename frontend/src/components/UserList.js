@@ -32,7 +32,7 @@ class UserList extends React.Component {
       >
         <div className="user-list-name">{this.props.name}</div>
         <div className="user-list-quantity">
-          {this.state.quantity} {t('products')}
+          {this.state.quantity} {t('userList.products')}
         </div>
         <div className="user-list-price">{this.state.price}€</div>
       </div>

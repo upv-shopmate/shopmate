@@ -41,11 +41,11 @@ class SearchPanel extends React.Component {
     if (this.props.completedSearch) {
       const results = this.getResults().length;
       if (results > 0) {
-        return t('searchSomeResults', {results: results});
+        return t('searchPanel.searchSomeResults', {results: results});
       }
-      return t('searchNoResults');
+      return t('searchPanel.searchNoResults');
     } else {
-      return t('searching');
+      return t('searchPanel.searching');
     }
   }
 
@@ -61,7 +61,7 @@ class SearchPanel extends React.Component {
         <div className="searcher-buttons">
           <button className="return-button" onClick={this.props.goToLastState}>
             <img className="return-button-image" src={leftArrow}></img>
-            <div className="return-button-text">{t('return')}</div>
+            <div className="return-button-text">{t('searchPanel.return')}</div>
           </button>
         </div>
       </div>

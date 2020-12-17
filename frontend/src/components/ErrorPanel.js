@@ -20,10 +20,10 @@ class ErrorPanel extends Component {
       <div className="ep-window">
         <div className="ep-panel">
           <div className="ep-title">
-            {t('networkError.title')}
+            {t('errorPanel.title')}
           </div>
           <div className="ep-subtitle">
-            {t('networkError.message')}
+            {t('errorPanel.message')}
           </div>
           <img className="ep-loading-gif" src={connectionGif}></img>
         </div>

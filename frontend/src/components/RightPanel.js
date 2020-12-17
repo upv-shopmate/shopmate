@@ -192,6 +192,7 @@ class RightPanel extends React.Component {
         addProductToCartContent={this.props.addProductToCartContent}
         removeProductToCartContent={this.props.removeProductToCartContent}
         resetCartContent={this.props.resetCartContent}
+        appliedCoupons={this.props.appliedCoupons}
       />;
     } else if (panel === 'catalog') {
       this.changePanelWidth(WIDTHS.CATALOG);

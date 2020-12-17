@@ -115,9 +115,9 @@ class ProductDetails extends Component {
     const {t} = this.props;
     const aux = this.props.product.availableStock;
     if (aux > 0) {
-      return t('yes') + ' (' + aux + ')';
+      return t('productDetails.yes') + ' (' + aux + ')';
     } else {
-      return t('no');
+      return t('productDetails.no');
     }
   }
 
@@ -130,11 +130,11 @@ class ProductDetails extends Component {
     return (
       <React.Fragment>
         <div className="details-text-line">
-          <span className="details-text-header">{t('weight')}</span>
+          <span className="details-text-header">{t('productDetails.weight')}</span>
           <span className="details-text">{this.getProductWeight()}</span>
         </div>
         <div className="details-text-line">
-          <span className="details-text-header">{t('volume')}</span>
+          <span className="details-text-header">{t('productDetails.volume')}</span>
           <span className="details-text">{this.getProductVolume()}</span>
         </div>
       </React.Fragment>

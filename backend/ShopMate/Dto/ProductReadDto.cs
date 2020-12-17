@@ -16,11 +16,7 @@ namespace ShopMate.Dto
 
         public double? Volume { get; internal set; }
 
-        public ushort? Units { get; internal set; }
-
         public string? OriginCountry { get; internal set; }
-
-        public bool Edible { get; internal set; }
 
         public decimal Price { get; internal set; }
 
