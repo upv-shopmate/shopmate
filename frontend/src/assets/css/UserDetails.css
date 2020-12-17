@@ -1,6 +1,6 @@
 .user-details-panel {
     flex-grow: 1;
-    background-color: white;
+    background-color: #eeeeee;
     display: flex;
     flex-flow: column;
     justify-content: space-between;
@@ -31,7 +31,7 @@
     justify-content: center;
     font-size: 120px;
     align-items: center;
-    color: white;
+    color: black;
     font-weight: bold;
 }
 
@@ -96,7 +96,7 @@
     align-items: center;
     justify-self: end;
     align-self: flex-end;
-    background-color: rgb(250, 157, 43);
+    background-color: #ffd369;
     border-color: transparent;
     height: 40px;
     width: 100px;
@@ -120,7 +120,3 @@
 .user-details-return-button-text {
 
 }
-
-.shadow {
-    filter: drop-shadow(0px 5px 4px rgba(0, 0, 0, 0.2));
-  }

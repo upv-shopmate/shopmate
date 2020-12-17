@@ -1,27 +1,62 @@
 .details {
   display: flex;
+  flex-flow: row;
   width: 100%;
-  height: 100%;
-  background-color: transparent;
-  border-top-left-radius: 1%;
-  border-top-right-radius: 1%;
+  height: 225px;
+  position: relative;
+  background-color: white;
   justify-content: space-between;
-  align-items: stretch;
+  align-items: center;
+  z-index: 2;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.details-image-wrapper {
+  align-self: center;
+  justify-self: end;
+  width: 150px;
+  height: 150px;
+  margin-top: -20x;
+  margin-left: 5%;
+  box-shadow: 0px 0px 5px 4px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+}
+
+.details-pages>img {
+  width: 25px;
+  height: 25px;
 }
 
 .details-image {
+  width: 100%;
+  position: relative;
   align-self: center;
-  justify-self: end;
-  border: 2px solid;
-  border-color: white;
-  border-style: outset;
-  width: auto;
-  max-width: 180px;
+  height: 100%;
+  bottom: 20px;
+}
+
+.details-pages {
+  position: relative;
+  bottom: 25px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.pd-image-nav-bar {
+  display: flex;
+  flex-grow: 1;
+  justify-content: space-between;
+  align-items: center;
   height: auto;
-  max-height: 180px;
-  box-shadow: 0px 0px 5px 4px rgba(0, 0, 0, 0.25);
-  margin-top: -20px;
-  margin-left: 5%;
+}
+
+.pd-image-number {
+  font-weight: bold;
+}
+
+.details-image:hover {
+  cursor: zoom-in;
 }
 
 .details-text-line {
@@ -35,28 +70,27 @@
 
 .details-text {
   font-size: 18px;
-  color: white;
+  color: black;
 }
 
 .details-close-button {
   justify-self: flex-end;
-  align-self: flex-end;
   margin-right: 3px;
   margin-top: 3px;
 }
 
 .details-close-button-image {
+  margin-top: 20px;
+  margin-right: 10px;
   width: 30px;
   height: 30px;
-}
-
-.details-map-button {
-  justify-self: flex-end;
-  align-self: flex-end;
-  margin-right: 3px;
+  height: 25px;
+  width: 25px;
 }
 
 .details-map-button-image {
+  margin-bottom: 20px;
+  margin-right: 10px;
   width: 30px;
   height: 30px;
 }
@@ -69,13 +103,18 @@
   margin-bottom: 10px;
   display: flex;
   flex-flow: column;
-  justify-content: space-around;
+  align-self: stretch;
+  align-items: center;
+  justify-content: center;
+  border-left: 1px black;
 }
+
 .details-title {
   align-self: center;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   max-width: 250px;
   color: white;
+  margin-left: 15px;
 }
 
 .details-name {
@@ -88,16 +127,28 @@
 .details-brand {
   font-size: 20px;
   text-align: center;
-  color: black;
+  color: grey;
 }
 
 .details-price {
-  font-size: 40px;
-  font-weight: bold;
+  font-size: 20px;
+  font-weight: normal;
   margin-top: 5%;
-  color: whitesmoke;
+  color: black;
   text-align: center;
-  -webkit-text-stroke: 1.7px black;
+}
+
+.details-line {
+  height: 70%;
+  width: 2px;
+  background-color: black;
+}
+
+.details-buttons {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .details-box {

@@ -43,7 +43,7 @@ class ListProduct extends React.Component {
         <div className="list-product-info">
           <div className="list-product-name">{this.props.name}</div>
           <div className="list-product-quantity">
-            {t('quantity')} {this.props.quantity}
+            {t('listProduct.quantity')} {this.props.quantity}
           </div>
         </div>
       </div>

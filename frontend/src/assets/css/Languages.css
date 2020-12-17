@@ -2,15 +2,15 @@
     display: block;
     width: 215px;
     height: 250px;
-    background-color: aliceblue;
-    border-top-left-radius: 1%;
-    border-top-right-radius: 1%;
+    border-radius: 2.5px;
+    border: solid 2px;
     justify-content: space-between;
     align-items: stretch;
     flex-flow: column;
     position: absolute;
     right: 5px;
     top: 70px;
+    background-color: #ffd369;
   }
 
   .languages{
@@ -50,28 +50,33 @@
 
 .spanish{
     display: flex;
-    background-color: aliceblue;
     align-items: flex-start;
     flex-flow: row;
     align-items: center;
     width: 100%;
     height: auto;
+    border: transparent;
+    border-bottom: 2px solid;
+    background-color: #ffd369;
 }
 .english{
     display: flex;
-    background-color: aliceblue;
     align-items: flex-start;
     flex-flow: row;
     align-items: center;
     width: 100%;
     height: auto;
+    border: transparent;
+    border-bottom: 2px solid;
+    background-color: #ffd369;
 }
 .valencian{
     display: flex;
-    background-color: aliceblue;
     align-items: flex-start;
     flex-flow: row;
     align-items: center;
     width: 100%;
     height: auto;
+    border: transparent;
+    background-color: #ffd369;
 }

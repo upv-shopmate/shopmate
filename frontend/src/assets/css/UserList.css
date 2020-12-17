@@ -1,9 +1,9 @@
 .user-list-wrapper{
     margin-top: 10px;
     height: 75px;
-    width: 90%;
-    background-color: white;
-    border-radius: 4px;
+    width: 95%;
+    background-color: #eeeeee;
+    border-radius: 2.5px;
     display: flex;
     flex-direction: column;
     justify-content: center;

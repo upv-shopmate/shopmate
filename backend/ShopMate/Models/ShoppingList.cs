@@ -16,36 +16,11 @@ namespace ShopMate.Models
         public ICollection<ShoppingListEntry> Entries { get; private set; } = new List<ShoppingListEntry>();
 
         [Column(TypeName = "money")]
-        public decimal SubtotalPrice { get; internal set; }
+        public decimal SubtotalPrice => Entries.Select(e => e.Price).Sum();
         [Column(TypeName = "money")]
-        public decimal TotalPrice { get; internal set; }
+        public decimal TotalPrice => Entries.Select(e => e.ModifiedPrice).Sum();
 
         public User? Owner { get; internal set; }
-
-        [NotMapped]
-        public IReadOnlyCollection<PriceModifierBreakdown> ModifierBreakdowns
-        {
-            get
-            {
-                var dictionary = new Dictionary<PriceModifier, PriceModifierBreakdown>();
-                foreach (var entry in Entries)
-                {
-                    foreach (var breakdown in entry.ModifierBreakdowns)
-                    {
-                        if (dictionary.TryGetValue(breakdown.Modifier, out _))
-                        {
-                            dictionary[breakdown.Modifier] += breakdown;
-                        }
-                        else
-                        {
-                            dictionary.Add(breakdown.Modifier, breakdown);
-                        }
-                    }
-                }
-
-                return dictionary.Values;
-            }
-        }
 
         public ShoppingList(string name)
         {
@@ -61,7 +36,7 @@ namespace ShopMate.Models
         /// Add or update a product with its quantity to the list of entries.
         /// </summary>
         /// <remarks>
-        /// If a corresponding entry is already present it will be updated to reflect the new quantity the addition.
+        /// If a corresponding entry is already present it will be updated to reflect the new quantity after the addition.
         /// </remarks>
         public void AddEntry(ShoppingListEntry entry)
         {
@@ -74,9 +49,6 @@ namespace ShopMate.Models
             {
                 Entries.Add(entry);
             }
-
-            SubtotalPrice += entry.Quantity * entry.Item.Price;
-            TotalPrice += entry.Quantity * entry.Item.ModifiedPrice;
         }
 
         /// <summary>
@@ -100,9 +72,6 @@ namespace ShopMate.Models
                 {
                     oldEntry.First().Quantity = newQuantity;
                 }
-
-                SubtotalPrice -= newQuantity * entry.Item.Price;
-                TotalPrice -= newQuantity * entry.Item.ModifiedPrice;
 
                 return true;
             }

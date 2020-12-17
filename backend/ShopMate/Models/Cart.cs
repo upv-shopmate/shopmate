@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
 namespace ShopMate.Models
@@ -12,19 +13,9 @@ namespace ShopMate.Models
 
         public bool Active { get; internal set; }
 
-        public decimal PlannedPrice => TrackedLists.Sum(list => list.TotalPrice);
-
         public Store Owner { get; internal set; }
 
-        public ShoppingList Contents { get; internal set; } = new ShoppingList("");
-
-        public ICollection<ShoppingList> TrackedLists { get; internal set; } = new HashSet<ShoppingList>();
-
         public Cart() { }
-
-        public void TrackShoppingList(ShoppingList list) => TrackedLists.Add(list);
-
-        public void UntrackShoppingList(ShoppingList list) => TrackedLists.Remove(list);
 
         public override bool Equals(object? other) => other is Cart cart && Equals(cart);
 

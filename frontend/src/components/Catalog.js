@@ -7,11 +7,7 @@ import Product from './Product';
 import ProductDetails from './ProductDetails';
 import pageLeftImage from '../assets/images/page-left.png';
 import pageRightImage from '../assets/images/page-right.png';
-
-const HEIGHTS = {
-  OPENED: '60%',
-  CLOSED: '100%',
-};
+import CategoriesDropDown from './CategoriesDropDown';
 
 class Catalog extends React.Component {
   constructor(props) {
@@ -42,20 +38,12 @@ class Catalog extends React.Component {
     });
   }
 
-  changePanelHeight(newHeight) {
-    const productsPanel = document.querySelector('.products');
-    if (productsPanel !== null) {
-      productsPanel.style.height = newHeight;
-    }
-  }
-
   showProductDetails(product) {
     if (product !== null) {
       this.setState({
         products: this.state.products,
         selectedProduct: product,
       });
-      this.changePanelHeight(HEIGHTS.OPENED);
     }
   }
 
@@ -64,7 +52,6 @@ class Catalog extends React.Component {
       products: this.state.products,
       selectedProduct: null,
     });
-    this.changePanelHeight(HEIGHTS.CLOSED);
   }
 
   handleClickLeft() {
@@ -79,7 +66,8 @@ class Catalog extends React.Component {
   }
 
   renderProducts() {
-    if (this.state.products.length > 0) {
+    const products = this.state.products;
+    if (products != undefined && products.length > 0) {
       return this.state.products.map((product) =>
         <Product
           key={product.barcode}
@@ -96,13 +84,18 @@ class Catalog extends React.Component {
         <div className="products">
           {this.renderProducts()}
         </div>
-        <div className="catalog-nav">
-          <img src={pageLeftImage} onClick={() => this.handleClickLeft()} />
-          <div className="page-number">{this.props.page}</div>
-          <img src={pageRightImage} onClick={() => this.handleClickRight()} />
+        <div className="catalog-bottom">
+          <CategoriesDropDown
+            updateCategory={this.props.updateCategory.bind(this)} />
+          <div className="catalog-nav">
+            <img src={pageLeftImage} onClick={() => this.handleClickLeft()} />
+            <div className="page-number">{this.props.page}</div>
+            <img src={pageRightImage} onClick={() => this.handleClickRight()} />
+          </div>
         </div>
         <div className="product-details">
           <ProductDetails
+            zoomImage={this.props.zoomImage}
             closePanel={this.closeProductDetails}
             product={this.state.selectedProduct}
           />

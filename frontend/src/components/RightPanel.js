@@ -9,7 +9,9 @@ import Searcher from './SearchPanel';
 import Square from './Square';
 import {requestMap} from '../requests/MapRequest';
 import {requestCatalog} from '../requests/ProductRequest.js';
+import {requestCatalogByCategory} from '../requests/ProductRequest.js';
 import loadingGif from '../assets/images/loading.gif';
+import {getStore} from '../utils/Store';
 
 // minimum width is 70
 const WIDTHS = {
@@ -29,10 +31,20 @@ class RightPanel extends React.Component {
       'initialCatalog': [],
       'results': [],
       'completedSearch': false,
+      'selectedCategory': undefined,
     };
     this.currentPanel = this.currentPanel.bind(this);
     this.catalogRef = React.createRef();
     this.loadingRef = React.createRef();
+  }
+
+  updateCategory(category) {
+    this.setState({
+      'selectedCategory': category,
+      'catalogPage': 1,
+    }, () => {
+      this.updateCatalog(1);
+    });
   }
 
 
@@ -43,14 +55,17 @@ class RightPanel extends React.Component {
     this.hideLoading();
     this.initializeMap();
     this.initializeCatalog();
+    const store = getStore();
+    store.subscribe(() => this.forceUpdate());
   }
 
 
   async initializeCatalog() {
     let catalog;
+    const store = getStore();
     try {
       catalog = await requestCatalog(0);
-      this.props.hideErrorPanel();
+      store.showError(false);
       this.setState({
         'initialCatalog': catalog,
         'catalog': catalog,
@@ -60,27 +75,35 @@ class RightPanel extends React.Component {
         this.catalogRef.current.updateCatalog(catalog);
       }
     } catch (e) {
-      this.props.showErrorPanel();
+      store.showError(true);
       this.initializeCatalog();
     }
   }
 
   async updateCatalog(page) {
     let catalog;
+    const store = getStore();
     try {
       this.showLoading();
-      catalog = await requestCatalog(this.state.catalogPage);
-      this.setState({
-        'catalog': catalog,
-        'catalogPage': page,
-      }, this.props.hideErrorPanel());
-      if (this.catalogRef.current !== null) {
-        this.catalogRef.current.updateCatalog(catalog);
+      if (this.state.selectedCategory == undefined) {
+        catalog = await requestCatalog(page - 1);
+      } else {
+        catalog = await requestCatalogByCategory(this.state.selectedCategory.id, page - 1);
+      }
+      if (catalog != undefined) {
+        this.setState({
+          'catalog': catalog,
+          'catalogPage': page,
+        }, store.showError(false));
+        if (this.catalogRef.current !== null) {
+          this.catalogRef.current.updateCatalog(catalog);
+        }
       }
       this.hideLoading();
     } catch (e) {
+      console.error(e);
       this.hideLoading();
-      this.props.showErrorPanel();
+      store.showError(true);
       this.updateCatalog(page);
     }
   }
@@ -97,12 +120,13 @@ class RightPanel extends React.Component {
 
   async initializeMap() {
     let map;
+    const store = getStore();
     try {
       map = await requestMap();
       this.drawMap(map);
-      this.props.hideErrorPanel();
+      store.showError(false);
     } catch (e) {
-      this.props.showErrorPanel();
+      store.showError(true);
       this.initializeMap();
     }
   }
@@ -162,17 +186,23 @@ class RightPanel extends React.Component {
     if (panel === 'cart') {
       this.changePanelWidth(WIDTHS.CART);
       return <Cart
+        cartContent={this.props.cartContent}
         showErrorPanel={this.props.showErrorPanel}
         hideErrorPanel={this.props.hideErrorPanel}
-        currentList={this.props.currentList}
+        addProductToCartContent={this.props.addProductToCartContent}
+        removeProductToCartContent={this.props.removeProductToCartContent}
+        resetCartContent={this.props.resetCartContent}
+        appliedCoupons={this.props.appliedCoupons}
       />;
     } else if (panel === 'catalog') {
       this.changePanelWidth(WIDTHS.CATALOG);
       return <Catalog
+        updateCategory={this.updateCategory.bind(this)}
         catalog={this.state.catalog}
         ref={this.catalogRef}
         onGoToPage={(page) => this.updateCatalog(page)}
         page={this.state.catalogPage}
+        zoomImage={this.props.zoomImage}
       />;
     } else if (panel === 'map') {
       this.changePanelWidth(WIDTHS.MAP);
@@ -181,7 +211,6 @@ class RightPanel extends React.Component {
       this.changePanelWidth(WIDTHS.SEARCHER);
       return (
         <Searcher
-          results={this.state.results}
           completedSearch={this.state.completedSearch}
           goToLastState={this.props.goToLastState}
           onResultsBottomPage={() => this.searchMoreResults()}
@@ -208,7 +237,7 @@ class RightPanel extends React.Component {
   render() {
     return (
       <div className="right-panel">
-        <this.currentPanel panel={this.props.panel} />
+        <this.currentPanel />
         <img
           src={loadingGif}
           className="loading-gif"

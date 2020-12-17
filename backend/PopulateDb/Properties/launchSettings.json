@@ -1,8 +1,7 @@
 {
   "profiles": {
     "PopulateDb": {
-      "commandName": "Project",
-      "commandLineArgs": "\"C:\\Users\\USUARIO\\AppData\\Local\\Programs\\Python\\Python38-32\\python.exe\""
+      "commandName": "Project"
     }
   }
 }

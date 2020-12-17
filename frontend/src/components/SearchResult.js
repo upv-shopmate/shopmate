@@ -5,15 +5,11 @@ import imageNotFound from '../assets/images/image_not_found.jpg';
 import React, {Component} from 'react';
 import {capitalize} from '../utils/Utils';
 import {withTranslation} from 'react-i18next';
+import {roundUp} from '../utils/Utils';
 
 class SearchResult extends Component {
   constructor(props) {
     super(props);
-  }
-
-  roundUp(num, precision) {
-    precision = Math.pow(10, precision);
-    return (Math.ceil(num * precision) / precision).toFixed(2);
   }
 
   getProductName() {
@@ -39,7 +35,7 @@ class SearchResult extends Component {
   }
 
   getProductPrice() {
-    return this.roundUp(this.props.productData.priceWithVat, 2) + '€';
+    return roundUp(this.props.productData.priceWithVat, 2) + '€';
   }
 
   getProductWeightOrVolume() {
@@ -64,7 +60,7 @@ class SearchResult extends Component {
       categories[pos] = categories[pos].slice(0, categories[pos].length - 2);
       return categories;
     } else {
-      return t('withoutCategories');
+      return t('searchResult.withoutCategories');
     }
   }
 
@@ -84,7 +80,7 @@ class SearchResult extends Component {
             </div>
           </div>
           <div className="result-bottomline">
-            <div className="result-cart">{t('inCart')} N/A</div>
+            <div className="result-cart">{t('searchResult.inCart')} N/A</div>
             <div className="result-categories">
               <img className="result-categories-image" src={tagIcon}></img>
               <div className="result-categories-namelist">

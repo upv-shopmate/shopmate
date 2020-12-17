@@ -1,0 +1,23 @@
+.coupon{
+    margin-top: 10px;
+    height: 75px;
+    width: 95%;
+    background-color: #eeeeee;
+    border-radius: 2.5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    box-shadow: 0px 0px 2px 2.5px rgba(0.15, 0.15, 0.15, 0.15);
+    text-align: center;
+}
+
+.coupon-name{
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.coupon-applied-indicator{
+    color: orange;
+}

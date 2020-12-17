@@ -4,8 +4,6 @@ namespace ShopMate.Models
 {
     public class Position : IEquatable<Position>
     {
-        public int Id { get; private set; }
-
         public int X { get; internal set; }
         public int Y { get; internal set; }
 

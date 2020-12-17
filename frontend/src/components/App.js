@@ -6,9 +6,13 @@ import RightPanel from './RightPanel';
 import Nav from './Nav';
 import {requestSearchDataBase} from '../requests/SearchRequests.js';
 import Login from './Login';
-import {userInfoRequest, userListsRequest} from '../requests/UserRequests.js';
+import {userInfoRequest, userListsRequest, userCouponsList} from '../requests/UserRequests.js';
+import {requestAllCategories} from '../requests/CategoriesRequests';
+import {requestProductById} from '../requests/ProductRequest';
 import UserDetails from './UserDetails';
+import ZoomedImage from './ZoomedImage';
 import ErrorPanel from './ErrorPanel';
+import {getStore} from '../utils/Store';
 
 export const dataBaseURL = 'https://localhost:5001';
 
@@ -29,10 +33,21 @@ class App extends React.Component {
       'connectionError': false,
       'buttonEnabled': false,
       'currentList': null,
+      'cartContent': undefined,
+      'zoomedImage': undefined,
+      'lists': undefined,
+      'coupons': undefined,
+      'appliedCoupons': [],
     };
+    this.addProductToCartContent = this.addProductToCartContent.bind(this);
+    this.removeProductToCartContent =
+      this.removeProductToCartContent.bind(this);
+    this.resetCartContent = this.resetCartContent.bind(this);
     this.changeProductResults = this.changeProductResults.bind(this);
     this.goToLastState = this.goToLastState.bind(this);
     this.rightPanelRef = React.createRef();
+    const store = getStore();
+    store.subscribe(() => this.forceUpdate());
   }
 
   async getUserInfo(accessToken) {
@@ -48,11 +63,174 @@ class App extends React.Component {
         this.setState({user: response.data});
         this.logInUser(response.data);
         this.getUserLists();
+        this.getUserCoupons();
       }
     } catch (e) {
       this.showErrorPanel();
       this.getUserInfo(accessToken);
     }
+  }
+
+  async componentDidMount() {
+    const store = getStore();
+    store.subscribe(() => this.forceUpdate());
+    await this.initializeCart();
+    await this.initializeCategories();
+  }
+
+  async initializeCategories() {
+    let data;
+    const store = getStore();
+    try {
+      data = await requestAllCategories();
+      this.hideErrorPanel();
+      store.dispatch({
+        type: 'changeCategories',
+        categories: data,
+      });
+    } catch (e) {
+      this.showErrorPanel();
+      this.initializeCategories();
+    }
+  }
+
+  async fillCart() {
+    const firstProduct = await requestProductById(13204);
+    const secondProduct = await requestProductById(10502);
+    const thirthProduct = await requestProductById(14116);
+    this.addProductToCartContent(firstProduct);
+    this.addProductToCartContent(firstProduct);
+    this.addProductToCartContent(firstProduct);
+    this.addProductToCartContent(secondProduct);
+    this.addProductToCartContent(secondProduct);
+    this.addProductToCartContent(thirthProduct);
+  }
+
+  async initializeCart() {
+    try {
+      this.setState({
+        cartContent: {
+          'entries': [],
+          'subtotalPrice': 0,
+          'totalPrice': 0,
+          'modifierBreakdowns': [],
+        },
+      });
+      this.hideErrorPanel();
+      await this.fillCart();
+    } catch (e) {
+      this.showErrorPanel();
+      this.initializeCart();
+    }
+  }
+
+  addProductToCartContent(product) {
+    const updatedContent = this.state.cartContent;
+    let productAlreadyInside = false;
+    updatedContent.entries.forEach((element) => {
+      if (element.item.id === product.id) {
+        productAlreadyInside = true;
+        element.quantity = element.quantity + 1;
+        element.totalPrice =
+          element.quantity * element.item.modifiedPrice;
+      }
+    });
+    if (!productAlreadyInside) {
+      const newItem = {
+        'item': product,
+        'quantity': 1,
+        'totalPrice': product.modifiedPrice,
+        'priceModifiers': product.priceModifiers,
+      };
+      updatedContent.entries.push(newItem);
+    }
+    updatedContent.subtotalPrice = updatedContent.subtotalPrice + product.price;
+    updatedContent.totalPrice =
+      updatedContent.totalPrice + product.modifiedPrice;
+    this.addModifiersToCartContent(product, updatedContent, 1);
+    this.setState({
+      cartContent: updatedContent,
+    });
+  }
+
+  addModifiersToCartContent(product, updatedContent, quantity) {
+    const modifiers = [...product.priceModifiers];
+    updatedContent.modifierBreakdowns.forEach((storedModifier) => {
+      modifiers.forEach((productModifier) => {
+        if (storedModifier.modifier.code === productModifier.code &&
+          storedModifier.modifier.value === productModifier.value) {
+          storedModifier.applicableBase = storedModifier.applicableBase + product.price * quantity;
+          storedModifier.totalDelta =
+            storedModifier.applicableBase * productModifier.value * quantity;
+          modifiers.splice(modifiers.indexOf(productModifier), 1);
+        }
+      });
+    });
+    modifiers.forEach((modifier) => {
+      const newModifier = {
+        'applicableBase': product.price * quantity,
+        'modifier': modifier,
+        'totalDelta': product.price * quantity * modifier.value,
+      };
+      updatedContent.modifierBreakdowns.push(newModifier);
+    });
+  }
+
+  removeProductToCartContent(product) {
+    const updatedContent = this.state.cartContent;
+    let productInside = false;
+    updatedContent.entries.forEach((element) => {
+      if (element.item.id === product.id) {
+        productInside = true;
+        if (element.quantity === 1) {
+          const index = updatedContent.entries.indexOf(element);
+          updatedContent.entries.splice(index, 1);
+        } else {
+          element.quantity = element.quantity - 1;
+          element.totalPrice = element.quantity * element.item.modifiedPrice;
+        }
+      }
+    });
+    if (productInside) {
+      updatedContent.subtotalPrice = updatedContent.subtotalPrice - product.price;
+      updatedContent.totalPrice = updatedContent.totalPrice - product.modifiedPrice;
+      this.removeModifiersFromCartContent(product, updatedContent, 1);
+      this.setState({
+        cartContent: updatedContent,
+      });
+    }
+    return productInside;
+  }
+
+  removeModifiersFromCartContent(product, updatedContent, quantity) {
+    const modifiers = [...product.priceModifiers];
+    updatedContent.modifierBreakdowns.forEach((storedModifier) => {
+      modifiers.forEach((productModifier) => {
+        if (storedModifier.modifier.code === productModifier.code &&
+          storedModifier.modifier.value === productModifier.value) {
+          storedModifier.applicableBase = storedModifier.applicableBase - product.price * quantity;
+          storedModifier.totalDelta =
+            storedModifier.applicableBase * productModifier.value * quantity;
+          modifiers.splice(modifiers.indexOf(productModifier), 1);
+          if (storedModifier.applicableBase === 0) {
+            const indexModifier =
+              updatedContent.modifierBreakdowns.indexOf(storedModifier);
+            updatedContent.modifierBreakdowns.splice(indexModifier, 1);
+          }
+        }
+      });
+    });
+  }
+
+  resetCartContent() {
+    const resettedContent = this.state.cartContent;
+    resettedContent.entries = [];
+    resettedContent.subtotalPrice = 0;
+    resettedContent.totalPrice = 0;
+    resettedContent.modifierBreakdowns = [];
+    this.setState({
+      cartContent: resettedContent,
+    });
   }
 
   async getUserLists() {
@@ -67,6 +245,82 @@ class App extends React.Component {
     }
   }
 
+  async getUserCoupons() {
+    let response;
+    try {
+      response = await userCouponsList(this.state.accessToken);
+      this.hideErrorPanel();
+      if (response.status == 200) this.setState({coupons: response.data});
+    } catch (e) {
+      this.showErrorPanel();
+      this.getUserCoupons(this.state.accessToken);
+    }
+  }
+
+  applyCoupon(coupon) {
+    const cartContent = this.state.cartContent;
+    cartContent.entries.forEach((entry) => {
+      if (coupon.applicableProducts.length === 0 ||
+        coupon.applicableProducts.includes(entry.item)) {
+        this.removeModifiersFromCartContent(entry.item, cartContent, entry.quantity);
+        cartContent.totalPrice = cartContent.totalPrice - entry.item.modifiedPrice * entry.quantity;
+        entry.item.priceModifiers = entry.item.priceModifiers.concat(coupon.effects);
+        const modifierSum = this.getModifierSum(entry.item.priceModifiers);
+        entry.item.modifiedPrice = entry.item.price * modifierSum;
+        entry.totalPrice = entry.quantity * entry.item.modifiedPrice;
+        cartContent.totalPrice = cartContent.totalPrice + entry.item.modifiedPrice * entry.quantity;
+        this.addModifiersToCartContent(entry.item, cartContent, entry.quantity);
+      }
+    });
+    const appliedCoupons = this.state.appliedCoupons.concat(coupon);
+    this.setState({
+      cartContent: cartContent,
+      appliedCoupons: appliedCoupons,
+    });
+  }
+
+  removeCoupon(coupon) {
+    const cartContent = this.state.cartContent;
+    cartContent.entries.forEach((entry) => {
+      if (coupon.applicableProducts.length === 0 ||
+        coupon.applicableProducts.includes(entry.item)) {
+        this.removeModifiersFromCartContent(entry.item, cartContent, entry.quantity);
+        cartContent.totalPrice = cartContent.totalPrice - entry.item.modifiedPrice * entry.quantity;
+        entry.item.priceModifiers.forEach((modifier) => {
+          if (coupon.effects.includes(modifier)) {
+            const index = entry.item.priceModifiers.indexOf(modifier);
+            entry.item.priceModifiers.splice(index, 1);
+          }
+        });
+        const modifierSum = this.getModifierSum(entry.item.priceModifiers);
+        entry.item.modifiedPrice = entry.item.price * modifierSum;
+        entry.totalPrice = entry.quantity * entry.item.modifiedPrice;
+        cartContent.totalPrice = cartContent.totalPrice + entry.item.modifiedPrice * entry.quantity;
+        this.addModifiersToCartContent(entry.item, cartContent, entry.quantity);
+      }
+    });
+    const appliedCoupons = this.state.appliedCoupons;
+    appliedCoupons.splice(appliedCoupons.indexOf(coupon), 1);
+    this.setState({
+      cartContent: cartContent,
+      appliedCoupons: appliedCoupons,
+    });
+  }
+
+  removeAllCoupons() {
+    this.state.appliedCoupons.forEach((coupon) => {
+      this.removeCoupon(coupon);
+    });
+  }
+
+  getModifierSum(modifiers) {
+    let finalMultiplier = 1;
+    modifiers.forEach((modifier) => {
+      finalMultiplier = finalMultiplier + modifier.value;
+    });
+    return finalMultiplier;
+  }
+
   logInUser(user) {
     this.setState({
       'login': true,
@@ -76,6 +330,7 @@ class App extends React.Component {
   }
 
   logOutUser() {
+    this.removeAllCoupons();
     this.setState({
       'user': undefined,
       'accessToken': undefined,
@@ -99,7 +354,6 @@ class App extends React.Component {
       this.setState({
         'currentList': list,
       });
-      console.log(list);
     }
   }
 
@@ -123,9 +377,7 @@ class App extends React.Component {
   }
 
   goToLastState() {
-    this.setState({
-      'selectedPanel': this.state.lastPanel,
-    });
+    getStore().changePanel(this.state.lastPanel);
     this.resetResults();
   }
 
@@ -143,16 +395,22 @@ class App extends React.Component {
   }
 
   enableListsButton() {
-    const button = document.querySelector('.lf-list-button');
-    button.style.opacity = 1;
-    this.setState({
-      'buttonEnabled': true,
-    });
+    let button = document.querySelector('.lf-list-button');
+    if (button != null) {
+      button.style.opacity = 1;
+      button = document.querySelector('.lf-tag-button');
+      button.style.opacity = 1;
+      this.setState({
+        'buttonEnabled': true,
+      });
+    }
   }
 
   disableListsButton() {
-    const button = document.querySelector('.lf-list-button');
+    let button = document.querySelector('.lf-list-button');
     if (button != null) {
+      button.style.opacity = 0.4;
+      button = document.querySelector('.lf-tag-button');
       button.style.opacity = 0.4;
       this.setState({
         'buttonEnabled': false,
@@ -205,6 +463,11 @@ class App extends React.Component {
       this.setState({
         'results': results,
       });
+      const store = getStore();
+      store.dispatch({
+        type: 'changeResults',
+        results: results,
+      });
       rightPanelRef.updateSearchPanel(this.state.results);
 
       rightPanelRef.hideLoading();
@@ -215,14 +478,18 @@ class App extends React.Component {
     }
   }
 
+  getRightPanel() {
+    const panel = getStore().getState().panel;
+    return panel;
+  }
+
   renderPanels() {
     if (this.state.panels === 'login') {
       return (
         <React.Fragment>
+          {}
           <div className="panels">
             <Login
-              showErrorPanel={this.showErrorPanel.bind(this)}
-              hideErrorPanel={this.hideErrorPanel.bind(this)}
               loginUser={this.getUserInfo.bind(this)}
               closeLogin={this.setDefaultPanel.bind(this)}
             />
@@ -232,24 +499,33 @@ class App extends React.Component {
     } else if (this.state.panels === 'default') {
       return (
         <React.Fragment>
+          {this.renderZoomedImage()}
           <div className="panels">
             <LeftPanel
               openLogin={this.openLoginPanel.bind(this)}
               user={this.state.user}
               userLoggedIn={this.state.login}
               buttonEnabled={this.state.buttonEnabled}
+              enableListsButton={this.enableListsButton.bind(this)}
+              disableListsButton={this.disableListsButton.bind(this)}
               lists={this.state.lists}
-              onGetCurrentList={this.getCurrentList.bind(this)}
+              coupons={this.state.coupons}
+              appliedCoupons={this.state.appliedCoupons}
+              applyCoupon={this.applyCoupon.bind(this)}
+              removeCoupon={this.removeCoupon.bind(this)}
             />
             <RightPanel
-              showErrorPanel={this.showErrorPanel.bind(this)}
-              hideErrorPanel={this.hideErrorPanel.bind(this)}
-              panel={this.state.selectedPanel}
+              panel={this.getRightPanel()}
               goToLastState={this.goToLastState}
               results={this.state.results}
               moreResults={this.changeProductResults}
+              cartContent={this.state.cartContent}
               ref={this.rightPanelRef}
-              currentList={this.state.currentList}
+              zoomImage={this.showZoomedImage.bind(this)}
+              addProductToCartContent={this.addProductToCartContent}
+              removeProductToCartContent={this.removeProductToCartContent}
+              resetCartContent={this.resetCartContent}
+              appliedCoupons={this.state.appliedCoupons}
             />
           </div>
           <Nav
@@ -271,6 +547,33 @@ class App extends React.Component {
           </div>
         </React.Fragment>
       );
+    }
+  }
+
+  showZoomedImage(url) {
+    this.setState({
+      'zoomedImage': url,
+    });
+  }
+
+  hideZoomedImage() {
+    this.setState({
+      'zoomedImage': undefined,
+    });
+  }
+
+  renderZoomedImage() {
+    const image = this.state.zoomedImage;
+    if (image != undefined) {
+      return (
+        <React.Fragment>
+          <ZoomedImage
+            image={image}
+            unZoomImage={this.hideZoomedImage.bind(this)} />
+        </React.Fragment >
+      );
+    } else {
+      return null;
     }
   }
 
@@ -305,7 +608,9 @@ class App extends React.Component {
   }
 
   renderErrorPanel() {
-    if (this.state.connectionError) {
+    const store = getStore();
+    const connectionError = store.getState().error;
+    if (connectionError) {
       return (
         <React.Fragment>
           <ErrorPanel closeErrorPanel={this.hideErrorPanel.bind(this)} />

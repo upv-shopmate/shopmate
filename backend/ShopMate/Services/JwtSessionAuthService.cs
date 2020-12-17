@@ -43,7 +43,7 @@ namespace ShopMate.Services
                 return false;
             }
 
-            if (!int.TryParse(claim.Value, out int userId))
+            if (!int.TryParse(claim.Value, out var userId))
             {
                 return false;
             }

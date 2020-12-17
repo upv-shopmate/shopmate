@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ShopMate.Dto;
 using ShopMate.Models;
 using ShopMate.Persistence;
 using ShopMate.Services;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ShopMate.Controllers
 {
@@ -28,7 +28,7 @@ namespace ShopMate.Controllers
         [HttpPost("authorize")]
         public ActionResult<object> Authorize([FromBody] UsernamePasswordPairAuthenticationDto credentials) // FIXME research standard way of doing this
         {
-            if (!auth.FindUserByCredentials(credentials.Username, credentials.Password, out User user))
+            if (!auth.FindUserByCredentials(credentials.Username, credentials.Password, out var user))
             {
                 return Unauthorized();
             }
@@ -40,7 +40,7 @@ namespace ShopMate.Controllers
         [Authorize(Roles = "user")]
         public ActionResult<UserReadDto> GetCurrentUser()
         {
-            if (!auth.GetUserFromClaims(User.Claims, out User? user))
+            if (!auth.GetUserFromClaims(User.Claims, out var user))
             {
                 return Unauthorized();
             }
@@ -52,7 +52,7 @@ namespace ShopMate.Controllers
         [Authorize(Roles = "user")]
         public ActionResult<ICollection<CouponReadDto>> GetCurrentUserCoupons()
         {
-            if (!auth.GetUserFromClaims(User.Claims, out User? user))
+            if (!auth.GetUserFromClaims(User.Claims, out var user))
             {
                 return Unauthorized();
             }
@@ -65,7 +65,7 @@ namespace ShopMate.Controllers
         [Authorize(Roles = "user")]
         public ActionResult<ICollection<ShoppingListReadDto>> GetCurrentUserShoppingLists()
         {
-            if (!auth.GetUserFromClaims(User.Claims, out User? user))
+            if (!auth.GetUserFromClaims(User.Claims, out var user))
             {
                 return Unauthorized();
             }
@@ -78,7 +78,7 @@ namespace ShopMate.Controllers
         [Authorize(Roles = "user")]
         public ActionResult<ICollection<ShoppingListReadDto>> GetCurrentUserShoppingListById(int id)
         {
-            if (!auth.GetUserFromClaims(User.Claims, out User? user))
+            if (!auth.GetUserFromClaims(User.Claims, out var user))
             {
                 return Unauthorized();
             }
@@ -96,7 +96,7 @@ namespace ShopMate.Controllers
         [Authorize(Roles = "user")]
         public ActionResult CreateCurrentUserShoppingList([FromBody] ShoppingListCreateDto dto)
         {
-            if (!auth.GetUserFromClaims(User.Claims, out User? user))
+            if (!auth.GetUserFromClaims(User.Claims, out var user))
             {
                 return Unauthorized();
             }
@@ -108,11 +108,7 @@ namespace ShopMate.Controllers
 
             foreach (var entry in dto.Entries)
             {
-                if (!Gtin14.TryFromStandardBarcode(entry.ItemId, out Gtin14? barcode) || entry.Quantity < 1)
-                {
-                    return BadRequest();
-                }
-                var product = repository.Products.GetAll().FirstOrDefault(p => p.Barcode == barcode);    // FIXME
+                var product = repository.Products.GetAll().FirstOrDefault(p => p.Id == entry.ItemId);
                 if (product is null)
                 {
                     return BadRequest();
@@ -131,7 +127,7 @@ namespace ShopMate.Controllers
         [Authorize(Roles = "user")]
         public ActionResult DeleteUserShoppingListById(int id)
         {
-            if (!auth.GetUserFromClaims(User.Claims, out User? user))
+            if (!auth.GetUserFromClaims(User.Claims, out var user))
             {
                 return Unauthorized();
             }

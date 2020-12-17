@@ -24,12 +24,12 @@ namespace ShopMate.Migrations
                     b.Property<int>("BrandsId")
                         .HasColumnType("int");
 
-                    b.Property<string>("ProductsBarcode")
-                        .HasColumnType("char(14)");
+                    b.Property<int>("ProductsId")
+                        .HasColumnType("int");
 
-                    b.HasKey("BrandsId", "ProductsBarcode");
+                    b.HasKey("BrandsId", "ProductsId");
 
-                    b.HasIndex("ProductsBarcode");
+                    b.HasIndex("ProductsId");
 
                     b.ToTable("BrandProduct");
                 });
@@ -39,12 +39,12 @@ namespace ShopMate.Migrations
                     b.Property<int>("CategoriesId")
                         .HasColumnType("int");
 
-                    b.Property<string>("ProductsBarcode")
-                        .HasColumnType("char(14)");
+                    b.Property<int>("ProductsId")
+                        .HasColumnType("int");
 
-                    b.HasKey("CategoriesId", "ProductsBarcode");
+                    b.HasKey("CategoriesId", "ProductsId");
 
-                    b.HasIndex("ProductsBarcode");
+                    b.HasIndex("ProductsId");
 
                     b.ToTable("CategoryProduct");
                 });
@@ -54,12 +54,12 @@ namespace ShopMate.Migrations
                     b.Property<string>("AffectedByCouponsCode")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("ApplicableProductsBarcode")
-                        .HasColumnType("char(14)");
+                    b.Property<int>("ApplicableProductsId")
+                        .HasColumnType("int");
 
-                    b.HasKey("AffectedByCouponsCode", "ApplicableProductsBarcode");
+                    b.HasKey("AffectedByCouponsCode", "ApplicableProductsId");
 
-                    b.HasIndex("ApplicableProductsBarcode");
+                    b.HasIndex("ApplicableProductsId");
 
                     b.ToTable("CouponProduct");
                 });
@@ -79,45 +79,30 @@ namespace ShopMate.Migrations
                     b.ToTable("CouponUser");
                 });
 
-            modelBuilder.Entity("LabelProduct", b =>
-                {
-                    b.Property<int>("LabelsId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ProductsBarcode")
-                        .HasColumnType("char(14)");
-
-                    b.HasKey("LabelsId", "ProductsBarcode");
-
-                    b.HasIndex("ProductsBarcode");
-
-                    b.ToTable("LabelProduct");
-                });
-
             modelBuilder.Entity("PriceModifierProduct", b =>
                 {
                     b.Property<int>("PriceModifiersId")
                         .HasColumnType("int");
 
-                    b.Property<string>("ProductsBarcode")
-                        .HasColumnType("char(14)");
+                    b.Property<int>("ProductsId")
+                        .HasColumnType("int");
 
-                    b.HasKey("PriceModifiersId", "ProductsBarcode");
+                    b.HasKey("PriceModifiersId", "ProductsId");
 
-                    b.HasIndex("ProductsBarcode");
+                    b.HasIndex("ProductsId");
 
                     b.ToTable("PriceModifierProduct");
                 });
 
             modelBuilder.Entity("ProductStore", b =>
                 {
-                    b.Property<string>("ProductsBarcode")
-                        .HasColumnType("char(14)");
+                    b.Property<int>("ProductsId")
+                        .HasColumnType("int");
 
                     b.Property<int>("VendorsId")
                         .HasColumnType("int");
 
-                    b.HasKey("ProductsBarcode", "VendorsId");
+                    b.HasKey("ProductsId", "VendorsId");
 
                     b.HasIndex("VendorsId");
 
@@ -158,15 +143,10 @@ namespace ShopMate.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("ContentsId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("OwnerId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ContentsId");
 
                     b.HasIndex("OwnerId");
 
@@ -185,7 +165,12 @@ namespace ShopMate.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<int?>("ParentId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ParentId");
 
                     b.ToTable("Categories");
                 });
@@ -207,46 +192,6 @@ namespace ShopMate.Migrations
                     b.HasIndex("StoreId");
 
                     b.ToTable("Coupons");
-                });
-
-            modelBuilder.Entity("ShopMate.Models.Label", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Labels");
-                });
-
-            modelBuilder.Entity("ShopMate.Models.Position", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<string>("ProductBarcode")
-                        .HasColumnType("char(14)");
-
-                    b.Property<int>("X")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Y")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductBarcode");
-
-                    b.ToTable("Position");
                 });
 
             modelBuilder.Entity("ShopMate.Models.PriceModifier", b =>
@@ -280,14 +225,14 @@ namespace ShopMate.Migrations
 
             modelBuilder.Entity("ShopMate.Models.Product", b =>
                 {
-                    b.Property<string>("Barcode")
-                        .HasColumnType("char(14)");
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
 
                     b.Property<long?>("AvailableStock")
                         .HasColumnType("bigint");
 
-                    b.Property<bool>("Edible")
-                        .HasColumnType("bit");
+                    b.Property<string>("Barcode")
+                        .HasColumnType("char(14)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -301,14 +246,15 @@ namespace ShopMate.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Positions")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("money");
 
                     b.Property<long>("TimesSold")
                         .HasColumnType("bigint");
-
-                    b.Property<int?>("Units")
-                        .HasColumnType("int");
 
                     b.Property<double?>("Volume")
                         .HasColumnType("float");
@@ -316,7 +262,7 @@ namespace ShopMate.Migrations
                     b.Property<double?>("Weight")
                         .HasColumnType("float");
 
-                    b.HasKey("Barcode");
+                    b.HasKey("Id");
 
                     b.ToTable("Products");
                 });
@@ -328,9 +274,6 @@ namespace ShopMate.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<int?>("CartId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -339,15 +282,7 @@ namespace ShopMate.Migrations
                     b.Property<int?>("OwnerId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("SubtotalPrice")
-                        .HasColumnType("money");
-
-                    b.Property<decimal>("TotalPrice")
-                        .HasColumnType("money");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("CartId");
 
                     b.HasIndex("OwnerId");
 
@@ -420,7 +355,7 @@ namespace ShopMate.Migrations
 
                     b.HasOne("ShopMate.Models.Product", null)
                         .WithMany()
-                        .HasForeignKey("ProductsBarcode")
+                        .HasForeignKey("ProductsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -435,7 +370,7 @@ namespace ShopMate.Migrations
 
                     b.HasOne("ShopMate.Models.Product", null)
                         .WithMany()
-                        .HasForeignKey("ProductsBarcode")
+                        .HasForeignKey("ProductsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -450,7 +385,7 @@ namespace ShopMate.Migrations
 
                     b.HasOne("ShopMate.Models.Product", null)
                         .WithMany()
-                        .HasForeignKey("ApplicableProductsBarcode")
+                        .HasForeignKey("ApplicableProductsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -470,21 +405,6 @@ namespace ShopMate.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("LabelProduct", b =>
-                {
-                    b.HasOne("ShopMate.Models.Label", null)
-                        .WithMany()
-                        .HasForeignKey("LabelsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ShopMate.Models.Product", null)
-                        .WithMany()
-                        .HasForeignKey("ProductsBarcode")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("PriceModifierProduct", b =>
                 {
                     b.HasOne("ShopMate.Models.PriceModifier", null)
@@ -495,7 +415,7 @@ namespace ShopMate.Migrations
 
                     b.HasOne("ShopMate.Models.Product", null)
                         .WithMany()
-                        .HasForeignKey("ProductsBarcode")
+                        .HasForeignKey("ProductsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -504,7 +424,7 @@ namespace ShopMate.Migrations
                 {
                     b.HasOne("ShopMate.Models.Product", null)
                         .WithMany()
-                        .HasForeignKey("ProductsBarcode")
+                        .HasForeignKey("ProductsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -517,17 +437,20 @@ namespace ShopMate.Migrations
 
             modelBuilder.Entity("ShopMate.Models.Cart", b =>
                 {
-                    b.HasOne("ShopMate.Models.ShoppingList", "Contents")
-                        .WithMany()
-                        .HasForeignKey("ContentsId");
-
                     b.HasOne("ShopMate.Models.Store", "Owner")
                         .WithMany()
                         .HasForeignKey("OwnerId");
 
-                    b.Navigation("Contents");
-
                     b.Navigation("Owner");
+                });
+
+            modelBuilder.Entity("ShopMate.Models.Category", b =>
+                {
+                    b.HasOne("ShopMate.Models.Category", "Parent")
+                        .WithMany("Children")
+                        .HasForeignKey("ParentId");
+
+                    b.Navigation("Parent");
                 });
 
             modelBuilder.Entity("ShopMate.Models.Coupon", b =>
@@ -539,13 +462,6 @@ namespace ShopMate.Migrations
                     b.Navigation("Store");
                 });
 
-            modelBuilder.Entity("ShopMate.Models.Position", b =>
-                {
-                    b.HasOne("ShopMate.Models.Product", null)
-                        .WithMany("Positions")
-                        .HasForeignKey("ProductBarcode");
-                });
-
             modelBuilder.Entity("ShopMate.Models.PriceModifier", b =>
                 {
                     b.HasOne("ShopMate.Models.Coupon", null)
@@ -555,10 +471,6 @@ namespace ShopMate.Migrations
 
             modelBuilder.Entity("ShopMate.Models.ShoppingList", b =>
                 {
-                    b.HasOne("ShopMate.Models.Cart", null)
-                        .WithMany("TrackedLists")
-                        .HasForeignKey("CartId");
-
                     b.HasOne("ShopMate.Models.User", "Owner")
                         .WithMany("ShoppingLists")
                         .HasForeignKey("OwnerId");
@@ -573,22 +485,21 @@ namespace ShopMate.Migrations
                                 .HasColumnType("int")
                                 .UseIdentityColumn();
 
-                            b1.Property<string>("ItemBarcode")
-                                .IsRequired()
-                                .HasColumnType("char(14)");
+                            b1.Property<int>("ItemId")
+                                .HasColumnType("int");
 
                             b1.Property<int>("Quantity")
                                 .HasColumnType("int");
 
                             b1.HasKey("ShoppingListId", "Id");
 
-                            b1.HasIndex("ItemBarcode");
+                            b1.HasIndex("ItemId");
 
                             b1.ToTable("ShoppingListEntry");
 
                             b1.HasOne("ShopMate.Models.Product", "Item")
                                 .WithMany()
-                                .HasForeignKey("ItemBarcode")
+                                .HasForeignKey("ItemId")
                                 .OnDelete(DeleteBehavior.Cascade)
                                 .IsRequired();
 
@@ -603,19 +514,14 @@ namespace ShopMate.Migrations
                     b.Navigation("Owner");
                 });
 
-            modelBuilder.Entity("ShopMate.Models.Cart", b =>
+            modelBuilder.Entity("ShopMate.Models.Category", b =>
                 {
-                    b.Navigation("TrackedLists");
+                    b.Navigation("Children");
                 });
 
             modelBuilder.Entity("ShopMate.Models.Coupon", b =>
                 {
                     b.Navigation("Effects");
-                });
-
-            modelBuilder.Entity("ShopMate.Models.Product", b =>
-                {
-                    b.Navigation("Positions");
                 });
 
             modelBuilder.Entity("ShopMate.Models.User", b =>

@@ -7,6 +7,7 @@ namespace ShopMate.Dto
         public int Id { get; internal set; }
 
         public string Name { get; internal set; }
+
+        public CategoryReadDto? Parent { get; internal set; }
     }
 }
-

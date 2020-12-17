@@ -1,22 +1,27 @@
 /* eslint react/prop-types: 0 */
 import '../assets/css/ProductDetails.css';
-import closeButton from '../assets/images/close_button.png';
+import closeButton from '../assets/images/close_24px.png';
 import mapButton from '../assets/images/map_button.png';
 import imageNotFound from '../assets/images/image_not_found.jpg';
 import React, {Component} from 'react';
 import {capitalize} from '../utils/Utils';
 import {withTranslation} from 'react-i18next';
+import {roundUp} from '../utils/Utils';
+import rightArrow from '../assets/images/right_arrow.png';
+import leftArrow from '../assets/images/left_arrow.png';
+import {getStore} from '../utils/Store.js';
 
 class ProductDetails extends Component {
   constructor(props) {
     super(props);
     this.viewDetails = this.viewDetails.bind(this);
     this.closeDetailsPanel = this.closeDetailsPanel.bind(this);
-  }
-
-  roundUp(num, precision) {
-    precision = Math.pow(10, precision);
-    return (Math.ceil(num * precision) / precision).toFixed(2);
+    this.goToLeftImage = this.goToLeftImage.bind(this);
+    this.goToRightImage = this.goToRightImage.bind(this);
+    this.zoomImage = this.zoomImage.bind(this);
+    this.state = {
+      imagePage: 1,
+    };
   }
 
   getProductName() {
@@ -25,7 +30,7 @@ class ProductDetails extends Component {
   }
 
   getProductImage() {
-    const image = this.props.product.pictures[0];
+    const image = this.props.product.pictures[this.state.imagePage - 1];
     if (image !== undefined) {
       return image;
     } else {
@@ -36,13 +41,13 @@ class ProductDetails extends Component {
   getProductBrand() {
     const aux = this.props.product.brands;
     if (aux !== [] && aux[0] !== undefined) {
-      return 'de ' + aux[0].name;
+      return aux[0].name;
     }
     return '';
   }
 
   getProductPrice() {
-    return this.roundUp(this.props.product.priceWithVat, 2) + '€';
+    return roundUp(this.props.product.priceWithVat, 2) + '€';
   }
 
   closeDetailsPanel() {
@@ -70,7 +75,37 @@ class ProductDetails extends Component {
   getProductVolume() {
     const aux = this.props.product.volume;
     if (aux !== null) {
-      return aux;
+      return aux + 'mL';
+    } else {
+      return 'N/A';
+    }
+  }
+
+  goToLeftImage() {
+    const aux = this.state.imagePage;
+    if (aux > 1) {
+      this.setState({
+        imagePage: aux - 1,
+      });
+    }
+  }
+
+  goToRightImage() {
+    const aux = this.state.imagePage;
+    if (aux < this.props.product.pictures.length) {
+      this.setState({
+        imagePage: aux + 1,
+      });
+    }
+  }
+
+  getProductCategories() {
+    let categories = this.props.product.categories;
+    if (categories.length > 0) {
+      categories = categories.map((category) => category.name + '/ ');
+      const pos = categories.length - 1;
+      categories[pos] = categories[pos].slice(0, categories[pos].length - 2);
+      return categories;
     } else {
       return 'N/A';
     }
@@ -80,19 +115,14 @@ class ProductDetails extends Component {
     const {t} = this.props;
     const aux = this.props.product.availableStock;
     if (aux > 0) {
-      return t('yes') + ' (' + aux + ')';
+      return t('productDetails.yes') + ' (' + aux + ')';
     } else {
-      return t('no');
+      return t('productDetails.no');
     }
   }
 
-  isProductEdible() {
-    const {t} = this.props;
-    if (this.props.product.edible) {
-      return t('yes');
-    } else {
-      return t('no');
-    }
+  zoomImage() {
+    this.props.zoomImage(this.props.product.pictures[this.state.imagePage - 1]);
   }
 
   getMoreInfo() {
@@ -100,48 +130,62 @@ class ProductDetails extends Component {
     return (
       <React.Fragment>
         <div className="details-text-line">
-          <span className="details-text-header">{t('weight')}</span>
+          <span className="details-text-header">{t('productDetails.weight')}</span>
           <span className="details-text">{this.getProductWeight()}</span>
         </div>
         <div className="details-text-line">
-          <span className="details-text-header">{t('volume')}</span>
+          <span className="details-text-header">{t('productDetails.volume')}</span>
           <span className="details-text">{this.getProductVolume()}</span>
-        </div>
-        <div className="details-text-line">
-          <span className="details-text-header">{t('originCountry')}</span>
-          <span className="details-text">{this.getProductOriginCountry()}</span>
-        </div>
-        <div className="details-text-line">
-          <span className="details-text-header">{t('stocked')}</span>
-          <span className="details-text">{this.isProductStocked()}</span>
         </div>
       </React.Fragment>
     );
+  }
+
+  showInMap() {
+    const store = getStore();
+    store.changePanel('map');
+    store.showProduct(this.props.product);
   }
 
   viewDetails() {
     if (this.props.product !== null) {
       return (
         <div className="details">
-          <img className="details-image" src={this.getProductImage()}></img>
+          <div className="details-image-wrapper">
+            <img
+              className="details-image"
+              src={this.getProductImage()}
+              onClick={() => this.zoomImage()}
+            >
+            </img>
+            <div className="details-pages">
+              <img src={leftArrow} onClick={() => this.goToLeftImage()}></img>
+              <span>{this.state.imagePage}</span>
+              <img src={rightArrow} onClick={() => this.goToRightImage()}></img>
+            </div>
+          </div>
           <div className="details-title">
             <div className="details-name">{this.getProductName()}</div>
             <div className="details-brand">{this.getProductBrand()}</div>
             <div className="details-price">{this.getProductPrice()}</div>
           </div>
+          <div className="details-line">
+          </div>
           <div className="details-box">
-            <div className="details-close-button">
-              <img className="details-close-button-image"
-                src={closeButton}
-                onClick={this.closeDetailsPanel}
-              >
-              </img>
-            </div>
             <div className="details-info">{this.getMoreInfo()}</div>
-            <div className="details-map-button">
-              <img className="details-map-button-image" src={mapButton}>
-              </img>
-            </div>
+          </div>
+          <div className="details-buttons">
+            <img className="details-close-button-image"
+              src={closeButton}
+              onClick={this.closeDetailsPanel}
+            >
+            </img>
+            <img
+              className="details-map-button-image"
+              src={mapButton}
+              onClick={() => this.showInMap()}
+            >
+            </img>
           </div>
         </div>
       );

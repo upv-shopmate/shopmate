@@ -8,6 +8,7 @@ body {
   height: 768px;
   background-color: black;
   position: relative;
+  font-family: textFont;
 }
 
 .panels {
@@ -16,4 +17,25 @@ body {
   display: flex;
   position: relative;
   top: 90px;
+}
+
+button{
+  font-family: textFont;
+  border-radius: 2.5px;
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: titleFont;
+  src: url(../fonts/Do_Hyeon/DoHyeon-Regular.ttf);
+}
+
+@font-face {
+  font-family: priceFont;
+  src: url(../fonts//Oswald/Oswald-Regular.ttf);
+}
+
+@font-face {
+  font-family: textFont;
+  src: url(../fonts/Roboto/Roboto-Regular.ttf);
 }

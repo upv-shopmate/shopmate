@@ -6,7 +6,9 @@ namespace ShopMate.Dto
 {
     public class ProductReadDto
     {
-        public string Barcode { get; internal set; }
+        public int Id { get; internal set; }
+
+        public string? Barcode { get; internal set; }
 
         public string Name { get; internal set; }
 
@@ -14,11 +16,7 @@ namespace ShopMate.Dto
 
         public double? Volume { get; internal set; }
 
-        public ushort? Units { get; internal set; }
-
         public string? OriginCountry { get; internal set; }
-
-        public bool Edible { get; internal set; }
 
         public decimal Price { get; internal set; }
 
@@ -32,12 +30,9 @@ namespace ShopMate.Dto
 
         public ICollection<CategoryReadDto> Categories { get; internal set; }
 
-        public ICollection<LabelReadDto> Labels { get; internal set; }
-
         public ICollection<PriceModifierReadDto> PriceModifiers { get; internal set; }
 
-        // TODO
-        //public ICollection<Position> Positions { get; internal set; }
+        public ICollection<PositionReadDto> Positions { get; internal set; }
 
         public ICollection<StoreReadDto> Vendors { get; internal set; }
 

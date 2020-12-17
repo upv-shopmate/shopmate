@@ -14,8 +14,6 @@ namespace ShopMate.Dto
 
         public decimal TotalPrice { get; internal set; }
 
-        public IReadOnlyCollection<PriceModifierBreakdownReadDto> ModifierBreakdowns { get; internal set; }
-
         public IReadOnlyCollection<ShoppingListEntryReadDto> Entries { get; internal set; }
     }
 }
