@@ -23,7 +23,11 @@
     "articlesCart": " {{count}} artículo en el carro",
     "estimated": "Planificado: ",
     "plannedArticles": "{{articles}} artículos planificados",
-    "appliedCoupons": "Ningún cupón aplicado",
+    "appliedCoupons":{
+      "none": "Ningún cupón aplicado",
+      "one": "{{count}} cupón aplicado",
+      "plural": "{{count}} cupones aplicados"
+    },
     "iva": " IVA: ",
     "ammount": " Importe: "
   },
@@ -85,7 +89,6 @@
   "userList":{
     "products": "Productos"
   },
-  "products": "Productos",
   "paymentMenu": "Menú de pago",
   "paymentFinished": "Proceso de pago finalizado",
   "paymentFailed": "Proceso de pago fallido",
@@ -96,5 +99,7 @@
   "totalToPay": "Total a pagar: ",
   "confirmPayment": "Confirmar pago",
   "cancel": "Cancelar",
-  "tryAgain": "Reintentar pago"
+  "tryAgain": "Reintentar pago",
+  "applied" : "Aplicado",
+  "not-applied": "Sin aplicar"
 }

@@ -1,9 +1,8 @@
 /* eslint react/prop-types: 0 */
 /* eslint no-irregular-whitespace: 2*/
 
-import '../assets/css/CouponsList.css';
 import React from 'react';
-import {withTranslation} from 'react-i18next';
+import Coupon from './Coupon';
 
 class CouponsList extends React.Component {
   constructor(props) {
@@ -11,13 +10,19 @@ class CouponsList extends React.Component {
   }
 
   render() {
-    const {t} = this.props;
-    return (
-      <div className="coupons-list">
-        <Coupon></Coupon>
-      </div>
-    );
+    const coupons = this.props.coupons;
+    if (coupons != undefined && coupons.length > 0) {
+      return coupons.map((coupon) =>
+        <Coupon
+        key={coupon.code}
+        coupon={coupon}
+        appliedCoupons={this.props.appliedCoupons}
+        applyCoupon={this.props.applyCoupon}
+        removeCoupon={this.props.removeCoupon}
+        />,
+      );
+    }
   }
 }
 
-export default withTranslation()(CouponsList);
+export default CouponsList;

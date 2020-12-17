@@ -77,3 +77,28 @@ export async function userListsRequest(accessToken) {
       });
   return {'status': status, 'data': data};
 }
+
+export async function userCouponsList(accessToken) {
+  let status;
+  let data;
+  const query = '/api/user/coupons';
+
+  await request(
+      dataBaseURL + query,
+      {
+        headers: {
+          'Authorization': 'Bearer ' + accessToken,
+        },
+      })
+      .then(function(response) {
+        {
+          status = response.status;
+          if (status == '200') {
+            data = response.data;
+          }
+        }
+      }).catch((error) => {
+        status = error.status;
+      });
+  return {'status': status, 'data': data};
+}

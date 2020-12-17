@@ -6,9 +6,9 @@ import RightPanel from './RightPanel';
 import Nav from './Nav';
 import {requestSearchDataBase} from '../requests/SearchRequests.js';
 import Login from './Login';
-import {userInfoRequest, userListsRequest} from '../requests/UserRequests.js';
-import {requestCartContentDataBase} from '../requests/CartContents';
+import {userInfoRequest, userListsRequest, userCouponsList} from '../requests/UserRequests.js';
 import {requestAllCategories} from '../requests/CategoriesRequests';
+import {requestProductById} from '../requests/ProductRequest';
 import UserDetails from './UserDetails';
 import ZoomedImage from './ZoomedImage';
 import ErrorPanel from './ErrorPanel';
@@ -35,6 +35,9 @@ class App extends React.Component {
       'currentList': null,
       'cartContent': undefined,
       'zoomedImage': undefined,
+      'lists': undefined,
+      'coupons': undefined,
+      'appliedCoupons': new Array(),
     };
     this.addProductToCartContent = this.addProductToCartContent.bind(this);
     this.removeProductToCartContent =
@@ -60,6 +63,7 @@ class App extends React.Component {
         this.setState({user: response.data});
         this.logInUser(response.data);
         this.getUserLists();
+        this.getUserCoupons();
       }
     } catch (e) {
       this.showErrorPanel();
@@ -67,11 +71,11 @@ class App extends React.Component {
     }
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const store = getStore();
     store.subscribe(() => this.forceUpdate());
-    this.initializeCart();
-    this.initializeCategories();
+    await this.initializeCart();
+    await this.initializeCategories();
   }
 
   async initializeCategories() {
@@ -90,14 +94,30 @@ class App extends React.Component {
     }
   }
 
+  async fillCart(){
+    const firstProduct = await requestProductById(13204);
+    const secondProduct = await requestProductById(10502);
+    const thirthProduct = await requestProductById(14116);
+    this.addProductToCartContent(firstProduct);
+    this.addProductToCartContent(firstProduct);
+    this.addProductToCartContent(firstProduct);
+    this.addProductToCartContent(secondProduct);
+    this.addProductToCartContent(secondProduct);
+    this.addProductToCartContent(thirthProduct);
+  }
+
   async initializeCart() {
-    let data;
     try {
-      data = await requestCartContentDataBase();
-      this.hideErrorPanel();
       this.setState({
-        cartContent: data,
+        cartContent: {
+          "entries": new Array(), 
+          "subtotalPrice": 0, 
+          "totalPrice": 0, 
+          "modifierBreakdowns": new Array()
+        },
       });
+      this.hideErrorPanel();
+      await this.fillCart()
     } catch (e) {
       this.showErrorPanel();
       this.initializeCart();
@@ -120,36 +140,37 @@ class App extends React.Component {
         'item': product,
         'quantity': 1,
         'totalPrice': product.modifiedPrice,
+        'priceModifiers': product.priceModifiers,
       };
       updatedContent.entries.push(newItem);
     }
     updatedContent.subtotalPrice = updatedContent.subtotalPrice + product.price;
     updatedContent.totalPrice =
       updatedContent.totalPrice + product.modifiedPrice;
-    this.addModifiersToCartContent(product, updatedContent);
+    this.addModifiersToCartContent(product, updatedContent, 1);
     this.setState({
       cartContent: updatedContent,
     });
   }
 
-  addModifiersToCartContent(product, updatedContent) {
-    const modifiers = product.priceModifiers;
+  addModifiersToCartContent(product, updatedContent, quantity) {
+    const modifiers = [...product.priceModifiers];
     updatedContent.modifierBreakdowns.forEach((storedModifier) => {
       modifiers.forEach((productModifier) => {
         if (storedModifier.modifier.code === productModifier.code &&
           storedModifier.modifier.value === productModifier.value) {
-          storedModifier.applicableBase = storedModifier.applicableBase + product.price;
+          storedModifier.applicableBase = storedModifier.applicableBase + product.price * quantity;
           storedModifier.totalDelta =
-            storedModifier.applicableBase * productModifier.value;
+            storedModifier.applicableBase * productModifier.value * quantity;
           modifiers.splice(modifiers.indexOf(productModifier), 1);
         }
       });
     });
     modifiers.forEach((modifier) => {
       const newModifier = {
-        'applicableBase': product.price,
+        'applicableBase': product.price * quantity,
         'modifier': modifier,
-        'totalDelta': product.price * modifier.value,
+        'totalDelta': product.price * quantity * modifier.value,
       };
       updatedContent.modifierBreakdowns.push(newModifier);
     });
@@ -173,7 +194,7 @@ class App extends React.Component {
     if (productInside) {
       updatedContent.subtotalPrice = updatedContent.subtotalPrice - product.price;
       updatedContent.totalPrice = updatedContent.totalPrice - product.modifiedPrice;
-      this.removeModifiersFromCartContent(product, updatedContent);
+      this.removeModifiersFromCartContent(product, updatedContent, 1);
       this.setState({
         cartContent: updatedContent,
       });
@@ -181,15 +202,15 @@ class App extends React.Component {
     return productInside;
   }
 
-  removeModifiersFromCartContent(product, updatedContent) {
-    const modifiers = product.priceModifiers;
+  removeModifiersFromCartContent(product, updatedContent, quantity) {
+    const modifiers = [...product.priceModifiers];
     updatedContent.modifierBreakdowns.forEach((storedModifier) => {
       modifiers.forEach((productModifier) => {
         if (storedModifier.modifier.code === productModifier.code &&
           storedModifier.modifier.value === productModifier.value) {
-          storedModifier.applicableBase = storedModifier.applicableBase - product.price;
+          storedModifier.applicableBase = storedModifier.applicableBase - product.price * quantity;
           storedModifier.totalDelta =
-          storedModifier.applicableBase * productModifier.value;
+          storedModifier.applicableBase * productModifier.value * quantity;
           modifiers.splice(modifiers.indexOf(productModifier), 1);
           if (storedModifier.applicableBase === 0) {
             const indexModifier =
@@ -222,6 +243,76 @@ class App extends React.Component {
       this.showErrorPanel();
       this.getUserLists(this.state.accessToken);
     }
+  }
+
+  async getUserCoupons() {
+    let response;
+    try {
+      response = await userCouponsList(this.state.accessToken);
+      this.hideErrorPanel();
+      if (response.status == 200) this.setState({coupons: response.data});
+    } catch (e) {
+      this.showErrorPanel();
+      this.getUserCoupons(this.state.accessToken);
+    }
+  }
+
+  applyCoupon(coupon) {
+    let cartContent = this.state.cartContent;
+    cartContent.entries.forEach(entry => {
+      if (coupon.applicableProducts.length === 0 || 
+        coupon.applicableProducts.includes(entry.item)){
+        this.removeModifiersFromCartContent(entry.item, cartContent, entry.quantity);
+        cartContent.totalPrice = cartContent.totalPrice - entry.item.modifiedPrice * entry.quantity;
+        entry.item.priceModifiers = entry.item.priceModifiers.concat(coupon.effects);
+        let modifierSum = this.getModifierSum(entry.item.priceModifiers);
+        entry.item.modifiedPrice = entry.item.price * modifierSum;
+        entry.totalPrice = entry.quantity * entry.item.modifiedPrice;
+        cartContent.totalPrice = cartContent.totalPrice + entry.item.modifiedPrice * entry.quantity;
+        this.addModifiersToCartContent(entry.item, cartContent, entry.quantity);
+      }
+    });
+    const appliedCoupons = this.state.appliedCoupons.concat(coupon);
+    this.setState({
+      cartContent: cartContent,
+      appliedCoupons: appliedCoupons,
+    });
+  }
+
+  removeCoupon(coupon) {
+    let cartContent = this.state.cartContent;
+    cartContent.entries.forEach(entry => {
+      if (coupon.applicableProducts.length === 0 || 
+        coupon.applicableProducts.includes(entry.item)){
+        this.removeModifiersFromCartContent(entry.item, cartContent, entry.quantity);
+        cartContent.totalPrice = cartContent.totalPrice - entry.item.modifiedPrice * entry.quantity;
+        entry.item.priceModifiers.forEach(modifier => {
+          if(coupon.effects.includes(modifier)){
+            let index = entry.item.priceModifiers.indexOf(modifier);
+            entry.item.priceModifiers.splice(index, 1);
+          }
+        });
+        let modifierSum = this.getModifierSum(entry.item.priceModifiers);
+        entry.item.modifiedPrice = entry.item.price * modifierSum;
+        entry.totalPrice = entry.quantity * entry.item.modifiedPrice;
+        cartContent.totalPrice = cartContent.totalPrice + entry.item.modifiedPrice * entry.quantity;
+        this.addModifiersToCartContent(entry.item, cartContent, entry.quantity);
+      }
+    });
+    let appliedCoupons = this.state.appliedCoupons;
+    appliedCoupons.splice(appliedCoupons.indexOf(coupon), 1);
+    this.setState({
+      cartContent: cartContent,
+      appliedCoupons: appliedCoupons,
+    });
+  }
+
+  getModifierSum(modifiers){
+    let finalMultiplier = 1;
+    modifiers.forEach(modifier => {
+      finalMultiplier = finalMultiplier + modifier.value;
+    });
+    return finalMultiplier;
   }
 
   logInUser(user) {
@@ -411,6 +502,10 @@ class App extends React.Component {
               enableListsButton={this.enableListsButton.bind(this)}
               disableListsButton={this.disableListsButton.bind(this)}
               lists={this.state.lists}
+              coupons={this.state.coupons}
+              appliedCoupons={this.state.appliedCoupons}
+              applyCoupon={this.applyCoupon.bind(this)}
+              removeCoupon={this.removeCoupon.bind(this)}
             />
             <RightPanel
               panel={this.getRightPanel()}
@@ -423,6 +518,7 @@ class App extends React.Component {
               addProductToCartContent={this.addProductToCartContent}
               removeProductToCartContent={this.removeProductToCartContent}
               resetCartContent={this.resetCartContent}
+              appliedCoupons={this.state.appliedCoupons}
             />
           </div>
           <Nav

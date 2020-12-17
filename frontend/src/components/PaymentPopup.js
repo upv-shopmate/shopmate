@@ -180,7 +180,7 @@ class PaymentPopup extends React.Component {
         <button className="return-button-payment-popup"
           onClick={this.closePopup}>
           <img className="return-button-img" src={leftArrow}></img>
-          <div className="return-button-text">{t('return')}</div>
+          <div className="return-button-text">{t('userDetails.return')}</div>
         </button>
       </div>
     );

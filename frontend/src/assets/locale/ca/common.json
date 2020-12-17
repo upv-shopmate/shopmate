@@ -23,7 +23,11 @@
     "articlesCart_plural": "{{count}} articles al carret",
     "estimated": "Planificat: ",
     "plannedArticles": "{{articles}} articles planificats",
-    "appliedCoupons": "Ningú cupó aplicat",
+    "appliedCoupons":{
+      "none": "Cap cupó aplicat",
+      "one": "{{count}} cupó aplicat",
+      "plural": "{{count}} cupons aplicats"
+    },
     "iva": " IVA: ",
     "ammount": " Import: "
   },
@@ -95,5 +99,7 @@
   "totalToPay": "Total a pagar: ",
   "confirmPayment": "Confirmar pagament",
   "cancel": "Cancelar",
-  "tryAgain": "Reintentar pagament"
+  "tryAgain": "Reintentar pagament",
+  "applied": "Aplicat",
+  "not-applied": "Sense aplicar"
 }

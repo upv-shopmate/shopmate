@@ -84,7 +84,7 @@ class TopBar extends React.Component {
         <React.Fragment>
           <button
             className="user-login-button"
-            onClick={this.props.openLogin} >{t('login')}
+            onClick={this.props.openLogin} >{t('login.login')}
           </button>
           <button
             className="translate-button top-button"

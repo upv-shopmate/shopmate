@@ -23,7 +23,11 @@
     "articlesCart_plural": "{{count}} products in the cart",
     "estimated": "Estimated: ",
     "plannedArticles": "{{articles}} plannified products",
-    "appliedCoupons": "No coupon applied",
+    "appliedCoupons":{
+      "none": "No coupon applied",
+      "one": "{{count}} coupon applied",
+      "plural": "{{count}} coupon applied"
+    },
     "iva": " VAT: ",
     "ammount": " Ammount: "
   },
@@ -84,9 +88,7 @@
   },
   "userList":{
     "products": "Products"
-  }
- },
-  "products": "Products",
+  },
   "paymentMenu": "Payment Menu",
   "paymentFinished": "Payment process finished",
   "paymentFailed": "Payment process failed",
@@ -97,5 +99,7 @@
   "totalToPay": "Total to pay: ",
   "confirmPayment": "Confirm payment",
   "cancel": "Cancel",
-  "tryAgain": "Try again"
+  "tryAgain": "Try again",
+  "applied": "Applied",
+  "not-applied": "Not applied"
 }

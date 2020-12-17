@@ -43,41 +43,55 @@ class Cart extends React.Component {
     }
   }
 
-  getProductPriceBase() {
+  getProductPriceBase(index) {
     const cartContent = this.props.cartContent;
     if (cartContent !== undefined && cartContent.modifierBreakdowns.length > 0) {
       return ' Base: ' + roundUp(
-          cartContent.modifierBreakdowns[0].applicableBase, 2,
+          cartContent.modifierBreakdowns[index].applicableBase, 2,
       );
     } else {
       return ' Base: 0';
     }
   }
 
-  getProductIVA(t) {
+  getProductModifier(index) {
     const cartContent = this.props.cartContent;
     if (cartContent !== undefined && cartContent.modifierBreakdowns.length > 0) {
-      return t('iva') +
-      cartContent.modifierBreakdowns[0].modifier.value * 100;
+      return this.getProductModifierText() +
+      cartContent.modifierBreakdowns[index].modifier.value * 100;
     } else {
-      return t('iva') + 0;
+      return this.getProductModifierText() + 0;
     }
   }
 
-  getProductPriceImport(t) {
+  getProductModifierText(index){
+    const {t} = this.props;
+    let text = t('cart.iva');
+    if(index > 0){
+      text = this.props.cartContent.modifierBreakdowns[index].modifier.code + ": ";
+    }
+    return text;
+  }
+
+  getProductPriceImport() {
+    const {t} = this.props;
     const cartContent = this.props.cartContent;
     if (cartContent !== undefined && cartContent.modifierBreakdowns.length > 0) {
-      return t('ammount') + roundUp(
+      return t('cart.ammount') + roundUp(
           cartContent.modifierBreakdowns[0].totalDelta, 2,
       );
     } else {
-      return t('ammount') + 0;
+      return t('cart.ammount') + 0;
     }
   }
 
   getProductsListNumber() {
     if (this.props.cartContent !== undefined) {
-      return this.props.cartContent.entries.length;
+      let numberOfProducts = 0;
+      this.props.cartContent.entries.forEach(product => {
+        numberOfProducts = numberOfProducts + product.quantity;
+      });
+      return numberOfProducts;
     } else {
       return 0;
     }
@@ -155,6 +169,22 @@ class Cart extends React.Component {
     });
   }
 
+  getAppliedCouponsText(){
+    const {t} = this.props;
+    let text;
+    let count = this.props.appliedCoupons.length;
+    if(count === 0){
+      text = t('cart.appliedCoupons.none');
+    }
+    else if (count === 1){
+      text = t('cart.appliedCoupons.one', {count});
+    }
+    else if (count > 1){
+      text = t('cart.appliedCoupons.plural', {count});
+    }
+    return text;
+  }
+
   renderPaymentPopup() {
     if (this.state.showPopup === true) {
       return <PaymentPopup
@@ -166,12 +196,29 @@ class Cart extends React.Component {
     } else return null;
   }
 
+  renderModifierBreakdown(){
+    let breakdown;
+    this.props.cartContent.modifierBreakdowns.forEach(modifier => {
+      let index = this.props.cartContent.modifierBreakdowns.indexOf(modifier);
+      if (index < 3){
+        breakdown = breakdown + (
+          <div className="subtotal-import">
+          {this.getProductModifier(index)} %
+          {this.getProductPriceBase(index)} €
+          {this.getProductPriceImport(index)} €
+        </div>
+        );
+      }
+    });
+    return breakdown;
+  }
+
   render() {
     const {t} = this.props;
     return (
       <div className="product-list">
         <div className="cart-title">
-          {t('insideCart')} ({this.getProductsListNumber()})
+          {t('cart.insideCart')} ({this.getProductsListNumber()})
         </div>
         <div className="cart-products">{this.renderContents()}
         </div>
@@ -182,25 +229,26 @@ class Cart extends React.Component {
               Subtotal: {this.getProductSubtotal()} €
             </div>
             <div className="subtotal-import">
-              {this.getProductIVA(t)} %
-              {this.getProductPriceBase()} €
-              {this.getProductPriceImport(t)} €
+              {this.getProductModifier(0)} %
+              {this.getProductPriceBase(0)} €
+              {this.getProductPriceImport(0)} €
             </div>
+            {/* {this.renderModifierBreakdown()} */}
           </div>
           <div className="cart-info">
             <div className="cart-articles">
-              {t('articlesCart', {count: this.getProductsListNumber()})}
+              {t('cart.articlesCart', {count: this.getProductsListNumber()})}
             </div>
             <div className="planned-articles">
-              {t('plannedArticles', {articles: this.getCurrentListProducts()})}
+              {t('cart.plannedArticles', {articles: this.getCurrentListProducts()})}
             </div>
-            <div className="coupons">{t('appliedCoupons')}</div>
+            <div className="coupons">{this.getAppliedCouponsText()}</div>
           </div>
           <div className="final-price">
             <div className="total">Total</div>
             <div className="price">{this.getProductTotalPrice()} € </div>
             <div className="planned-price">
-              {t('estimated')} {this.getPlannedPrice()} €
+              {t('cart.estimated')} {this.getPlannedPrice()} €
             </div>
           </div>
         </div>

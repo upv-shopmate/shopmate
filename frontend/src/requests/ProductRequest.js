@@ -43,3 +43,15 @@ export async function requestProductByBarcode(barcode) {
   return product;
 }
 
+export async function requestProductById(id) {
+  let product = 0;
+  await request({
+    'url': dataBaseURL + '/api/Products/' + id,
+    'rejectUnauthorized': false,
+  })
+      .then(function(response) {
+        product = response.data;
+      });
+  return product;
+}
+
