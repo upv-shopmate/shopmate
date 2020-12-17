@@ -37,7 +37,7 @@ class App extends React.Component {
       'zoomedImage': undefined,
       'lists': undefined,
       'coupons': undefined,
-      'appliedCoupons': new Array(),
+      'appliedCoupons': [],
     };
     this.addProductToCartContent = this.addProductToCartContent.bind(this);
     this.removeProductToCartContent =
@@ -94,7 +94,7 @@ class App extends React.Component {
     }
   }
 
-  async fillCart(){
+  async fillCart() {
     const firstProduct = await requestProductById(13204);
     const secondProduct = await requestProductById(10502);
     const thirthProduct = await requestProductById(14116);
@@ -110,14 +110,14 @@ class App extends React.Component {
     try {
       this.setState({
         cartContent: {
-          "entries": new Array(), 
-          "subtotalPrice": 0, 
-          "totalPrice": 0, 
-          "modifierBreakdowns": new Array()
+          'entries': [],
+          'subtotalPrice': 0,
+          'totalPrice': 0,
+          'modifierBreakdowns': [],
         },
       });
       this.hideErrorPanel();
-      await this.fillCart()
+      await this.fillCart();
     } catch (e) {
       this.showErrorPanel();
       this.initializeCart();
@@ -210,7 +210,7 @@ class App extends React.Component {
           storedModifier.modifier.value === productModifier.value) {
           storedModifier.applicableBase = storedModifier.applicableBase - product.price * quantity;
           storedModifier.totalDelta =
-          storedModifier.applicableBase * productModifier.value * quantity;
+            storedModifier.applicableBase * productModifier.value * quantity;
           modifiers.splice(modifiers.indexOf(productModifier), 1);
           if (storedModifier.applicableBase === 0) {
             const indexModifier =
@@ -258,14 +258,14 @@ class App extends React.Component {
   }
 
   applyCoupon(coupon) {
-    let cartContent = this.state.cartContent;
-    cartContent.entries.forEach(entry => {
-      if (coupon.applicableProducts.length === 0 || 
-        coupon.applicableProducts.includes(entry.item)){
+    const cartContent = this.state.cartContent;
+    cartContent.entries.forEach((entry) => {
+      if (coupon.applicableProducts.length === 0 ||
+        coupon.applicableProducts.includes(entry.item)) {
         this.removeModifiersFromCartContent(entry.item, cartContent, entry.quantity);
         cartContent.totalPrice = cartContent.totalPrice - entry.item.modifiedPrice * entry.quantity;
         entry.item.priceModifiers = entry.item.priceModifiers.concat(coupon.effects);
-        let modifierSum = this.getModifierSum(entry.item.priceModifiers);
+        const modifierSum = this.getModifierSum(entry.item.priceModifiers);
         entry.item.modifiedPrice = entry.item.price * modifierSum;
         entry.totalPrice = entry.quantity * entry.item.modifiedPrice;
         cartContent.totalPrice = cartContent.totalPrice + entry.item.modifiedPrice * entry.quantity;
@@ -280,26 +280,26 @@ class App extends React.Component {
   }
 
   removeCoupon(coupon) {
-    let cartContent = this.state.cartContent;
-    cartContent.entries.forEach(entry => {
-      if (coupon.applicableProducts.length === 0 || 
-        coupon.applicableProducts.includes(entry.item)){
+    const cartContent = this.state.cartContent;
+    cartContent.entries.forEach((entry) => {
+      if (coupon.applicableProducts.length === 0 ||
+        coupon.applicableProducts.includes(entry.item)) {
         this.removeModifiersFromCartContent(entry.item, cartContent, entry.quantity);
         cartContent.totalPrice = cartContent.totalPrice - entry.item.modifiedPrice * entry.quantity;
-        entry.item.priceModifiers.forEach(modifier => {
-          if(coupon.effects.includes(modifier)){
-            let index = entry.item.priceModifiers.indexOf(modifier);
+        entry.item.priceModifiers.forEach((modifier) => {
+          if (coupon.effects.includes(modifier)) {
+            const index = entry.item.priceModifiers.indexOf(modifier);
             entry.item.priceModifiers.splice(index, 1);
           }
         });
-        let modifierSum = this.getModifierSum(entry.item.priceModifiers);
+        const modifierSum = this.getModifierSum(entry.item.priceModifiers);
         entry.item.modifiedPrice = entry.item.price * modifierSum;
         entry.totalPrice = entry.quantity * entry.item.modifiedPrice;
         cartContent.totalPrice = cartContent.totalPrice + entry.item.modifiedPrice * entry.quantity;
         this.addModifiersToCartContent(entry.item, cartContent, entry.quantity);
       }
     });
-    let appliedCoupons = this.state.appliedCoupons;
+    const appliedCoupons = this.state.appliedCoupons;
     appliedCoupons.splice(appliedCoupons.indexOf(coupon), 1);
     this.setState({
       cartContent: cartContent,
@@ -307,15 +307,15 @@ class App extends React.Component {
     });
   }
 
-  removeAllCoupons(){
-    this.state.appliedCoupons.forEach(coupon => {
+  removeAllCoupons() {
+    this.state.appliedCoupons.forEach((coupon) => {
       this.removeCoupon(coupon);
     });
   }
 
-  getModifierSum(modifiers){
+  getModifierSum(modifiers) {
     let finalMultiplier = 1;
-    modifiers.forEach(modifier => {
+    modifiers.forEach((modifier) => {
       finalMultiplier = finalMultiplier + modifier.value;
     });
     return finalMultiplier;

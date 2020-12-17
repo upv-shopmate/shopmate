@@ -14,11 +14,11 @@ class CouponsList extends React.Component {
     if (coupons != undefined && coupons.length > 0) {
       return coupons.map((coupon) =>
         <Coupon
-        key={coupon.code}
-        coupon={coupon}
-        appliedCoupons={this.props.appliedCoupons}
-        applyCoupon={this.props.applyCoupon}
-        removeCoupon={this.props.removeCoupon}
+          key={coupon.code}
+          coupon={coupon}
+          appliedCoupons={this.props.appliedCoupons}
+          applyCoupon={this.props.applyCoupon}
+          removeCoupon={this.props.removeCoupon}
         />,
       );
     }

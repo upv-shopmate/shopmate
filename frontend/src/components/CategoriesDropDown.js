@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import Category from './Category';
 import '../assets/css/CategoriesDropDown.css';
 import clearButton from '../assets/images/clear_button.png';
-import { getStore } from '../utils/Store';
-import { withTranslation } from 'react-i18next';
+import {getStore} from '../utils/Store';
+import {withTranslation} from 'react-i18next';
 
 class CatergoriesDropDown extends Component {
   constructor(props) {
@@ -15,15 +15,15 @@ class CatergoriesDropDown extends Component {
     };
   }
 
-    getCategory() {
-        const { t } = this.props;
-        let category = this.state.selectedCategory;
-        if (category != undefined && category.parent != null) {
-            return category.name;
-        } else {
-            return t('filterProductsButton');
-        }
+  getCategory() {
+    const {t} = this.props;
+    const category = this.state.selectedCategory;
+    if (category != undefined && category.parent != null) {
+      return category.name;
+    } else {
+      return t('filterProductsButton');
     }
+  }
 
   updateCategory() {
     this.props.updateCategory(this.state.selectedCategory);
@@ -142,17 +142,19 @@ class CatergoriesDropDown extends Component {
   }
 
 
-    render() {
-        const { t } = this.props;
-        return (
-            <div className="cdd-panel">
-                <span className="cdd-text">{t('filterProducts')}</span>
-                <button className="cdd-button" onClick={() => { this.toggleShowCategories() }}>{this.getCategory()}</button>
-                {this.renderClearButton()}
-                {this.renderCategoriesPanel()}
-            </div >
-        );
-    }
+  render() {
+    const {t} = this.props;
+    return (
+      <div className="cdd-panel">
+        <span className="cdd-text">{t('filterProducts')}</span>
+        <button className="cdd-button" onClick={() => {
+          this.toggleShowCategories();
+        }}>{this.getCategory()}</button>
+        {this.renderClearButton()}
+        {this.renderCategoriesPanel()}
+      </div >
+    );
+  }
 }
 
 export default withTranslation()(CatergoriesDropDown);

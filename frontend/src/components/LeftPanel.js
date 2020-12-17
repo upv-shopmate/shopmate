@@ -116,10 +116,10 @@ class LeftPanel extends React.Component {
     return (
       <div className="lf-lists">
         <CouponsList
-        coupons={this.props.coupons}
-        appliedCoupons={this.props.appliedCoupons}
-        applyCoupon={this.props.applyCoupon}
-        removeCoupon={this.props.removeCoupon}
+          coupons={this.props.coupons}
+          appliedCoupons={this.props.appliedCoupons}
+          applyCoupon={this.props.applyCoupon}
+          removeCoupon={this.props.removeCoupon}
         ></CouponsList>
       </div>
     );
@@ -127,10 +127,9 @@ class LeftPanel extends React.Component {
 
   renderPanel() {
     if (this.props.userLoggedIn) {
-      if (this.state.showingLists){
+      if (this.state.showingLists) {
         return this.renderListPanel();
-      }
-      else if (this.state.showingCoupons){
+      } else if (this.state.showingCoupons) {
         return this.renderCouponsPanel();
       }
     } else {

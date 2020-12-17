@@ -64,11 +64,11 @@ class Cart extends React.Component {
     }
   }
 
-  getProductModifierText(index){
+  getProductModifierText(index) {
     const {t} = this.props;
     let text = t('cart.iva');
-    if(index > 0){
-      text = this.props.cartContent.modifierBreakdowns[index].modifier.code + ": ";
+    if (index > 0) {
+      text = this.props.cartContent.modifierBreakdowns[index].modifier.code + ': ';
     }
     return text;
   }
@@ -88,7 +88,7 @@ class Cart extends React.Component {
   getProductsListNumber() {
     if (this.props.cartContent !== undefined) {
       let numberOfProducts = 0;
-      this.props.cartContent.entries.forEach(product => {
+      this.props.cartContent.entries.forEach((product) => {
         numberOfProducts = numberOfProducts + product.quantity;
       });
       return numberOfProducts;
@@ -169,17 +169,15 @@ class Cart extends React.Component {
     });
   }
 
-  getAppliedCouponsText(){
+  getAppliedCouponsText() {
     const {t} = this.props;
     let text;
-    let count = this.props.appliedCoupons.length;
-    if(count === 0){
+    const count = this.props.appliedCoupons.length;
+    if (count === 0) {
       text = t('cart.appliedCoupons.none');
-    }
-    else if (count === 1){
+    } else if (count === 1) {
       text = t('cart.appliedCoupons.one', {count});
-    }
-    else if (count > 1){
+    } else if (count > 1) {
       text = t('cart.appliedCoupons.plural', {count});
     }
     return text;
@@ -196,17 +194,17 @@ class Cart extends React.Component {
     } else return null;
   }
 
-  renderModifierBreakdown(){
+  renderModifierBreakdown() {
     let breakdown;
-    this.props.cartContent.modifierBreakdowns.forEach(modifier => {
-      let index = this.props.cartContent.modifierBreakdowns.indexOf(modifier);
-      if (index < 3){
+    this.props.cartContent.modifierBreakdowns.forEach((modifier) => {
+      const index = this.props.cartContent.modifierBreakdowns.indexOf(modifier);
+      if (index < 3) {
         breakdown = breakdown + (
           <div className="subtotal-import">
-          {this.getProductModifier(index)} %
-          {this.getProductPriceBase(index)} €
-          {this.getProductPriceImport(index)} €
-        </div>
+            {this.getProductModifier(index)} %
+            {this.getProductPriceBase(index)} €
+            {this.getProductPriceImport(index)} €
+          </div>
         );
       }
     });
