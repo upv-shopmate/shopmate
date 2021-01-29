@@ -12,8 +12,11 @@
 
 ***ShopMate** es un sistema integrado de carrito de la compra inteligente, que incluye una pantalla táctil de control en el carrito que se actualiza automáticamente en respuesta a la información recogida por una serie de sensores. El usuario puede ver el contenido exacto de su carrito, con el precio total, marcas e imágenes, así como utilizar listas de la compra y cupones para gestionar su compra de forma completa e inteligente. Un mapa permite ver la disposición física del establecimiento. Además, el sistema está preparado para realizar la integración con un proveedor de pagos para permitir pagar desde el propio carrito.*
 
-### Demo video
+### Demo video / *Vídeo de demostración*
 [![Demo video](https://lh3.googleusercontent.com/5mpmLWmVT6wYCygv5dX01e8LU_JuNV94LUBPPaM2htEO39vTerR6hHqylhUDIv3A8owwE9SSiJa0uic=s220)](https://drive.google.com/file/d/1WjXKKk4DOnWc9DfzjWb_-Q7aTPCDwUQU/view)
+
+### Poster (Spanish only) / *Póster*
+![poster](poster.png?raw=true)
 
 ## Contributing
 
